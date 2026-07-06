@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" sizes="512x512" href="logo.png"><link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+<title>Lär dig Claude Code – resurslista</title>
+<meta name="description" content="Kurerad lista med de bästa resurserna för att lära sig Claude Code: officiell dokumentation, guider, YouTube-videor, GitHub-repos, MCP-servrar och skills.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@700&display=swap"></noscript>
+<style>
+:root{--fg:#2A2E37;--bg:#fff;--primary:#3D6B7D;--color-active-nav:#5C8A9C;--secondary:#635F5A;--tertiary:#E2E2E2;--quaternary:#FAF9F6;--font:'Albert Sans',sans-serif;--font-logo:'Space Grotesk',sans-serif;--grafit:#2A2E37;--petrol:#3D6B7D;--lera:#BF8A5C;--papper:#FAF9F6;--outer:clamp(1.25rem,3vw,2.5rem);--sidebar-w:160px;--gap:clamp(2rem,4vw,4rem);--fs-small:.8125rem;--fs-body:1rem;--fs-large:1.25rem;--fs-h5:1.3rem;--fs-hero:clamp(2.2rem,5.5vw,4rem);--ls-body:.01em;--ls-heading:-.02em;--lh-body:1.7;--lh-heading:1.12;--radius-btn:100px;--t:.16s ease}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);font-size:var(--fs-body);color:var(--fg);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:var(--lh-body);letter-spacing:var(--ls-body);overflow-x:hidden}
+a{color:inherit;text-underline-offset:.2em}
+ul{list-style:none}
+.site{display:grid;grid-template-columns:var(--sidebar-w) 1fr;min-height:100vh;padding:var(--outer);column-gap:var(--gap);max-width:1280px;margin:0 auto;width:100%}
+.sidebar{position:sticky;top:var(--outer);height:calc(100vh - var(--outer)*2);display:flex;flex-direction:column;justify-content:space-between;align-self:start}
+.sidebar-top{display:flex;flex-direction:column;gap:3rem}
+.site-title{font-size:.75rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;line-height:1.5;text-decoration:none;color:var(--fg);transition:color var(--t)}
+.site-title:hover{color:var(--primary)}
+.sidebar-nav{display:flex;flex-direction:column;gap:.3em}
+.sidebar-nav a{font-size:1rem;font-weight:400;text-decoration:none;color:var(--fg);transition:color var(--t);line-height:1.4}
+.sidebar-nav a:hover{color:var(--primary)}.sidebar-nav a.active{color:var(--color-active-nav);font-weight:600}
+.sidebar-social{display:flex;gap:1em;align-items:center}
+.sidebar-social a{color:var(--fg);text-decoration:none;opacity:.7;transition:opacity var(--t)}
+.sidebar-social a:hover{opacity:1}
+.sidebar-social svg{width:20px;height:20px;fill:currentColor}.cou-mark{display:inline-grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:3px;flex-shrink:0}.cou-mark i{display:block;background:var(--grafit);border-radius:22%;font-style:normal}.cou-mark i.accent{background:var(--lera)}.site-title{display:flex;flex-direction:column;align-items:center;gap:.6em;text-align:center}.site-title .cou-mark{width:22px;height:22px}.mobile-title{display:flex;align-items:center;gap:.55em}.mobile-title .cou-mark{width:16px;height:16px}
+.content{display:flex;flex-direction:column;gap:clamp(3rem,6vw,5rem);max-width:760px}
+.page-header{padding-top:clamp(3rem,8vw,7rem)}
+.page-eyebrow{font-size:var(--fs-body);color:var(--secondary);margin-bottom:.6em;opacity:0;animation:fadeUp .5s ease .1s forwards}
+.page-title{font-size:var(--fs-hero);font-weight:800;line-height:var(--lh-heading);letter-spacing:var(--ls-heading);opacity:0;animation:fadeUp .6s ease .2s forwards}
+.page-intro{margin-top:1.25em;font-size:var(--fs-large);color:var(--secondary);max-width:580px;opacity:0;animation:fadeUp .6s ease .3s forwards}
+.propose-btn{display:inline-block;margin-top:1.5em;padding:.55em 1.4em;border-radius:var(--radius-btn);font-size:var(--fs-small);font-weight:600;background:var(--primary);color:#fff;text-decoration:none;transition:opacity var(--t);opacity:0;animation:fadeUp .6s ease .35s forwards}
+.propose-btn:hover{opacity:.85}
+.filter-bar{display:flex;gap:.5rem;flex-wrap:wrap;opacity:0;animation:fadeUp .5s ease .35s forwards}
+.filter-btn{padding:.4em 1em;border-radius:var(--radius-btn);font-size:var(--fs-small);font-weight:600;border:1.5px solid var(--tertiary);background:transparent;color:var(--secondary);cursor:pointer;transition:all var(--t);font-family:var(--font);letter-spacing:.01em}
+.filter-btn:hover{border-color:var(--primary);color:var(--primary)}
+.filter-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.link-section{display:flex;flex-direction:column;gap:1.25rem;opacity:0;animation:fadeUp .6s ease .4s forwards}
+.link-section.hidden{display:none}
+.section-header{display:flex;align-items:center;gap:1rem;padding-bottom:.75rem;border-bottom:2px solid var(--primary)}
+.section-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-icon svg{width:18px;height:18px;fill:#fff}
+.icon-official{background:var(--primary)}
+.icon-guide{background:#7c3aed}
+.icon-channel{background:#FF0000}
+.icon-repo{background:var(--grafit)}
+.icon-mcp{background:var(--lera)}
+.section-title{font-size:1.2rem;font-weight:800;letter-spacing:var(--ls-heading)}
+.section-count{font-size:var(--fs-small);color:var(--secondary);font-weight:500;margin-left:auto}
+.link-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.link-card{display:flex;align-items:flex-start;gap:.875rem;padding:1rem 1.125rem;background:var(--quaternary);border-radius:10px;text-decoration:none;color:var(--fg);transition:transform var(--t),box-shadow var(--t);border:1.5px solid transparent}
+.link-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.08);border-color:var(--primary)}
+.link-card-icon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem}
+.link-card-icon svg{width:18px;height:18px;fill:#fff}
+.lc-official{background:var(--primary)}
+.lc-guide{background:#7c3aed}
+.lc-channel{background:#FF0000}
+.lc-repo{background:var(--grafit)}
+.lc-mcp{background:var(--lera)}
+.link-card-body{display:flex;flex-direction:column;gap:.2em;min-width:0}
+.link-card-title{font-size:.9375rem;font-weight:700;line-height:1.25;letter-spacing:var(--ls-heading)}
+.link-card-sub{font-size:var(--fs-small);color:var(--secondary);line-height:1.4}
+.link-card-area{display:inline-block;font-size:.75rem;font-weight:600;color:var(--primary);background:#E6EEF0;border-radius:100px;padding:.15em .65em;margin-top:.25em;letter-spacing:.02em}
+.link-card-arrow{margin-left:auto;color:var(--tertiary);font-size:.9rem;transition:color var(--t),transform var(--t);flex-shrink:0;align-self:center;padding-left:.5rem}
+.link-card:hover .link-card-arrow{color:var(--primary);transform:translateX(3px)}
+.check-btn{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--tertiary);background:transparent;cursor:pointer;flex-shrink:0;align-self:center;margin-left:.5rem;display:flex;align-items:center;justify-content:center;font-size:.7rem;line-height:1;color:transparent;transition:all var(--t);padding:0;font-family:var(--font)}
+.check-btn:hover{border-color:var(--primary)}
+.link-card.done{opacity:.55}
+.link-card.done .check-btn{background:#3D7D51;border-color:#3D7D51;color:#fff}
+.vote-btn{display:flex;align-items:center;gap:.3em;padding:.15em .6em;border-radius:var(--radius-btn);border:1.5px solid var(--tertiary);background:transparent;cursor:pointer;flex-shrink:0;align-self:center;margin-left:.5rem;font-size:.75rem;font-weight:600;color:var(--secondary);transition:all var(--t);font-family:var(--font)}
+.vote-btn:hover{border-color:var(--primary);color:var(--primary)}
+.vote-btn.voted{background:var(--primary);border-color:var(--primary);color:#fff}
+.site-footer{padding-top:clamp(2rem,4vw,3.5rem);border-top:1px solid var(--tertiary);display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.5em;font-size:var(--fs-small);color:var(--secondary);margin-top:auto;padding-bottom:1.5rem}
+.footer-left{display:flex;gap:.5em;font-weight:700;color:var(--fg)}
+.footer-left span{font-weight:400;color:var(--secondary)}
+.footer-right a{color:var(--secondary);text-decoration:none}
+.footer-right a:hover{color:var(--primary)}
+.mobile-header{display:none;justify-content:space-between;align-items:center;padding:1rem var(--outer);border-bottom:1px solid var(--tertiary);position:sticky;top:0;background:var(--bg);z-index:100}
+.mobile-title{font-size:.9rem;font-weight:700;text-decoration:none;color:var(--fg)}
+.mobile-menu-btn{background:none;border:none;cursor:pointer;padding:.25rem;color:var(--fg);display:flex;flex-direction:column;gap:5px}
+.mobile-menu-btn span{display:block;width:22px;height:2px;background:currentColor}
+.mobile-nav{display:none;flex-direction:column;background:var(--bg);border-bottom:1px solid var(--tertiary);padding:1.5rem var(--outer) 2rem;gap:.4em}
+.mobile-nav.open{display:flex}
+.mobile-nav a{font-size:1.4rem;font-weight:400;text-decoration:none;color:var(--fg)}
+.mobile-nav a:hover{color:var(--primary)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:780px){.site{grid-template-columns:1fr;padding:0;gap:0}.sidebar{display:none}.mobile-header{display:flex}.content{padding:var(--outer);max-width:100%;gap:clamp(2rem,5vw,3.5rem)}.page-header{padding-top:2rem}.link-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="mobile-header">
+  <a href="/" class="mobile-title"><span class="cou-mark" aria-hidden="true"><i></i><i></i><i class="accent"></i><i></i><i class="accent"></i><i></i><i class="accent"></i><i></i><i></i></span><span>Centrum för Organisationsutveckling</span></a>
+  <button class="mobile-menu-btn" onclick="toggleMenu()" aria-label="Öppna meny"><span></span><span></span><span></span></button>
+</header>
+<nav class="mobile-nav" id="mobileNav">
+  <a href="utbildningar.html">Utbildningar</a>
+  <a href="case.html">Utvärderingar</a>
+  <a href="/artiklar">Artiklar</a>
+  <a href="lasning.html">Lästips</a>
+  <a href="lanktips.html">Länktips</a>
+  <a href="kontakt.html">Kontakt</a>
+</nav>
+
+<div class="site">
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <a href="/" class="site-title"><span class="cou-mark" aria-hidden="true"><i></i><i></i><i class="accent"></i><i></i><i class="accent"></i><i></i><i class="accent"></i><i></i><i></i></span><span>Centrum för<br>Organisations Utveckling</span></a>
+      <nav class="sidebar-nav">
+        <a href="utbildningar.html">Utbildningar</a>
+        <a href="case.html">Utvärderingar</a>
+        <a href="/artiklar">Artiklar</a>
+        <a href="lasning.html">Lästips</a>
+        <a href="lanktips.html">Länktips</a>
+        <a href="kontakt.html">Kontakt</a>
+      </nav>
+    </div>
+    <div class="sidebar-social">
+      <a href="https://www.linkedin.com/in/patrik-l%C3%B6fgren/" aria-label="LinkedIn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+      <a href="mailto:kontakt@orgutveckling.se" aria-label="E-post"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+    </div>
+  </aside>
+
+  <main class="content">
+    <div class="page-header">
+      <p class="page-eyebrow">Resurser & inspiration</p>
+      <h1 class="page-title">Lär dig Claude Code</h1>
+      <p class="page-intro">Kurerad lista med de bästa resurserna för att komma igång med och bemästra Claude Code. Sorterad med det viktigaste först: börja uppifrån.</p>
+      <a class="propose-btn" href="mailto:kontakt@orgutveckling.se?subject=L%C3%A4nktips%20Claude%20Code&body=L%C3%A4nk%3A%20%0AVarf%C3%B6r%20den%20%C3%A4r%20bra%3A%20">+ Föreslå en länk</a>
+    </div>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterLinks('all', this)">Alla</button>
+      <button class="filter-btn" onclick="filterLinks('official', this)">Kom igång</button>
+      <button class="filter-btn" onclick="filterLinks('guide', this)">Guider</button>
+      <button class="filter-btn" onclick="filterLinks('video', this)">YouTube</button>
+      <button class="filter-btn" onclick="filterLinks('repo', this)">Repos & verktyg</button>
+      <button class="filter-btn" onclick="filterLinks('mcp', this)">MCP & skills</button>
+    </div>
+
+    <!-- Kom igång (officiellt) -->
+    <div class="link-section" data-type="official">
+      <div class="section-header">
+        <div class="section-icon icon-official"><svg viewBox="0 0 24 24"><path d="M12 2 1 7l11 5 9-4.09V15h2V7L12 2zm-7 9.18v4L12 19l7-3.82v-4L12 15l-7-3.82z"/></svg></div>
+        <h2 class="section-title">Kom igång – officiella resurser</h2>
+        <span class="section-count">4 st</span>
+      </div>
+      <div class="link-grid">
+        <a href="https://code.claude.com/docs/en/overview" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-official"><svg viewBox="0 0 24 24"><path d="M12 2 1 7l11 5 9-4.09V15h2V7L12 2zm-7 9.18v4L12 19l7-3.82v-4L12 15l-7-3.82z"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">Officiell dokumentation</p><p class="link-card-sub">Källan till allt. Börja med Quickstart och Common Workflows. Alltid aktuell.</p><span class="link-card-area">1. Börja här</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+        <a href="https://anthropic.skilljar.com/claude-code-in-action" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-official"><svg viewBox="0 0 24 24"><path d="M12 2 1 7l11 5 9-4.09V15h2V7L12 2zm-7 9.18v4L12 19l7-3.82v-4L12 15l-7-3.82z"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">Anthropic Academy: Claude Code in Action</p><p class="link-card-sub">Gratis officiell videokurs. Strukturerad och bra för nybörjare.</p><span class="link-card-area">2. Kurs</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+        <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-official"><svg viewBox="0 0 24 24"><path d="M12 2 1 7l11 5 9-4.09V15h2V7L12 2zm-7 9.18v4L12 19l7-3.82v-4L12 15l-7-3.82z"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">Claude Code: Best practices</p><p class="link-card-sub">Anthropics egen artikel om hur man faktiskt jobbar med verktyget. Mest citerad.</p><span class="link-card-area">3. Arbetssätt</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+        <a href="https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-official"><svg viewBox="0 0 24 24"><path d="M12 2 1 7l11 5 9-4.09V15h2V7L12 2zm-7 9.18v4L12 19l7-3.82v-4L12 15l-7-3.82z"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">Officiell changelog</p><p class="link-card-sub">Nya funktioner släpps varje vecka. Skumma då och då.</p><span class="link-card-area">Håll dig uppdaterad</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Guider & communities -->
+    <div class="link-section" data-type="guide">
+      <div class="section-header">
+        <div class="section-icon icon-guide"><svg viewBox="0 0 24 24"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/></svg></div>
+        <h2 class="section-title">Guider & communities</h2>
+        <span class="section-count">5 st</span>
+      </div>
+      <div class="link-grid">
+        <a href="https://claudelog.com/" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-guide"><svg viewBox="0 0 24 24"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1z"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">ClaudeLog</p><p class="link-card-sub">Bästa inofficiella sajten. Dokumentation och best practices från tung verklig användning.</p><span class="link-card-area">Community</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+        <a href="https://github.com/FlorianBruniaux/claude-code-ultimate-guide" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-guide"><svg viewBox="0 0 24 24"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1z"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">Claude Code Ultimate Guide</p><p class="link-card-sub">Enorm communityguide med 7 moduler, diagram och färdiga mallar.</p><span class="link-card-area">Djupdykning</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+        <a href="https://codewithmukesh.com/blog/claude-code-for-beginners/" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-guide"><svg viewBox="0 0 24 24"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1z"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">Code with Mukesh: nybörjarguide</p><p class="link-card-sub">Gedigen skriven genomgång: CLAUDE.md, Plan Mode, priser. Uppdaterad 2026.</p><span class="link-card-area">Nybörjare</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+        <a href="https://github.com/luongnv89/claude-howto" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-guide"><svg viewBox="0 0 24 24"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1z"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">claude-howto</p><p class="link-card-sub">Visuell, exempeldriven guide med mallar att kopiera rakt av.</p><span class="link-card-area">Nybörjare</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+        <a href="https://www.scriptbyai.com/claude-code-resource-list/" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-guide"><svg viewBox="0 0 24 24"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1z"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">Claude Code Resource List</p><p class="link-card-sub">Kurerad katalog över hela ekosystemet: agenter, skills, plugins, MCP.</p><span class="link-card-area">Katalog</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- YouTube -->
+    <div class="link-section" data-type="video">
+      <div class="section-header">
+        <div class="section-icon icon-channel"><svg viewBox="0 0 24 24"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81zM10 15V9l5.2 3-5.2 3z"/></svg></div>
+        <h2 class="section-title">YouTube – mest sedda</h2>
+        <span class="section-count">6 st</span>
+      </div>
+      <div class="link-grid">
+        <a href="https://www.youtube.com/watch?v=QoQBzR1NIqI" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-channel"><svg viewBox="0 0 24 24"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81zM10 15V9l5.2 3-5.2 3z"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">Claude Code Full Course, 4 timmar (Nick Saraev)</p><p class="link-card-sub">Mest sedda Claude Code-videon, över 1,4 miljoner visningar. Från grund till agentteam.</p><span class="link-card-area">Fullständig kurs</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+        <a href="https://www.youtube.com/watch?v=Ffh9OeJ7yxw" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-channel"><svg viewBox="0 0 24 24"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81zM10 15V9l5.2 3-5.2 3z"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">800+ hours of Claude Code in 8 minutes</p><p class="link-card-sub">Edmund Yong destillerar lärdomar och okända trick, snabbt och tätt.</p><span class="link-card-area">Snabbstart</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+        <a href="https://www.youtube.com/watch?v=LIEuGD0pJ18" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-channel"><svg viewBox="0 0 24 24"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81zM10 15V9l5.2 3-5.2 3z"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">Beginner to Advanced in 11 Minutes</p><p class="link-card-sub">Kompakt genomgång från nybörjare till avancerad på 11 minuter.</p><span class="link-card-area">Snabbstart</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+        <a href="https://www.youtube.com/watch?v=XuSFUvUdvQA" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-channel"><svg viewBox="0 0 24 24"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81zM10 15V9l5.2 3-5.2 3z"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">Anthropic's 7 Hour Course in 27 Minutes</p><p class="link-card-sub">Sammanfattning av Anthropics officiella kurs i komprimerat format.</p><span class="link-card-area">Sammanfattning</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+        <a href="https://www.youtube.com/watch?v=pRfIWmddRsE" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-channel"><svg viewBox="0 0 24 24"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81zM10 15V9l5.2 3-5.2 3z"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">How Anthropic Employees Use Claude Code</p><p class="link-card-sub">Hur Anthropics egna anställda faktiskt använder verktyget dagligen.</p><span class="link-card-area">Arbetssätt</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+        <a href="https://www.youtube.com/@anthropic-ai" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-channel"><svg viewBox="0 0 24 24"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81zM10 15V9l5.2 3-5.2 3z"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">Anthropic (officiell kanal)</p><p class="link-card-sub">Officiella demos, lanseringar och genomgångar direkt från källan.</p><span class="link-card-area">Officiell</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Repos & verktyg -->
+    <div class="link-section" data-type="repo">
+      <div class="section-header">
+        <div class="section-icon icon-repo"><svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8 0 3.2.9.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1 .9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg></div>
+        <h2 class="section-title">GitHub-repos & verktyg</h2>
+        <span class="section-count">5 st</span>
+      </div>
+      <div class="link-grid">
+        <a href="https://github.com/hesreallyhim/awesome-claude-code" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-repo"><svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8 0 3.2.9.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1 .9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">awesome-claude-code</p><p class="link-card-sub">Mest kända kurerade listan: skills, hooks, kommandon, agenter, verktyg.</p><span class="link-card-area">Börja här</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+        <a href="https://github.com/obra/superpowers" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-repo"><svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8 0 3.2.9.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1 .9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">obra/superpowers</p><p class="link-card-sub">Mest stjärnmärkta repot: komplett arbetsmetodik för AI-agenter (TDD, YAGNI).</p><span class="link-card-area">Metodik</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+        <a href="https://github.com/rohitg00/awesome-claude-code-toolkit" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-repo"><svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8 0 3.2.9.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1 .9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">awesome-claude-code-toolkit</p><p class="link-card-sub">135 agenter, 35 skills, 176+ plugins, hooks och MCP-konfigar, allt på ett ställe.</p><span class="link-card-area">Verktygslåda</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+        <a href="https://github.com/yamadashy/repomix" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-repo"><svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8 0 3.2.9.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1 .9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">repomix</p><p class="link-card-sub">Packar hela din kodbas till en AI-vänlig fil. 25 000+ stjärnor.</p><span class="link-card-area">Verktyg</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+        <a href="https://github.com/anthropics/claude-code" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-repo"><svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8 0 3.2.9.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1 .9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">anthropics/claude-code</p><p class="link-card-sub">Officiella repot: issues, diskussioner och changelog.</p><span class="link-card-area">Officiell</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- MCP & skills -->
+    <div class="link-section" data-type="mcp">
+      <div class="section-header">
+        <div class="section-icon icon-mcp"><svg viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0 0 10h10a5 5 0 0 0 0-10zm0 8H7a3 3 0 0 1 0-6h10a3 3 0 0 1 0 6z"/><circle cx="7" cy="12" r="1.5"/><circle cx="17" cy="12" r="1.5"/></svg></div>
+        <h2 class="section-title">MCP & skills</h2>
+        <span class="section-count">4 st</span>
+      </div>
+      <div class="link-grid">
+        <a href="https://github.com/anthropics/skills" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-mcp"><svg viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0 0 10h10a5 5 0 0 0 0-10z"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">anthropics/skills</p><p class="link-card-sub">Anthropics officiella skill-mallar: dokument, webbappar, MCP-generering m.m.</p><span class="link-card-area">Officiell</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+        <a href="https://github.com/modelcontextprotocol/servers" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-mcp"><svg viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0 0 10h10a5 5 0 0 0 0-10z"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">modelcontextprotocol/servers</p><p class="link-card-sub">Officiella MCP-servrar: filsystem, GitHub, databaser och mycket mer.</p><span class="link-card-area">Officiell</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+        <a href="https://github.com/travisvn/awesome-claude-skills" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-mcp"><svg viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0 0 10h10a5 5 0 0 0 0-10z"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">awesome-claude-skills</p><p class="link-card-sub">Kurerad lista med skills och verktyg för att anpassa Claude Code.</p><span class="link-card-area">Skills</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+        <a href="https://nimbalyst.com/blog/best-claude-code-mcp-servers/" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon lc-mcp"><svg viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0 0 10h10a5 5 0 0 0 0-10z"/></svg></div>
+          <div class="link-card-body"><p class="link-card-title">Bästa MCP-servrarna 2026 (rankade)</p><p class="link-card-sub">Testade och rankade MCP-servrar för Claude Code.</p><span class="link-card-area">Ranking</span></div>
+          <span class="link-card-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-left">© 2026 <span>Centrum för Organisationsutveckling</span></div>
+      <div class="footer-right"><span id="footer-email"></span></div>
+    </footer>
+  </main>
+</div>
+
+<script>
+function toggleMenu(){
+  var nav = document.getElementById('mobileNav');
+  var isOpening = !nav.classList.contains('open');
+  nav.classList.toggle('open');
+  if (isOpening) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+function filterLinks(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.querySelectorAll('.link-section').forEach(function(section) {
+    if (type === 'all' || section.dataset.type === type) {
+      section.classList.remove('hidden');
+    } else {
+      section.classList.add('hidden');
+    }
+  });
+}
+
+// Checkmarks (localStorage, per besökare) + upvotes (Cloudflare Worker, delas av alla)
+var VOTES_API = 'https://api.orgutveckling.se';
+var voteCounts = {};
+document.querySelectorAll('.link-card').forEach(function(card){
+  var href = card.getAttribute('href');
+  var key = 'done:' + href;
+  var btn = document.createElement('button');
+  btn.className = 'check-btn';
+  btn.textContent = '✓';
+  btn.setAttribute('aria-label', 'Markera som klar');
+  if (localStorage.getItem(key)) card.classList.add('done');
+  btn.addEventListener('click', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    if (card.classList.toggle('done')) localStorage.setItem(key, '1');
+    else localStorage.removeItem(key);
+  });
+  card.addEventListener('click', function(){
+    card.classList.add('done');
+    localStorage.setItem(key, '1');
+  });
+
+  var voteKey = 'voted:' + href;
+  var voteBtn = document.createElement('button');
+  voteBtn.className = 'vote-btn' + (localStorage.getItem(voteKey) ? ' voted' : '');
+  voteBtn.setAttribute('aria-label', 'Rösta upp');
+  var count = document.createElement('span');
+  count.textContent = '0';
+  voteBtn.append('▲', count);
+  voteCounts[href] = count;
+  voteBtn.addEventListener('click', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var dir = localStorage.getItem(voteKey) ? -1 : 1;
+    if (dir === 1) localStorage.setItem(voteKey, '1');
+    else localStorage.removeItem(voteKey);
+    voteBtn.classList.toggle('voted', dir === 1);
+    count.textContent = Math.max(0, Number(count.textContent) + dir);
+    fetch(VOTES_API + '/vote', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: href, dir: dir })
+    }).then(function(r){ return r.json(); })
+      .then(function(d){ count.textContent = d.votes; });
+  });
+
+  card.appendChild(voteBtn);
+  card.appendChild(btn);
+});
+
+fetch(VOTES_API + '/votes').then(function(r){ return r.json(); }).then(function(all){
+  Object.keys(voteCounts).forEach(function(href){
+    if (all[href]) voteCounts[href].textContent = all[href];
+  });
+});
+
+var u='kontakt';var d='orgutveckling.se';
+var el=document.getElementById('footer-email');
+if(el){var a=document.createElement('a');a.href='mai'+'lto:'+u+'@'+d;a.textContent=u+'@'+d;a.style.color='inherit';el.appendChild(a);}
+</script>
+</body>
+</html>

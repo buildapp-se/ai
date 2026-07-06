@@ -1,0 +1,8 @@
+name = "orgutveckling-votes"
+main = "worker.js"
+compatibility_date = "2026-07-06"
+routes = [{ pattern = "api.orgutveckling.se", custom_domain = true }]
+
+[[kv_namespaces]]
+binding = "VOTES"
+id = "d6fc8ed9180545b1a8ff192b9c9915e3"

@@ -146,6 +146,23 @@ dialog .section-title{margin-bottom:1rem}
 .form-field input,.form-field select,.form-field textarea{width:100%;padding:.55em .8em;border:1.5px solid var(--tertiary);border-radius:8px;font:inherit;font-size:var(--fs-small);background:#fff;color:var(--fg)}
 .form-field input:focus,.form-field select:focus,.form-field textarea:focus{outline:none;border-color:var(--primary)}
 .form-actions{display:flex;gap:.5rem;justify-content:flex-end;margin-top:1.25rem}
+.admin-panel{position:fixed;right:1rem;bottom:1rem;z-index:120;width:min(520px,calc(100vw - 2rem));max-height:80vh;overflow:auto;background:var(--card);border:1px solid var(--tertiary);border-radius:14px;box-shadow:0 12px 40px rgba(42,46,55,.18);padding:1rem;display:none}
+.admin-panel.open{display:block}
+.admin-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:.75rem}
+.admin-title{font-family:var(--font-display);font-size:1rem;font-weight:700}
+.admin-login{display:flex;gap:.5rem;margin-bottom:.75rem}
+.admin-login input{flex:1;min-width:0;padding:.55em .8em;border:1.5px solid var(--tertiary);border-radius:8px;font:inherit;font-size:var(--fs-small)}
+.admin-status{font-size:var(--fs-small);color:var(--secondary);margin-bottom:.75rem}
+.admin-list{display:flex;flex-direction:column;gap:.65rem}
+.admin-item{border:1px solid var(--tertiary);border-radius:10px;padding:.75rem;background:#fff}
+.admin-item-title{font-size:.9rem;font-weight:700;line-height:1.25}
+.admin-item-url{display:block;margin-top:.25rem;font-size:.75rem;color:var(--primary);word-break:break-all}
+.admin-item-desc{font-size:var(--fs-small);color:var(--secondary);line-height:1.45;margin-top:.35rem}
+.admin-item-meta{font-size:.72rem;color:var(--secondary);margin-top:.35rem}
+.admin-actions{display:flex;gap:.5rem;margin-top:.65rem;flex-wrap:wrap}
+.admin-actions button,.admin-head button,.admin-login button{border:1.5px solid var(--tertiary);border-radius:100px;background:#fff;padding:.35em .8em;font:inherit;font-size:var(--fs-small);font-weight:600;cursor:pointer}
+.admin-actions button:first-child,.admin-login button{background:var(--primary);border-color:var(--primary);color:#fff}
+.admin-actions button:hover,.admin-head button:hover,.admin-login button:hover{opacity:.85}
 
 /* Footer */
 .site-footer{margin-top:1rem;padding:1.5rem 0 2rem;border-top:1px solid var(--tertiary);display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.5em;font-size:var(--fs-small);color:var(--secondary)}
@@ -215,6 +232,19 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--primary);outline-of
       </div>
     </form>
   </dialog>
+
+  <aside class="admin-panel" id="adminPanel" aria-label="Moderation panel">
+    <div class="admin-head">
+      <div class="admin-title">Moderation</div>
+      <button type="button" id="adminClose">Close</button>
+    </div>
+    <div class="admin-login" id="adminLogin">
+      <input id="adminToken" type="password" autocomplete="off" placeholder="Admin token">
+      <button type="button" id="adminLoginBtn">Log in</button>
+    </div>
+    <p class="admin-status" id="adminStatus">Hidden admin panel. Press Ctrl+Alt+M to open.</p>
+    <div class="admin-list" id="adminList"></div>
+  </aside>
 
   <div class="toolbar">
     <button class="filter-btn active" onclick="filterLinks('all', this)" data-sv="Alla">All</button>
@@ -650,6 +680,124 @@ fetch(VOTES_API + '/suggestions').then(function(r){ return r.json(); }).then(fun
   updateProgress();
 });
 
+// Hidden moderation panel. Open with Ctrl+Alt+M or by adding #moderera to the URL.
+// The real protection is the Worker secret; this UI is only hidden from normal visitors.
+var ADMIN_TOKEN_KEY = 'moderationToken';
+var adminPanel = document.getElementById('adminPanel');
+var adminToken = document.getElementById('adminToken');
+var adminLogin = document.getElementById('adminLogin');
+var adminStatus = document.getElementById('adminStatus');
+var adminList = document.getElementById('adminList');
+
+function adminHeaders(){
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + (localStorage.getItem(ADMIN_TOKEN_KEY) || '')
+  };
+}
+
+function setAdminStatus(msg){ adminStatus.textContent = msg; }
+
+function openAdmin(){
+  adminPanel.classList.add('open');
+  var saved = localStorage.getItem(ADMIN_TOKEN_KEY);
+  if (saved) {
+    adminLogin.style.display = 'none';
+    loadPending();
+  } else {
+    adminLogin.style.display = 'flex';
+    adminToken.focus();
+  }
+}
+
+function closeAdmin(){
+  adminPanel.classList.remove('open');
+}
+
+function renderPending(list){
+  adminList.textContent = '';
+  if (!list.length) {
+    setAdminStatus('No pending suggestions.');
+    return;
+  }
+  setAdminStatus(list.length + ' pending suggestion' + (list.length === 1 ? '' : 's') + '.');
+  list.forEach(function(s){
+    var item = document.createElement('div');
+    item.className = 'admin-item';
+    var title = document.createElement('div');
+    title.className = 'admin-item-title';
+    title.textContent = s.title;
+    var url = document.createElement('a');
+    url.className = 'admin-item-url';
+    url.href = s.url;
+    url.target = '_blank';
+    url.rel = 'noopener noreferrer';
+    url.textContent = s.url;
+    var desc = document.createElement('p');
+    desc.className = 'admin-item-desc';
+    desc.textContent = s.desc || '';
+    var meta = document.createElement('div');
+    meta.className = 'admin-item-meta';
+    meta.textContent = 'Category: ' + s.cat + ' | Votes: ' + (s.votes || 0) + (s.submittedAt ? ' | ' + s.submittedAt : '');
+    var actions = document.createElement('div');
+    actions.className = 'admin-actions';
+    var approve = document.createElement('button');
+    approve.type = 'button';
+    approve.textContent = 'Approve';
+    approve.addEventListener('click', function(){ moderate('approve', s.url); });
+    var reject = document.createElement('button');
+    reject.type = 'button';
+    reject.textContent = 'Reject';
+    reject.addEventListener('click', function(){ moderate('reject', s.url); });
+    actions.append(approve, reject);
+    item.append(title, url, desc, meta, actions);
+    adminList.appendChild(item);
+  });
+}
+
+function loadPending(){
+  setAdminStatus('Loading pending suggestions...');
+  fetch(VOTES_API + '/admin/pending', { headers: adminHeaders() })
+    .then(function(r){
+      if (r.status === 401) throw new Error('Unauthorized. Check the token.');
+      if (!r.ok) throw new Error('Could not load pending suggestions.');
+      return r.json();
+    })
+    .then(renderPending)
+    .catch(function(err){
+      adminLogin.style.display = 'flex';
+      setAdminStatus(err.message);
+    });
+}
+
+function moderate(action, url){
+  setAdminStatus(action === 'approve' ? 'Approving...' : 'Rejecting...');
+  fetch(VOTES_API + '/admin/' + action, {
+    method: 'POST',
+    headers: adminHeaders(),
+    body: JSON.stringify({ url: url })
+  }).then(function(r){
+    if (!r.ok) throw new Error('Moderation failed.');
+    return r.json();
+  }).then(function(){
+    loadPending();
+  }).catch(function(err){
+    setAdminStatus(err.message);
+  });
+}
+
+document.getElementById('adminClose').addEventListener('click', closeAdmin);
+document.getElementById('adminLoginBtn').addEventListener('click', function(){
+  localStorage.setItem(ADMIN_TOKEN_KEY, adminToken.value);
+  adminToken.value = '';
+  adminLogin.style.display = 'none';
+  loadPending();
+});
+document.addEventListener('keydown', function(e){
+  if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'm') openAdmin();
+});
+if (location.hash === '#moderera' || location.hash === '#moderate') openAdmin();
+
 // Formulär
 var dlg = document.getElementById('suggestDialog');
 document.getElementById('openSuggest').addEventListener('click', function(){ dlg.showModal(); });
@@ -667,7 +815,11 @@ document.getElementById('suggestForm').addEventListener('submit', function(e){
       cat: f.elements.cat.value
     })
   }).then(function(r){
-    if (r.ok) location.reload();
+    if (r.ok) {
+      f.reset();
+      dlg.close();
+      alert(LANG === 'sv' ? 'Tack! Forslaget skickades for granskning.' : 'Thanks. Your suggestion was sent for review.');
+    }
     else alert(TT.submitError);
   });
 });

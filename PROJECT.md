@@ -17,7 +17,8 @@ GitHub Pages project site under orgutveckling.se/ai/.
 - [x] Verifiera att /ai/ serveras korrekt efter flytt från huvudrepot
 - [x] Formulär för förslag (dialog + POST /suggest, ersatte mailto)
 - [x] Föreslagna-sektion; >10 röster flyttar kortet till sin kategori (klientside)
+- [x] Sortera kort efter röster (per sektion, vid sidladdning)
+- [x] Downvotes (netto-poäng, kan bli negativ, dåliga tips sjunker)
 - [ ] Fler resurser
-- [ ] Ev. sortera alla kort efter röster
 - [ ] Röstskydd om spam blir ett problem (kräver mer än localStorage)
 - [ ] Moderering av förslag: skräp raderas med `npx wrangler kv key delete --binding VOTES "sug:<url>" --remote`

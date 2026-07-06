@@ -74,9 +74,12 @@ ul{list-style:none}
 .check-btn:hover{border-color:var(--primary)}
 .link-card.done{opacity:.55}
 .link-card.done .check-btn{background:#3D7D51;border-color:#3D7D51;color:#fff}
-.vote-btn{display:flex;align-items:center;gap:.3em;padding:.15em .6em;border-radius:var(--radius-btn);border:1.5px solid var(--tertiary);background:transparent;cursor:pointer;flex-shrink:0;align-self:center;margin-left:.5rem;font-size:.75rem;font-weight:600;color:var(--secondary);transition:all var(--t);font-family:var(--font)}
-.vote-btn:hover{border-color:var(--primary);color:var(--primary)}
-.vote-btn.voted{background:var(--primary);border-color:var(--primary);color:#fff}
+.vote-group{display:flex;align-items:center;gap:.1em;flex-shrink:0;align-self:center;margin-left:.5rem;border:1.5px solid var(--tertiary);border-radius:var(--radius-btn);padding:.1em .3em}
+.vote-group button{background:none;border:none;cursor:pointer;font-size:.65rem;color:var(--secondary);padding:.15em .3em;font-family:var(--font);transition:color var(--t)}
+.vote-group button:hover{color:var(--primary)}
+.vote-group .voted-up{color:var(--primary);font-weight:700}
+.vote-group .voted-down{color:#B4543E;font-weight:700}
+.vote-count{font-size:.75rem;font-weight:600;color:var(--secondary);min-width:1.2em;text-align:center}
 .icon-suggest,.lc-suggest{background:var(--lera)}
 dialog{border:1.5px solid var(--tertiary);border-radius:12px;padding:1.75rem;max-width:420px;width:calc(100% - 2rem);font-family:var(--font);color:var(--fg)}
 dialog::backdrop{background:rgba(42,46,55,.5)}
@@ -425,33 +428,62 @@ function addCardExtras(card){
     localStorage.setItem(key, '1');
   });
 
+  // Röstning: state = 1 (uppröstad), -1 (nerröstad), 0 (ingen röst). Servern får bara deltat.
   var voteKey = 'voted:' + href;
-  var voteBtn = document.createElement('button');
-  voteBtn.className = 'vote-btn' + (localStorage.getItem(voteKey) ? ' voted' : '');
-  voteBtn.title = 'Rösta upp om den var bra, klicka igen för att ångra';
-  voteBtn.setAttribute('aria-label', 'Rösta upp');
+  var state = Number(localStorage.getItem(voteKey)) || 0;
+  var group = document.createElement('span');
+  group.className = 'vote-group';
+  var upBtn = document.createElement('button');
+  upBtn.textContent = '▲';
+  upBtn.title = 'Rösta upp om den var bra, klicka igen för att ångra';
+  upBtn.setAttribute('aria-label', 'Rösta upp');
   var count = document.createElement('span');
+  count.className = 'vote-count';
   count.textContent = '0';
-  voteBtn.append('▲', count);
+  var downBtn = document.createElement('button');
+  downBtn.textContent = '▼';
+  downBtn.title = 'Rösta ner om den inte höll måttet';
+  downBtn.setAttribute('aria-label', 'Rösta ner');
   voteCounts[href] = count;
-  voteBtn.addEventListener('click', function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var dir = localStorage.getItem(voteKey) ? -1 : 1;
-    if (dir === 1) localStorage.setItem(voteKey, '1');
+
+  function renderVote(){
+    upBtn.classList.toggle('voted-up', state === 1);
+    downBtn.classList.toggle('voted-down', state === -1);
+  }
+  function castVote(target){
+    var next = state === target ? 0 : target;
+    var delta = next - state;
+    state = next;
+    if (state) localStorage.setItem(voteKey, state);
     else localStorage.removeItem(voteKey);
-    voteBtn.classList.toggle('voted', dir === 1);
-    count.textContent = Math.max(0, Number(count.textContent) + dir);
+    count.textContent = Number(count.textContent) + delta;
+    renderVote();
     fetch(VOTES_API + '/vote', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: href, dir: dir })
+      body: JSON.stringify({ id: href, dir: delta })
     }).then(function(r){ return r.json(); })
       .then(function(d){ count.textContent = d.votes; });
-  });
+  }
+  upBtn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); castVote(1); });
+  downBtn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); castVote(-1); });
+  renderVote();
+  group.append(upBtn, count, downBtn);
 
-  card.appendChild(voteBtn);
+  card.appendChild(group);
   card.appendChild(btn);
+}
+
+// Sortera korten i varje sektion efter röster (fallande). Lika röstetal = kurerad ordning kvarstår.
+function sortGrids(){
+  document.querySelectorAll('.link-grid').forEach(function(g){
+    Array.prototype.slice.call(g.children)
+      .sort(function(a, b){
+        function score(c){ var s = voteCounts[c.getAttribute('href')]; return s ? Number(s.textContent) || 0 : 0; }
+        return score(b) - score(a);
+      })
+      .forEach(function(c){ g.appendChild(c); });
+  });
 }
 
 document.querySelectorAll('.link-card').forEach(addCardExtras);
@@ -460,6 +492,7 @@ fetch(VOTES_API + '/votes').then(function(r){ return r.json(); }).then(function(
   Object.keys(voteCounts).forEach(function(href){
     if (all[href]) voteCounts[href].textContent = all[href];
   });
+  sortGrids();
 });
 
 // Förslag från besökare. XSS-skydd: allt renderas med textContent, aldrig innerHTML.
@@ -510,6 +543,7 @@ fetch(VOTES_API + '/suggestions').then(function(r){ return r.json(); }).then(fun
   });
   document.getElementById('suggestCount').textContent = shown + ' st';
   if (!shown) document.getElementById('suggestEmpty').style.display = 'block';
+  sortGrids();
 });
 
 // Formulär

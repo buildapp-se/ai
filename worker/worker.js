@@ -1,6 +1,6 @@
 // Upvote- och förslags-API för orgutveckling.se/ai
-// GET  /votes         -> { "<länk-url>": antal, ... }
-// POST /vote {id,dir} -> { id, votes }  (dir: 1 = upp, -1 = ångra)
+// GET  /votes         -> { "<länk-url>": antal, ... }  (netto: upp minus ner, kan vara negativt)
+// POST /vote {id,dir} -> { id, votes }  (dir: delta -2..2, t.ex. +1 upp, -1 ångra/ner, +2 ner->upp)
 // GET  /suggestions   -> [ {title,url,desc,cat,votes}, ... ]
 // POST /suggest {title,url,desc,cat} -> { ok: true }
 const CATS = ['official', 'guide', 'video', 'repo', 'mcp'];
@@ -28,12 +28,12 @@ export default {
     if (req.method === 'POST' && url.pathname === '/vote') {
       const body = await req.json().catch(() => ({}));
       const { id, dir } = body;
-      if (typeof id !== 'string' || !id.startsWith('http') || id.length > 300 || ![1, -1].includes(dir)) {
+      if (typeof id !== 'string' || !id.startsWith('http') || id.length > 300 || ![1, -1, 2, -2].includes(dir)) {
         return new Response('bad request', { status: 400, headers: cors });
       }
       // ponytail: KV är inte atomiskt, samtidiga röster kan tappa enstaka klick.
       // Durable Objects om exakt räkning nån gång spelar roll.
-      const n = Math.max(0, (Number(await env.VOTES.get(id)) || 0) + dir);
+      const n = (Number(await env.VOTES.get(id)) || 0) + dir;
       await env.VOTES.put(id, String(n));
       return Response.json({ id, votes: n }, { headers: cors });
     }

@@ -14,8 +14,10 @@ GitHub Pages project site under orgutveckling.se/ai/.
 - Workern: `cd worker && npx wrangler deploy`
 
 ## Todo
-- [ ] Verifiera att /ai/ serveras korrekt efter flytt från huvudrepot
-- [ ] Fler resurser (föreslå via mailto-knappen)
-- [ ] Ev. formulär istället för mailto (Formspree) om förslag börjar komma
-- [ ] Ev. sortera kort efter röster
+- [x] Verifiera att /ai/ serveras korrekt efter flytt från huvudrepot
+- [x] Formulär för förslag (dialog + POST /suggest, ersatte mailto)
+- [x] Föreslagna-sektion; >10 röster flyttar kortet till sin kategori (klientside)
+- [ ] Fler resurser
+- [ ] Ev. sortera alla kort efter röster
 - [ ] Röstskydd om spam blir ett problem (kräver mer än localStorage)
+- [ ] Moderering av förslag: skräp raderas med `npx wrangler kv key delete --binding VOTES "sug:<url>" --remote`

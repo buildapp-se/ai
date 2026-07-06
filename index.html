@@ -77,6 +77,14 @@ ul{list-style:none}
 .vote-btn{display:flex;align-items:center;gap:.3em;padding:.15em .6em;border-radius:var(--radius-btn);border:1.5px solid var(--tertiary);background:transparent;cursor:pointer;flex-shrink:0;align-self:center;margin-left:.5rem;font-size:.75rem;font-weight:600;color:var(--secondary);transition:all var(--t);font-family:var(--font)}
 .vote-btn:hover{border-color:var(--primary);color:var(--primary)}
 .vote-btn.voted{background:var(--primary);border-color:var(--primary);color:#fff}
+.icon-suggest,.lc-suggest{background:var(--lera)}
+dialog{border:1.5px solid var(--tertiary);border-radius:12px;padding:1.75rem;max-width:420px;width:calc(100% - 2rem);font-family:var(--font);color:var(--fg)}
+dialog::backdrop{background:rgba(42,46,55,.5)}
+.form-field{margin-bottom:1rem}
+.form-field label{display:block;font-size:var(--fs-small);font-weight:600;margin-bottom:.3em}
+.form-field input,.form-field select,.form-field textarea{width:100%;padding:.55em .8em;border:1.5px solid var(--tertiary);border-radius:8px;font:inherit;font-size:var(--fs-small);background:var(--bg);color:var(--fg)}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{outline:none;border-color:var(--primary)}
+.form-actions{display:flex;gap:.5rem;justify-content:flex-end;margin-top:1.25rem}
 .site-footer{padding-top:clamp(2rem,4vw,3.5rem);border-top:1px solid var(--tertiary);display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.5em;font-size:var(--fs-small);color:var(--secondary);margin-top:auto;padding-bottom:1.5rem}
 .footer-left{display:flex;gap:.5em;font-weight:700;color:var(--fg)}
 .footer-left span{font-weight:400;color:var(--secondary)}
@@ -133,8 +141,40 @@ ul{list-style:none}
       <p class="page-eyebrow">Resurser & inspiration</p>
       <h1 class="page-title">Lär dig Claude Code</h1>
       <p class="page-intro">Kurerad lista med de bästa resurserna för att komma igång med och bemästra Claude Code. Sorterad med det viktigaste först: börja uppifrån.</p>
-      <a class="propose-btn" href="mailto:kontakt@orgutveckling.se?subject=L%C3%A4nktips%20Claude%20Code&body=L%C3%A4nk%3A%20%0AVarf%C3%B6r%20den%20%C3%A4r%20bra%3A%20">+ Föreslå en länk</a>
+      <button class="propose-btn" id="openSuggest" type="button">+ Föreslå en länk</button>
     </div>
+
+    <dialog id="suggestDialog">
+      <h2 class="section-title" style="margin-bottom:1rem">Föreslå en länk</h2>
+      <form id="suggestForm">
+        <div class="form-field">
+          <label for="f-title">Titel</label>
+          <input id="f-title" name="title" type="text" maxlength="80" required placeholder="T.ex. ClaudeLog">
+        </div>
+        <div class="form-field">
+          <label for="f-url">Länk (URL)</label>
+          <input id="f-url" name="url" type="url" maxlength="300" required placeholder="https://…">
+        </div>
+        <div class="form-field">
+          <label for="f-desc">Varför är den bra?</label>
+          <textarea id="f-desc" name="desc" maxlength="200" rows="3" required placeholder="Kort beskrivning"></textarea>
+        </div>
+        <div class="form-field">
+          <label for="f-cat">Kategori</label>
+          <select id="f-cat" name="cat" required>
+            <option value="guide">Guide/community</option>
+            <option value="video">YouTube</option>
+            <option value="repo">Repo/verktyg</option>
+            <option value="mcp">MCP/skill</option>
+            <option value="official">Officiell resurs</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="filter-btn" id="cancelSuggest">Avbryt</button>
+          <button type="submit" class="filter-btn active">Skicka förslag</button>
+        </div>
+      </form>
+    </dialog>
 
     <div class="filter-bar">
       <button class="filter-btn active" onclick="filterLinks('all', this)">Alla</button>
@@ -143,6 +183,7 @@ ul{list-style:none}
       <button class="filter-btn" onclick="filterLinks('video', this)">YouTube</button>
       <button class="filter-btn" onclick="filterLinks('repo', this)">Repos & verktyg</button>
       <button class="filter-btn" onclick="filterLinks('mcp', this)">MCP & skills</button>
+      <button class="filter-btn" onclick="filterLinks('forslag', this)">Föreslagna</button>
     </div>
 
     <!-- Kom igång (officiellt) -->
@@ -320,6 +361,18 @@ ul{list-style:none}
       </div>
     </div>
 
+    <!-- Föreslagna av besökare -->
+    <div class="link-section" data-type="forslag">
+      <div class="section-header">
+        <div class="section-icon icon-suggest"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-4 12.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26A7 7 0 0 0 12 2zM9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1z"/></svg></div>
+        <h2 class="section-title">Föreslagna av besökare</h2>
+        <span class="section-count" id="suggestCount">0 st</span>
+      </div>
+      <p style="font-size:var(--fs-small);color:var(--secondary);margin-top:-.5rem">Rösta med ▲. Får ett förslag fler än 10 röster flyttas det upp bland de riktiga länkarna.</p>
+      <p id="suggestEmpty" style="display:none;font-size:var(--fs-small);color:var(--secondary)">Inga förslag än, bli först!</p>
+      <div class="link-grid" id="suggestGrid"></div>
+    </div>
+
     <footer class="site-footer">
       <div class="footer-left">© 2026 <span>Centrum för Organisationsutveckling</span></div>
       <div class="footer-right"><span id="footer-email"></span></div>
@@ -351,12 +404,14 @@ function filterLinks(type, btn) {
 // Checkmarks (localStorage, per besökare) + upvotes (Cloudflare Worker, delas av alla)
 var VOTES_API = 'https://api.orgutveckling.se';
 var voteCounts = {};
-document.querySelectorAll('.link-card').forEach(function(card){
+
+function addCardExtras(card){
   var href = card.getAttribute('href');
   var key = 'done:' + href;
   var btn = document.createElement('button');
   btn.className = 'check-btn';
   btn.textContent = '✓';
+  btn.title = 'Bocka av när du kollat på den här (sparas i din webbläsare)';
   btn.setAttribute('aria-label', 'Markera som klar');
   if (localStorage.getItem(key)) card.classList.add('done');
   btn.addEventListener('click', function(e){
@@ -373,6 +428,7 @@ document.querySelectorAll('.link-card').forEach(function(card){
   var voteKey = 'voted:' + href;
   var voteBtn = document.createElement('button');
   voteBtn.className = 'vote-btn' + (localStorage.getItem(voteKey) ? ' voted' : '');
+  voteBtn.title = 'Rösta upp om den var bra, klicka igen för att ångra';
   voteBtn.setAttribute('aria-label', 'Rösta upp');
   var count = document.createElement('span');
   count.textContent = '0';
@@ -396,11 +452,85 @@ document.querySelectorAll('.link-card').forEach(function(card){
 
   card.appendChild(voteBtn);
   card.appendChild(btn);
-});
+}
+
+document.querySelectorAll('.link-card').forEach(addCardExtras);
 
 fetch(VOTES_API + '/votes').then(function(r){ return r.json(); }).then(function(all){
   Object.keys(voteCounts).forEach(function(href){
     if (all[href]) voteCounts[href].textContent = all[href];
+  });
+});
+
+// Förslag från besökare. XSS-skydd: allt renderas med textContent, aldrig innerHTML.
+var PROMOTE_AT = 10; // fler än så här många röster -> flyttas in bland de riktiga
+
+function makeCard(s){
+  var a = document.createElement('a');
+  a.className = 'link-card';
+  a.href = s.url;
+  a.target = '_blank';
+  a.rel = 'noopener nofollow';
+  var icon = document.createElement('div');
+  icon.className = 'link-card-icon lc-' + (s.cat === 'video' ? 'channel' : s.cat);
+  icon.innerHTML = '<svg viewBox="0 0 24 24"><path d="M3.9 12a3.1 3.1 0 0 1 3.1-3.1h4V7h-4a5 5 0 0 0 0 10h4v-1.9h-4A3.1 3.1 0 0 1 3.9 12zM8 13h8v-2H8v2zm9-6h-4v1.9h4a3.1 3.1 0 0 1 0 6.2h-4V17h4a5 5 0 0 0 0-10z"/></svg>';
+  var body = document.createElement('div');
+  body.className = 'link-card-body';
+  var t = document.createElement('p');
+  t.className = 'link-card-title';
+  t.textContent = s.title;
+  var sub = document.createElement('p');
+  sub.className = 'link-card-sub';
+  sub.textContent = s.desc;
+  var area = document.createElement('span');
+  area.className = 'link-card-area';
+  area.textContent = 'Besökarförslag';
+  body.append(t, sub, area);
+  var arrow = document.createElement('span');
+  arrow.className = 'link-card-arrow';
+  arrow.textContent = '→';
+  a.append(icon, body, arrow);
+  return a;
+}
+
+fetch(VOTES_API + '/suggestions').then(function(r){ return r.json(); }).then(function(list){
+  var grid = document.getElementById('suggestGrid');
+  var shown = 0;
+  list.sort(function(a, b){ return b.votes - a.votes; });
+  list.forEach(function(s){
+    var card = makeCard(s);
+    addCardExtras(card);
+    voteCounts[s.url].textContent = s.votes;
+    if (s.votes > PROMOTE_AT) {
+      var target = document.querySelector('.link-section[data-type="' + s.cat + '"] .link-grid');
+      if (target) { target.appendChild(card); return; }
+    }
+    grid.appendChild(card);
+    shown++;
+  });
+  document.getElementById('suggestCount').textContent = shown + ' st';
+  if (!shown) document.getElementById('suggestEmpty').style.display = 'block';
+});
+
+// Formulär
+var dlg = document.getElementById('suggestDialog');
+document.getElementById('openSuggest').addEventListener('click', function(){ dlg.showModal(); });
+document.getElementById('cancelSuggest').addEventListener('click', function(){ dlg.close(); });
+document.getElementById('suggestForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  var f = e.target;
+  fetch(VOTES_API + '/suggest', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      title: f.elements.title.value,
+      url: f.elements.url.value,
+      desc: f.elements.desc.value,
+      cat: f.elements.cat.value
+    })
+  }).then(function(r){
+    if (r.ok) location.reload();
+    else alert('Nåt gick fel, kolla att URL:en börjar med http.');
   });
 });
 

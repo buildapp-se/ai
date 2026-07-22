@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!-- Source for /ai/og.png (1200x630). -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+  :root{--bg:#FAF9F6;--fg:#2A2E37;--petrol:#3D6B7D;--lera:#BF8A5C;--gron:#3D7D51;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1200px;height:630px}
+  body{
+    background:var(--bg); color:var(--fg);
+    display:flex; align-items:center; gap:70px; padding:0 110px; font-family:'Albert Sans',sans-serif;
+  }
+  .mark{width:270px;height:270px;flex:none;border-radius:52px;background:var(--petrol);
+    box-shadow:0 2px 4px rgba(42,46,55,.08),0 30px 60px -20px rgba(61,107,125,.5);
+    display:grid;place-items:center}
+  .mark svg{width:150px;height:150px}
+  .copy{display:flex;flex-direction:column}
+  .kicker{font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:26px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--petrol);margin-bottom:14px}
+  .title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:88px;line-height:1.02;letter-spacing:-.02em;color:var(--fg)}
+  .title em{font-style:normal;color:var(--lera)}
+  .tagline{font-size:36px;font-weight:500;color:var(--fg);opacity:.7;margin-top:26px}
+  .url{margin-top:34px;font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:24px;letter-spacing:.04em;color:var(--petrol);text-transform:lowercase}
+</style>
+</head>
+<body>
+  <div class="mark">
+    <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <!-- vote chevron -->
+      <path d="M 48 14 L 70 40 H 55 V 58 H 41 V 40 H 26 Z" fill="#fff"/>
+      <!-- checked baseline -->
+      <path d="M 30 74 L 44 86 L 70 60" stroke="#BF8A5C" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <div class="copy">
+    <div class="kicker">Curated · Ranked · Voted</div>
+    <div class="title">Learn <em>Claude Code</em></div>
+    <div class="tagline">The best resources, in priority order.</div>
+    <div class="url">buildapp.se/ai</div>
+  </div>
+</body>
+</html>

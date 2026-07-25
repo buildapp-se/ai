@@ -18,12 +18,17 @@ Engelska är grundspråk i HTML (styr Google + FB-förhandsvisning).
 Svenska ligger i `data-sv`-attribut på varje översatt element; JS byter vid
 svensk webbläsare eller manuellt val (SV/EN-knapp, sparas i localStorage).
 Ny länk = skriv engelsk text + `data-sv="svensk text"` på title/sub/area.
+**Ny länk måste också seedas i KV**, annars går den inte att rösta på (se Deploy).
 
 ## Deploy
 - Sidan: `git push` → GitHub Pages bygger automatiskt
 - Workern: `cd worker && npx wrangler deploy`
 - Admin-token: `cd worker && npx wrangler secret put MOD_TOKEN`
-- Senaste worker-deploy: 2026-07-06, version `b9d6a0a7-99b8-4bcb-aafe-4126e0a94e5f`
+- **Efter ny kurerad länk: `cd worker && node seed-curated.js --write`.**
+  `/vote` har en allowlist (bara nycklar som redan finns i KV eller är godkända
+  förslag tas emot), så en oseedad länk får 404 på sin första röst. Skriptet är
+  idempotent och rör aldrig befintliga röstsiffror, kör utan flagga för torrkörning.
+- Senaste worker-deploy: 2026-07-25, version `5562810d-c77c-4ffd-93e3-be26bbc7f5ff`
 
 ## Todo
 

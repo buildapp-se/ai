@@ -30,6 +30,14 @@ function validUrl(value) {
   return typeof value === 'string' && value.startsWith('http') && value.length <= 300;
 }
 
+// Rösta bara på länkar sajten faktiskt känner till: kurerade länkar (seedade i KV med
+// värdet 0, se seed-curated.js) eller godkända förslag. Utan detta var /vote en
+// oautentiserad skrivprimitiv: valfri http-sträng blev en ny KV-nyckel, obegränsat.
+async function votable(env, id) {
+  if (await env.VOTES.get(id) !== null) return true;
+  return await env.VOTES.get(scopedKey('sug', id)) !== null;
+}
+
 async function addVotes(s, env) {
   return { ...s, votes: Number(await env.VOTES.get(s.url)) || 0 };
 }
@@ -65,6 +73,9 @@ export default {
       const { id, dir } = body;
       if (!validUrl(id) || ![1, -1, 2, -2].includes(dir)) {
         return new Response('bad request', { status: 400, headers: cors });
+      }
+      if (!await votable(env, id)) {
+        return new Response('unknown link', { status: 404, headers: cors });
       }
       const n = (Number(await env.VOTES.get(id)) || 0) + dir;
       await env.VOTES.put(id, String(n));

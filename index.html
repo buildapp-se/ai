@@ -6,12 +6,12 @@
 <meta name="robots" content="index, follow">
 <link rel="icon" type="image/png" sizes="512x512" href="https://orgutveckling.se/logo.png"><link rel="icon" type="image/svg+xml" href="https://orgutveckling.se/favicon.svg">
 
-<title>Learn Claude Code – curated resource list with voting</title>
-<meta name="description" content="The best resources for learning Claude Code, in priority order: official docs, courses, guides, YouTube, GitHub repos, MCP and skills. Vote and suggest your own links.">
+<title>Every name, in the right order – what you need to build with AI</title>
+<meta name="description" content="Eleven steps from an empty folder to a site on the internet: model, terminal, editor, framework, hosting, database, login. What every tool name actually means, when to pick which, and the security and GDPR rules that apply the whole way.">
 <link rel="canonical" href="https://buildapp.se/ai/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Learn Claude Code – curated resource list">
-<meta property="og:description" content="The best resources in priority order. Check off what you've done, vote for the best, suggest your own links.">
+<meta property="og:title" content="Every name, in the right order">
+<meta property="og:description" content="Eleven steps from an empty folder to a site on the internet. What every tool name actually means and when to pick which.">
 <meta property="og:url" content="https://buildapp.se/ai/">
 <meta property="og:image" content="https://buildapp.se/ai/og.png">
 <meta property="og:image:width" content="1200">
@@ -21,21 +21,23 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"></noscript>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@500;700&family=Public+Sans:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@500;700&family=Public+Sans:wght@400;500;600&display=swap"></noscript>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  "name": "Learn Claude Code – curated resource list",
-  "description": "The best resources for learning Claude Code, in priority order, with community voting.",
-  "url": "https://orgutveckling.se/ai/",
-  "inLanguage": "en",
-  "author": {"@type": "Organization", "name": "Centrum för Organisationsutveckling", "url": "https://orgutveckling.se"}
+  "name": "Every name, in the right order",
+  "description": "Eleven steps from an empty folder to a site on the internet, and what every tool name along the way actually means.",
+  "url": "https://buildapp.se/ai/",
+  "inLanguage": "en"
 }
 </script>
 <style>
-:root{--fg:#2A2E37;--bg:#FAF9F6;--card:#fff;--primary:#3D6B7D;--secondary:#635F5A;--tertiary:#E2E2E2;--font:'Albert Sans',sans-serif;--font-display:'Space Grotesk',sans-serif;--grafit:#2A2E37;--petrol:#3D6B7D;--lera:#BF8A5C;--outer:clamp(1.25rem,4vw,2.5rem);--fs-small:.8125rem;--fs-body:1rem;--fs-large:1.1875rem;--ls-heading:-.02em;--lh-body:1.65;--radius-btn:100px;--t:.16s ease;--maxw:880px}
+/* Paletten är lånad från syntaxfärgning i en kodeditor. De fem hue:arna är inte dekor:
+   var och en märker ut en fas i bygget, så färgen säger var på vägen du befinner dig.
+   Alla fem är kontrastkontrollerade mot bottnen, se contrast.test.js. */
+:root{--fg:#14181F;--bg:#F4F6F8;--card:#fff;--primary:#6544E0;--secondary:#5A6472;--tertiary:#DDE3EA;--font:'Public Sans',system-ui,sans-serif;--font-display:'Bricolage Grotesque',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;--grafit:#14181F;--petrol:#1C6FE0;--lera:#9A6100;--p1:#6544E0;--p2:#1F8A5B;--p3:#9A6100;--p4:#1C6FE0;--p5:#C0304A;--outer:clamp(1.25rem,4vw,2.5rem);--fs-small:.8125rem;--fs-body:1rem;--fs-large:1.1875rem;--ls-heading:-.02em;--lh-body:1.65;--radius-btn:100px;--t:.16s ease;--maxw:1180px}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:var(--font);font-size:var(--fs-body);color:var(--fg);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:var(--lh-body);overflow-x:hidden}
@@ -43,12 +45,7 @@ a{color:inherit;text-underline-offset:.2em}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--outer)}
 
 /* Topbar: avsändaren */
-.topbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.1rem 0;border-bottom:1px solid var(--tertiary)}
-.topbar-brand{display:flex;align-items:center;gap:.65em;text-decoration:none;font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fg);transition:color var(--t)}
-.topbar-brand:hover{color:var(--primary)}
-.cou-mark{display:inline-grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:2.5px;width:20px;height:20px;flex-shrink:0}
-.cou-mark i{display:block;background:var(--grafit);border-radius:22%;font-style:normal}
-.cou-mark i.accent{background:var(--lera)}
+.topbar{display:flex;justify-content:flex-end;align-items:center;gap:1rem;padding:1.1rem 0;border-bottom:1px solid var(--tertiary)}
 .topbar-right{display:flex;align-items:center;gap:1rem}
 .topbar-link{font-size:var(--fs-small);color:var(--secondary);text-decoration:none;white-space:nowrap}
 .topbar-link:hover{color:var(--primary)}
@@ -57,20 +54,67 @@ a{color:inherit;text-underline-offset:.2em}
 .lang-toggle button:hover{color:var(--primary)}
 .lang-toggle button.active{background:var(--grafit);color:#fff}
 
-/* Hero */
-.hero{padding:clamp(3rem,8vw,5.5rem) 0 clamp(2rem,4vw,3rem)}
-.hero-eyebrow{font-family:var(--font-display);font-size:.75rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--primary);margin-bottom:1em;opacity:0;animation:fadeUp .5s ease .05s forwards}
-.hero h1{font-family:var(--font-display);font-size:clamp(2.6rem,7vw,4.5rem);font-weight:700;line-height:1.02;letter-spacing:-.03em;opacity:0;animation:fadeUp .6s ease .15s forwards}
-.hero-intro{margin-top:1.25em;font-size:var(--fs-large);color:var(--secondary);max-width:560px;opacity:0;animation:fadeUp .6s ease .25s forwards}
-.propose-btn{display:inline-block;margin-top:1.75em;padding:.6em 1.5em;border-radius:var(--radius-btn);font-size:var(--fs-small);font-weight:600;background:var(--primary);color:#fff;border:0;cursor:pointer;font-family:var(--font);transition:opacity var(--t);opacity:0;animation:fadeUp .6s ease .3s forwards}
-.propose-btn:hover{opacity:.85}
+/* KARTAN: byggordningen ritad som en ryggrad. Rubriken till vänster står kvar
+   medan man scrollar och byter accentfärg till den fas man befinner sig i.
+   Det är sidans signaturelement, så inget annat på sidan rör sig. */
+.map{--accent:var(--p1);display:grid;grid-template-columns:minmax(0,16rem) minmax(0,1fr);gap:clamp(1.5rem,5vw,4rem);padding:clamp(2rem,5vw,3.5rem) 0 clamp(1.5rem,3vw,2.5rem)}
+.map[data-p="1"]{--accent:var(--p1)}
+.map[data-p="2"]{--accent:var(--p2)}
+.map[data-p="3"]{--accent:var(--p3)}
+.map[data-p="4"]{--accent:var(--p4)}
+.map[data-p="5"]{--accent:var(--p5)}
+.map-intro{position:sticky;top:1.75rem;align-self:start}
+.map-intro h1{font-family:var(--font-display);font-size:clamp(2rem,3.9vw,2.9rem);font-weight:800;line-height:.97;letter-spacing:-.038em}
+.map-intro h1 i{font-style:normal;color:var(--accent);transition:color .45s ease}
+.map-lede{margin-top:1.1em;font-size:var(--fs-small);color:var(--secondary);line-height:1.6;max-width:23em}
+.map-here{margin-top:1.4em;font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);transition:color .45s ease;display:flex;align-items:center;gap:.55em}
+.map-here::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor;flex-shrink:0}
 
-/* Signatur: framsteg */
-.progress{margin-top:2.5rem;opacity:0;animation:fadeUp .6s ease .4s forwards}
-.progress-text{font-family:var(--font-display);font-size:.8125rem;font-weight:500;letter-spacing:.02em;color:var(--secondary);margin-bottom:.5em}
-.progress-text b{color:var(--fg)}
+/* Faser och stationer */
+.phase-label{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:var(--accent);margin:2.75rem 0 1.5rem;display:flex;align-items:center;gap:.75rem}
+.phase-label::after{content:'';flex:1;height:1px;background:currentColor;opacity:.3}
+.phase:first-child .phase-label{margin-top:0}
+.station{position:relative;padding-left:2.4rem;padding-bottom:2.25rem}
+.station:last-child{padding-bottom:.5rem}
+/* Två linjer ovanpå varandra: den prickade är vägen kvar, den fyllda ritas när stationen nås */
+.station::before{content:'';position:absolute;left:.5rem;top:.6rem;bottom:0;width:2px;background:repeating-linear-gradient(var(--tertiary) 0 3px,transparent 3px 8px)}
+.station::after{content:'';position:absolute;left:.5rem;top:.6rem;bottom:0;width:2px;background:var(--accent);transform:scaleY(0);transform-origin:top;transition:transform .85s cubic-bezier(.33,0,.15,1)}
+.station.lit::after{transform:scaleY(1)}
+.station:last-child::before,.station:last-child::after{bottom:auto;height:1.75rem}
+.station-head{position:relative}
+.station-head::before{content:'';position:absolute;left:calc(-1.9rem - 4.5px);top:.42rem;width:11px;height:11px;border-radius:50%;background:var(--bg);border:2px solid var(--tertiary);transition:border-color .45s ease .15s,background .45s ease .15s}
+.station.lit .station-head::before{border-color:var(--accent);background:var(--accent)}
+.station-no{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.12em;color:var(--secondary)}
+.station-name{font-family:var(--font-display);font-size:clamp(1.3rem,2.4vw,1.7rem);font-weight:700;letter-spacing:-.028em;line-height:1.1;margin-top:.1em}
+.station-what{font-size:var(--fs-small);color:var(--secondary);margin-top:.3em;max-width:46em}
+
+/* Verktygskort: vad det är, och när man ska välja just det */
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(14.5rem,1fr));gap:.7rem;margin-top:1.1rem}
+.tool{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--tertiary);border-radius:12px;padding:.95rem 1.05rem 1.05rem;text-decoration:none;color:var(--fg);transition:border-color var(--t),transform var(--t),box-shadow var(--t)}
+.tool:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 6px 20px rgba(20,24,31,.07)}
+.tool-name{font-family:var(--font-display);font-size:1.02rem;font-weight:700;letter-spacing:-.02em;line-height:1.15}
+.tool-meta{font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.11em;text-transform:uppercase;color:var(--secondary);margin-top:.35em}
+.tool-what{font-size:var(--fs-small);line-height:1.5;margin-top:.7em}
+.tool-when{font-size:var(--fs-small);line-height:1.5;color:var(--secondary);margin-top:.6em}
+.tool-when b{display:block;font-family:var(--mono);font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:.25em}
+
+/* Säkerhet & juridik är ingen station, det löper längs hela vägen */
+.band{--accent:var(--p5);margin-top:3rem;padding-top:1.6rem;border-top:2px solid var(--accent)}
+.band .station{padding-left:0}
+.band .station::before,.band .station::after,.band .station-head::before{display:none}
+
+/* Fördjupningen: den kurerade länklistan som fanns här innan */
+.deep{padding-top:clamp(2rem,4vw,3rem);border-top:1px solid var(--tertiary)}
+.deep-head{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:var(--secondary)}
+.deep h2{font-family:var(--font-display);font-size:clamp(1.6rem,3vw,2.1rem);font-weight:800;letter-spacing:-.032em;line-height:1.05;margin-top:.35em}
+.deep-lede{margin-top:.8em;font-size:var(--fs-small);color:var(--secondary);max-width:44em;line-height:1.6}
+.propose-btn{display:inline-block;margin-top:1.4em;padding:.6em 1.5em;border-radius:var(--radius-btn);font-size:var(--fs-small);font-weight:600;background:var(--primary);color:#fff;border:0;cursor:pointer;font-family:var(--font);transition:opacity var(--t)}
+.propose-btn:hover{opacity:.85}
+.progress{margin-top:1.75rem;max-width:34rem}
+.progress-text{font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.04em;color:var(--secondary);margin-bottom:.55em}
+.progress-text b{color:var(--fg);font-weight:700}
 .progress-track{height:3px;background:var(--tertiary);border-radius:2px;overflow:hidden}
-.progress-fill{height:100%;width:0;background:var(--lera);border-radius:2px;transition:width .5s ease}
+.progress-fill{height:100%;width:0;background:var(--primary);border-radius:2px;transition:width .5s ease}
 
 /* Verktygsrad: filter + vy-toggle */
 .toolbar{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;padding:1.25rem 0;position:sticky;top:0;background:var(--bg);z-index:50;opacity:0;animation:fadeUp .5s ease .45s forwards}
@@ -91,41 +135,41 @@ a{color:inherit;text-underline-offset:.2em}
 .section-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .section-icon svg{width:16px;height:16px;fill:#fff}
 .icon-official{background:var(--primary)}
-.icon-guide{background:#7c3aed}
-.icon-channel{background:#FF0000}
+.icon-guide{background:var(--p4)}
+.icon-channel{background:var(--p5)}
 .icon-repo{background:var(--grafit)}
 .icon-mcp,.icon-suggest,.lc-suggest{background:var(--lera)}
 .section-title{font-family:var(--font-display);font-size:1.1rem;font-weight:700;letter-spacing:-.01em}
 .section-count{font-size:var(--fs-small);color:var(--secondary);font-weight:500;margin-left:auto;font-variant-numeric:tabular-nums}
 
 /* Kortläge */
-.link-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.link-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(18.5rem,1fr));gap:.9rem}
 .link-card{display:flex;align-items:flex-start;gap:.875rem;padding:1rem 1.125rem;background:var(--card);border-radius:12px;text-decoration:none;color:var(--fg);transition:transform var(--t),box-shadow var(--t),border-color var(--t);border:1px solid var(--tertiary)}
 .link-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(42,46,55,.08);border-color:var(--primary)}
 .link-card-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem}
 .link-card-icon svg{width:17px;height:17px;fill:#fff}
 .lc-official{background:var(--primary)}
-.lc-guide{background:#7c3aed}
-.lc-channel{background:#FF0000}
+.lc-guide{background:var(--p4)}
+.lc-channel{background:var(--p5)}
 .lc-repo{background:var(--grafit)}
 .lc-mcp{background:var(--lera)}
 .lc-ovrigt{background:var(--secondary)}
 .link-card-body{display:flex;flex-direction:column;gap:.2em;min-width:0}
 .link-card-title{font-size:.9375rem;font-weight:700;line-height:1.25;letter-spacing:var(--ls-heading)}
 .link-card-sub{font-size:var(--fs-small);color:var(--secondary);line-height:1.45}
-.link-card-area{display:inline-block;font-size:.7rem;font-weight:600;color:var(--primary);background:#E9F0F2;border-radius:100px;padding:.15em .7em;margin-top:.3em;letter-spacing:.02em;align-self:flex-start;white-space:nowrap}
+.link-card-area{display:inline-block;font-family:var(--mono);font-size:.62rem;font-weight:500;letter-spacing:.06em;color:var(--primary);background:#EEEAFD;border-radius:100px;padding:.25em .75em;margin-top:.35em;align-self:flex-start;white-space:nowrap}
 .link-card-arrow{margin-left:auto;color:var(--tertiary);font-size:.9rem;transition:color var(--t),transform var(--t);flex-shrink:0;align-self:center;padding-left:.5rem}
 .link-card:hover .link-card-arrow{color:var(--primary);transform:translateX(3px)}
 .check-btn{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--tertiary);background:transparent;cursor:pointer;flex-shrink:0;align-self:center;margin-left:.5rem;display:flex;align-items:center;justify-content:center;font-size:.7rem;line-height:1;color:transparent;transition:all var(--t);padding:0;font-family:var(--font)}
 .check-btn:hover{border-color:var(--primary)}
 .link-card.done{opacity:.55}
-.link-card.done .check-btn{background:#3D7D51;border-color:#3D7D51;color:#fff}
+.link-card.done .check-btn{background:var(--p2);border-color:var(--p2);color:#fff}
 .vote-group{display:flex;align-items:center;gap:.1em;flex-shrink:0;align-self:center;margin-left:.5rem;border:1.5px solid var(--tertiary);border-radius:var(--radius-btn);padding:.1em .3em;background:var(--card)}
 .vote-group button{background:none;border:none;cursor:pointer;font-size:.65rem;color:var(--secondary);padding:.15em .3em;font-family:var(--font);transition:color var(--t)}
 .vote-group button:hover{color:var(--primary)}
 .vote-group .voted-up{color:var(--primary);font-weight:700}
-.vote-group .voted-down{color:#B4543E;font-weight:700}
-.vote-count{font-family:var(--font-display);font-size:.75rem;font-weight:500;color:var(--fg);min-width:1.4em;text-align:center;font-variant-numeric:tabular-nums}
+.vote-group .voted-down{color:var(--p5);font-weight:700}
+.vote-count{font-family:var(--mono);font-size:.72rem;font-weight:500;color:var(--fg);min-width:1.4em;text-align:center;font-variant-numeric:tabular-nums}
 
 /* Listläge: excel-rader, fast snyggare */
 body.view-list .link-grid{display:flex;flex-direction:column;gap:0;background:var(--card);border:1px solid var(--tertiary);border-radius:12px;overflow:hidden}
@@ -174,14 +218,14 @@ dialog .section-title{margin-bottom:1rem}
 button:focus-visible,a:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}}
-@media(max-width:640px){.link-grid{grid-template-columns:1fr}body.view-list .link-card-area{display:none}.topbar-link{display:none}}
+@media(max-width:860px){.map{grid-template-columns:1fr;gap:1.75rem}.map-intro{position:static}.map-lede{max-width:none}}
+@media(max-width:640px){body.view-list .link-card-area{display:none}.topbar-link{display:none}.station{padding-left:1.9rem}.station-head::before{left:calc(-1.4rem - 4.5px)}}
 </style>
 </head>
 <body>
 
 <div class="wrap">
   <header class="topbar">
-    <a href="https://orgutveckling.se" class="topbar-brand"><span class="cou-mark" aria-hidden="true"><i></i><i></i><i class="accent"></i><i></i><i class="accent"></i><i></i><i class="accent"></i><i></i><i></i></span><span data-sv="Ett projekt från Centrum för Organisationsutveckling">A project by Centrum för Organisationsutveckling</span></a>
     <div class="topbar-right">
       <a href="mailto:kontakt@orgutveckling.se" class="topbar-link">kontakt@orgutveckling.se</a>
       <div class="lang-toggle" role="group" aria-label="Language">
@@ -191,14 +235,369 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--primary);outline-of
     </div>
   </header>
 
-  <section class="hero">
-    <p class="hero-eyebrow" data-sv="Kurerad länklista · Uppdateras löpande">Curated link list · Updated continuously</p>
-    <h1 data-sv="Lär dig Claude Code.">Learn Claude Code.</h1>
-    <p class="hero-intro" data-sv="De bästa resurserna i prioriterad ordning, börja uppifrån. Bocka av det du gått igenom, rösta fram det som är bra och rösta ner det som inte håller.">The best resources in priority order, start from the top. Check off what you have been through, upvote what is good and downvote what is not.</p>
-    <button class="propose-btn" id="openSuggest" type="button" data-sv="+ Föreslå en länk">+ Suggest a link</button>
-    <div class="progress" id="progress">
-      <p class="progress-text" id="progressText"></p>
-      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <section class="map" data-p="1">
+    <div class="map-intro">
+      <h1><span data-sv="Alla namn,">Every name,</span> <i data-sv="i rätt ordning.">in the right order.</i></h1>
+      <p class="map-lede" data-sv="Elva steg från en tom mapp till en sajt vem som helst kan besöka. Vad varje namn faktiskt betyder, och när du ska välja vilket.">Eleven steps from an empty folder to a site anyone can visit. What each name actually means, and when to pick which.</p>
+      <p class="map-here" id="mapHere" data-sv="Före du börjar">Before you start</p>
+    </div>
+
+    <div class="map-track">
+
+      <div class="phase" data-p="1" data-name="Before you start" data-name-sv="Före du börjar">
+        <p class="phase-label" data-sv="Fas 1 · Före du börjar">Phase 1 · Before you start</p>
+
+        <div class="station">
+          <div class="station-head">
+            <p class="station-no">01</p>
+            <h2 class="station-name" data-sv="Modellen">The model</h2>
+            <p class="station-what" data-sv="Vem du pratar med, och vem som faktiskt skriver koden.">Who you talk to, and who actually writes the code.</p>
+          </div>
+          <div class="tools">
+            <a class="tool" href="https://claude.com/claude-code" target="_blank" rel="noopener">
+              <p class="tool-name">Claude Code</p>
+              <p class="tool-meta" data-sv="Kodmodell · Anthropic">Coding model · Anthropic</p>
+              <p class="tool-what" data-sv="Läser, skriver och kör kod direkt i din terminal, med hela projektmappen i blickfånget.">Reads, writes and runs code directly in your terminal, with your whole project folder in view.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du vill få färdiga funktioner byggda, inte kodsnuttar att klistra in själv.">you want finished features built, not snippets to paste in yourself.</span></p>
+            </a>
+            <a class="tool" href="https://openai.com/codex" target="_blank" rel="noopener">
+              <p class="tool-name">Codex</p>
+              <p class="tool-meta" data-sv="Kodmodell · OpenAI">Coding model · OpenAI</p>
+              <p class="tool-what" data-sv="OpenAI:s motsvarighet. Skriver och kör kod åt dig i terminalen eller i molnet.">OpenAI's equivalent. Writes and runs code for you in the terminal or in the cloud.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du redan betalar för ChatGPT och vill ha kodhjälpen i samma abonnemang.">you already pay for ChatGPT and want the coding help in the same subscription.</span></p>
+            </a>
+            <a class="tool" href="https://claude.ai" target="_blank" rel="noopener">
+              <p class="tool-name">Claude</p>
+              <p class="tool-meta" data-sv="Chattmodell · Anthropic">Chat model · Anthropic</p>
+              <p class="tool-what" data-sv="Chattmodellen i webbläsaren. Förklarar, planerar och skriver text.">The chat model in your browser. Explains, plans and writes text.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du vill tänka högt och förstå problemet innan någon kod finns.">you want to think out loud and understand the problem before any code exists.</span></p>
+            </a>
+            <a class="tool" href="https://chatgpt.com" target="_blank" rel="noopener">
+              <p class="tool-name">ChatGPT</p>
+              <p class="tool-meta" data-sv="Chattmodell · OpenAI">Chat model · OpenAI</p>
+              <p class="tool-what" data-sv="Den mest använda chattmodellen. Stark på att förklara och skriva text.">The most widely used chat model. Strong at explaining and at writing text.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du vill ha en andra åsikt, eller redan är van vid den.">you want a second opinion, or you are already used to it.</span></p>
+            </a>
+            <a class="tool" href="https://gemini.google.com" target="_blank" rel="noopener">
+              <p class="tool-name">Gemini</p>
+              <p class="tool-meta" data-sv="Chatt & kod · Google">Chat & code · Google</p>
+              <p class="tool-what" data-sv="Googles modell, finns både som chatt och som kodverktyg i terminalen.">Google's model, available both as chat and as a coding tool in the terminal.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du jobbar i Googles verktyg och vill ha allt på samma ställe.">you work inside Google's tools and want everything in one place.</span></p>
+            </a>
+          </div>
+        </div>
+
+        <div class="station">
+          <div class="station-head">
+            <p class="station-no">02</p>
+            <h2 class="station-name">Skills, MCP &amp; plugins</h2>
+            <p class="station-what" data-sv="Tre sätt att göra modellen vass på just ditt projekt i stället för allmän.">Three ways to make the model sharp on your project instead of generic.</p>
+          </div>
+          <div class="tools">
+            <a class="tool" href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">
+              <p class="tool-name">Skills</p>
+              <p class="tool-meta" data-sv="Instruktioner">Instructions</p>
+              <p class="tool-what" data-sv="Mappar med skrivna instruktioner som modellen laddar in först när uppgiften kräver det.">Folders of written instructions the model loads only when the task calls for them.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du upprepar samma förklaring gång på gång och vill skriva ner den en gång för alla.">you keep repeating the same explanation and want it written down once and for all.</span></p>
+            </a>
+            <a class="tool" href="https://modelcontextprotocol.io" target="_blank" rel="noopener">
+              <p class="tool-name">MCP</p>
+              <p class="tool-meta" data-sv="Kopplingar">Connections</p>
+              <p class="tool-what" data-sv="En gemensam standard som låter modellen nå riktiga system: din databas, GitHub, en kalender.">A shared standard that lets the model reach real systems: your database, GitHub, a calendar.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="modellen behöver färsk data eller ska utföra något i ett system, inte bara skriva text om det.">the model needs live data or has to act in a system, not just write text about it.</span></p>
+            </a>
+            <a class="tool" href="https://code.claude.com/docs/en/plugins" target="_blank" rel="noopener">
+              <p class="tool-name">Plugins</p>
+              <p class="tool-meta" data-sv="Paket">Packages</p>
+              <p class="tool-what" data-sv="Skills, kommandon och MCP-kopplingar paketerade så att de installeras i ett steg.">Skills, commands and MCP connections bundled so they install in one step.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du vill ha någon annans färdiga uppsättning i stället för att sätta ihop den själv.">you want someone else's finished setup instead of assembling it yourself.</span></p>
+            </a>
+          </div>
+        </div>
+
+        <div class="station">
+          <div class="station-head">
+            <p class="station-no">03</p>
+            <h2 class="station-name" data-sv="Terminalen">The terminal</h2>
+            <p class="station-what" data-sv="Det svarta fönstret där du faktiskt kör kodmodellerna. Det är här AI-kodandet sker.">The black window where you actually run the coding models. This is where AI coding happens.</p>
+          </div>
+          <div class="tools">
+            <a class="tool" href="https://learn.microsoft.com/en-us/windows/terminal/" target="_blank" rel="noopener">
+              <p class="tool-name">Windows Terminal</p>
+              <p class="tool-meta" data-sv="Fönstret · Microsoft">The window · Microsoft</p>
+              <p class="tool-what" data-sv="Det moderna terminalfönstret i Windows, med flikar och läsbar text.">The modern terminal window on Windows, with tabs and readable text.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du sitter på Windows. Det är den här du ska öppna.">you are on Windows. This is the one to open.</span></p>
+            </a>
+            <a class="tool" href="https://learn.microsoft.com/en-us/powershell/" target="_blank" rel="noopener">
+              <p class="tool-name">PowerShell</p>
+              <p class="tool-meta" data-sv="Skalet · Microsoft">The shell · Microsoft</p>
+              <p class="tool-what" data-sv="Språket terminalen förstår i Windows. Kommandon som cd och ls är PowerShell.">The language the terminal understands on Windows. Commands like cd and ls are PowerShell.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="standard i Windows. Värt att kunna namnet så du kan tala om för AI:n vilket skal du kör.">default on Windows. Worth knowing the name so you can tell the AI which shell you run.</span></p>
+            </a>
+            <a class="tool" href="https://learn.microsoft.com/en-us/windows/wsl/" target="_blank" rel="noopener">
+              <p class="tool-name">WSL</p>
+              <p class="tool-meta" data-sv="Linux i Windows">Linux inside Windows</p>
+              <p class="tool-what" data-sv="Kör ett riktigt Linux inuti Windows, så att instruktioner skrivna för Mac och Linux fungerar.">Runs a real Linux inside Windows, so instructions written for Mac and Linux work.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="kommandona i en guide inte fungerar i Windows, vilket händer ofta.">a guide's commands do not work on Windows, which happens often.</span></p>
+            </a>
+          </div>
+        </div>
+
+        <div class="station">
+          <div class="station-head">
+            <p class="station-no">04</p>
+            <h2 class="station-name" data-sv="Editorn">The editor</h2>
+            <p class="station-what" data-sv="Där du ser filerna och läser vad AI:n har ändrat.">Where you see the files and read what the AI has changed.</p>
+          </div>
+          <div class="tools">
+            <a class="tool" href="https://code.visualstudio.com" target="_blank" rel="noopener">
+              <p class="tool-name">VS Code</p>
+              <p class="tool-meta" data-sv="Editor · Microsoft">Editor · Microsoft</p>
+              <p class="tool-what" data-sv="Gratis, och den de flesta guider utgår från att du har. Öppnar en hel projektmapp på en gång.">Free, and the one most guides assume you have. Opens a whole project folder at once.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="nästan alltid. Börja här.">almost always. Start here.</span></p>
+            </a>
+            <a class="tool" href="https://cursor.com" target="_blank" rel="noopener">
+              <p class="tool-name">Cursor</p>
+              <p class="tool-meta" data-sv="Editor · Anysphere">Editor · Anysphere</p>
+              <p class="tool-what" data-sv="VS Code ombyggd kring AI, som redigerar koden inuti själva editorn.">VS Code rebuilt around AI, editing the code inside the editor itself.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du vill ha AI:n i samma fönster som koden i stället för i en terminal bredvid.">you want the AI in the same window as the code rather than in a terminal beside it.</span></p>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase" data-p="2" data-name="What gets built" data-name-sv="Vad som byggs">
+        <p class="phase-label" data-sv="Fas 2 · Vad som byggs">Phase 2 · What gets built</p>
+
+        <div class="station">
+          <div class="station-head">
+            <p class="station-no">05</p>
+            <h2 class="station-name" data-sv="Språk & ramverk">Language &amp; framework</h2>
+            <p class="station-what" data-sv="Vad AI:n bygger med. Det här är valet som mest påverkar hur projektet blir.">What the AI builds with. This is the choice that most changes how the project turns out.</p>
+          </div>
+          <div class="tools">
+            <a class="tool" href="https://developer.mozilla.org/en-US/docs/Learn_web_development" target="_blank" rel="noopener">
+              <p class="tool-name">HTML, CSS &amp; JavaScript</p>
+              <p class="tool-meta" data-sv="Inget ramverk · &quot;vanilla&quot;">No framework · "vanilla"</p>
+              <p class="tool-what" data-sv="De tre språken varje webbläsare förstår av sig själv. Inget att installera, en enda fil kan vara hela sajten.">The three languages every browser understands on its own. Nothing to install, one file can be the entire site.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="sajten mest visar saker. Snabbast att bygga, lättast att laga, och går aldrig sönder av en uppdatering.">the site mostly shows things. Fastest to build, easiest to fix, and never breaks from an update.</span></p>
+            </a>
+            <a class="tool" href="https://react.dev" target="_blank" rel="noopener">
+              <p class="tool-name">React</p>
+              <p class="tool-meta" data-sv="Gränssnittsbibliotek · Meta">Interface library · Meta</p>
+              <p class="tool-what" data-sv="Bygger gränssnitt av återanvändbara bitar och ritar om dem själv när data ändras.">Builds interfaces from reusable pieces and redraws them itself when data changes.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="mycket på skärmen ändras när man klickar, och samma bit återkommer på flera ställen. Kostar extra verktyg att sätta upp.">much on screen changes as you click, and the same piece appears in several places. Costs extra tooling to set up.</span></p>
+            </a>
+            <a class="tool" href="https://nodejs.org" target="_blank" rel="noopener">
+              <p class="tool-name">Node.js</p>
+              <p class="tool-meta" data-sv="Serverruntime · OpenJS">Server runtime · OpenJS</p>
+              <p class="tool-what" data-sv="Kör JavaScript på en server i stället för i webbläsaren. Ingen konkurrent till React, det arbetar under.">Runs JavaScript on a server instead of in the browser. Not a rival to React, it works underneath.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="något ska sparas, skickas eller hållas hemligt. Lösenord och API-nycklar kan aldrig ligga i webbläsaren.">something has to be saved, sent, or kept secret. Passwords and API keys can never live in the browser.</span></p>
+            </a>
+          </div>
+        </div>
+
+        <div class="station">
+          <div class="station-head">
+            <p class="station-no">06</p>
+            <h2 class="station-name" data-sv="Design & gränssnitt">Design &amp; interface</h2>
+            <p class="station-what" data-sv="Hur det ser ut, inte bara vad det gör.">How it looks, not just what it does.</p>
+          </div>
+          <div class="tools">
+            <a class="tool" href="https://tailwindcss.com" target="_blank" rel="noopener">
+              <p class="tool-name">Tailwind CSS</p>
+              <p class="tool-meta" data-sv="Formgivning">Styling</p>
+              <p class="tool-what" data-sv="Formgivning skriven som små klasser direkt i markupen i stället för i en separat fil.">Styling written as small classes straight in the markup instead of in a separate file.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du vill att AI ska ge ett enhetligt utseende. Modeller skriver Tailwind träffsäkert.">you want AI to produce a consistent look. Models write Tailwind reliably.</span></p>
+            </a>
+            <a class="tool" href="https://ui.shadcn.com" target="_blank" rel="noopener">
+              <p class="tool-name">shadcn/ui</p>
+              <p class="tool-meta" data-sv="Komponenter">Components</p>
+              <p class="tool-what" data-sv="Färdiga knappar, dialoger och formulär som du kopierar in i projektet och sedan äger själv.">Finished buttons, dialogs and forms you copy into the project and then own yourself.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du bygger med React och vill att det ska se färdigt ut utan att formge varje del.">you build with React and want it to look finished without designing every part.</span></p>
+            </a>
+            <a class="tool" href="https://www.figma.com" target="_blank" rel="noopener">
+              <p class="tool-name">Figma</p>
+              <p class="tool-meta" data-sv="Designverktyg">Design tool</p>
+              <p class="tool-what" data-sv="Rita gränssnittet innan det byggs, och ge bilden till AI:n.">Draw the interface before it is built, and hand the picture to the AI.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du vet hur det ska se ut och ord inte räcker fram.">you know what it should look like and words are not getting you there.</span></p>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase" data-p="3" data-name="Onto the internet" data-name-sv="Ut på nätet">
+        <p class="phase-label" data-sv="Fas 3 · Ut på nätet">Phase 3 · Onto the internet</p>
+
+        <div class="station">
+          <div class="station-head">
+            <p class="station-no">07</p>
+            <h2 class="station-name" data-sv="Versionshantering">Version control</h2>
+            <p class="station-what" data-sv="Där koden sparas, med alla tidigare versioner kvar.">Where the code is saved, with every earlier version kept.</p>
+          </div>
+          <div class="tools">
+            <a class="tool" href="https://github.com" target="_blank" rel="noopener">
+              <p class="tool-name">GitHub</p>
+              <p class="tool-meta" data-sv="Kodlagring · Microsoft">Code hosting · Microsoft</p>
+              <p class="tool-what" data-sv="Sparar projektet och hela dess historik, så att en dålig ändring alltid kan ångras.">Saves the project and its whole history, so a bad change can always be undone.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="alltid, från dag ett. Det är också skyddsnätet som gör det tryggt att låta AI ändra filer.">always, from day one. It is also the safety net that makes it safe to let AI change files.</span></p>
+            </a>
+            <a class="tool" href="https://gitlab.com" target="_blank" rel="noopener">
+              <p class="tool-name">GitLab</p>
+              <p class="tool-meta" data-sv="Kodlagring">Code hosting</p>
+              <p class="tool-what" data-sv="Samma idé som GitHub, och kan köras på din egen server.">The same idea as GitHub, and can be run on your own server.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="en arbetsgivare kräver det, eller koden inte får ligga hos Microsoft.">an employer requires it, or the code may not sit with Microsoft.</span></p>
+            </a>
+          </div>
+        </div>
+
+        <div class="station">
+          <div class="station-head">
+            <p class="station-no">08</p>
+            <h2 class="station-name">Hosting</h2>
+            <p class="station-what" data-sv="Där sajten faktiskt körs så att andra kan nå den.">Where the site actually runs so other people can reach it.</p>
+          </div>
+          <div class="tools">
+            <a class="tool" href="https://vercel.com" target="_blank" rel="noopener">
+              <p class="tool-name">Vercel</p>
+              <p class="tool-meta" data-sv="Hosting">Hosting</p>
+              <p class="tool-what" data-sv="Kopplas till GitHub och publicerar en ny version varje gång du sparar.">Connects to GitHub and publishes a new version every time you save.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du bygger med React eller Next.js. Minst uppsättning av alla.">you build with React or Next.js. Least setup of them all.</span></p>
+            </a>
+            <a class="tool" href="https://pages.cloudflare.com" target="_blank" rel="noopener">
+              <p class="tool-name">Cloudflare Pages</p>
+              <p class="tool-meta" data-sv="Hosting">Hosting</p>
+              <p class="tool-what" data-sv="Samma idé, med ett generöst gratislager och små serverfunktioner inkluderade.">The same idea, with a generous free tier and small server functions included.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du behöver lite serversida utan att betala för en server.">you need a bit of backend without paying for a server.</span></p>
+            </a>
+            <a class="tool" href="https://www.netlify.com" target="_blank" rel="noopener">
+              <p class="tool-name">Netlify</p>
+              <p class="tool-meta" data-sv="Hosting">Hosting</p>
+              <p class="tool-what" data-sv="Samma jobb, och länge det enklaste för rena HTML-sajter.">The same job, and long the simplest option for plain HTML sites.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="sajten är statisk och du vill ha den publicerad på en minut.">the site is static and you want it published in a minute.</span></p>
+            </a>
+          </div>
+        </div>
+
+        <div class="station">
+          <div class="station-head">
+            <p class="station-no">09</p>
+            <h2 class="station-name" data-sv="Domän & DNS">Domain &amp; DNS</h2>
+            <p class="station-what" data-sv="Adressen folk skriver in, och systemet som pekar den mot din sajt.">The address people type, and the system that points it at your site.</p>
+          </div>
+          <div class="tools">
+            <a class="tool" href="https://www.cloudflare.com/products/registrar/" target="_blank" rel="noopener">
+              <p class="tool-name">Cloudflare Registrar</p>
+              <p class="tool-meta" data-sv="Domän">Domain</p>
+              <p class="tool-what" data-sv="Säljer domäner till självkostnadspris, utan förstaårsrabatt som sedan tredubblas.">Sells domains at cost price, with no first-year discount that triples later.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du vill ha en .com, .app eller .dev och slippa överraskningar vid förnyelsen.">you want a .com, .app or .dev and want to avoid renewal surprises.</span></p>
+            </a>
+            <a class="tool" href="https://www.loopia.se" target="_blank" rel="noopener">
+              <p class="tool-name">Loopia</p>
+              <p class="tool-meta" data-sv="Domän · Sverige">Domain · Sweden</p>
+              <p class="tool-what" data-sv="Svensk återförsäljare. Behövs för .se, som Cloudflare inte säljer.">Swedish registrar. Needed for .se, which Cloudflare does not sell.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du vill ha en .se-adress.">you want a .se address.</span></p>
+            </a>
+            <a class="tool" href="https://www.cloudflare.com/learning/dns/what-is-dns/" target="_blank" rel="noopener">
+              <p class="tool-name">DNS</p>
+              <p class="tool-meta" data-sv="Telefonkatalogen">The phone book</p>
+              <p class="tool-what" data-sv="Översätter namnet till serverns nummer. En ändring kan ta några timmar att spridas.">Translates the name into the server's number. A change can take a few hours to spread.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="alltid värt att känna till, för &quot;det funkar inte än&quot; är oftast bara DNS som inte spridit sig klart.">always worth knowing, because "it does not work yet" is usually just DNS not finished spreading.</span></p>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase" data-p="4" data-name="When the app grows" data-name-sv="När appen växer">
+        <p class="phase-label" data-sv="Fas 4 · När appen växer">Phase 4 · When the app grows</p>
+
+        <div class="station">
+          <div class="station-head">
+            <p class="station-no">10</p>
+            <h2 class="station-name" data-sv="Databas">Database</h2>
+            <p class="station-what" data-sv="Där datan bor när något ska minnas mellan besöken.">Where the data lives once something has to be remembered between visits.</p>
+          </div>
+          <div class="tools">
+            <a class="tool" href="https://www.postgresql.org" target="_blank" rel="noopener">
+              <p class="tool-name">PostgreSQL</p>
+              <p class="tool-meta" data-sv="Databas">Database</p>
+              <p class="tool-what" data-sv="Standardvalet för riktiga applikationer. Gratis, och klarar nästan allt.">The standard choice for real applications. Free, and handles almost anything.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="användare, beställningar eller annat som inte får försvinna.">users, orders, or anything that must not be lost.</span></p>
+            </a>
+            <a class="tool" href="https://sqlite.org" target="_blank" rel="noopener">
+              <p class="tool-name">SQLite</p>
+              <p class="tool-meta" data-sv="Databas i en fil">Database in a file</p>
+              <p class="tool-what" data-sv="En hel databas i en enda fil. Inget att installera eller köra.">An entire database in a single file. Nothing to install or run.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="små projekt, eller medan du provar dig fram. Kan bytas ut senare.">small projects, or while you are trying things out. Can be swapped later.</span></p>
+            </a>
+            <a class="tool" href="https://developers.cloudflare.com/d1/" target="_blank" rel="noopener">
+              <p class="tool-name">Cloudflare D1</p>
+              <p class="tool-meta" data-sv="SQLite som tjänst">Hosted SQLite</p>
+              <p class="tool-what" data-sv="SQLite som Cloudflare driftar, bredvid din hosting.">SQLite run by Cloudflare, right next to your hosting.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du redan ligger på Cloudflare och vill hålla dig till en leverantör.">you are already on Cloudflare and want to keep it to one supplier.</span></p>
+            </a>
+          </div>
+        </div>
+
+        <div class="station">
+          <div class="station-head">
+            <p class="station-no">11</p>
+            <h2 class="station-name" data-sv="Inloggning">Login</h2>
+            <p class="station-what" data-sv="Att låta användare ha konton utan att du själv lagrar lösenord.">Letting users have accounts without you storing passwords yourself.</p>
+          </div>
+          <div class="tools">
+            <a class="tool" href="https://supabase.com" target="_blank" rel="noopener">
+              <p class="tool-name">Supabase</p>
+              <p class="tool-meta" data-sv="Inloggning + databas">Login + database</p>
+              <p class="tool-what" data-sv="Inloggning och en Postgres-databas i ett, byggt på öppen källkod.">Login and a Postgres database in one, built on open source.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du behöver båda, och vill kunna flytta ut datan senare.">you need both, and want to be able to move the data out later.</span></p>
+            </a>
+            <a class="tool" href="https://firebase.google.com" target="_blank" rel="noopener">
+              <p class="tool-name">Firebase</p>
+              <p class="tool-meta" data-sv="Inloggning + databas · Google">Login + database · Google</p>
+              <p class="tool-what" data-sv="Googles version. Mycket snabb att komma igång med, svårare att flytta ifrån.">Google's version. Very quick to start with, harder to move away from.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du vill ha inloggning med Google, Apple och e-post igång idag.">you want Google, Apple and email login working today.</span></p>
+            </a>
+            <a class="tool" href="https://clerk.com" target="_blank" rel="noopener">
+              <p class="tool-name">Clerk</p>
+              <p class="tool-meta" data-sv="Inloggning">Login</p>
+              <p class="tool-what" data-sv="Färdiga inloggningsrutor som du släpper rakt in i ett React-projekt.">Finished login screens you drop straight into a React project.</p>
+              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="inloggningen ska se bra ut utan att du bygger rutorna.">login should look good without you building the screens.</span></p>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase band" data-p="5" data-name="Applies the whole way" data-name-sv="Gäller hela vägen">
+        <p class="phase-label" data-sv="Gäller hela vägen">Applies the whole way</p>
+        <div class="station">
+          <div class="station-head">
+            <h2 class="station-name" data-sv="Säkerhet & juridik">Security &amp; law</h2>
+            <p class="station-what" data-sv="Inget steg. De här gäller från första raden, och AI:n tar inte upp dem om inte du gör det.">Not a step. These apply from the first line, and the AI will not raise them unless you do.</p>
+          </div>
+          <div class="tools">
+            <a class="tool" href="https://www.imy.se/privatperson/dataskydd/" target="_blank" rel="noopener">
+              <p class="tool-name">GDPR</p>
+              <p class="tool-meta" data-sv="Lag · EU">Law · EU</p>
+              <p class="tool-what" data-sv="EU:s regler för hantering av personuppgifter. Ett namn eller en e-postadress är redan en personuppgift.">EU rules for handling personal data. A name or an email address is already personal data.</p>
+              <p class="tool-when"><b data-sv="Gäller när">Applies when</b><span data-sv="något om en person sparas. IMY är den svenska tillsynsmyndigheten.">anything about a person is saved. IMY is the Swedish supervisory authority.</span></p>
+            </a>
+            <a class="tool" href="https://www.pts.se" target="_blank" rel="noopener">
+              <p class="tool-name" data-sv="Cookie-samtycke">Cookie consent</p>
+              <p class="tool-meta" data-sv="Samtycke">Consent</p>
+              <p class="tool-what" data-sv="Att fråga innan du lagrar kakor eller startar spårning. Det ska vara lika lätt att tacka nej som att tacka ja.">Asking before you store cookies or start tracking. Declining must be as easy as accepting.</p>
+              <p class="tool-when"><b data-sv="Gäller när">Applies when</b><span data-sv="du lägger till besöksstatistik eller bäddar in något från en annan sajt. PTS är tillsynsmyndighet i Sverige.">you add analytics or embed anything from another site. PTS supervises this in Sweden.</span></p>
+            </a>
+            <a class="tool" href="https://owasp.org/www-project-top-ten/" target="_blank" rel="noopener">
+              <p class="tool-name">OWASP Top 10</p>
+              <p class="tool-meta" data-sv="Säkerhetslista">Security list</p>
+              <p class="tool-what" data-sv="De tio vanligaste säkerhetsmissarna i webbapplikationer, hållna aktuella av branschen.">The ten most common security mistakes in web applications, kept current by the industry.</p>
+              <p class="tool-when"><b data-sv="Gäller när">Applies when</b><span data-sv="något ska gå live. Be AI:n gå igenom koden mot listan innan dess.">anything is about to go live. Ask the AI to review your code against the list first.</span></p>
+            </a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -247,6 +646,17 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--primary);outline-of
     <p class="admin-status" id="adminStatus">Hidden admin panel. Press Ctrl+Alt+M to open.</p>
     <div class="admin-list" id="adminList"></div>
   </aside>
+
+  <section class="deep">
+    <p class="deep-head" data-sv="Fördjupning">Going deeper</p>
+    <h2 data-sv="Lär dig Claude Code">Learn Claude Code</h2>
+    <p class="deep-lede" data-sv="Kartan ovan namnger verktygen. Härifrån och ner ligger de bästa resurserna för att faktiskt lära sig det som står i station 01, i prioriterad ordning. Bocka av det du gått igenom, rösta upp det som är bra och ner det som inte håller.">The map above names the tools. From here down are the best resources for actually learning what station 01 points at, in priority order. Check off what you have been through, upvote what is good and downvote what is not.</p>
+    <button class="propose-btn" id="openSuggest" type="button" data-sv="+ Föreslå en länk">+ Suggest a link</button>
+    <div class="progress" id="progress">
+      <p class="progress-text" id="progressText"></p>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+  </section>
 
   <div class="toolbar">
     <button class="filter-btn active" onclick="filterLinks('all', this)" data-sv="Alla">All</button>
@@ -459,7 +869,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--primary);outline-of
   </main>
 
   <footer class="site-footer">
-    <div><span data-sv="© 2026 Ett projekt från">© 2026 A project by</span> <a href="https://orgutveckling.se">Centrum för Organisationsutveckling</a></div>
+    <div><span data-sv="Alla namn, i rätt ordning. Uppdateras löpande.">Every name, in the right order. Updated continuously.</span></div>
     <div><span id="footer-email"></span></div>
   </footer>
 </div>
@@ -502,6 +912,27 @@ function setLang(l){ localStorage.setItem('lang', l); location.reload(); }
 document.getElementById('langSv').addEventListener('click', function(){ setLang('sv'); });
 document.getElementById('langEn').addEventListener('click', function(){ setLang('en'); });
 document.getElementById(LANG === 'sv' ? 'langSv' : 'langEn').classList.add('active');
+
+// Kartan: en enda observatör driver hela signaturelementet. När en station kommer in i
+// vyn ritas dess linjesegment, pricken tänds, och sidans accentfärg blir fasens färg.
+// Utan JS syns allt ändå, bara den prickade linjen och grå prickar. Inget innehåll göms.
+(function(){
+  var mapEl = document.querySelector('.map');
+  var here = document.getElementById('mapHere');
+  if (!mapEl || !window.IntersectionObserver) return;
+  // Stationen räknas som nådd när den passerat 55 % ner i fönstret, alltså när man läser den.
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (!e.isIntersecting) return;
+      e.target.classList.add('lit');
+      var phase = e.target.closest('.phase');
+      if (!phase) return;
+      mapEl.dataset.p = phase.dataset.p;
+      here.textContent = LANG === 'sv' ? phase.dataset.nameSv : phase.dataset.name;
+    });
+  }, { rootMargin: '0px 0px -55% 0px' });
+  document.querySelectorAll('.station').forEach(function(s){ io.observe(s); });
+}());
 
 function filterLinks(type, btn) {
   document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });

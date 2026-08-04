@@ -25,6 +25,27 @@ saker byggs, inte vara en uttömmande katalog.
   språkbytet skriver `textContent` och då raderar barnen.
 - Palettens fem fasfärger måste klara WCAG-kontrast. `contrast.test.js` bevakar det.
 
+## Sidans två delar
+
+1. **Kartan** (`.map`) är sidans tes: byggordningen som en ryggrad, elva stationer
+   i fyra faser plus ett band för säkerhet och juridik som gäller hela vägen.
+2. **Fördjupningen** (`.deep`) är den kurerade Claude Code-listan med röstning.
+
+Kartans verktygskort ligger utanför röstningen och behöver ingen KV-seed.
+
+## Design
+
+Paletten är lånad från syntaxfärgning i en kodeditor. `--p1` violett för före du
+börjar, `--p2` grön för vad som byggs, `--p3` bärnsten för ut på nätet, `--p4` blå
+för när appen växer, `--p5` röd för säkerhet och juridik.
+
+Typsnitt: Bricolage Grotesque för display, Public Sans för brödtext, JetBrains Mono
+för nummer, etiketter och siffror.
+
+Ryggraden är två linjer ovanpå varandra per station. `::before` prickad är vägen
+kvar, `::after` fylld i fasfärgen är `transform:scaleY(0)` som skalas till 1 när
+klassen `.lit` sätts.
+
 ## Important decisions
 
 - Färgerna är inte dekor. Var och en av de fem hue:arna märker ut en fas, så färgen

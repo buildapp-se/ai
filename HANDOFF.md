@@ -2,9 +2,9 @@
 schemaVersion: 1
 status: active
 currentGoal: Hålla AI-resurssidan aktuell och åtgärda de två kvarvarande resterna från flytten till buildapp.se
-nextAction: Gör om og.png, som fortfarande visar den gamla designen och den gamla rubriken så att delade länkar ser fel ut; og.source.html finns bara i grammat-repot och behöver skrivas från grunden här
+nextAction: Uppdatera texten i og.source.html (finns redan i repot) till sidans faktiska rubrik "Every name, in the right order", rendera om till og.png och verifiera mot og:title i index.html
 blockers: []
-reviewedAt: 2026-07-26
+reviewedAt: 2026-08-09
 ---
 
 # Handoff: AI-resurssidan

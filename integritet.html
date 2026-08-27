@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Integritetspolicy | Lär dig Claude Code</title>
-<meta name="description" content="Hur den här länklistan behandlar personuppgifter: röster, förslag, lokal lagring och vilka rättigheter du har.">
+<meta name="description" content="Hur den här länklistan behandlar personuppgifter. Kort svar: sidan är statisk, har ingen backend och sparar bara ditt språk- och vyval lokalt.">
 <link rel="canonical" href="https://buildapp.se/ai/integritet.html">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Lär dig Claude Code">
 <meta property="og:title" content="Integritetspolicy | Lär dig Claude Code">
-<meta property="og:description" content="Hur den här länklistan behandlar personuppgifter: röster, förslag, lokal lagring och vilka rättigheter du har.">
+<meta property="og:description" content="Hur den här länklistan behandlar personuppgifter. Kort svar: sidan är statisk, har ingen backend och sparar bara ditt språk- och vyval lokalt.">
 <meta property="og:url" content="https://buildapp.se/ai/integritet.html">
 <meta property="og:image" content="https://buildapp.se/ai/og.png">
 <meta property="og:image:width" content="1200">
@@ -19,7 +19,7 @@
 <meta property="og:locale" content="sv_SE">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Integritetspolicy | Lär dig Claude Code">
-<meta name="twitter:description" content="Hur den här länklistan behandlar personuppgifter: röster, förslag, lokal lagring och vilka rättigheter du har.">
+<meta name="twitter:description" content="Hur den här länklistan behandlar personuppgifter. Kort svar: sidan är statisk, har ingen backend och sparar bara ditt språk- och vyval lokalt.">
 <meta name="twitter:image" content="https://buildapp.se/ai/og.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,18 +27,23 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@500;700&family=Public+Sans:wght@400;500;600&display=swap">
 <style>
 :root{--fg:#14181F;--bg:#F4F6F8;--card:#fff;--primary:#6544E0;--secondary:#5A6472;--tertiary:#DDE3EA;
+  --grafit:#14181F;
   --font:'Public Sans',system-ui,sans-serif;--font-display:'Bricolage Grotesque',system-ui,sans-serif;
   --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;
-  --outer:clamp(1.25rem,4vw,2.5rem);--fs-small:.8125rem;--fs-body:1rem;--ls-heading:-.02em;--lh-body:1.65;
-  --radius-btn:100px;--t:.16s ease;--maxw:1180px}
+  --outer:clamp(1.25rem,4vw,2.5rem);--fs-small:.8125rem;--ls-heading:-.02em;--radius-btn:100px;--t:.16s ease;--maxw:1180px}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font);font-size:var(--fs-body);color:var(--fg);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:var(--lh-body)}
+body{font-family:var(--font);font-size:1rem;color:var(--fg);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.65}
 a{color:inherit;text-underline-offset:.2em}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--outer)}
 
-.topbar{display:flex;justify-content:flex-end;align-items:center;gap:1rem;padding:1.1rem 0;border-bottom:1px solid var(--tertiary)}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.1rem 0;border-bottom:1px solid var(--tertiary)}
+.topbar-right{display:flex;align-items:center;gap:1rem}
 .topbar-link{font-size:var(--fs-small);color:var(--secondary);text-decoration:none;white-space:nowrap}
 .topbar-link:hover{color:var(--primary)}
+.lang-toggle{display:flex;border:1.5px solid var(--tertiary);border-radius:var(--radius-btn);overflow:hidden}
+.lang-toggle button{background:transparent;border:0;cursor:pointer;padding:.35em .7em;font-size:.7rem;font-weight:700;letter-spacing:.05em;color:var(--secondary);font-family:var(--font);transition:all var(--t)}
+.lang-toggle button:hover{color:var(--primary)}
+.lang-toggle button.active{background:var(--grafit);color:#fff}
 
 /* Policyn ligger på ett kort, precis som resurserna i listan. */
 .doc{max-width:64ch;margin:clamp(1.5rem,4vw,2.5rem) auto clamp(2rem,5vw,3.5rem);
@@ -65,66 +70,146 @@ code{font-family:var(--mono);font-size:.85em;background:var(--bg);border:1px sol
 
 <div class="wrap">
   <div class="topbar">
-    <a class="topbar-link" href="./">&larr; Tillbaka till listan</a>
+    <a class="topbar-link" href="./" data-sv="&larr; Tillbaka till listan" data-en="&larr; Back to the list">&larr; Tillbaka till listan</a>
+    <div class="topbar-right">
+      <div class="lang-toggle" role="group" aria-label="Språk / Language">
+        <button type="button" data-lang="sv">SV</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+    </div>
   </div>
 
-  <article class="doc">
+  <article class="doc" data-doc="sv" lang="sv">
     <h1>Integritetspolicy</h1>
-    <p class="meta">Senast uppdaterad 27 augusti 2026 &middot; Version 1.0</p>
+    <p class="meta">Senast uppdaterad 27 augusti 2026 &middot; Version 2.0</p>
 
-    <p class="lede">Den här sidan är en kurerad länklista. Den har ingen inloggning, inga annonser, ingen beteendespårning och säljer inga personuppgifter. Du behöver inget konto för att använda någon funktion.</p>
+    <p class="lede">Den här sidan är en kurerad länklista och inget annat. Den är helt statisk: ingen inloggning, inga formulär, ingen databas, inga annonser, ingen beteendespårning. Den skickar ingenting någonstans om dig.</p>
 
     <h2>Vem ansvarar för uppgifterna?</h2>
     <p>Personuppgiftsansvarig är <strong>Patrik Löfgren</strong>, Umeå, Sverige. Kontakta <a href="mailto:kontakt@orgutveckling.se">kontakt@orgutveckling.se</a> för frågor eller för att använda dina rättigheter.</p>
 
     <h2>Vilka uppgifter behandlas?</h2>
+    <p>Bara det som uppstår i den tekniska leveransen av en webbsida:</p>
     <ul>
-      <li><strong>Leverans:</strong> Cloudflare och GitHub Pages behandlar IP-adress, tidpunkt, efterfrågad adress och webbläsarinformation när sidan levereras och skyddas.</li>
-      <li><strong>Typsnitt:</strong> Google Fonts levererar sidans typsnitt, och din IP-adress går till Google när webbläsaren hämtar dem.</li>
-      <li><strong>Röster:</strong> när du röstar på en resurs ökas en siffra i en Cloudflare KV-databas. Bara antalet sparas. Ingen uppgift om vem som röstat lagras på servern, och rösten kan inte kopplas till dig.</li>
-      <li><strong>Förslag:</strong> skickar du in en resurs sparas titel, länk, beskrivning, kategori och tidpunkt för granskning. Formuläret frågar varken efter namn eller e-postadress, så skriv inga personuppgifter i fälten.</li>
+      <li><strong>Cloudflare</strong> levererar och skyddar sidan. I det ledet behandlas IP-adress, tidpunkt, efterfrågad adress och webbläsarinformation.</li>
+      <li><strong>GitHub Pages</strong> är webbhotellet och för motsvarande tekniska loggar.</li>
+      <li><strong>Google Fonts</strong> levererar sidans typsnitt. När din webbläsare hämtar dem går din IP-adress till Google. Det är den enda tredjeparten som får uppgifter direkt från din webbläsare.</li>
     </ul>
     <p>Ingen profilering och inget automatiserat beslutsfattande med rättsliga eller liknande betydande effekter sker.</p>
 
     <h2>Varför och med vilken rättslig grund?</h2>
     <ul>
-      <li><strong>Leverans, säkerhet och drift:</strong> berättigat intresse av att sidan fungerar och är skyddad mot missbruk.</li>
-      <li><strong>Röster, språkval och vy:</strong> för att tillhandahålla de funktioner du uttryckligen använder.</li>
-      <li><strong>Förslag:</strong> berättigat intresse av att kunna granska och publicera tips från läsare.</li>
+      <li><strong>Leverans, säkerhet och drift:</strong> berättigat intresse av att sidan fungerar, är nåbar och skyddad mot missbruk.</li>
+      <li><strong>Språk- och vyval:</strong> för att tillhandahålla de funktioner du uttryckligen använder.</li>
+      <li><strong>Support:</strong> för att besvara din begäran om du skriver till kontaktadressen.</li>
     </ul>
 
     <h2>Cookies och lagring på din enhet</h2>
-    <p>Sidan sätter inga cookies och laddar ingen analystjänst. Den använder <code>localStorage</code> för att komma ihåg valt språk, vald vy, vilka resurser du redan röstat på och, för den som modererar, en administratörsnyckel. Allt det ligger kvar i din webbläsare och skickas aldrig vidare som en profil.</p>
+    <p>Sidan sätter inga cookies och laddar ingen analystjänst. Den använder <code>localStorage</code> till två saker: valt språk (<code>lang</code>) och om du vill se korten som rutnät eller kompakt lista (<code>view</code>). Båda ligger kvar i din webbläsare och skickas aldrig någonstans.</p>
     <p>Lagringen är nödvändig för funktioner du själv begär och kräver därför inget samtycke, vilket är anledningen till att det inte finns någon cookiebanner. Du tar bort den genom att rensa webbplatsdata för buildapp.se i webbläsaren.</p>
+    <p>Om icke nödvändig mätning eller annonsering införs senare uppdateras den här sidan, och samtycke hämtas in, innan tekniken aktiveras.</p>
 
     <h2>Lagringstid</h2>
-    <ul>
-      <li>Lokal data ligger kvar tills du rensar webbplatsdata.</li>
-      <li>Röstsiffror sparas så länge resursen finns kvar i listan.</li>
-      <li>Inskickade förslag sparas tills de publiceras eller avslås.</li>
-      <li>Tekniska loggar hos Cloudflare och GitHub styrs av deras egna rutiner och rör sig normalt om dagar till veckor.</li>
-    </ul>
+    <p>Språk- och vyvalet ligger kvar tills du rensar webbplatsdata. Tekniska loggar hos Cloudflare och GitHub styrs av deras egna rutiner och rör sig normalt om dagar till veckor. Sidan själv sparar ingenting.</p>
 
     <h2>Leverantörer och överföring utanför EU/EES</h2>
-    <p>Cloudflare tillhandahåller leverans, skydd, Worker-API och KV-databasen. GitHub tillhandahåller webbhotellet och Google typsnitten. Samtliga är amerikanska bolag och kan behandla uppgifter utanför EU/EES. För dessa överföringar tillämpas leverantörernas dataskyddsvillkor och godkända överföringsmekanismer, exempelvis Data Privacy Framework och standardavtalsklausuler där de är tillämpliga.</p>
+    <p>Cloudflare tillhandahåller leverans och skydd, GitHub webbhotellet och Google typsnitten. Samtliga är amerikanska bolag och kan behandla uppgifter utanför EU/EES. För dessa överföringar tillämpas leverantörernas dataskyddsvillkor och godkända överföringsmekanismer, exempelvis Data Privacy Framework och standardavtalsklausuler där de är tillämpliga.</p>
+
+    <h2>Länkarna på sidan</h2>
+    <p>Listan pekar på andras webbplatser. Klickar du vidare gäller deras villkor och deras behandling av personuppgifter, inte den här policyn.</p>
 
     <h2>Dina rättigheter</h2>
-    <p>Du kan begära tillgång, rättelse, radering, begränsning eller dataportabilitet, och invända mot behandling som grundas på berättigat intresse. Eftersom sidan inte lagrar något som identifierar dig kan det i praktiken saknas uppgifter att lämna ut. Begäran hanteras manuellt via kontaktadressen ovan. Du har också rätt att klaga hos <a href="https://www.imy.se/" rel="external noopener" target="_blank">Integritetsskyddsmyndigheten (IMY)</a>.</p>
+    <p>Du kan begära tillgång, rättelse, radering, begränsning eller dataportabilitet, och invända mot behandling som grundas på berättigat intresse. Eftersom sidan inte lagrar något om dig saknas i praktiken uppgifter att lämna ut. Begäran hanteras manuellt via kontaktadressen ovan. Du har också rätt att klaga hos <a href="https://www.imy.se/" rel="external noopener" target="_blank">Integritetsskyddsmyndigheten (IMY)</a>.</p>
 
     <h2>Ändringar</h2>
     <p>Väsentliga ändringar publiceras här med nytt datum. Om ett nytt ändamål kräver samtycke hämtas det in innan behandlingen börjar.</p>
+    <p>Version 1.0 beskrev en röstningsfunktion och ett förslagsformulär som tog emot uppgifter via ett API. Båda togs bort den 27 augusti 2026, och därmed försvann den behandlingen helt.</p>
+  </article>
+
+  <article class="doc" data-doc="en" lang="en" hidden>
+    <h1>Privacy policy</h1>
+    <p class="meta">Last updated 27 August 2026 &middot; Version 2.0</p>
+
+    <p class="lede">This page is a curated list of links and nothing else. It is entirely static: no sign-in, no forms, no database, no advertising, no behavioural tracking. It sends nothing about you anywhere.</p>
+
+    <h2>Who is responsible for the data?</h2>
+    <p>The data controller is <strong>Patrik Löfgren</strong>, Umeå, Sweden. Contact <a href="mailto:kontakt@orgutveckling.se">kontakt@orgutveckling.se</a> with questions or to exercise your rights.</p>
+
+    <h2>What data is processed?</h2>
+    <p>Only what arises in the technical delivery of a web page:</p>
+    <ul>
+      <li><strong>Cloudflare</strong> delivers and protects the page. In that step, IP address, time, requested address and browser information are processed.</li>
+      <li><strong>GitHub Pages</strong> is the host and keeps equivalent technical logs.</li>
+      <li><strong>Google Fonts</strong> serves the page's typefaces. Your IP address goes to Google when your browser fetches them. It is the only third party that receives data directly from your browser.</li>
+    </ul>
+    <p>No profiling or automated decision-making with legal or similarly significant effects takes place.</p>
+
+    <h2>Purposes and legal bases</h2>
+    <ul>
+      <li><strong>Delivery, security and operation:</strong> our legitimate interest in the page working, being reachable and being protected against abuse.</li>
+      <li><strong>Language and view preference:</strong> to provide the features you explicitly use.</li>
+      <li><strong>Support:</strong> to answer your request if you write to the contact address.</li>
+    </ul>
+
+    <h2>Cookies and storage on your device</h2>
+    <p>The page sets no cookies and loads no analytics service. It uses <code>localStorage</code> for two things: your chosen language (<code>lang</code>) and whether you want the cards as a grid or a compact list (<code>view</code>). Both stay in your browser and are never sent anywhere.</p>
+    <p>This storage is necessary for features you request yourself and therefore needs no consent, which is why there is no cookie banner. You can remove it by clearing site data for buildapp.se in your browser.</p>
+    <p>If non-essential measurement or advertising is introduced later, this page will be updated, and consent obtained, before that technology is enabled.</p>
+
+    <h2>Retention</h2>
+    <p>Your language and view preference stay until you clear site data. Technical logs at Cloudflare and GitHub follow their own routines and normally range from days to weeks. The page itself stores nothing.</p>
+
+    <h2>Providers and transfers outside the EU/EEA</h2>
+    <p>Cloudflare provides delivery and protection, GitHub the hosting and Google the typefaces. All are US companies and may process data outside the EU/EEA. Provider data protection terms and approved transfer mechanisms, such as the Data Privacy Framework and Standard Contractual Clauses where applicable, are used for these transfers.</p>
+
+    <h2>The links on this page</h2>
+    <p>The list points to other people's websites. If you click through, their terms and their processing of personal data apply, not this policy.</p>
+
+    <h2>Your rights</h2>
+    <p>You may request access, correction, deletion, restriction or data portability, and object to processing based on legitimate interests. Since the page stores nothing about you, there may in practice be no data to hand over. Requests are handled manually through the contact address above. You may also complain to the <a href="https://www.imy.se/" rel="external noopener" target="_blank">Swedish Authority for Privacy Protection (IMY)</a>.</p>
+
+    <h2>Changes</h2>
+    <p>Material changes will be published here with a new date. If a new purpose requires consent, it will be requested before processing begins.</p>
+    <p>Version 1.0 described a voting feature and a suggestion form that received data through an API. Both were removed on 27 August 2026, and that processing ended with them.</p>
   </article>
 
   <footer class="site-footer">
-    <div><a href="./">Lär dig Claude Code</a> &middot; <a href="https://buildapp.se/">buildapp.se</a></div>
+    <div><a href="./" data-sv="Lär dig Claude Code" data-en="Learn Claude Code">Lär dig Claude Code</a> &middot; <a href="https://buildapp.se/">buildapp.se</a></div>
     <div><span id="footer-email"></span></div>
   </footer>
 </div>
 
 <script>
-var u='kontakt';var d='orgutveckling.se';
-var el=document.getElementById('footer-email');
-if(el){var a=document.createElement('a');a.href='mai'+'lto:'+u+'@'+d;a.textContent=u+'@'+d;a.style.color='inherit';el.appendChild(a);}
+(function(){
+  // Samma nyckel som listsidan, sa spraket foljer med hit.
+  var buttons = document.querySelectorAll('.lang-toggle button');
+
+  function apply(lang){
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-doc]').forEach(function(el){
+      el.hidden = el.getAttribute('data-doc') !== lang;
+    });
+    document.querySelectorAll('[data-sv]').forEach(function(el){
+      el.textContent = lang === 'sv' ? el.getAttribute('data-sv') : el.getAttribute('data-en');
+    });
+    buttons.forEach(function(b){ b.classList.toggle('active', b.dataset.lang === lang); });
+  }
+
+  var saved;
+  try { saved = localStorage.getItem('lang'); } catch (e) { saved = null; }
+  apply(saved || ((navigator.language || '').toLowerCase().indexOf('sv') === 0 ? 'sv' : 'en'));
+
+  document.querySelector('.lang-toggle').addEventListener('click', function(e){
+    var btn = e.target.closest('button[data-lang]');
+    if (!btn) return;
+    try { localStorage.setItem('lang', btn.dataset.lang); } catch (e) {}
+    apply(btn.dataset.lang);
+  });
+
+  var u='kontakt', d='orgutveckling.se';
+  var el=document.getElementById('footer-email');
+  if(el){var a=document.createElement('a');a.href='mai'+'lto:'+u+'@'+d;a.textContent=u+'@'+d;a.style.color='inherit';el.appendChild(a);}
+})();
 </script>
 </body>
 </html>

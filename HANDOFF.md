@@ -2,7 +2,7 @@
 schemaVersion: 1
 status: active
 currentGoal: Hålla AI-resurssidan aktuell och åtgärda de två kvarvarande resterna från flytten till buildapp.se
-nextAction: Uppdatera texten i og.source.html (finns redan i repot) till sidans faktiska rubrik "Every name, in the right order", rendera om till og.png och verifiera mot og:title i index.html
+nextAction: Rendera om og.png ur og.source.html, rubriken far inte langre namna omrostning. Besluta darefter om Cloudflare-workern och dess KV-data ska avvecklas, se BACKLOG.md
 blockers: []
 reviewedAt: 2026-08-27
 ---
@@ -16,6 +16,31 @@ elva stationer i fyra faser, som är sidans tes, och den kurerade Claude
 Code-listan med röstning. Arkitektur och designresonemang står i `PROJECT.md`.
 
 ## Recent work
+
+**2026-08-27: sidan är nu helt statisk, plus integritetspolicy.**
+
+- **Borttaget:** röstningen (`▲ 0 ▼`), avbockningen, framstegsräknaren,
+  förslagsformuläret och den dolda modereringspanelen. De användes inte, alla
+  röstetal stod på 0.
+- **Fynd på vägen:** `api.orgutveckling.se/suggestions` svarar **302** och
+  redirectar till Cloudflare Access. Workern ligger bakom Access, så förslagen
+  kunde inte laddas för vanliga besökare ändå. Det felet fanns före den här
+  ändringen.
+- Sidan gör nu **noll nätverksanrop** utöver Google Fonts. `localStorage` har bara
+  `lang` och `view` kvar. Verifierat i webbläsare: 25 kort, 0 röstgrupper, 0
+  kryssrutor, 0 dialoger, filter och listvy intakta, inga konsolfel.
+- Den automatiska befordran av förslag vid fler än 10 röster föll med röstningen.
+  Godkända förslag måste flyttas in i listan för hand.
+- Ny `integritet.html` i sidans kortdesign, svenska och engelska med samma
+  `lang`-nyckel som listsidan. Version 2.0 säger uttryckligen att röstningen och
+  förslagen togs bort, eftersom 1.0 beskrev behandling som inte längre finns.
+- Sidfotslänk tillagd i `index.html`.
+- `contrast.test.js` grönt.
+
+**Workern är kvar och fortfarande deployad.** Se `BACKLOG.md`, den behöver ett
+medvetet beslut om avveckling.
+
+
 
 **2026-08-27: integritetspolicy, sidan saknade informationsplikt.**
 

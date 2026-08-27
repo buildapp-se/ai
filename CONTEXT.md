@@ -10,17 +10,16 @@ saker byggs, inte vara en uttömmande katalog.
 
 - `index.html` innehåller hela sidan: HTML, CSS och JS i en fil, inget byggsteg.
   Serveras som GitHub Pages project site under `buildapp.se/ai/`.
-- `worker/` är en Cloudflare Worker med KV som håller röst-API:t på
-  `api.orgutveckling.se`.
-- Checkmarks sparas i localStorage per besökare. Upvotes delas av alla och ligger i KV.
-- Förslag sparas som `pending:<url>` och visas först efter godkännande. Godkända
-  sparas som `sug:<url>`.
-- Modereringspanelen är dold i `index.html` och öppnas med Ctrl+Alt+M eller
-  `#moderera`. Admin-API:t skyddas av worker-hemligheten `MOD_TOKEN`.
+- **Sidan är helt statisk sedan 2026-08-27.** Ingen backend, inga nätverksanrop
+  utom Google Fonts. `localStorage` används bara till `lang` och `view`.
+- `worker/` ligger kvar i repot men **anropas inte längre av något**. Röstningen,
+  avbockningen, framstegsräknaren, förslagsformuläret och modereringspanelen togs
+  bort samma dag: de användes inte, och `api.orgutveckling.se` låg dessutom bakom
+  Cloudflare Access och svarade 302 på `/suggestions`, så förslagen kunde inte
+  laddas ändå. Workern och dess KV-data är kvar tills de avvecklas medvetet.
 
 ## Constraints
 
-- Ny kurerad länk måste seedas i KV, annars ger första rösten 404. Se `HANDOFF.md`.
 - `data-sv` får aldrig sitta på ett element som innehåller andra element, eftersom
   språkbytet skriver `textContent` och då raderar barnen.
 - Palettens fem fasfärger måste klara WCAG-kontrast. `contrast.test.js` bevakar det.
@@ -29,9 +28,8 @@ saker byggs, inte vara en uttömmande katalog.
 
 1. **Kartan** (`.map`) är sidans tes: byggordningen som en ryggrad, elva stationer
    i fyra faser plus ett band för säkerhet och juridik som gäller hela vägen.
-2. **Fördjupningen** (`.deep`) är den kurerade Claude Code-listan med röstning.
-
-Kartans verktygskort ligger utanför röstningen och behöver ingen KV-seed.
+2. **Fördjupningen** (`.deep`) är den kurerade Claude Code-listan. Ordningen är
+   handplockad och ändras bara genom att redigera `index.html`.
 
 ## Design
 

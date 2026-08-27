@@ -4,7 +4,7 @@ status: active
 currentGoal: Hålla AI-resurssidan aktuell och åtgärda de två kvarvarande resterna från flytten till buildapp.se
 nextAction: Uppdatera texten i og.source.html (finns redan i repot) till sidans faktiska rubrik "Every name, in the right order", rendera om till og.png och verifiera mot og:title i index.html
 blockers: []
-reviewedAt: 2026-08-09
+reviewedAt: 2026-08-27
 ---
 
 # Handoff: AI-resurssidan
@@ -16,6 +16,19 @@ elva stationer i fyra faser, som är sidans tes, och den kurerade Claude
 Code-listan med röstning. Arkitektur och designresonemang står i `PROJECT.md`.
 
 ## Recent work
+
+**2026-08-27: integritetspolicy, sidan saknade informationsplikt.**
+
+- Ny `integritet.html` i sidans egen kort- och kartdesign. Beskriver rösterna
+  (bara en siffra i KV, inget om vem som röstat), inskickade förslag (titel, url,
+  beskrivning, kategori, tidpunkt, inga namn eller mejl), `localStorage`-nycklarna
+  och att Google Fonts får besökarens IP.
+- Sidfotslänk tillagd i `index.html`.
+- Ingen cookiebanner: `localStorage` här är nödvändigt för funktioner besökaren
+  själv begär, och då triggas inte samtyckeskravet i lagen om elektronisk
+  kommunikation. GDPR:s informationsplikt gäller ändå, och det är den policyn
+  fyller.
+
 
 - Kartan byggd: elva stationer i fyra faser plus ett band för säkerhet och juridik,
   med egen palett och typografi.

@@ -2,7 +2,7 @@
 schemaVersion: 1
 status: active
 currentGoal: Hålla AI-resurssidan aktuell och åtgärda de två kvarvarande resterna från flytten till buildapp.se
-nextAction: Rendera om og.png ur og.source.html, rubriken far inte langre namna omrostning. Besluta darefter om Cloudflare-workern och dess KV-data ska avvecklas, se BACKLOG.md
+nextAction: Besluta om Cloudflare-workern api.orgutveckling.se och dess KV-data ska avvecklas. Inget i index.html anropar den langre, men den ar fortfarande deployad. Se BACKLOG.md
 blockers: []
 reviewedAt: 2026-08-27
 ---
@@ -36,6 +36,9 @@ Code-listan med röstning. Arkitektur och designresonemang står i `PROJECT.md`.
   förslagen togs bort, eftersom 1.0 beskrev behandling som inte längre finns.
 - Sidfotslänk tillagd i `index.html`.
 - `contrast.test.js` grönt.
+- **`og.png` omgjord i samma pass.** Den visade röstpil, bock och kickern
+  "Curated · Ranked · Voted", vilket blev falskt när funktionerna togs bort.
+  Nu sidans faktiska rubrik och kartans ryggrad som märke.
 
 **Workern är kvar och fortfarande deployad.** Se `BACKLOG.md`, den behöver ett
 medvetet beslut om avveckling.

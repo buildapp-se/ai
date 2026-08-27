@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<!-- Source for /ai/og.png (1200x630). -->
+<!-- Source for /ai/og.png (1200x630).
+     Rendera om med:  npx playwright screenshot --viewport-size=1200,630 og.source.html og.png
+     Market ar kartans ryggrad, sidans signaturelement. Rostning och avbockning
+     togs bort 2026-08-27, sa varken pilen eller bocken far komma tillbaka hit. -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -19,25 +22,29 @@
   .copy{display:flex;flex-direction:column}
   .kicker{font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:26px;letter-spacing:.12em;
     text-transform:uppercase;color:var(--petrol);margin-bottom:14px}
-  .title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:88px;line-height:1.02;letter-spacing:-.02em;color:var(--fg)}
+  .title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:72px;line-height:1.02;letter-spacing:-.02em;color:var(--fg)}
   .title em{font-style:normal;color:var(--lera)}
-  .tagline{font-size:36px;font-weight:500;color:var(--fg);opacity:.7;margin-top:26px}
+  .tagline{font-size:31px;font-weight:500;color:var(--fg);opacity:.7;margin-top:26px}
   .url{margin-top:34px;font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:24px;letter-spacing:.04em;color:var(--petrol);text-transform:lowercase}
 </style>
 </head>
 <body>
   <div class="mark">
     <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg" fill="none">
-      <!-- vote chevron -->
-      <path d="M 48 14 L 70 40 H 55 V 58 H 41 V 40 H 26 Z" fill="#fff"/>
-      <!-- checked baseline -->
-      <path d="M 30 74 L 44 86 L 70 60" stroke="#BF8A5C" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- Kartans ryggrad: stationerna i ordning, uppifran och ner -->
+      <path d="M 30 20 V 76" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+      <circle cx="30" cy="22" r="9" fill="#fff"/>
+      <circle cx="30" cy="48" r="9" fill="#fff"/>
+      <circle cx="30" cy="74" r="9" fill="#BF8A5C"/>
+      <path d="M 48 22 H 76" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+      <path d="M 48 48 H 68" stroke="#fff" stroke-width="7" stroke-linecap="round" opacity=".75"/>
+      <path d="M 48 74 H 72" stroke="#BF8A5C" stroke-width="7" stroke-linecap="round"/>
     </svg>
   </div>
   <div class="copy">
-    <div class="kicker">Curated · Ranked · Voted</div>
-    <div class="title">Learn <em>Claude Code</em></div>
-    <div class="tagline">The best resources, in priority order.</div>
+    <div class="kicker">Curated · Ranked · Free</div>
+    <div class="title">Every name,<br><em>in the right order</em></div>
+    <div class="tagline">Learn Claude Code. The best resources, in priority order.</div>
     <div class="url">buildapp.se/ai</div>
   </div>
 </body>

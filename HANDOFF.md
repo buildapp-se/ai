@@ -17,6 +17,16 @@ Code-listan med röstning. Arkitektur och designresonemang står i `PROJECT.md`.
 
 ## Recent work
 
+**2026-08-27, kväll: Cloudflare Web Analytics på zonen, policy version 2.1.**
+
+- Katalogens Cloudflare-zon injicerar nu `beacon.min.js` i all HTML under
+  `buildapp.se`, alltså även här. Sidan gör därmed ett nätverksanrop till
+  `static.cloudflareinsights.com` utöver Google Fonts; påståendet "noll
+  nätverksanrop" nedan gäller sidans egen kod, inte zonen.
+- `integritet.html` sv + en uppdaterad: ny punkt om Web Analytics, rättslig grund
+  besöksstatistik, cookieavsnittet omskrivet. Inställningen styrs från
+  buildapp-se-repots dashboard, inte härifrån.
+
 **2026-08-27: sidan är nu helt statisk, plus integritetspolicy.**
 
 - **Borttaget:** röstningen (`▲ 0 ▼`), avbockningen, framstegsräknaren,

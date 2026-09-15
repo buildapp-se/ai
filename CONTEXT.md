@@ -58,3 +58,10 @@ klassen `.lit` sätts.
 Sidan driftsätts av `git push` till `main`, GitHub Pages bygger automatiskt. Workern
 driftsätts med `cd worker && npx wrangler deploy`. Admin-token sätts med
 `npx wrangler secret put MOD_TOKEN`.
+
+## Audits
+
+Read by the cockpit Audits tab. One `- Label: YYYY-MM-DD, result` per check; conventions in elwyn-dash `docs/security.md`.
+
+- OWASP Top 10: 2026-07-25, open /vote write primitive fixed with allowlist
+- Headers: 2026-08-04, 0 of 6 on buildapp.se/ai (GitHub Pages)

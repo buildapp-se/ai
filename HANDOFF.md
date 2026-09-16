@@ -4,7 +4,7 @@ status: active
 currentGoal: Hålla AI-resurssidan aktuell och åtgärda de två kvarvarande resterna från flytten till buildapp.se
 nextAction: Besluta om Cloudflare-workern api.orgutveckling.se och dess KV-data ska avvecklas. Inget i index.html anropar den langre, men den ar fortfarande deployad. Se BACKLOG.md
 blockers: []
-reviewedAt: 2026-08-27
+reviewedAt: 2026-09-16
 ---
 
 # Handoff: AI-resurssidan
@@ -109,3 +109,7 @@ torrkörning.
 
 Börja med `og.png`. Den påverkar hur varje delad länk ser ut i Messenger, Facebook
 och Slack, och är den enda kvarvarande punkten som syns utåt.
+
+## Granskning 2026-09-16
+
+Cross-project audit run from elwyn-dash (session 5 in the daily note). Results written to `## Audits` in CONTEXT.md, findings appended to BACKLOG.md under `## Granskning 2026-09-16`. Headers on buildapp.se and the TLS grade are zone-level and are fixed once in Cloudflare, not here.

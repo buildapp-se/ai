@@ -64,5 +64,8 @@ driftsätts med `cd worker && npx wrangler deploy`. Admin-token sätts med
 Read by the cockpit Audits tab. One `- Label: YYYY-MM-DD, result` per check; conventions in elwyn-dash `docs/security.md`.
 
 - OWASP Top 10: 2026-07-25, open /vote write primitive fixed with allowlist
-- Headers: 2026-08-04, fail, 0 of 6 on buildapp.se/ai (GitHub Pages)
-- Search Console: 2026-09-15, warn, unknown to Google, now in submitted buildapp.se sitemap
+- Headers: 2026-09-16, fail, 0 of 6 on buildapp.se (GitHub Pages), one hostname-scoped Transform Rule on the zone fixes every buildapp.se path
+- Search Console: 2026-09-16, warn, in the buildapp.se sitemap (9 URLs accepted, 0 errors), per-URL indexing not read
+- TLS: 2026-09-16, warn, SSL Labs B on buildapp.se, TLS 1.0 and 1.1 still enabled on the zone, no HSTS
+- Lighthouse: 2026-09-16, pass, a11y 100, best practices 100, SEO 100 (mobile, no perf)
+- Markup: 2026-09-16, pass, W3C 0 errors, 0 broken links

@@ -2,7 +2,7 @@
 schemaVersion: 1
 status: active
 currentGoal: Hålla AI-resurssidan aktuell och åtgärda de två kvarvarande resterna från flytten till buildapp.se
-nextAction: Besluta om Cloudflare-workern api.orgutveckling.se och dess KV-data ska avvecklas. Inget i index.html anropar den langre, men den ar fortfarande deployad. Se BACKLOG.md
+nextAction: Verifiera på buildapp.se/ai/ att ikonerna laddar lokalt och att policyn visar version 2.2. Därefter fler resurser i listan enligt BACKLOG.md
 blockers: []
 reviewedAt: 2026-09-16
 ---
@@ -50,8 +50,10 @@ Code-listan med röstning. Arkitektur och designresonemang står i `PROJECT.md`.
   "Curated · Ranked · Voted", vilket blev falskt när funktionerna togs bort.
   Nu sidans faktiska rubrik och kartans ryggrad som märke.
 
-**Workern är kvar och fortfarande deployad.** Se `BACKLOG.md`, den behöver ett
-medvetet beslut om avveckling.
+**2026-09-16: workern avvecklad.** `orgutveckling-votes` och KV `VOTES`
+raderade i Cloudflare, `worker/` borttagen. Ikonerna flyttade till repot
+(hotlink från orgutveckling.se motsade policyns "enda tredjeparten").
+Policyn 2.2 säger båda sakerna i ändringsstycket.
 
 
 
@@ -81,7 +83,6 @@ medvetet beslut om avveckling.
 
 - `node contrast.test.js` kontrollerar att palettens fem fasfärger klarar
   WCAG-kontrast mot bottnen. Kör den innan en färg ändras.
-- Worker-deploy senast 2026-07-25, version `5562810d-c77c-4ffd-93e3-be26bbc7f5ff`.
 
 ## Unresolved details
 
@@ -92,18 +93,6 @@ medvetet beslut om avveckling.
   röster på en känd länk. Medvetet val; Turnstile är nästa steg om det blir ett
   problem i praktiken.
 - Ingen ratelimit på `/suggest`. Cloudflares egna regler täcker det utan kod.
-
-## Underhållsfälla
-
-⚠️ En ny kurerad länk i `index.html` **måste seedas i KV**, annars får den 404 på
-sin första röst eftersom `/vote` har en allowlist. Kör:
-
-```
-cd worker && node seed-curated.js --write
-```
-
-Skriptet är idempotent och rör aldrig befintliga röstsiffror. Kör utan flagga för
-torrkörning.
 
 ## Resume here
 

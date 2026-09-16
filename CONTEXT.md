@@ -12,11 +12,12 @@ saker byggs, inte vara en uttömmande katalog.
   Serveras som GitHub Pages project site under `buildapp.se/ai/`.
 - **Sidan är helt statisk sedan 2026-08-27.** Ingen backend, inga nätverksanrop
   utom Google Fonts. `localStorage` används bara till `lang` och `view`.
-- `worker/` ligger kvar i repot men **anropas inte längre av något**. Röstningen,
-  avbockningen, framstegsräknaren, förslagsformuläret och modereringspanelen togs
-  bort samma dag: de användes inte, och `api.orgutveckling.se` låg dessutom bakom
-  Cloudflare Access och svarade 302 på `/suggestions`, så förslagen kunde inte
-  laddas ändå. Workern och dess KV-data är kvar tills de avvecklas medvetet.
+  Ikonerna (`logo.png`, `favicon.svg`) ligger i repot sedan 2026-09-16; fram
+  till dess hotlinkades de från orgutveckling.se, vilket motsade policyn.
+- Workern `orgutveckling-votes` (röstning, förslag, moderering, borttagna ur
+  sidan 2026-08-27) **avvecklades 2026-09-16**: skriptet och KV-namnrymden
+  `VOTES` raderade i Cloudflare, `worker/` borttagen ur repot. KV innehöll 25
+  röstsiffror per länk och ett testförslag, inga personuppgifter.
 
 ## Constraints
 
@@ -55,9 +56,8 @@ klassen `.lit` sätts.
 
 ## Environments and operations
 
-Sidan driftsätts av `git push` till `main`, GitHub Pages bygger automatiskt. Workern
-driftsätts med `cd worker && npx wrangler deploy`. Admin-token sätts med
-`npx wrangler secret put MOD_TOKEN`.
+Sidan driftsätts av `git push` till `main`, GitHub Pages bygger automatiskt.
+Ingen backend finns att driftsätta.
 
 ## Audits
 Read by the cockpit Audits tab. One `- Label: YYYY-MM-DD, result` per check; conventions in elwyn-dash `docs/security.md`.

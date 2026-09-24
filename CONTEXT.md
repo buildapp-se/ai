@@ -68,3 +68,6 @@ Read by the cockpit Audits tab. One `- Label: YYYY-MM-DD, result` per check; con
 - TLS: 2026-09-16, pass, SSL Labs A+ on buildapp.se, TLS 1.2 minimum and HSTS since today
 - Lighthouse: 2026-09-16, pass, a11y 100, best practices 100, SEO 100 (mobile, no perf)
 - Markup: 2026-09-16, pass, W3C 0 errors, 0 broken links
+- npm audit: 2026-09-24, n/a, no package.json
+- Secrets: 2026-09-24, pass, gitleaks 0 findings in 37 commits
+- Actions: 2026-09-24, n/a, no GitHub Actions workflows

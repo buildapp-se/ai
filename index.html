@@ -50,7 +50,7 @@ a{color:inherit;text-underline-offset:.2em}
 .topbar-link{font-size:var(--fs-small);color:var(--secondary);text-decoration:none;white-space:nowrap}
 .topbar-link:hover{color:var(--primary)}
 .lang-toggle{display:flex;border:1.5px solid var(--tertiary);border-radius:var(--radius-btn);overflow:hidden}
-.lang-toggle button{background:transparent;border:0;cursor:pointer;padding:.35em .7em;font-size:.7rem;font-weight:700;letter-spacing:.05em;color:var(--secondary);font-family:var(--font);transition:all var(--t)}
+.lang-toggle button{background:transparent;border:0;cursor:pointer;padding:.35em .7em;min-height:44px;min-width:44px;font-size:.7rem;font-weight:700;letter-spacing:.05em;color:var(--secondary);font-family:var(--font);transition:all var(--t)}
 .lang-toggle button:hover{color:var(--primary)}
 .lang-toggle button.active{background:var(--grafit);color:#fff}
 
@@ -111,11 +111,11 @@ a{color:inherit;text-underline-offset:.2em}
 
 /* Verktygsrad: filter + vy-toggle */
 .toolbar{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;padding:1.25rem 0;position:sticky;top:0;background:var(--bg);z-index:50;opacity:0;animation:fadeUp .5s ease .45s forwards}
-.filter-btn{padding:.4em 1em;border-radius:var(--radius-btn);font-size:var(--fs-small);font-weight:600;border:1.5px solid var(--tertiary);background:transparent;color:var(--secondary);cursor:pointer;transition:all var(--t);font-family:var(--font)}
+.filter-btn{padding:.4em 1em;min-height:44px;border-radius:var(--radius-btn);font-size:var(--fs-small);font-weight:600;border:1.5px solid var(--tertiary);background:transparent;color:var(--secondary);cursor:pointer;transition:all var(--t);font-family:var(--font)}
 .filter-btn:hover{border-color:var(--primary);color:var(--primary)}
 .filter-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
 .view-toggle{margin-left:auto;display:flex;border:1.5px solid var(--tertiary);border-radius:var(--radius-btn);overflow:hidden}
-.view-toggle button{background:transparent;border:0;cursor:pointer;padding:.45em .8em;color:var(--secondary);display:flex;align-items:center;transition:all var(--t)}
+.view-toggle button{background:transparent;border:0;cursor:pointer;padding:.45em .8em;min-height:44px;min-width:44px;justify-content:center;color:var(--secondary);display:flex;align-items:center;transition:all var(--t)}
 .view-toggle button:hover{color:var(--primary)}
 .view-toggle button.active{background:var(--grafit);color:#fff}
 .view-toggle svg{width:14px;height:14px;fill:currentColor}

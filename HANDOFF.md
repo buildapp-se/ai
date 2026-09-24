@@ -4,10 +4,12 @@ status: active
 currentGoal: Hålla AI-resurssidan aktuell och åtgärda de två kvarvarande resterna från flytten till buildapp.se
 nextAction: Verifiera på buildapp.se/ai/ att ikonerna laddar lokalt och att policyn visar version 2.2. Därefter fler resurser i listan enligt BACKLOG.md
 blockers: []
-reviewedAt: 2026-09-16
+reviewedAt: 2026-09-24
 ---
 
 # Handoff: AI-resurssidan
+
+**2026-09-24, tryckytor (UX-audit från aifabriken).** Filterknapparna (27 px), vy-växlaren (26 px) och SV/EN (22 px) har nu `min-height` 44 px (växlarna även `min-width`). Lokalt kvar bara två inline-länkar i sidfoten som warn (luft runt, klarar WCAG). Filterrad och sidhuvud granskade i skärmbild. axe gav först ett kontrastfel som visade sig vara en inladdningsanimation; efter att animationerna fått köra klart: 0 fel.
 
 ## Läget
 

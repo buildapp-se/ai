@@ -72,4 +72,4 @@ Read by the cockpit Audits tab. One `- Label: YYYY-MM-DD, result` per check; con
 - Secrets: 2026-09-24, pass, gitleaks 0 findings in 37 commits
 - Actions: 2026-09-24, n/a, no GitHub Actions workflows
 - WCAG 2.2 AA: 2026-09-24, warn, axe 4.13.0 0 violations on buildapp.se/ai (mobile, one page, after load animations); manual keyboard pass not done
-- UX: 2026-09-24, warn, 5 of 6 script checks pass on buildapp.se/ai (no --interact): warn Fitts targets; screenshot review not done
+- UX: 2026-09-24, warn, 5 of 6 script checks pass on buildapp.se/ai (no --interact), live after the tap-target fix 85818af; left: two spaced footer links at 15 px (pass WCAG); screenshot review not done

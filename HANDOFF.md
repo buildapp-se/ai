@@ -1,13 +1,15 @@
 ---
 schemaVersion: 1
 status: active
-currentGoal: Hålla AI-resurssidan aktuell och åtgärda de två kvarvarande resterna från flytten till buildapp.se
-nextAction: Verifiera på buildapp.se/ai/ att ikonerna laddar lokalt och att policyn visar version 2.2. Därefter fler resurser i listan enligt BACKLOG.md
+currentGoal: Hålla AI-resurssidan aktuell
+nextAction: Granska och merga grenen batch/2026-10-06 (två P3-fixar i index.html), sedan välja ny kontaktadress och fler resurser enligt BACKLOG.md
 blockers: []
-reviewedAt: 2026-09-24
+reviewedAt: 2026-10-06
 ---
 
 # Handoff: AI-resurssidan
+
+**2026-10-06, nattbatch på grenen `batch/2026-10-06` (inte mergad, inte live).** Två P3 från granskningen: font-länken tappar nu `as` när `rel` byts till `stylesheet` (html-validate `attribute-misuse` 0 på renderad DOM), och kortens 25 dekorativa pilar är `aria-hidden` efter en kontrastgenomgång av all synlig text (sv/en, kort/lista, 390 och 1280 px, 0 under gränsen). Externa länkar: 60 av 62 svarar 200, två svarar 403 på skript. Kvar för Patrik: ny kontaktadress (finns i `index.html` rad 187 och JS i botten, samt fyra ställen i `integritet.html`) och vilka resurser som ska in i listan.
 
 **2026-09-24, tryckytor (UX-audit från aifabriken).** Filterknapparna (27 px), vy-växlaren (26 px) och SV/EN (22 px) har nu `min-height` 44 px (växlarna även `min-width`). Lokalt kvar bara två inline-länkar i sidfoten som warn (luft runt, klarar WCAG). Filterrad och sidhuvud granskade i skärmbild. axe gav först ett kontrastfel som visade sig vara en inladdningsanimation; efter att animationerna fått köra klart: 0 fel.
 
@@ -88,18 +90,12 @@ Policyn 2.2 säger båda sakerna i ändringsstycket.
 
 ## Unresolved details
 
-- `og.png` visar gammal design och gammal rubrik.
 - Kontaktmailen är fortfarande `kontakt@orgutveckling.se` i topbar och footer.
   Footern byggs i JS längst ner i `index.html`.
-- `/vote` saknar dedupe. Allowlisten stoppar nya skräpnycklar men inte upprepade
-  röster på en känd länk. Medvetet val; Turnstile är nästa steg om det blir ett
-  problem i praktiken.
-- Ingen ratelimit på `/suggest`. Cloudflares egna regler täcker det utan kod.
 
 ## Resume here
 
-Börja med `og.png`. Den påverkar hur varje delad länk ser ut i Messenger, Facebook
-och Slack, och är den enda kvarvarande punkten som syns utåt.
+Merga `batch/2026-10-06` efter granskning. Sedan kontaktadressen, som kräver ett beslut om ny adress.
 
 ## Granskning 2026-09-16
 

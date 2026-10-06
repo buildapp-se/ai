@@ -10,3 +10,8 @@ graft/
 # egna instruktioner, och halls darfor lokalt. Skriver du riktiga instruktioner:
 # ta bort raden nedan forst, annars hamnar de aldrig i git.
 AGENTS.md
+
+# Lokala verktygsfiler (repowise-MCP med maskinsokvag, editor, ripgrep). Hor inte till projektet.
+.ignore
+.mcp.json
+.vscode/

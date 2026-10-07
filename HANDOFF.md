@@ -2,14 +2,14 @@
 schemaVersion: 1
 status: active
 currentGoal: Hålla AI-resurssidan aktuell
-nextAction: Granska och merga grenen batch/2026-10-06 (två P3-fixar i index.html), sedan välja ny kontaktadress och fler resurser enligt BACKLOG.md
+nextAction: Välja ny kontaktadress och fler resurser enligt BACKLOG.md
 blockers: []
-reviewedAt: 2026-10-06
+reviewedAt: 2026-10-07
 ---
 
 # Handoff: AI-resurssidan
 
-**2026-10-06, nattbatch på grenen `batch/2026-10-06` (inte mergad, inte live).** Två P3 från granskningen: font-länken tappar nu `as` när `rel` byts till `stylesheet` (html-validate `attribute-misuse` 0 på renderad DOM), och kortens 25 dekorativa pilar är `aria-hidden` efter en kontrastgenomgång av all synlig text (sv/en, kort/lista, 390 och 1280 px, 0 under gränsen). Externa länkar: 60 av 62 svarar 200, två svarar 403 på skript. Kvar för Patrik: ny kontaktadress (finns i `index.html` rad 187 och JS i botten, samt fyra ställen i `integritet.html`) och vilka resurser som ska in i listan.
+**2026-10-06, nattbatch på grenen `batch/2026-10-06` (mergad till `main` och deployad 2026-10-07 på Patriks order).** Två P3 från granskningen: font-länken tappar nu `as` när `rel` byts till `stylesheet` (html-validate `attribute-misuse` 0 på renderad DOM), och kortens 25 dekorativa pilar är `aria-hidden` efter en kontrastgenomgång av all synlig text (sv/en, kort/lista, 390 och 1280 px, 0 under gränsen). Externa länkar: 60 av 62 svarar 200, två svarar 403 på skript. Kvar för Patrik: ny kontaktadress (finns i `index.html` rad 187 och JS i botten, samt fyra ställen i `integritet.html`) och vilka resurser som ska in i listan.
 
 **2026-09-24, tryckytor (UX-audit från aifabriken).** Filterknapparna (27 px), vy-växlaren (26 px) och SV/EN (22 px) har nu `min-height` 44 px (växlarna även `min-width`). Lokalt kvar bara två inline-länkar i sidfoten som warn (luft runt, klarar WCAG). Filterrad och sidhuvud granskade i skärmbild. axe gav först ett kontrastfel som visade sig vara en inladdningsanimation; efter att animationerna fått köra klart: 0 fel.
 
@@ -95,7 +95,7 @@ Policyn 2.2 säger båda sakerna i ändringsstycket.
 
 ## Resume here
 
-Merga `batch/2026-10-06` efter granskning. Sedan kontaktadressen, som kräver ett beslut om ny adress.
+`batch/2026-10-06` är mergad till `main` och deployad 2026-10-07 på Patriks order. Nästa: kontaktadressen, som kräver ett beslut om ny adress.
 
 ## Granskning 2026-09-16
 

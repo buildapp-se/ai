@@ -19,6 +19,11 @@ saker byggs, inte vara en uttömmande katalog.
   `VOTES` raderade i Cloudflare, `worker/` borttagen ur repot. KV innehöll 25
   röstsiffror per länk och ett testförslag, inga personuppgifter.
 
+- `quiz.html` (sedan 2026-10-16) är ett fristående quiz, också en enda fil utan
+  byggsteg, bara svenska. Allt innehåll ligger som data i `QUIZZES`: flerval
+  (`q`), para ihop (`pairs`) och ordkort (`words`, felsvar läggs sist i högen som
+  i Quizlet). Ännu inte länkad från `index.html`, se `BACKLOG.md`.
+
 ## Constraints
 
 - `data-sv` får aldrig sitta på ett element som innehåller andra element, eftersom

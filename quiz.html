@@ -57,6 +57,8 @@ p{margin-top:.8rem;color:var(--secondary)}
 .feedback ul{list-style:none;margin-top:.6rem;color:var(--secondary)}
 .feedback li{padding:.35rem 0;border-top:1px solid var(--tertiary)}
 .feedback code{font-family:var(--mono);font-weight:700;color:var(--fg)}
+.feedback .more{display:block;font-size:.9rem;margin-top:.2rem}
+.feedback li:has(.more){padding:.6rem 0}
 .next{font:inherit;font-weight:600;cursor:pointer;margin-top:1.4rem;padding:.7rem 1.4rem;min-height:44px;
   background:var(--primary);color:#fff;border:0;border-radius:var(--radius-btn)}
 .next:hover{filter:brightness(1.1)}
@@ -85,7 +87,7 @@ p{margin-top:.8rem;color:var(--secondary)}
         <strong id="verdict"></strong>
         <p id="note" hidden></p>
         <p id="explain"></p>
-        <ul id="names" hidden></ul>
+        <ul id="about" hidden></ul>
       </div>
       <button class="next" id="next" type="button" hidden>Nästa</button>
     </section>
@@ -104,7 +106,7 @@ p{margin-top:.8rem;color:var(--secondary)}
 <script>
 // Två sorters steg. Flerval: {q, options, answer, notes, why}, där answer är index i options,
 // notes[i] förklarar varför alternativ i är fel (null för rätt svar) och why förklarar det rätta.
-// Para ihop: {title, pairs: [[begrepp, förklaring, vad namnet betyder?], ...]}, förklaringarna blandas vid visning.
+// Para ihop: {title, pairs: [[begrepp, förklaring, vad namnet betyder?, mer kontext?], ...]}, förklaringarna blandas vid visning.
 // Poäng: 1 per flervalsfråga, 1 per par som blir rätt på första försöket.
 const QUIZZES = [
   {title: 'Grunder om AI', intro: 'Hur språkmodeller fungerar och hur du bygger säkert med dem.', steps: [
@@ -183,28 +185,46 @@ const QUIZZES = [
   ]},
   {title: 'Terminalkommandon', intro: 'Para ihop kommandot med vad det gör. Tre omgångar, 18 kommandon.', steps: [
     {title: 'Hitta runt bland filer', pairs: [
-      ['pwd', 'Visar vilken mapp du står i', 'print working directory'],
-      ['ls', 'Listar filerna i mappen', 'list'],
-      ['cd', 'Byter till en annan mapp', 'change directory'],
-      ['mkdir', 'Skapar en ny mapp', 'make directory'],
-      ['cp', 'Kopierar en fil', 'copy'],
-      ['mv', 'Flyttar en fil eller byter namn på den', 'move'],
+      ['pwd', 'Visar vilken mapp du står i', 'print working directory',
+       'Bra när du tappat bort dig: svaret är hela sökvägen, till exempel /Users/anna/projekt. Fungerar likadant i Windows PowerShell.'],
+      ['ls', 'Listar filerna i mappen', 'list',
+       'Med ls -la syns även dolda filer, de vars namn börjar med punkt, som .gitignore. I Windows PowerShell fungerar ls men inte -la, där skriver du ls -Force.'],
+      ['cd', 'Byter till en annan mapp', 'change directory',
+       'cd .. går upp en nivå och cd ~ går till din hemmapp. Fungerar likadant i Windows PowerShell.'],
+      ['mkdir', 'Skapar en ny mapp', 'make directory',
+       'mkdir -p src/bilder skapar flera nivåer på en gång på Mac och Linux. I Windows PowerShell skapas mellannivåerna automatiskt.'],
+      ['cp', 'Kopierar en fil', 'copy',
+       'cp -r kopierar en hel mapp med allt innehåll. Finns i Windows PowerShell också.'],
+      ['mv', 'Flyttar en fil eller byter namn på den', 'move',
+       'Att byta namn är samma sak som att flytta filen till ett nytt namn i samma mapp: mv gammal.txt ny.txt. Finns i Windows PowerShell också.'],
     ]},
     {title: 'Läsa, skriva och söka', pairs: [
-      ['cat', 'Skriver ut hela innehållet i en fil', 'concatenate, att foga ihop: den kan slå ihop flera filer till en'],
-      ['touch', 'Skapar en tom fil', 'ingen förkortning: "röra vid", den uppdaterar filens tidsstämpel och skapar filen om den saknas'],
-      ['echo', 'Skriver ut den text du ger den', 'ingen förkortning: ett eko av det du skriver'],
-      ['grep', 'Söker efter en text inuti filer', 'global regular expression print, från kommandot g/re/p i den gamla editorn ed'],
-      ['find', 'Letar upp filer efter namn', 'ingen förkortning: "hitta"'],
-      ['rm', 'Raderar en fil, utan papperskorg', 'remove'],
+      ['cat', 'Skriver ut hela innehållet i en fil', 'concatenate, att foga ihop: den kan slå ihop flera filer till en',
+       'Perfekt för korta filer. För långa filer är less bättre: där bläddrar du och avslutar med q. Windows PowerShell har cat men inte less.'],
+      ['touch', 'Skapar en tom fil', 'ingen förkortning: "röra vid", den uppdaterar filens tidsstämpel och skapar filen om den saknas',
+       'Används mest för att snabbt skapa en tom fil att fylla i sen. Finns inte i Windows PowerShell, där skriver du New-Item fil.txt.'],
+      ['echo', 'Skriver ut den text du ger den', 'ingen förkortning: ett eko av det du skriver',
+       'Med > hamnar texten i en fil i stället för på skärmen: echo hej > fil.txt. Vanlig i skript. Fungerar i Windows PowerShell också.'],
+      ['grep', 'Söker efter en text inuti filer', 'global regular expression print, från kommandot g/re/p i den gamla editorn ed',
+       'grep -r "text" . söker igenom alla filer i mappen och dess undermappar. Kodagenter letar i din kod på samma sätt. Finns inte i Windows PowerShell, där heter motsvarigheten Select-String.'],
+      ['find', 'Letar upp filer efter namn', 'ingen förkortning: "hitta"',
+       'find . -name "*.txt" hittar alla textfiler under mappen du står i. Se upp i Windows: där finns ett annat program som heter find, och det söker efter text i filer, ungefär som grep.'],
+      ['rm', 'Raderar en fil, utan papperskorg', 'remove',
+       'Det finns ingen papperskorg och ingen ångra. rm -r raderar en hel mapp med allt innehåll, så läs kommandot en gång till innan du trycker Enter. Finns i Windows PowerShell också.'],
     ]},
     {title: 'Nätverk och verktyg', pairs: [
-      ['curl', 'Hämtar en webbadress direkt i terminalen', 'client for URLs, och en ordlek med "see URL"'],
-      ['ssh', 'Loggar in på en annan dator via nätet', 'secure shell'],
-      ['git', 'Sparar versioner av koden så att du kan backa', 'ingen förkortning: brittisk slang för "dumskalle", Linus Torvalds skämtade att han döper projekt efter sig själv'],
-      ['npm', 'Installerar JavaScript-paket', 'Node Package Manager, fast projektet säger numera att det inte är en förkortning'],
-      ['sudo', 'Kör ett kommando som administratör', 'superuser do, "gör som superanvändare"'],
-      ['man', 'Visar manualen för ett kommando', 'manual'],
+      ['curl', 'Hämtar en webbadress direkt i terminalen', 'client for URLs, och en ordlek med "see URL"',
+       'Utvecklare testar API:er med curl: du ser exakt vad servern svarar, utan webbläsare. Windows 10 och 11 har curl inbyggt, men i den inbyggda Windows PowerShell är curl ett annat kommando i förklädnad. Skriv curl.exe för att få det riktiga.'],
+      ['ssh', 'Loggar in på en annan dator via nätet', 'secure shell',
+       'Så styr man servrar i molnet: du skriver i din egen terminal, men kommandona körs på den andra datorn. Inbyggt i Mac, Linux och Windows 10 och 11.'],
+      ['git', 'Sparar versioner av koden så att du kan backa', 'ingen förkortning: brittisk slang för "dumskalle", Linus Torvalds skämtade att han döper projekt efter sig själv',
+       'Varje commit är en sparpunkt med en beskrivning av vad som ändrades, och du kan alltid gå tillbaka. Med GitHub ligger en kopia i molnet och flera kan jobba i samma kod. Fungerar på alla system men behöver ofta installeras först.'],
+      ['npm', 'Installerar JavaScript-paket', 'Node Package Manager, fast projektet säger numera att det inte är en förkortning',
+       'Följer med när du installerar Node.js. npm install hämtar paketen till mappen node_modules och skriver upp dem i package.json, så att andra kan hämta exakt samma paket. Fungerar på alla system.'],
+      ['sudo', 'Kör ett kommando som administratör', 'superuser do, "gör som superanvändare"',
+       'Ett misstag med administratörsrätt kan förstöra hela systemet, så skriv bara sudo när du vet varför. Klassiskt på Mac och Linux. Windows 11 har fått ett eget sudo sedan 2024, men det måste slås på i inställningarna först.'],
+      ['man', 'Visar manualen för ett kommando', 'manual',
+       'Prova man ls, och tryck q för att avsluta. I Windows PowerShell visar man hjälpen för PowerShell-kommandon i stället. Nästan alla program, på alla system, svarar också på --help.'],
     ]},
   ]},
   {title: 'Programspråk', intro: 'Vad används olika språk till? Två omgångar.', steps: [
@@ -253,6 +273,30 @@ const QUIZZES = [
        "HTML skickas likadant till alla besökare. Ett lösenord där kan vem som helst läsa."],
      why: 'Allt som körs i webbläsaren kan användaren läsa och ändra. Kontrollen måste ske där användaren inte kommer åt koden.'},
   ]},
+  // Ordkort som i Quizlet: [ord, betydelse]. Felsvaren hämtas ur de andra ordens betydelser,
+  // och ett ord man svarar fel på läggs sist i högen tills man klarar det.
+  {title: 'Tekniska ord', intro: 'Tre val per ord. Svarar du fel kommer ordet tillbaka sist i högen, tills du kan alla.', words: [
+    ['API', 'Ett sätt för program att prata med varandra'],
+    ['Frontend', 'Den del av appen som syns och körs hos användaren'],
+    ['Backend', 'Den del av appen som körs på servern, bakom kulisserna'],
+    ['Databas', 'Där appen sparar sin data så att den finns kvar'],
+    ['Deploy', 'Att lägga ut en ny version så att den blir live'],
+    ['Repo', 'En projektmapp med koden och hela dess historik'],
+    ['Commit', 'En sparpunkt med en beskrivning av vad som ändrades'],
+    ['Branch', 'En parallell version av koden där du kan testa utan att störa huvudspåret'],
+    ['Merge', 'Att föra ihop ändringar från ett spår med ett annat'],
+    ['Pull request', 'En begäran om att få in sina ändringar, så att andra kan granska dem först'],
+    ['Bugg', 'Ett fel som gör att programmet beter sig fel'],
+    ['Variabel', 'Ett namn som håller ett värde, till exempel ett tal eller en text'],
+    ['Funktion', 'En namngiven bit kod som gör en uppgift och kan anropas om och om igen'],
+    ['Ramverk', 'En färdig grundstruktur som styr hur du bygger appen, till exempel React'],
+    ['Beroende', 'Ett paket som ditt projekt behöver för att fungera'],
+    ['Localhost', 'Din egen dator, när den agerar server medan du utvecklar'],
+    ['JSON', 'Ett textformat för data med nycklar och värden inom klammerparenteser'],
+    ['DNS', 'Telefonkatalogen som översätter ett domännamn till en serveradress'],
+    ['Cache', 'En sparad kopia som gör att något går snabbare nästa gång'],
+    ['Miljövariabel', 'Ett värde som sätts utanför koden, till exempel en hemlig nyckel'],
+  ]},
 ];
 
 // Avgör rubrik och text på resultatsidan utifrån hur många poäng man fick.
@@ -263,7 +307,8 @@ function resultText(score, total) {
 }
 
 const $ = id => document.getElementById(id);
-const points = s => s.pairs ? s.pairs.length : 1;
+// En upprepning av ett ord man svarat fel på ger inga poäng och räknas inte i totalen.
+const points = s => s.retry ? 0 : s.pairs ? s.pairs.length : 1;
 const MIXED = {title: 'Blandat', intro: 'Åtta slumpade delar ur alla quiz, ny mix varje gång.', mix: 8};
 let chosen, quiz, step, score;
 
@@ -288,9 +333,25 @@ function showOnly(id) {
   for (const s of ['menu', 'quiz', 'result']) $(s).hidden = s !== id;
 }
 
+// Gör ett flervalssteg av ett ord: rätt betydelse plus två andra ords betydelser.
+function wordStep(word, words) {
+  const others = shuffle(words.filter(w => w !== word)).slice(0, 2);
+  const shown = shuffle([word, ...others]);
+  return {
+    word,
+    q: `Vad betyder "${word[0]}"?`,
+    options: shown.map(w => w[1]),
+    answer: shown.indexOf(word),
+    notes: shown.map(w => w === word ? null : `Det där beskriver ${w[0]}.`),
+    why: '',
+  };
+}
+
 function start(q) {
   chosen = q;
-  quiz = q.mix ? {title: q.title, steps: shuffle(QUIZZES.flatMap(x => x.steps)).slice(0, q.mix)} : q;
+  if (q.mix) quiz = {title: q.title, steps: shuffle(QUIZZES.flatMap(x => x.steps || [])).slice(0, q.mix)};
+  else if (q.words) quiz = {title: q.title, words: q.words, steps: shuffle(q.words).map(w => wordStep(w, q.words))};
+  else quiz = q;
   step = score = 0;
   showOnly('quiz');
   render();
@@ -298,7 +359,9 @@ function start(q) {
 
 function render() {
   const s = quiz.steps[step];
-  $('progress').textContent = `${quiz.title} · del ${step + 1} av ${quiz.steps.length}`;
+  $('progress').textContent = quiz.words
+    ? `${quiz.title} · ${quiz.steps.length - step} kvar i högen`
+    : `${quiz.title} · del ${step + 1} av ${quiz.steps.length}`;
   $('question').textContent = s.q || s.title;
   $('hint').hidden = !s.pairs;
   $('feedback').hidden = $('next').hidden = true;
@@ -306,16 +369,23 @@ function render() {
   $('question').focus();
 }
 
-function renderChoice({options, answer, notes, why}) {
+function renderChoice(s) {
+  const {options, answer, notes, why} = s;
   const list = document.createElement('div');
   list.className = 'options';
   list.append(...options.map((text, n) => button(text, () => {
     const buttons = [...list.children];
     buttons.forEach(b => b.disabled = true);
     buttons[answer].classList.add('ok');
-    if (n === answer) score++; else buttons[n].classList.add('bad');
-    if (n === answer) done('Rätt!', {explain: why});
-    else done('Inte riktigt.', {note: notes[n], explain: `Rätt svar: ${options[answer]}. ${why}`});
+    if (n === answer) {
+      if (!s.retry) score++;
+      return done('Rätt!', {explain: why});
+    }
+    buttons[n].classList.add('bad');
+    // Ordkort: samma ord sist i högen igen, med nya felalternativ och ny ordning.
+    if (s.word) quiz.steps.push({...wordStep(s.word, quiz.words), retry: true});
+    done(s.word ? 'Inte riktigt. Ordet kommer tillbaka längre fram.' : 'Inte riktigt.',
+      {note: notes[n], explain: `Rätt svar: ${options[answer]}. ${why}`});
   })));
   $('answers').replaceChildren(list);
 }
@@ -340,7 +410,7 @@ function renderMatch({pairs}) {
       if (++matched === pairs.length) {
         const firstTry = pairs.length - missed.size;
         done(`Klart! ${firstTry} av ${pairs.length} rätt på första försöket.`,
-          {names: pairs.filter(p => p[2]).map(([term, , name]) => [term, name])});
+          {about: pairs.filter(p => p[2]).map(([term, , name, more]) => [term, name, more])});
       }
     } else {
       missed.add(term.i);
@@ -366,16 +436,22 @@ function renderMatch({pairs}) {
 }
 
 // note: varför det valda svaret var fel. explain: det rätta svaret och varför.
-// names: lista [[begrepp, vad namnet betyder], ...] efter en para ihop-omgång.
-function done(verdict, {note = '', explain = '', names = []} = {}) {
+// about: lista [[begrepp, vad namnet betyder, mer kontext?], ...] efter en para ihop-omgång.
+function done(verdict, {note = '', explain = '', about = []} = {}) {
   $('note').textContent = note;
   $('note').hidden = !note;
-  $('names').hidden = !names.length;
-  $('names').replaceChildren(...names.map(([term, name]) => {
+  $('about').hidden = !about.length;
+  $('about').replaceChildren(...about.map(([term, name, more]) => {
     const li = document.createElement('li');
     const code = document.createElement('code');
     code.textContent = term;
     li.append(code, `: ${name}`);
+    if (more) {
+      const p = document.createElement('span');
+      p.className = 'more';
+      p.textContent = more;
+      li.append(p);
+    }
     return li;
   }));
   $('verdict').textContent = verdict;
@@ -405,7 +481,9 @@ $('quiz-list').append(...[...QUIZZES, MIXED].map(q => {
   const title = document.createElement('strong');
   const meta = document.createElement('span');
   title.textContent = q.title;
-  meta.textContent = q.mix ? q.intro : `${q.intro} ${q.steps.reduce((sum, s) => sum + points(s), 0)} poäng.`;
+  meta.textContent = q.mix ? q.intro
+    : q.words ? `${q.intro} ${q.words.length} ord.`
+    : `${q.intro} ${q.steps.reduce((sum, s) => sum + points(s), 0)} poäng.`;
   b.append(title, meta);
   return b;
 }));

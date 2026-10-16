@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz: AI och programmering | Lär dig Claude Code</title>
+<meta name="description" content="Fyra korta quiz om AI, terminalkommandon, programspråk och backend. Svara, se förklaringen, få ditt resultat.">
+<link rel="canonical" href="https://buildapp.se/ai/quiz.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@500;700&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+:root{--fg:#14181F;--bg:#F4F6F8;--card:#fff;--primary:#6544E0;--secondary:#5A6472;--tertiary:#DDE3EA;
+  --ok:#1F8A5B;--bad:#C0304A;
+  --font:'Public Sans',system-ui,sans-serif;--font-display:'Bricolage Grotesque',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;
+  --outer:clamp(1.25rem,4vw,2.5rem);--fs-small:.8125rem;--ls-heading:-.02em;--radius-btn:100px;--t:.16s ease}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);color:var(--fg);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.6}
+.wrap{max-width:68ch;margin:0 auto;padding:0 var(--outer)}
+.topbar{padding:1.1rem 0;border-bottom:1px solid var(--tertiary)}
+.topbar a{font-size:var(--fs-small);color:var(--secondary);text-decoration:none}
+.topbar a:hover{color:var(--primary)}
+
+.card{margin:clamp(1.5rem,4vw,2.5rem) 0;background:var(--card);border:1px solid var(--tertiary);border-radius:14px;padding:clamp(1.4rem,4vw,2.5rem)}
+.meta{font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--secondary)}
+h1,h2{font-family:var(--font-display);letter-spacing:var(--ls-heading);line-height:1.15}
+h1{font-weight:800;font-size:clamp(1.8rem,4.5vw,2.4rem)}
+h2{font-weight:700;font-size:clamp(1.2rem,3vw,1.5rem);margin-top:.6rem}
+p{margin-top:.8rem;color:var(--secondary)}
+
+.options{display:grid;gap:.6rem;margin-top:1.4rem}
+.options button{font:inherit;text-align:left;cursor:pointer;padding:.85rem 1rem;min-height:48px;
+  background:var(--card);color:var(--fg);border:1.5px solid var(--tertiary);border-radius:10px;transition:border-color var(--t),background var(--t)}
+.options button:hover:not(:disabled){border-color:var(--primary)}
+.options button:disabled{cursor:default}
+.options button[aria-pressed=true]{border-color:var(--primary);background:#EFEBFC}
+.options button.ok{border-color:var(--ok);background:#E8F5EE}
+.options button.bad{border-color:var(--bad);background:#FBEAED}
+.options button.ok::after{content:' ✓';color:var(--ok);font-weight:700}
+.options button.bad::after{content:' ✗';color:var(--bad);font-weight:700}
+.options button strong{display:block;font-family:var(--font-display);font-size:1.1rem}
+.options button span{display:block;color:var(--secondary);font-size:.9rem}
+
+/* Para ihop: begreppen till vänster, förklaringarna (blandade) till höger. */
+.match{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:.6rem;margin-top:1.4rem}
+.match .options{margin-top:0;align-content:start}
+.match .terms button{font-family:var(--mono);font-weight:700}
+.match .descs button{font-size:.9rem;padding:.7rem .8rem}
+
+.feedback{margin-top:1.2rem;padding:1rem;border-radius:10px;background:var(--bg)}
+.feedback strong{display:block;color:var(--fg)}
+.feedback p{margin-top:.3rem}
+.next{font:inherit;font-weight:600;cursor:pointer;margin-top:1.4rem;padding:.7rem 1.4rem;min-height:44px;
+  background:var(--primary);color:#fff;border:0;border-radius:var(--radius-btn)}
+.next:hover{filter:brightness(1.1)}
+.next.ghost{background:transparent;color:var(--primary);border:1.5px solid var(--primary);margin-left:.5rem}
+.score{font-family:var(--mono);font-weight:700;font-size:clamp(2.5rem,8vw,3.5rem);color:var(--primary);margin-top:.6rem}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar"><a href="./">&larr; Tillbaka till listan</a></div>
+
+  <main class="card">
+    <section id="menu">
+      <h1>Quiz: AI och programmering</h1>
+      <p>Välj ett quiz. Du ser förklaringen direkt efter varje svar.</p>
+      <div class="options" id="quiz-list"></div>
+    </section>
+
+    <section id="quiz" hidden>
+      <p class="meta" id="progress"></p>
+      <h2 id="question"></h2>
+      <p id="hint" hidden>Tryck på ett ord till vänster och sedan på förklaringen som hör ihop med det.</p>
+      <div id="answers"></div>
+      <div class="feedback" id="feedback" aria-live="polite" hidden>
+        <strong id="verdict"></strong>
+        <p id="explain"></p>
+      </div>
+      <button class="next" id="next" type="button" hidden>Nästa</button>
+    </section>
+
+    <section id="result" hidden>
+      <p class="meta" id="result-quiz"></p>
+      <p class="score" id="score"></p>
+      <h1 id="result-title"></h1>
+      <p id="result-text"></p>
+      <button class="next" id="restart" type="button">Gör om</button>
+      <button class="next ghost" id="to-menu" type="button">Välj annat quiz</button>
+    </section>
+  </main>
+</div>
+
+<script>
+// Två sorters steg. Flerval: {q, options, answer, why}, där answer är index i options.
+// Para ihop: {title, pairs: [[begrepp, förklaring], ...]}, förklaringarna blandas vid visning.
+// Poäng: 1 per flervalsfråga, 1 per par som blir rätt på första försöket.
+const QUIZZES = [
+  {title: 'Grunder om AI', intro: 'Hur språkmodeller fungerar och hur du bygger säkert med dem.', steps: [
+    {q: 'Vad gör en språkmodell (LLM) egentligen när den svarar dig?',
+     options: ['Slår upp färdiga svar i en databas', 'Söker på internet och sammanfattar', 'Räknar ut vilken text som mest sannolikt kommer härnäst', 'Kör koden den skriver för att se att den fungerar'],
+     answer: 2,
+     why: 'Modellen förutsäger nästa bit text, gång på gång. Den har inget facit att slå upp i, och därför kan den låta säker även när den har fel.'},
+    {q: 'Vad är en token?',
+     options: ['En bit text, ofta en del av ett ord', 'Ett lösenord till AI-tjänsten', 'En kryptovaluta som betalar för AI', 'En rad kod'],
+     answer: 0,
+     why: 'Modeller läser och skriver i tokens. Ett vanligt ord kan vara en token, ett ovanligt kan delas i flera. Pris och gränser räknas i tokens.'},
+    {q: 'Vad betyder det att en modell "hallucinerar"?',
+     options: ['Den vägrar svara', 'Den hittar på något som låter rimligt men är fel', 'Den blir långsam av för mycket text', 'Den svarar på fel språk'],
+     answer: 1,
+     why: 'Påhittade funktioner, källor eller paketnamn är vanliga exempel. Det är inte en bugg som går att stänga av, utan en följd av hur modellen fungerar.'},
+    {q: 'AI:n föreslår att du installerar ett paket du aldrig hört talas om. Vad gör du?',
+     options: ['Installerar direkt, AI:n vet bäst', 'Ber AI:n bekräfta att paketet är säkert', 'Struntar i det och skriver allt själv', 'Kollar att paketet finns, är det du tror och används av andra'],
+     answer: 3,
+     why: 'Modeller hittar ibland på paketnamn, och angripare registrerar sådana namn med skadlig kod. Att fråga AI:n igen hjälper inte: den kan hallucinera en gång till.'},
+    {q: 'Var ska en API-nyckel ligga?',
+     options: ['I en miljövariabel eller hemlighetshanterare, aldrig i koden du pushar', 'Direkt i JavaScript-filen, då hittar man den lätt', 'I en kommentar högst upp i filen', 'I README så att teamet ser den'],
+     answer: 0,
+     why: 'Allt som ligger i ett publikt repo eller skickas till webbläsaren kan läsas av vem som helst. Botar söker igenom GitHub efter nycklar inom minuter.'},
+    {q: 'Vad är modellens kontextfönster?',
+     options: ['Fönstret där du skriver din prompt', 'Hur länge modellen minns dig mellan dagar', 'Hur mycket text modellen kan ha framför sig på en gång', 'Antalet frågor du får ställa per dag'],
+     answer: 2,
+     why: 'Allt i samtalet, filerna och svaren delar på samma utrymme. När det tar slut måste något sammanfattas eller släppas.'},
+    {q: 'Hur vet du bäst att kod som AI:n skrivit fungerar?',
+     options: ['AI:n säger att den fungerar', 'Koden ser proffsig ut', 'Den har många kommentarer', 'Du kör den och testar, gärna med ett automatiskt test'],
+     answer: 3,
+     why: 'Att AI:n säger "klart" är ett påstående, inte ett bevis. Det enda som räknas är att koden faktiskt körts och gjort rätt sak.'},
+    {q: 'Vad kan en kodagent som Claude Code göra som en vanlig chatt inte kan?',
+     options: ['Svara på frågor om kod', 'Läsa dina filer, köra kommandon och ändra direkt i projektet', 'Förklara felmeddelanden', 'Skriva kod på flera språk'],
+     answer: 1,
+     why: 'Agenten arbetar i ditt projekt i stället för att du kopierar fram och tillbaka. Det är kraftfullt, och därför är git viktigt: varje ändring ska gå att backa.'},
+  ]},
+  {title: 'Terminalkommandon', intro: 'Para ihop kommandot med vad det gör. Tre omgångar, 18 kommandon.', steps: [
+    {title: 'Hitta runt bland filer', pairs: [
+      ['pwd', 'Visar vilken mapp du står i'],
+      ['ls', 'Listar filerna i mappen'],
+      ['cd', 'Byter till en annan mapp'],
+      ['mkdir', 'Skapar en ny mapp'],
+      ['cp', 'Kopierar en fil'],
+      ['mv', 'Flyttar en fil eller byter namn på den'],
+    ]},
+    {title: 'Läsa, skriva och söka', pairs: [
+      ['cat', 'Skriver ut hela innehållet i en fil'],
+      ['touch', 'Skapar en tom fil'],
+      ['echo', 'Skriver ut den text du ger den'],
+      ['grep', 'Söker efter en text inuti filer'],
+      ['find', 'Letar upp filer efter namn'],
+      ['rm', 'Raderar en fil, utan papperskorg'],
+    ]},
+    {title: 'Nätverk och verktyg', pairs: [
+      ['curl', 'Hämtar en webbadress direkt i terminalen'],
+      ['ssh', 'Loggar in på en annan dator via nätet'],
+      ['git', 'Sparar versioner av koden så att du kan backa'],
+      ['npm', 'Installerar JavaScript-paket'],
+      ['sudo', 'Kör ett kommando som administratör'],
+      ['man', 'Visar manualen för ett kommando'],
+    ]},
+  ]},
+  {title: 'Programspråk', intro: 'Vad används olika språk till? Två omgångar.', steps: [
+    {title: 'Webben och data', pairs: [
+      ['HTML', 'Bygger upp innehållet på en webbsida'],
+      ['CSS', 'Styr hur webbsidan ser ut'],
+      ['JavaScript', 'Gör webbsidan interaktiv i webbläsaren'],
+      ['TypeScript', 'JavaScript med typer som fångar fel innan koden körs'],
+      ['SQL', 'Hämtar och ändrar data i en databas'],
+      ['Python', 'Populärt för AI, dataanalys och små skript'],
+    ]},
+    {title: 'Appar och system', pairs: [
+      ['Swift', 'Appar till iPhone och Mac'],
+      ['Kotlin', 'Appar till Android'],
+      ['PHP', 'Bygger webbsidor på servern, till exempel WordPress'],
+      ['Go', 'Snabba servrar och nätverkstjänster'],
+      ['Rust', 'Snabbt och minnessäkert, för systemprogram'],
+      ['Bash', 'Automatiserar kommandon i terminalen'],
+    ]},
+  ]},
+  {title: 'Backend', intro: 'Det som händer bakom sidan: servrar, databaser och API:er.', steps: [
+    {title: 'Byggstenarna', pairs: [
+      ['Databas', 'Sparar data så att den finns kvar'],
+      ['API', 'Dörren som appen hämtar och skickar data genom'],
+      ['Serverless', 'Kod som bara körs när någon anropar den, ingen server att sköta'],
+      ['VPS', 'En hel dator i molnet som du själv sköter'],
+      ['CDN', 'Kopior av filerna nära användaren, så sidan laddar snabbt'],
+      ['Statisk hosting', 'Färdiga filer utan backend, som den här sidan'],
+    ]},
+    {q: 'Du gör en sida med bara text och bilder som du uppdaterar själv. Behöver den en backend?',
+     options: ['Ja, alla sidor behöver en server med databas', 'Nej, statisk hosting räcker', 'Ja, annars syns den inte på Google', 'Bara om den har fler än tio sidor'],
+     answer: 1,
+     why: 'Utan inloggning, formulär eller data som ändras finns inget för en backend att göra. Färre delar betyder mindre som kan gå sönder eller hackas.'},
+    {q: 'Var måste ett lösenord kontrolleras när någon loggar in?',
+     options: ['I webbläsaren, med JavaScript', 'I backend, på servern', 'Det spelar ingen roll', 'I HTML-koden'],
+     answer: 1,
+     why: 'Allt som körs i webbläsaren kan användaren läsa och ändra. Kontrollen måste ske där användaren inte kommer åt koden.'},
+  ]},
+];
+
+// Avgör rubrik och text på resultatsidan utifrån hur många poäng man fick.
+// Returnerar {title, text}.
+function resultText(score, total) {
+  // TODO: Patrik skriver logiken här (se förklaringen i chatten).
+  return {title: `${score} av ${total}`, text: ''};
+}
+
+const $ = id => document.getElementById(id);
+const points = s => s.pairs ? s.pairs.length : 1;
+const MIXED = {title: 'Blandat', intro: 'Åtta slumpade delar ur alla quiz, ny mix varje gång.', mix: 8};
+let chosen, quiz, step, score;
+
+function shuffle(list) {
+  const a = [...list];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function button(text, onclick) {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.textContent = text;
+  b.onclick = onclick;
+  return b;
+}
+
+function showOnly(id) {
+  for (const s of ['menu', 'quiz', 'result']) $(s).hidden = s !== id;
+}
+
+function start(q) {
+  chosen = q;
+  quiz = q.mix ? {title: q.title, steps: shuffle(QUIZZES.flatMap(x => x.steps)).slice(0, q.mix)} : q;
+  step = score = 0;
+  showOnly('quiz');
+  render();
+}
+
+function render() {
+  const s = quiz.steps[step];
+  $('progress').textContent = `${quiz.title} · del ${step + 1} av ${quiz.steps.length}`;
+  $('question').textContent = s.q || s.title;
+  $('hint').hidden = !s.pairs;
+  $('feedback').hidden = $('next').hidden = true;
+  (s.pairs ? renderMatch : renderChoice)(s);
+  $('question').focus();
+}
+
+function renderChoice({options, answer, why}) {
+  const list = document.createElement('div');
+  list.className = 'options';
+  list.append(...options.map((text, n) => button(text, () => {
+    const buttons = [...list.children];
+    buttons.forEach(b => b.disabled = true);
+    buttons[answer].classList.add('ok');
+    if (n === answer) score++; else buttons[n].classList.add('bad');
+    done(n === answer ? 'Rätt!' : `Inte riktigt. Rätt svar: ${options[answer]}`, why);
+  })));
+  $('answers').replaceChildren(list);
+}
+
+function renderMatch({pairs}) {
+  let picked = {};
+  const missed = new Set();
+  let matched = 0;
+
+  function pick(side, i, b) {
+    picked[side]?.b.setAttribute('aria-pressed', 'false');
+    picked[side] = {i, b};
+    b.setAttribute('aria-pressed', 'true');
+    if (!picked.term || !picked.desc) return;
+    const {term, desc} = picked;
+    picked = {};
+    term.b.setAttribute('aria-pressed', 'false');
+    desc.b.setAttribute('aria-pressed', 'false');
+    if (term.i === desc.i) {
+      for (const x of [term.b, desc.b]) { x.classList.add('ok'); x.disabled = true; }
+      if (!missed.has(term.i)) score++;
+      if (++matched === pairs.length) {
+        const firstTry = pairs.length - missed.size;
+        done(`Klart! ${firstTry} av ${pairs.length} rätt på första försöket.`, '');
+      }
+    } else {
+      missed.add(term.i);
+      for (const x of [term.b, desc.b]) {
+        x.classList.add('bad');
+        setTimeout(() => x.classList.remove('bad'), 700);
+      }
+    }
+  }
+
+  const column = (cls, items) => {
+    const col = document.createElement('div');
+    col.className = `options ${cls}`;
+    col.append(...items);
+    return col;
+  };
+  const terms = pairs.map(([term], i) => button(term, function () { pick('term', i, this); }));
+  const descs = shuffle(pairs.map(([, desc], i) => button(desc, function () { pick('desc', i, this); })));
+  const grid = document.createElement('div');
+  grid.className = 'match';
+  grid.append(column('terms', terms), column('descs', descs));
+  $('answers').replaceChildren(grid);
+}
+
+function done(verdict, explain) {
+  $('verdict').textContent = verdict;
+  $('explain').textContent = explain;
+  $('explain').hidden = !explain;
+  $('feedback').hidden = $('next').hidden = false;
+  $('next').textContent = step === quiz.steps.length - 1 ? 'Se resultat' : 'Nästa';
+  $('next').focus();
+}
+
+$('next').onclick = () => {
+  if (++step < quiz.steps.length) return render();
+  const total = quiz.steps.reduce((sum, s) => sum + points(s), 0);
+  const {title, text} = resultText(score, total);
+  $('result-quiz').textContent = quiz.title;
+  $('score').textContent = `${score}/${total}`;
+  $('result-title').textContent = title;
+  $('result-text').textContent = text;
+  showOnly('result');
+  $('restart').focus();
+};
+$('restart').onclick = () => start(chosen);
+$('to-menu').onclick = () => showOnly('menu');
+
+$('quiz-list').append(...[...QUIZZES, MIXED].map(q => {
+  const b = button('', () => start(q));
+  const title = document.createElement('strong');
+  const meta = document.createElement('span');
+  title.textContent = q.title;
+  meta.textContent = q.mix ? q.intro : `${q.intro} ${q.steps.reduce((sum, s) => sum + points(s), 0)} poäng.`;
+  b.append(title, meta);
+  return b;
+}));
+$('question').tabIndex = -1;
+</script>
+</body>
+</html>

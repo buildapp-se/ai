@@ -13,6 +13,14 @@
 
 - [ ] Fler resurser i den kurerade listan.
 
+## Quiz (`quiz.html`)
+
+- [ ] `resultText()` i `quiz.html`: rubrik och text på resultatsidan efter poäng (Patrik skriver).
+- [ ] Länka quizet från `index.html` (topbar eller footer) när det är klart att visas.
+- [ ] Pedagogisk förklaring per felval: varför just det svaret är fel, inte bara vad som är rätt. Para ihop-delarna saknar förklaring helt i dag.
+- [ ] Illustrationer till frågorna (till exempel hur en token delar upp ett ord, eller hur frontend, API och databas hänger ihop).
+- [ ] Engelsk version, som resten av sidan (`data-sv`-mönstret).
+
 ## Granskning 2026-10-06
 
 Fynd från den automatiska sviten (aifabriken `tools/audit-suite.ts`: headers, npm audit, secrets, Actions, markup, axe). Mätvärdena står som `(automated)`-rader under `## Audits` i CONTEXT.md.

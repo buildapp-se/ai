@@ -15,7 +15,10 @@ saker byggs, inte vara en uttömmande katalog.
   quizets `quiz-mastered` och `quiz-results` (senaste och bästa resultat per
   quiz). En ny nyckel kräver att `integritet.html` uppdateras.
   Ikonerna (`logo.png`, `favicon.svg`) ligger i repot sedan 2026-09-16; fram
-  till dess hotlinkades de från orgutveckling.se, vilket motsade policyn.
+  till dess hotlinkades de från orgutveckling.se, vilket motsade policyn. Sedan
+  2026-10-16 är de sidans egna: terminalprompt `>_` på violett `--p1`.
+  `logo.png` (512 px) är renderad från `favicon.svg`; ändras den ena, rendera om
+  den andra.
 - Workern `orgutveckling-votes` (röstning, förslag, moderering, borttagna ur
   sidan 2026-08-27) **avvecklades 2026-09-16**: skriptet och KV-namnrymden
   `VOTES` raderade i Cloudflare, `worker/` borttagen ur repot. KV innehöll 25

@@ -52,6 +52,11 @@ p{margin-top:.8rem;color:var(--secondary)}
 .feedback{margin-top:1.2rem;padding:1rem;border-radius:10px;background:var(--bg)}
 .feedback strong{display:block;color:var(--fg)}
 .feedback p{margin-top:.3rem}
+.feedback #note{color:var(--fg)}
+.feedback #note:not([hidden]) + #explain{margin-top:.7rem}
+.feedback ul{list-style:none;margin-top:.6rem;color:var(--secondary)}
+.feedback li{padding:.35rem 0;border-top:1px solid var(--tertiary)}
+.feedback code{font-family:var(--mono);font-weight:700;color:var(--fg)}
 .next{font:inherit;font-weight:600;cursor:pointer;margin-top:1.4rem;padding:.7rem 1.4rem;min-height:44px;
   background:var(--primary);color:#fff;border:0;border-radius:var(--radius-btn)}
 .next:hover{filter:brightness(1.1)}
@@ -78,7 +83,9 @@ p{margin-top:.8rem;color:var(--secondary)}
       <div id="answers"></div>
       <div class="feedback" id="feedback" aria-live="polite" hidden>
         <strong id="verdict"></strong>
+        <p id="note" hidden></p>
         <p id="explain"></p>
+        <ul id="names" hidden></ul>
       </div>
       <button class="next" id="next" type="button" hidden>Nästa</button>
     </section>
@@ -95,68 +102,109 @@ p{margin-top:.8rem;color:var(--secondary)}
 </div>
 
 <script>
-// Två sorters steg. Flerval: {q, options, answer, why}, där answer är index i options.
-// Para ihop: {title, pairs: [[begrepp, förklaring], ...]}, förklaringarna blandas vid visning.
+// Två sorters steg. Flerval: {q, options, answer, notes, why}, där answer är index i options,
+// notes[i] förklarar varför alternativ i är fel (null för rätt svar) och why förklarar det rätta.
+// Para ihop: {title, pairs: [[begrepp, förklaring, vad namnet betyder?], ...]}, förklaringarna blandas vid visning.
 // Poäng: 1 per flervalsfråga, 1 per par som blir rätt på första försöket.
 const QUIZZES = [
   {title: 'Grunder om AI', intro: 'Hur språkmodeller fungerar och hur du bygger säkert med dem.', steps: [
     {q: 'Vad gör en språkmodell (LLM) egentligen när den svarar dig?',
      options: ['Slår upp färdiga svar i en databas', 'Söker på internet och sammanfattar', 'Räknar ut vilken text som mest sannolikt kommer härnäst', 'Kör koden den skriver för att se att den fungerar'],
      answer: 2,
+     notes: [
+       "Det finns ingen databas med färdiga svar. Modellen har lärt sig mönster ur text och skriver ett nytt svar varje gång, därför kan samma fråga ge olika svar.",
+       "Själva modellen söker inte. Vissa tjänster kopplar på en sökfunktion, men modellen skriver utifrån det den lärde sig när den tränades.",
+       null,
+       "En språkmodell kör ingenting själv, den skriver bara text. Det är verktyg runt omkring, som en kodagent, som kan köra koden."],
      why: 'Modellen förutsäger nästa bit text, gång på gång. Den har inget facit att slå upp i, och därför kan den låta säker även när den har fel.'},
     {q: 'Vad är en token?',
      options: ['En bit text, ofta en del av ett ord', 'Ett lösenord till AI-tjänsten', 'En kryptovaluta som betalar för AI', 'En rad kod'],
      answer: 0,
+     notes: [
+       null,
+       "Det du tänker på är en API-nyckel. Ordet token används för båda, men i en språkmodell betyder det en bit text.",
+       "Kryptotokens är något helt annat. Ordet betyder bara \"enhet\" eller \"bit\".",
+       "En rad kod består oftast av många tokens. En token är mindre än så, ofta en del av ett ord."],
      why: 'Modeller läser och skriver i tokens. Ett vanligt ord kan vara en token, ett ovanligt kan delas i flera. Pris och gränser räknas i tokens.'},
     {q: 'Vad betyder det att en modell "hallucinerar"?',
      options: ['Den vägrar svara', 'Den hittar på något som låter rimligt men är fel', 'Den blir långsam av för mycket text', 'Den svarar på fel språk'],
      answer: 1,
+     notes: [
+       "Att vägra svara är nästan motsatsen: då säger modellen ingenting. En hallucination är ett svar som låter säkert men är fel.",
+       null,
+       "Långsamhet är en annan sak. En hallucination handlar om innehållet, inte farten.",
+       "Fel språk märks direkt. Hallucinationer är farligare just för att de ser rätt ut."],
      why: 'Påhittade funktioner, källor eller paketnamn är vanliga exempel. Det är inte en bugg som går att stänga av, utan en följd av hur modellen fungerar.'},
     {q: 'AI:n föreslår att du installerar ett paket du aldrig hört talas om. Vad gör du?',
      options: ['Installerar direkt, AI:n vet bäst', 'Ber AI:n bekräfta att paketet är säkert', 'Struntar i det och skriver allt själv', 'Kollar att paketet finns, är det du tror och används av andra'],
      answer: 3,
+     notes: [
+       "Modellen kan hitta på paketnamn, och angripare registrerar just sådana namn med skadlig kod. Installerar du blint kan du släppa in den.",
+       "Om AI:n hittade på namnet kan den lika gärna hitta på att paketet är säkert. Kolla själv i registret, till exempel på npmjs.com.",
+       "Paket är inget fel i sig, de sparar massor av arbete. Poängen är att kolla dem, inte att undvika dem.",
+       null],
      why: 'Modeller hittar ibland på paketnamn, och angripare registrerar sådana namn med skadlig kod. Att fråga AI:n igen hjälper inte: den kan hallucinera en gång till.'},
     {q: 'Var ska en API-nyckel ligga?',
      options: ['I en miljövariabel eller hemlighetshanterare, aldrig i koden du pushar', 'Direkt i JavaScript-filen, då hittar man den lätt', 'I en kommentar högst upp i filen', 'I README så att teamet ser den'],
      answer: 0,
+     notes: [
+       null,
+       "Allt i JavaScript-filer skickas till besökarens webbläsare. Vem som helst kan öppna utvecklarverktygen och läsa nyckeln.",
+       "En kommentar ligger kvar i filen och följer med när du pushar. Den är lika synlig som koden.",
+       "README är ofta det första folk läser i ett repo. Är repot publikt är nyckeln det också."],
      why: 'Allt som ligger i ett publikt repo eller skickas till webbläsaren kan läsas av vem som helst. Botar söker igenom GitHub efter nycklar inom minuter.'},
     {q: 'Vad är modellens kontextfönster?',
      options: ['Fönstret där du skriver din prompt', 'Hur länge modellen minns dig mellan dagar', 'Hur mycket text modellen kan ha framför sig på en gång', 'Antalet frågor du får ställa per dag'],
      answer: 2,
+     notes: [
+       "Namnet låter så, men det handlar inte om rutan på skärmen. Det är hur mycket text modellen kan hålla framför sig samtidigt.",
+       "Modellen minns inget mellan samtal av sig själv. Kontextfönstret gäller bara det pågående samtalet.",
+       null,
+       "Det är en gräns som tjänsten sätter, inte en egenskap hos modellen."],
      why: 'Allt i samtalet, filerna och svaren delar på samma utrymme. När det tar slut måste något sammanfattas eller släppas.'},
     {q: 'Hur vet du bäst att kod som AI:n skrivit fungerar?',
      options: ['AI:n säger att den fungerar', 'Koden ser proffsig ut', 'Den har många kommentarer', 'Du kör den och testar, gärna med ett automatiskt test'],
      answer: 3,
+     notes: [
+       "Modellen kan säga \"klart\" om kod som aldrig har körts. Det är ett påstående, inte ett bevis.",
+       "Kod kan se perfekt ut och ändå göra fel sak. Utseendet säger inget om vad den gör.",
+       "Kommentarer beskriver vad koden ska göra, inte vad den faktiskt gör. De kan vara fel.",
+       null],
      why: 'Att AI:n säger "klart" är ett påstående, inte ett bevis. Det enda som räknas är att koden faktiskt körts och gjort rätt sak.'},
     {q: 'Vad kan en kodagent som Claude Code göra som en vanlig chatt inte kan?',
      options: ['Svara på frågor om kod', 'Läsa dina filer, köra kommandon och ändra direkt i projektet', 'Förklara felmeddelanden', 'Skriva kod på flera språk'],
      answer: 1,
+     notes: [
+       "Det gör en vanlig chatt också. Skillnaden är att agenten kan agera direkt i ditt projekt.",
+       null,
+       "Det klarar en vanlig chatt också, om du klistrar in felet.",
+       "Chattar skriver också kod i många språk. Det nya är att agenten själv kan läsa, köra och ändra."],
      why: 'Agenten arbetar i ditt projekt i stället för att du kopierar fram och tillbaka. Det är kraftfullt, och därför är git viktigt: varje ändring ska gå att backa.'},
   ]},
   {title: 'Terminalkommandon', intro: 'Para ihop kommandot med vad det gör. Tre omgångar, 18 kommandon.', steps: [
     {title: 'Hitta runt bland filer', pairs: [
-      ['pwd', 'Visar vilken mapp du står i'],
-      ['ls', 'Listar filerna i mappen'],
-      ['cd', 'Byter till en annan mapp'],
-      ['mkdir', 'Skapar en ny mapp'],
-      ['cp', 'Kopierar en fil'],
-      ['mv', 'Flyttar en fil eller byter namn på den'],
+      ['pwd', 'Visar vilken mapp du står i', 'print working directory'],
+      ['ls', 'Listar filerna i mappen', 'list'],
+      ['cd', 'Byter till en annan mapp', 'change directory'],
+      ['mkdir', 'Skapar en ny mapp', 'make directory'],
+      ['cp', 'Kopierar en fil', 'copy'],
+      ['mv', 'Flyttar en fil eller byter namn på den', 'move'],
     ]},
     {title: 'Läsa, skriva och söka', pairs: [
-      ['cat', 'Skriver ut hela innehållet i en fil'],
-      ['touch', 'Skapar en tom fil'],
-      ['echo', 'Skriver ut den text du ger den'],
-      ['grep', 'Söker efter en text inuti filer'],
-      ['find', 'Letar upp filer efter namn'],
-      ['rm', 'Raderar en fil, utan papperskorg'],
+      ['cat', 'Skriver ut hela innehållet i en fil', 'concatenate, att foga ihop: den kan slå ihop flera filer till en'],
+      ['touch', 'Skapar en tom fil', 'ingen förkortning: "röra vid", den uppdaterar filens tidsstämpel och skapar filen om den saknas'],
+      ['echo', 'Skriver ut den text du ger den', 'ingen förkortning: ett eko av det du skriver'],
+      ['grep', 'Söker efter en text inuti filer', 'global regular expression print, från kommandot g/re/p i den gamla editorn ed'],
+      ['find', 'Letar upp filer efter namn', 'ingen förkortning: "hitta"'],
+      ['rm', 'Raderar en fil, utan papperskorg', 'remove'],
     ]},
     {title: 'Nätverk och verktyg', pairs: [
-      ['curl', 'Hämtar en webbadress direkt i terminalen'],
-      ['ssh', 'Loggar in på en annan dator via nätet'],
-      ['git', 'Sparar versioner av koden så att du kan backa'],
-      ['npm', 'Installerar JavaScript-paket'],
-      ['sudo', 'Kör ett kommando som administratör'],
-      ['man', 'Visar manualen för ett kommando'],
+      ['curl', 'Hämtar en webbadress direkt i terminalen', 'client for URLs, och en ordlek med "see URL"'],
+      ['ssh', 'Loggar in på en annan dator via nätet', 'secure shell'],
+      ['git', 'Sparar versioner av koden så att du kan backa', 'ingen förkortning: brittisk slang för "dumskalle", Linus Torvalds skämtade att han döper projekt efter sig själv'],
+      ['npm', 'Installerar JavaScript-paket', 'Node Package Manager, fast projektet säger numera att det inte är en förkortning'],
+      ['sudo', 'Kör ett kommando som administratör', 'superuser do, "gör som superanvändare"'],
+      ['man', 'Visar manualen för ett kommando', 'manual'],
     ]},
   ]},
   {title: 'Programspråk', intro: 'Vad används olika språk till? Två omgångar.', steps: [
@@ -189,10 +237,20 @@ const QUIZZES = [
     {q: 'Du gör en sida med bara text och bilder som du uppdaterar själv. Behöver den en backend?',
      options: ['Ja, alla sidor behöver en server med databas', 'Nej, statisk hosting räcker', 'Ja, annars syns den inte på Google', 'Bara om den har fler än tio sidor'],
      answer: 1,
+     notes: [
+       "Den här sidan har ingen backend alls. Server och databas behövs först när något ska sparas eller räknas ut åt besökaren.",
+       null,
+       "Google läser statiska sidor utmärkt. Det är innehållet som avgör, inte om det finns en server.",
+       "Antalet sidor spelar ingen roll. En statisk sajt kan ha tusentals sidor."],
      why: 'Utan inloggning, formulär eller data som ändras finns inget för en backend att göra. Färre delar betyder mindre som kan gå sönder eller hackas.'},
     {q: 'Var måste ett lösenord kontrolleras när någon loggar in?',
      options: ['I webbläsaren, med JavaScript', 'I backend, på servern', 'Det spelar ingen roll', 'I HTML-koden'],
      answer: 1,
+     notes: [
+       "Allt i webbläsaren kan användaren läsa och ändra. Den som vill kan hoppa över kontrollen helt.",
+       null,
+       "Det spelar stor roll. En kontroll som användaren kan stänga av skyddar ingenting.",
+       "HTML skickas likadant till alla besökare. Ett lösenord där kan vem som helst läsa."],
      why: 'Allt som körs i webbläsaren kan användaren läsa och ändra. Kontrollen måste ske där användaren inte kommer åt koden.'},
   ]},
 ];
@@ -248,7 +306,7 @@ function render() {
   $('question').focus();
 }
 
-function renderChoice({options, answer, why}) {
+function renderChoice({options, answer, notes, why}) {
   const list = document.createElement('div');
   list.className = 'options';
   list.append(...options.map((text, n) => button(text, () => {
@@ -256,7 +314,8 @@ function renderChoice({options, answer, why}) {
     buttons.forEach(b => b.disabled = true);
     buttons[answer].classList.add('ok');
     if (n === answer) score++; else buttons[n].classList.add('bad');
-    done(n === answer ? 'Rätt!' : `Inte riktigt. Rätt svar: ${options[answer]}`, why);
+    if (n === answer) done('Rätt!', {explain: why});
+    else done('Inte riktigt.', {note: notes[n], explain: `Rätt svar: ${options[answer]}. ${why}`});
   })));
   $('answers').replaceChildren(list);
 }
@@ -280,7 +339,8 @@ function renderMatch({pairs}) {
       if (!missed.has(term.i)) score++;
       if (++matched === pairs.length) {
         const firstTry = pairs.length - missed.size;
-        done(`Klart! ${firstTry} av ${pairs.length} rätt på första försöket.`, '');
+        done(`Klart! ${firstTry} av ${pairs.length} rätt på första försöket.`,
+          {names: pairs.filter(p => p[2]).map(([term, , name]) => [term, name])});
       }
     } else {
       missed.add(term.i);
@@ -305,7 +365,19 @@ function renderMatch({pairs}) {
   $('answers').replaceChildren(grid);
 }
 
-function done(verdict, explain) {
+// note: varför det valda svaret var fel. explain: det rätta svaret och varför.
+// names: lista [[begrepp, vad namnet betyder], ...] efter en para ihop-omgång.
+function done(verdict, {note = '', explain = '', names = []} = {}) {
+  $('note').textContent = note;
+  $('note').hidden = !note;
+  $('names').hidden = !names.length;
+  $('names').replaceChildren(...names.map(([term, name]) => {
+    const li = document.createElement('li');
+    const code = document.createElement('code');
+    code.textContent = term;
+    li.append(code, `: ${name}`);
+    return li;
+  }));
   $('verdict').textContent = verdict;
   $('explain').textContent = explain;
   $('explain').hidden = !explain;

@@ -17,7 +17,9 @@
 
 - [ ] `resultText()` i `quiz.html`: rubrik och text på resultatsidan efter poäng (Patrik skriver).
 - [ ] Länka quizet från `index.html` (topbar eller footer) när det är klart att visas.
-- [ ] Pedagogisk förklaring per felval: varför just det svaret är fel, inte bara vad som är rätt. Para ihop-delarna saknar förklaring helt i dag.
+- [x] Pedagogisk förklaring per felval i flervalsfrågorna (`notes`). Gjort 2026-10-16.
+- [x] Terminalkommandonas namn (`cd` = change directory) visas efter varje omgång. Gjort 2026-10-16.
+- [ ] Programspråk och backend: para ihop-delarna saknar förklaring efter omgången. Förkortningar som HTML, CSS, SQL, API, CDN och VPS kan få samma namnlista som kommandona (tredje fältet i paret).
 - [ ] Illustrationer till frågorna (till exempel hur en token delar upp ett ord, eller hur frontend, API och databas hänger ihop).
 - [ ] Engelsk version, som resten av sidan (`data-sv`-mönstret).
 

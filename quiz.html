@@ -275,7 +275,8 @@ const QUIZZES = [
   ]},
   // Ordkort som i Quizlet: [ord, betydelse]. Felsvaren hämtas ur de andra ordens betydelser,
   // och ett ord man svarar fel på läggs sist i högen tills man klarar det.
-  {title: 'Tekniska ord', intro: 'Tre val per ord. Svarar du fel kommer ordet tillbaka sist i högen, tills du kan alla.', words: [
+  // round: antal ord per runda. Ord man inte klarat än väljs först, se start().
+  {title: 'Tekniska ord', round: 20, intro: '20 ord per runda, tre val per ord. Svarar du fel kommer ordet tillbaka sist i högen. Ord du kan sparas, så nästa runda tar nya.', words: [
     ['API', 'Ett sätt för program att prata med varandra'],
     ['Frontend', 'Den del av appen som syns och körs hos användaren'],
     ['Backend', 'Den del av appen som körs på servern, bakom kulisserna'],
@@ -296,6 +297,46 @@ const QUIZZES = [
     ['DNS', 'Telefonkatalogen som översätter ett domännamn till en serveradress'],
     ['Cache', 'En sparad kopia som gör att något går snabbare nästa gång'],
     ['Miljövariabel', 'Ett värde som sätts utanför koden, till exempel en hemlig nyckel'],
+    ['Server', 'En dator som står på och svarar på förfrågningar från andra datorer'],
+    ['Klient', 'Programmet som skickar förfrågningar till en server, till exempel din webbläsare'],
+    ['HTTP', 'Reglerna för hur webbläsare och servrar skickar sidor och data till varandra'],
+    ['HTTPS', 'Krypterad trafik mellan webbläsare och server, syns som ett hänglås i adressfältet'],
+    ['URL', 'Den fullständiga adressen till en sida eller fil på nätet'],
+    ['Domän', 'Namnet på en webbplats, till exempel buildapp.se'],
+    ['Hosting', 'Att hyra plats på en server där din sajt eller app ligger ute'],
+    ['Endpoint', 'En specifik adress i ett API som gör en viss sak'],
+    ['Request', 'Ett meddelande där klienten ber servern om något'],
+    ['Response', 'Serverns svar tillbaka till den som frågade'],
+    ['Statuskod', 'Ett tresiffrigt tal som berättar hur det gick, till exempel 404'],
+    ['Autentisering', 'Att kontrollera vem någon är, till exempel med lösenord'],
+    ['Auktorisering', 'Att avgöra vad någon som är inloggad får göra'],
+    ['Kryptering', 'Att göra om data så att bara den med rätt nyckel kan läsa den'],
+    ['Hash', 'Ett fingeravtryck av data som inte går att räkna tillbaka, används för att lagra lösenord'],
+    ['Cookie', 'En liten textbit som webbplatsen sparar i webbläsaren, till exempel för att hålla dig inloggad'],
+    ['Loop', 'Kod som upprepas, till exempel en gång för varje sak i en lista'],
+    ['Villkor (if)', 'Kod som bara körs om något är sant'],
+    ['Array', 'Flera värden i ordning under ett och samma namn'],
+    ['Objekt', 'Ett paket med namngivna värden som hör ihop, till exempel namn och ålder'],
+    ['Sträng', 'Text i kod, skriven inom citattecken'],
+    ['Boolean', 'Ett värde som bara kan vara sant eller falskt'],
+    ['Syntax', 'Språkets grammatik: reglerna för hur koden måste skrivas'],
+    ['Kompilator', 'Ett program som översätter koden till något datorn kan köra, innan den körs'],
+    ['Debugga', 'Att leta upp och rätta fel i koden'],
+    ['Refaktorera', 'Att skriva om koden så att den blir tydligare, utan att ändra vad den gör'],
+    ['Test', 'Kod som kontrollerar att annan kod gör rätt'],
+    ['Open source', 'Kod som vem som helst får läsa, använda och ändra'],
+    ['Terminal', 'Ett fönster där du styr datorn genom att skriva kommandon'],
+    ['Kodeditor', 'Programmet där du skriver kod, till exempel VS Code'],
+    ['Clone', 'Att hämta en egen kopia av ett repo till din dator'],
+    ['Push', 'Att skicka dina commits från datorn upp till till exempel GitHub'],
+    ['Pull', 'Att hämta de senaste ändringarna från till exempel GitHub ner till din dator'],
+    ['Merge-konflikt', 'När två ändringar krockar på samma rad och någon måste välja'],
+    ['CI', 'Automatiska kontroller som körs varje gång någon skickar upp kod'],
+    ['Produktion', 'Den skarpa versionen som riktiga användare använder'],
+    ['Prompt', 'Instruktionen eller frågan du ger en AI-modell'],
+    ['LLM', 'En stor språkmodell, AI:n bakom chattar som Claude'],
+    ['Agent', 'En AI som själv kan ta flera steg, till exempel läsa filer och köra kommandon'],
+    ['Kontextfönster', 'Hur mycket text en AI-modell kan ha framför sig samtidigt'],
   ]},
 ];
 
@@ -310,6 +351,22 @@ const $ = id => document.getElementById(id);
 // En upprepning av ett ord man svarat fel på ger inga poäng och räknas inte i totalen.
 const points = s => s.retry ? 0 : s.pairs ? s.pairs.length : 1;
 const MIXED = {title: 'Blandat', intro: 'Åtta slumpade delar ur alla quiz, ny mix varje gång.', mix: 8};
+
+// Ord man klarat på första försöket sparas i webbläsaren (nyckeln står i integritet.html).
+// ponytail: utan lagring (privat läge, blockerad) räknas alla ord som nya, quizet fungerar ändå.
+const STORE = 'quiz-mastered';
+function loadMastered() {
+  try { return new Set(JSON.parse(localStorage.getItem(STORE)) || []); } catch { return new Set(); }
+}
+function remember(term, knew) {
+  const m = loadMastered();
+  knew ? m.add(term) : m.delete(term);
+  try { localStorage.setItem(STORE, JSON.stringify([...m])); } catch {}
+}
+function masteredCount(q) {
+  const m = loadMastered();
+  return q.words.filter(w => m.has(w[0])).length;
+}
 let chosen, quiz, step, score;
 
 function shuffle(list) {
@@ -350,7 +407,12 @@ function wordStep(word, words) {
 function start(q) {
   chosen = q;
   if (q.mix) quiz = {title: q.title, steps: shuffle(QUIZZES.flatMap(x => x.steps || [])).slice(0, q.mix)};
-  else if (q.words) quiz = {title: q.title, words: q.words, steps: shuffle(q.words).map(w => wordStep(w, q.words))};
+  else if (q.words) {
+    // Okända ord först, sedan fylls rundan på med redan klarade. Felalternativen tas ur alla ord.
+    const m = loadMastered();
+    const order = [...shuffle(q.words.filter(w => !m.has(w[0]))), ...shuffle(q.words.filter(w => m.has(w[0])))];
+    quiz = {title: q.title, source: q, words: q.words, steps: order.slice(0, q.round).map(w => wordStep(w, q.words))};
+  }
   else quiz = q;
   step = score = 0;
   showOnly('quiz');
@@ -379,9 +441,11 @@ function renderChoice(s) {
     buttons[answer].classList.add('ok');
     if (n === answer) {
       if (!s.retry) score++;
+      if (s.word && !s.retry) remember(s.word[0], true);
       return done('Rätt!', {explain: why});
     }
     buttons[n].classList.add('bad');
+    if (s.word) remember(s.word[0], false);
     // Ordkort: samma ord sist i högen igen, med nya felalternativ och ny ordning.
     if (s.word) quiz.steps.push({...wordStep(s.word, quiz.words), retry: true});
     done(s.word ? 'Inte riktigt. Ordet kommer tillbaka längre fram.' : 'Inte riktigt.',
@@ -466,7 +530,9 @@ $('next').onclick = () => {
   if (++step < quiz.steps.length) return render();
   const total = quiz.steps.reduce((sum, s) => sum + points(s), 0);
   const {title, text} = resultText(score, total);
-  $('result-quiz').textContent = quiz.title;
+  $('result-quiz').textContent = quiz.source
+    ? `${quiz.title} · ${masteredCount(quiz.source)} av ${quiz.words.length} ord klarade totalt`
+    : quiz.title;
   $('score').textContent = `${score}/${total}`;
   $('result-title').textContent = title;
   $('result-text').textContent = text;
@@ -474,19 +540,23 @@ $('next').onclick = () => {
   $('restart').focus();
 };
 $('restart').onclick = () => start(chosen);
-$('to-menu').onclick = () => showOnly('menu');
+$('to-menu').onclick = () => { renderMenu(); showOnly('menu'); };
 
-$('quiz-list').append(...[...QUIZZES, MIXED].map(q => {
-  const b = button('', () => start(q));
-  const title = document.createElement('strong');
-  const meta = document.createElement('span');
-  title.textContent = q.title;
-  meta.textContent = q.mix ? q.intro
-    : q.words ? `${q.intro} ${q.words.length} ord.`
-    : `${q.intro} ${q.steps.reduce((sum, s) => sum + points(s), 0)} poäng.`;
-  b.append(title, meta);
-  return b;
-}));
+// Byggs om vid varje besök i menyn, så att antalet klarade ord stämmer.
+function renderMenu() {
+  $('quiz-list').replaceChildren(...[...QUIZZES, MIXED].map(q => {
+    const b = button('', () => start(q));
+    const title = document.createElement('strong');
+    const meta = document.createElement('span');
+    title.textContent = q.title;
+    meta.textContent = q.mix ? q.intro
+      : q.words ? `${q.intro} Du kan ${masteredCount(q)} av ${q.words.length} ord.`
+      : `${q.intro} ${q.steps.reduce((sum, s) => sum + points(s), 0)} poäng.`;
+    b.append(title, meta);
+    return b;
+  }));
+}
+renderMenu();
 $('question').tabIndex = -1;
 </script>
 </body>

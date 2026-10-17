@@ -482,9 +482,10 @@ function fill(task, pick, ps = false) {
   });
   const alts = a => (Array.isArray(a) ? a : [a]);
   const steps = Array.isArray(ans) && Array.isArray(ans[0]) ? ans.map(alts) : [alts(ans)];
-  // other: bash-svaret, som hjälpkortet visar under PowerShell-svaret
-  const first = a => (Array.isArray(a) && Array.isArray(a[0]) ? a.map(x => alts(x)[0]).join(' && ') : alts(a)[0]);
-  return {task, pack, lv, text: sub(text), why: sub(why), other: ps && psAns !== '=' ? sub(first(bashAns)) : null,
+  // other: svaret i det andra skalet, som hjälpkortet visar under ditt
+  const first = (a, sep) => (Array.isArray(a) && Array.isArray(a[0]) ? a.map(x => alts(x)[0]).join(sep) : alts(a)[0]);
+  const other = !psAns || psAns === '=' ? null : ps ? sub(first(bashAns, ' && ')) : sub(first(psAns, '; '));
+  return {task, pack, lv, text: sub(text), why: sub(why), other,
     steps: steps.map(s => s.map(x => { const raw = sub(x); return {raw, key: canon(tokenize(raw, ps), ps)}; }))};
 }
 
@@ -849,6 +850,7 @@ const rnd = a => a[Math.floor(Math.random() * a.length)];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
 const fmt = n => n.toLocaleString('sv-SE');
 const show = raw => raw.replace(ANY, '"meddelande"');
+const sig = () => S?.ps ? 'PS> ' : '$ '; // promptens tecken i hjälpkort och missade block
 
 // Alla kommandon spelet känner till, för bash: X: command not found
 const KNOWN = new Set(['ls', 'cd', 'echo', 'clear', 'exit', 'help', 'sudo', 'vim', 'nano', 'code', 'python', 'python3', 'node', 'man', 'history', 'whoami', 'date', 'open', 'less', 'claude', 'uniq', 'sort', 'jq']);
@@ -1054,7 +1056,7 @@ function land(b) {
   b.landed = true;
   b.order = ++S.seq;
   b.el.classList.add('landed');
-  b.el.querySelector('.ans').textContent = '$ ' + show(b.steps[b.step][0].raw);
+  b.el.querySelector('.ans').textContent = sig() + show(b.steps[b.step][0].raw);
   S.streak = 0;
   out(`# missat: ${show(b.steps[b.step][0].raw)}`, 'hot');
   sfx('land');
@@ -1190,7 +1192,7 @@ function run(raw) {
     const c0 = S.ps ? seg[0].toLowerCase() : seg[0];
     if (['clear', 'cls', 'clear-host'].includes(seg[0].toLowerCase()) && seg.length === 1) { clearCmd(); continue; }
     if (c0 === 'exit') { echo(raw, bad); return gameOver(); }
-    if (c0 === 'help') { msgs.push('# Skriv kommandot som blocket beskriver. && eller flera argument rensar flera block.\n# ↑ hämtar förra kommandot, Esc pausar, exit avslutar, clear tömmer brunnen om du har en laddning.'); continue; }
+    if (c0 === 'help') { msgs.push(`# Skriv kommandot som blocket beskriver. ${S.ps ? '; mellan kommandon' : '&& eller flera argument'} rensar flera block.\n# ↑ hämtar förra kommandot, Esc pausar, exit avslutar, ${S.ps ? 'cls' : 'clear'} tömmer brunnen om du har en laddning.`); continue; }
     for (const u of units(seg, S.ps)) {
       const key = canon(u, S.ps), b = target(key);
       // --help är aldrig fel: visa hjälpen som det riktiga kommandot gör
@@ -1394,8 +1396,8 @@ function help(b) {
   const step = b.steps[b.step];
   screen.innerHTML = `<p class="cmt"># ${esc(b.text)}</p>
     ${b.steps.length > 1 ? `<p class="dim">steg ${b.step + 1} av ${b.steps.length}</p>` : ''}
-    <p>$ ${esc(show(step[0].raw))}</p>
-    ${b.other ? `<p class="dim"># i bash: ${esc(show(b.other))}</p>` : ''}
+    <p>${sig()}${esc(show(step[0].raw))}</p>
+    ${b.other ? `<p class="dim"># i ${S.ps ? 'bash' : 'PowerShell'}: ${esc(show(b.other))}</p>` : ''}
     <dl class="parts">${parts(step[0].raw, S.ps).map(([p, d]) => `<dt>${esc(show(p))}</dt><dd>${esc(d || '')}</dd>`).join('')}</dl>
     ${step.length > 1 ? `<p class="dim">godkänns också: ${step.slice(1, 3).map(a => esc(show(a.raw))).join(' · ')}</p>` : ''}
     <p class="cmt"># ${esc(b.why)}</p>

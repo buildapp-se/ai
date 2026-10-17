@@ -54,6 +54,13 @@ saker byggs, inte vara en uttömmande katalog.
   under inställningar (kugghjulet eller Ctrl+,) och låses när rundan startar (`S.ps`).
   PowerShell rättas med alias (`PSALIAS`), skiftlägesokänsligt, förkortade och
   positionella parametrar (`PSPARAMS`, `PSPOS`) och ger PowerShells egna felmeddelanden.
+  Låtsasfilsystemet `WORLD` (hemmappen med `projekt/`, rundan börjar där) körs av `fake()`,
+  som tar rättningens kanoniska form och därför tjänar båda skalen. Fria kommandon och block
+  i Filer & mappar körs mot det; prompten följer mappen. Filer & mappar släpper ett block i
+  taget: ny mapp ger först "lista", sedan "kör programmet" om det finns ett, sedan "gå in".
+  Mallorden dras ur filsystemet (dolda namn aldrig, dem hittar man själv) och varje uppgift
+  provkörs på en kopia (`doable`), så blocket ber bara om det som går att göra där du står.
+  I PowerShell är bara `.git` och `.hemligt` dolda: på Windows döljer punkten i namnet ingenting.
   Testet
   som också kör varje svar i `TASKS` mot sig självt. Ljudet ligger i
   `terminal-ljud.js`; `?ljud=gemini` laddar `terminal-ljud-gemini.js` i stället, samma

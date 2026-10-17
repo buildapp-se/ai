@@ -194,6 +194,7 @@ const POOLS = {
   d: ['musik', 'bilder', 'recept', 'kvitton', 'skola', 'backup', 'demo', 'assets', 'docs', 'src', 'semester', 'spel'],
   f: ['notes.txt', 'todo.md', 'index.html', 'app.js', 'style.css', 'data.json', 'README.md', 'config.yml', 'main.py'],
   log: ['server.log', 'app.log', 'error.log'],
+  py: ['spel.py'], js: ['server.js'],
   b: ['dark-mode', 'fix-login', 'ny-meny', 'mobil-vy', 'kontaktsida'],
   repo: ['tradgard', 'receptbok', 'portfolio', 'spellista', 'budget'],
   msg: ['första versionen', 'fixa menyn', 'lägg till sök', 'rätta stavfel', 'ny startsida'],
@@ -214,6 +215,8 @@ const TASKS = [
   ['fs', 1, 'Lista filerna i mappen du står i', ['ls', 'ls .'], 'ls = list. Visar filer och mappar här.', ["Get-ChildItem", "Get-ChildItem ."], "ls, dir och gci är alla alias för Get-ChildItem."],
   ['fs', 1, 'Skapa en tom fil som heter {f}', 'touch {f}', 'touch skapar filen om den saknas, annars uppdateras bara tidsstämpeln.', ["New-Item {f}", "New-Item -ItemType File {f}"], "touch finns inte i PowerShell. New-Item skapar en tom fil."],
   ['fs', 1, 'Visa innehållet i {f}', 'cat {f}', 'cat = concatenate. Skriver ut filen, eller flera filer efter varandra.', "Get-Content {f}", "cat och type är alias för Get-Content."],
+  ['fs', 1, 'Kör spelet {py} med python', ['python {py}', 'python3 {py}'], 'python startar Python och kör filen. När programmet är klart får du tillbaka prompten.', 'python {py}', 'Samma i PowerShell. python är ett program, inte en cmdlet.'],
+  ['fs', 1, 'Starta servern {js} med node', 'node {js}', 'node kör JavaScript utanför webbläsaren. En server står sedan kvar och väntar på besök.', '='],
   ['fs', 1, 'Gå till din hemmapp', ['cd', 'cd ~'], '~ är din hemmapp. cd utan argument går också dit.', ["Set-Location ~", "Set-Location $HOME"], "~ och $HOME är din hemmapp. cd utan något efter fungerar bara i PowerShell 7."],
   ['fs', 2, 'Ta bort filen {f}', 'rm {f}', 'rm = remove. Det finns ingen papperskorg, filen är borta direkt.', "Remove-Item {f}", "rm och del är alias för Remove-Item. Ingen papperskorg här heller."],
   ['fs', 2, 'Byt namn på {f} till {f2}', 'mv {f} {f2}', 'mv = move. Att byta namn är att flytta filen till ett nytt namn.', ["Rename-Item {f} {f2}", "Move-Item {f} {f2}"], "Rename-Item byter namn. Move-Item och mv fungerar också."],
@@ -471,7 +474,7 @@ function fill(task, pick, ps = false) {
   const sub = s => s.replace(/\{(\w+?)(2?)\}/g, (m, k, two) => {
     if (!POOLS[k]) return m;
     const key = k + two, other = two ? k : k + '2';
-    if (!(key in v)) v[key] = pick(POOLS[k].filter(x => x !== v[other]));
+    if (!(key in v)) v[key] = pick(POOLS[k].filter(x => x !== v[other]), key);
     return v[key];
   });
   const alts = a => (Array.isArray(a) ? a : [a]);
@@ -569,7 +572,8 @@ Object.assign(GLOSS, {
   '$HOME': 'variabeln som pekar på din hemmapp', '$env:PORT': 'miljövariabeln PORT. $env: är där miljövariablerna bor', '=': 'tilldelning: det till vänster får värdet till höger',
   '$env:PORT 3000': 'värdet 3000', '$env:PORT=3000': 'miljövariabeln PORT får värdet 3000',
 });
-const POOLNAME = {d: 'namnet på mappen', f: 'namnet på filen', log: 'loggfilen', b: 'namnet på grenen', repo: 'namnet på repot', msg: 'meddelandet, i citattecken eftersom det har mellanslag',
+Object.assign(GLOSS, {python: 'programmet Python, som kör .py-filer', python3: 'Python 3. På Mac och Linux heter programmet ofta så'});
+const POOLNAME = {d: 'namnet på mappen', f: 'namnet på filen', log: 'loggfilen', py: 'Python-filen som körs', js: 'JavaScript-filen som körs', b: 'namnet på grenen', repo: 'namnet på repot', msg: 'meddelandet, i citattecken eftersom det har mellanslag',
   word: 'ordet du söker efter', user: 'användarnamnet på GitHub', pkg: 'paketet som installeras'};
 const POOLOF = Object.fromEntries(Object.entries(POOLS).flatMap(([k, vs]) => vs.map(v => [v, k])));
 const NUMS = {head: 'antal rader', tail: 'antal rader', kill: 'processens id, PID', 'Get-Content': 'antal rader', 'Select-Object': 'antal', 'Stop-Process': 'processens id, PID', 'Get-NetTCPConnection': 'portnumret'};
@@ -593,6 +597,7 @@ function parts(raw, ps = false) {
       d = ls.every(Boolean) ? ls.join('. ') : null;
     }
     else if (POOLOF[t]) d = POOLNAME[POOLOF[t]];
+    else if (FSKIND[t]) d = `${FSKIND[t]} ${t}`;
     else if (t.split('/').every(p => POOLOF[p])) d = t.split('/').map(p => `${POOLNAME[POOLOF[p]]} ${p}`).join(', sedan ');
     else if (t.startsWith('~/')) d = `~/ är din hemmapp, sedan ${t.slice(2)}`;
     else if (t.startsWith('$HOME/')) d = `$HOME är din hemmapp, sedan ${t.slice(6)}`;
@@ -603,6 +608,208 @@ function parts(raw, ps = false) {
     out.push([t, d || null]);
   }
   return out;
+}
+
+// ---------- låtsasfilsystemet ----------
+// En mapp är ett objekt, en fil en sträng. Roten är hemmappen ~, rundan börjar i ~/projekt.
+const LOGRADER = n => Array.from({length: n}, (_, i) => `2026-10-17 12:${String(i).padStart(2, '0')} ` +
+  (i % 7 === 6 ? 'ERROR kunde inte nå databasen' : `INFO GET /${['', 'om', 'spel', 'api/poang'][i % 4]} 200`)).join('\n');
+const WORLD = {
+  projekt: {
+    'README.md': '# projekt\nVälkommen! Titta runt med ls och cd.\nNågot ligger gömt här. Dolda mappar syns bara om du ber om dem.',
+    'notes.txt': 'köp mjölk\nlär dig terminalen\nring mormor',
+    'todo.md': '- [x] installera VS Code\n- [ ] lära mig git\n- [ ] bygga ett spel',
+    'app.log': LOGRADER(30),
+    'deploy.sh': '#!/bin/bash\necho "Bygger..."',
+    '.env': 'API_KEY=hunter2',
+    '.gitignore': 'node_modules\n.env',
+    '.git': {HEAD: 'ref: refs/heads/main'},
+    spel: {'spel.py': 'import random', 'highscore.txt': 'du        9 999\nClaude       42'},
+    server: {'server.js': "require('http').createServer().listen(3000)", 'server.log': LOGRADER(25)},
+    musik: {'lista.txt': 'Obsidian Hours\nSector Four Clearance\nThe Final Margin\nUnderneath The Surface'},
+    bilder: {},
+    '.hemligt': {'skatt.txt': '    ____________\n   /  $   $   $ \\\n  | du hittade   |\n  | skatten!     |\n   \\____________/\n# dolda mappar syns med ls -a, eller Get-ChildItem -Force'},
+  },
+  recept: {'pannkakor.txt': '3 ägg\n6 dl mjölk\n2,5 dl vetemjöl\n1 nypa salt'},
+  semester: {'packlista.txt': 'solkräm\nladdare\npass'},
+  skola: {}, backup: {},
+};
+// På Windows är en fil dold av en egenskap, inte av punkten i namnet. .env syns alltså utan -Force.
+const PSHIDDEN = new Set(['.git', '.hemligt']);
+const PROGS = {
+  'spel.py': 'Gissa talet mellan 1 och 10: 7\nRätt på första försöket. Misstänkt.',
+  'server.js': 'Servern lyssnar på http://localhost:3000\n# en riktig server står kvar tills du trycker Ctrl+C',
+  'deploy.sh': 'Bygger...\nLaddar upp till buildapp.se... klart, på låtsas',
+};
+const FSKIND = {};
+(function kinds(dir) { for (const [n, v] of Object.entries(dir)) { FSKIND[n] = typeof v === 'string' ? 'filen' : 'mappen'; if (typeof v !== 'string') kinds(v); } })(WORLD);
+
+const where = (at, ps) => ps ? ['C:\\Users\\du', ...at].join('\\') : ['/home/du', ...at].join('/');
+function resolve(cwd, p) {
+  const at = /^(~|\$home)([\\/]|$)/i.test(p) ? [] : [...cwd];
+  for (const x of p.replace(/^(~|\$home)/i, '').split(/[\\/]/)) if (x === '..') at.pop(); else if (x && x !== '.') at.push(x);
+  return at;
+}
+// Noden på sökvägen (undefined om den saknas) och de riktiga namnen. PowerShell bryr sig inte om skiftläge.
+function look(fs, at, ps) {
+  let node = fs;
+  const real = [];
+  for (const x of at) {
+    const k = node && typeof node === 'object' ? Object.keys(node).find(k => (ps ? k.toLowerCase() === x.toLowerCase() : k === x)) : undefined;
+    if (k === undefined) return {node: undefined, real: at};
+    real.push(k);
+    node = node[k];
+  }
+  return {node, real};
+}
+const size = n => (typeof n === 'string' ? n.length : Object.values(n).reduce((s, v) => s + size(v), 0));
+const psTable = (at, items) => (items.length ? ['', `    Directory: ${where(at, true)}`, '', 'Mode                 LastWriteTime         Length Name',
+  '----                 -------------         ------ ----', ...items.map(([n, v]) => (typeof v === 'string' ? '-a-' : 'd--') + (PSHIDDEN.has(n) ? 'h' : '-') +
+  `--        2026-10-17     12:00 ${(typeof v === 'string' ? String(v.length) : '').padStart(14)} ${n}`), ''] : []);
+const longRow = ([n, v]) => `${typeof v === 'string' ? (n.endsWith('.sh') ? '-rwxr-xr-x' : '-rw-r--r--') : 'drwxr-xr-x'} 1 du du ${String(typeof v === 'string' ? v.length : 4096).padStart(5)} okt 17 12:00 ${n}`;
+const PSOP = {'get-childitem': 'ls', 'set-location': 'cd', 'get-location': 'pwd', 'get-content': 'cat', 'remove-item': 'rm', 'rename-item': 'ren',
+  'move-item': 'mv', 'copy-item': 'cp', 'write-output': 'echo', 'set-content': 'set', 'add-content': 'add', 'new-item': 'new'};
+const PSCMD = {ls: 'Get-ChildItem', cd: 'Set-Location', cat: 'Get-Content', rm: 'Remove-Item', ren: 'Rename-Item', mv: 'Move-Item', cp: 'Copy-Item',
+  set: 'Set-Content', add: 'Add-Content', new: 'New-Item', echo: 'out-file'};
+
+// Kör ett kommando, i rättningens kanoniska form, mot låtsasfilsystemet fs, som ändras.
+// Ger {cwd, out, seen, same} eller null när kommandot inte rör filsystemet. Fel kastas med skalets egen text.
+// seen: mappen som listades. same: kommandot ändrade ingenting (cd dit du redan står, touch på en fil som finns).
+function fake(fs, cwd, key, ps) {
+  if (key.includes('|')) return null; // ponytail: pipes körs inte, de bara rättas
+  const r = key.findIndex(t => t === '>' || t === '>>');
+  const [c, ...rest] = r > 0 ? key.slice(0, r) : key;
+  const op = ps ? PSOP[c] || c : c;
+  const args = rest.filter(t => !t.startsWith('-')), flags = rest.filter(t => t.startsWith('-')), a0 = args[0];
+  const has = (...f) => flags.some(x => f.includes(x.split('=')[0]));
+  const num = (f, d) => +(flags.find(x => x.startsWith(f + '='))?.split('=')[1] ?? flags.find(x => /^-\d+$/.test(x))?.slice(1) ?? d);
+  const at = a => resolve(cwd, a), get = a => look(fs, at(a), ps), full = a => where(at(a), ps);
+  const parent = a => look(fs, at(a).slice(0, -1), ps).node;
+  const fail = (bash, pse) => { throw new Error(ps ? (PSCMD[op] ? `${PSCMD[op]} : ` : '') + pse : bash); };
+  const gone = a => `Cannot find path '${full(a)}' because it does not exist.`;
+  const put = (a, v) => { const p = parent(a), n = at(a).at(-1); p[Object.keys(p).find(k => ps && k.toLowerCase() === n.toLowerCase()) ?? n] = v; };
+  const del = real => { delete look(fs, real.slice(0, -1), ps).node[real.at(-1)]; };
+  const alive = () => { const c2 = [...cwd]; while (typeof look(fs, c2, ps).node !== 'object') c2.pop(); return c2; };
+  const ok = (out = [], extra = {}) => ({cwd, out, ...extra});
+
+  const wrong = ps && PSCMD[op] && flags.find(x => psparam(c, x.slice(1).split('=')[0]) === null);
+  if (wrong) fail('', `A parameter cannot be found that matches parameter name '${wrong.slice(1)}'.`);
+  if (args.some(a => /^\/|^[a-z]:/i.test(a))) {
+    if (op === 'rm' && a0 === '/' && has('-r', '-R')) fail("rm: it is dangerous to operate recursively on '/'\nrm: use --no-preserve-root to override this failsafe");
+    throw new Error('# spelets filsystem är bara din hemmapp. Använd ~ eller sökvägar härifrån.');
+  }
+  const prog = op.startsWith('./') ? op.slice(2) : ['python', 'python3', 'node', 'bash', 'sh'].includes(op) ? a0 : null;
+  if (prog) {
+    if (typeof get(prog).node !== 'string') fail(op.startsWith('./') || op.endsWith('sh') ? `bash: ${op.startsWith('./') ? op : prog}: No such file or directory` :
+      op === 'node' ? `Error: Cannot find module '${full(prog)}'` : `${op}: can't open file '${full(prog)}': [Errno 2] No such file or directory`,
+      op === 'node' ? `Error: Cannot find module '${full(prog)}'` : `python: can't open file '${full(prog)}': [Errno 2] No such file or directory`);
+    return ok((PROGS[at(prog).at(-1)] || '').split('\n').filter(Boolean));
+  }
+  switch (op) {
+    case 'pwd': return ok(ps ? ['', 'Path', '----', where(cwd, true), ''] : [where(cwd, false)]);
+    case 'cd': {
+      if (a0 === undefined) return {cwd: [], out: [], same: !cwd.length};
+      const {node, real} = get(a0);
+      if (node === undefined) fail(`bash: cd: ${a0}: No such file or directory`, gone(a0));
+      if (typeof node === 'string') fail(`bash: cd: ${a0}: Not a directory`, `Cannot find path '${a0}' because it does not exist.`);
+      const out = !/^(~|\$home)/i.test(a0) && (a0.match(/\.\./g) || []).length > cwd.length ? ['# högre upp än hemmappen kommer du inte här. På en riktig dator fortsätter disken ovanför.'] : [];
+      return {cwd: real, out, same: real.join('/') === cwd.join('/')};
+    }
+    case 'ls': {
+      const {node, real} = get(a0 ?? '.');
+      if (node === undefined) fail(`ls: cannot access '${a0}': No such file or directory`, gone(a0));
+      if (typeof node === 'string') return ok(ps ? psTable(real.slice(0, -1), [[real.at(-1), node]]) : [a0]);
+      const all = ps ? has('-force') : has('-a', '-A');
+      const items = Object.entries(node).filter(([n]) => all || !(ps ? PSHIDDEN.has(n) : n.startsWith('.')));
+      if (ps) items.sort(([a, x], [b, y]) => (typeof x === 'string') - (typeof y === 'string') || a.localeCompare(b));
+      else items.sort(([a], [b]) => a.replace(/^\./, '').localeCompare(b.replace(/^\./, '')));
+      if (!ps && has('-a')) items.unshift(['.', {}], ['..', {}]);
+      const out = ps ? psTable(real, items) : has('-l') ? [`total ${items.length * 4}`, ...items.map(longRow)] : items.length ? [items.map(([n]) => n).join('  ')] : [];
+      return ok(out, {seen: real.join('/')});
+    }
+    case 'cat': case 'head': case 'tail': case 'wc': {
+      if (a0 === undefined) return ok([ps ? 'cmdlet Get-Content at command pipeline position 1\nSupply values for the following parameters:\nPath[0]:' : `# ${op} utan fil väntar på att du skriver. Ctrl+C avbryter.`]);
+      const {node} = get(a0);
+      if (node === undefined) fail(op === 'cat' || op === 'wc' ? `${op}: ${a0}: No such file or directory` : `${op}: cannot open '${a0}' for reading: No such file or directory`, gone(a0));
+      if (typeof node !== 'string') fail(op === 'cat' || op === 'wc' ? `${op}: ${a0}: Is a directory` : `${op}: error reading '${a0}': Is a directory`, `Access to the path '${full(a0)}' is denied.`);
+      let lines = node ? node.split('\n') : [];
+      if (op === 'wc') return ok([`${lines.length} ${a0}`]);
+      const first = ps ? num('-totalcount', 0) : op === 'head' ? num('-n', 10) : 0, last = ps ? num('-tail', 0) : op === 'tail' ? num('-n', 10) : 0;
+      if (first) lines = lines.slice(0, first);
+      if (last) lines = lines.slice(-last);
+      if (has('-f', '-wait')) lines.push('# står kvar och väntar på nya rader. Ctrl+C avslutar.');
+      if (/\.env$/.test(a0)) lines.push('# hemligheter som den här ska stå i .gitignore och aldrig hamna på GitHub');
+      return ok(lines);
+    }
+    case 'echo': case 'set': case 'add': {
+      const text = (op === 'echo' ? args : args.slice(1)).join(' ');
+      if (op === 'echo' && r < 0) return ok([text]);
+      const f = op === 'echo' ? key[r + 1] : a0, append = op === 'add' || key[r] === '>>';
+      const {node} = get(f);
+      if (typeof parent(f) !== 'object') fail(`bash: ${f}: No such file or directory`, `Could not find a part of the path '${full(f)}'.`);
+      if (typeof node === 'object') fail(`bash: ${f}: Is a directory`, `Access to the path '${full(f)}' is denied.`);
+      put(f, append && node ? node + '\n' + text : text);
+      return ok();
+    }
+    case 'mkdir': case 'touch': case 'new': {
+      const dir = op === 'mkdir' || flags.includes('-itemtype=directory'), {node} = get(a0), name = at(a0).at(-1);
+      if (op === 'touch') {
+        if (typeof parent(a0) !== 'object') fail(`touch: cannot touch '${a0}': No such file or directory`);
+        if (node === undefined) put(a0, '');
+        return ok([], {same: node !== undefined});
+      }
+      if (node !== undefined) {
+        if (typeof node === 'object' && (op === 'mkdir' ? has('-p') : dir && has('-force'))) return ok([], {same: true});
+        fail(`mkdir: cannot create directory '${a0}': File exists`, dir ? `An item with the specified name ${full(a0)} already exists.` : `The file '${full(a0)}' already exists.`);
+      }
+      if (typeof parent(a0) === 'object') put(a0, dir ? {} : '');
+      else if (op === 'mkdir' && !has('-p')) fail(`mkdir: cannot create directory '${a0}': No such file or directory`);
+      else if (!dir) fail('', `Could not find a part of the path '${full(a0)}'.`);
+      else { let n = fs; for (const x of at(a0)) n = n[x] ??= {}; } // mkdir -p och New-Item skapar mapparna på vägen
+      return ok(ps ? psTable(at(a0).slice(0, -1), [[name, dir ? {} : '']]) : []);
+    }
+    case 'rm': case 'rmdir': {
+      const {node, real} = get(a0);
+      if (node === undefined) {
+        if (!ps && op === 'rm' && has('-f')) return ok();
+        fail(op === 'rmdir' ? `rmdir: failed to remove '${a0}': No such file or directory` : `rm: cannot remove '${a0}': No such file or directory`, gone(a0));
+      }
+      const empty = typeof node === 'object' && !Object.keys(node).length;
+      if (typeof node === 'object') {
+        if (op === 'rmdir' && !empty) fail(`rmdir: failed to remove '${a0}': Directory not empty`);
+        if (ps && !empty && !has('-recurse')) fail('', `The item at ${full(a0)} has children and the Recurse parameter was not specified.`);
+        if (!ps && op === 'rm' && !has('-r', '-R') && !(has('-d') && empty)) fail(`rm: cannot remove '${a0}': ${has('-d') ? 'Directory not empty' : 'Is a directory'}`);
+      } else if (op === 'rmdir') fail(`rmdir: failed to remove '${a0}': Not a directory`);
+      del(real);
+      return {cwd: alive(), out: []};
+    }
+    case 'mv': case 'cp': case 'ren': {
+      const a1 = args[1], {node, real} = get(a0);
+      if (node === undefined) fail(`${op}: cannot stat '${a0}': No such file or directory`, gone(a0));
+      if (op === 'cp' && !ps && typeof node === 'object' && !has('-r', '-R', '-a')) fail(`cp: -r not specified; omitting directory '${a0}'`);
+      let dest = op === 'ren' ? [...real.slice(0, -1), a1] : at(a1);
+      const d = look(fs, dest, ps).node;
+      if (typeof d === 'object' && op !== 'ren') dest = [...dest, real.at(-1)];
+      else if (d !== undefined && (op === 'ren' || (ps && op === 'mv'))) fail('', 'Cannot create a file when that file already exists.');
+      const p = look(fs, dest.slice(0, -1), ps).node;
+      if (typeof p !== 'object') fail(op === 'mv' ? `mv: cannot move '${a0}' to '${a1}': No such file or directory` : `cp: cannot create regular file '${a1}': No such file or directory`, `Could not find a part of the path '${where(dest, true)}'.`);
+      const copy = op !== 'cp' ? node : ps && typeof node === 'object' && !has('-recurse') ? {} : structuredClone(node);
+      if (op !== 'cp') del(real);
+      p[dest.at(-1)] = copy;
+      return {cwd: alive(), out: []};
+    }
+    case 'du': {
+      const {node} = get(a0 ?? '.');
+      if (node === undefined) fail(`du: cannot access '${a0}': No such file or directory`);
+      const k = Math.max(4, Math.ceil(size(node) / 4096) * 4);
+      return ok([`${k < 10 ? k + '.0' : k}K\t${a0 ?? '.'}`]);
+    }
+    case 'chmod': {
+      if (typeof get(args.at(-1)).node !== 'string') fail(`chmod: cannot access '${args.at(-1)}': No such file or directory`);
+      return ok();
+    }
+  }
+  return null;
 }
 /* pure:end */
 
@@ -718,14 +925,15 @@ function mp3Music(a) {
 // ---------- tillstånd ----------
 const prefs = {pack: 'fs', level: 1, shell: load(SHELL, null)};
 const isPS = () => prefs.shell === 'ps';
-const promptHTML = ps => ps ? '<span class="p">PS C:&#92;Users&#92;du&#92;projekt&gt;</span> ' : '<span class="u">du@buildapp</span>:<span class="p">~/projekt</span>$ ';
+const promptHTML = (ps, cwd = ['projekt']) => ps ? `<span class="p">PS ${esc(where(cwd, true)).replace(/\\/g, '&#92;')}&gt;</span> ` :
+  `<span class="u">du@buildapp</span>:<span class="p">${esc(['~', ...cwd].join('/'))}</span>$ `;
 let mode = 'menu', S = null, last = performance.now(), hist = [], hpos = 0, shared = '';
 
 function laneCount() { const w = well.clientWidth; return w < 560 ? 1 : w < 980 ? 2 : 3; }
 
 function start() {
   well.querySelectorAll('.blk').forEach(e => e.remove());
-  S = {pack: prefs.pack, ps: isPS(), start: prefs.level, level: prefs.level, score: 0, cleared: 0, streak: 0, charges: 0, errors: 0,
+  S = {pack: prefs.pack, ps: isPS(), fs: structuredClone(WORLD), cwd: ['projekt'], seen: new Set(), ran: new Set(), went: new Set(), start: prefs.level, level: prefs.level, score: 0, cleared: 0, streak: 0, charges: 0, errors: 0,
     typed: 0, time: 0, blocks: [], spawnIn: .4, recent: [], seq: 0, lanes: laneCount(), H: well.clientHeight};
   log.replaceChildren();
   applyShell();
@@ -738,6 +946,35 @@ function start() {
 }
 
 // ---------- block ----------
+// Lättare och vanligare uppgifter oftare, svåra då och då. Uppgifter i Filer & mappar får mallorden ur
+// filsystemet och provkörs på en kopia, så att blocket bara ber om det som går att göra där du står.
+function draw(pool) {
+  const weighted = pool.flatMap(t => Array(6 - t[1]).fill(t));
+  const near = [S.cwd, []].flatMap(at => Object.entries(look(S.fs, at, S.ps).node || {})).filter(([n]) => !n.startsWith('.')); // dolt hittar man själv
+  const names = (list, k) => {
+    if (k.endsWith('2')) return list.filter(n => look(S.fs, [...S.cwd, n], S.ps).node === undefined);
+    const ext = {log: /\.log$/, py: /\.py$/, js: /\.js$/}[k];
+    return [...new Set([...list, ...near.filter(([n, v]) => (k === 'd' ? typeof v === 'object' : typeof v === 'string' && (!ext || ext.test(n)))).map(([n]) => n)])];
+  };
+  for (let i = 0; i < 40; i++) {
+    const t = rnd(weighted), b = fill(t, t[0] === 'fs' ? (list, k) => rnd(names(list, k)) : rnd, S.ps);
+    if (!S.blocks.some(x => x.text === b.text) && (t[0] !== 'fs' || doable(b))) return b;
+  }
+  return null;
+}
+function doable(b) {
+  const fs = structuredClone(S.fs);
+  let cwd = S.cwd;
+  try {
+    for (const st of b.steps) {
+      const r = fake(fs, cwd, st[0].key, S.ps);
+      if (r?.same) return false;
+      if (r) cwd = r.cwd;
+    }
+    return true;
+  } catch { return false; }
+}
+
 function spawn() {
   const floors = [...Array(S.lanes)].map((_, lane) => {
     const inLane = S.blocks.filter(b => b.lane === lane);
@@ -749,13 +986,21 @@ function spawn() {
   const best = Math.max(...floors.map(l => l.floor));
   const lane = rnd(floors.filter(l => l.floor === best)).lane;
 
+  // Filer & mappar: ett block i taget, i ordning. Ny mapp: lista först, kör programmen som finns där, gå sedan in i en mapp.
+  const story = S.pack === 'fs', here = S.cwd.join('/');
+  if (story && S.blocks.some(b => !b.landed)) return false;
   const maxLv = Math.min(5, Math.ceil(S.level / 2));
   const fits = t => (S.pack === 'all' || t[0] === S.pack) && t[1] <= maxLv && (!S.ps || t[5]);
   let pool = TASKS.filter(t => fits(t) && !S.recent.includes(t));
   if (!pool.length) pool = TASKS.filter(fits);
-  const weighted = pool.flatMap(t => Array(6 - t[1]).fill(t)); // lättare och vanligare uppgifter oftare, svåra då och då
-  let b;
-  for (let i = 0; i < 6; i++) { b = fill(rnd(weighted), rnd, S.ps); if (!S.blocks.some(x => x.text === b.text)) break; }
+  const lists = t => t[2] === 'Lista filerna i mappen du står i', runs = t => t[0] === 'fs' && /^(python|node) /.test(t[5] === '=' ? t[3] : t[5]);
+  const enters = t => t[2] === 'Gå in i mappen {d}';
+  const phases = story ? [!S.seen.has(here) && TASKS.filter(lists), !S.ran.has(here) && TASKS.filter(t => runs(t) && fits(t)), !S.went.has(here) && TASKS.filter(enters), pool] : [pool];
+  let b = null;
+  for (const ph of phases) if (ph && (b = draw(ph))) break;
+  if (!b) return false;
+  if (story && runs(b.task)) S.ran.add(here);
+  if (story && enters(b.task)) S.went.add(here);
   S.recent.push(b.task);
   if (S.recent.length > Math.min(8, pool.length - 1)) S.recent.shift();
 
@@ -836,11 +1081,11 @@ function out(text, cls = '') {
   while (log.children.length > 60) log.firstChild.remove();
 }
 
-function echo(raw, bad, extra = '') {
+function echo(raw, bad, extra = '', cwd = S?.cwd) {
   const d = document.createElement('div');
   d.className = 'line' + (bad.size ? ' bad' : '');
   const words = raw.split(/(\s+)/).map(w => (bad.has(w.replace(/^['"]|['"]$/g, '')) ? `<span class="err">${esc(w)}</span>` : esc(w)));
-  d.innerHTML = promptHTML(S?.ps ?? isPS()) + words.join('') + extra;
+  d.innerHTML = promptHTML(S?.ps ?? isPS(), cwd) + words.join('') + extra;
   log.append(d);
 }
 
@@ -887,7 +1132,7 @@ function run(raw) {
     return fail();
   }
 
-  const hits = [], bad = new Set(), msgs = [], notes = [];
+  const hits = [], bad = new Set(), msgs = [], notes = [], at = S.cwd;
   let errs = 0, progressed = false;
   for (let seg of segs) {
     if (seg[0] === 'sudo') seg = seg.slice(1);
@@ -896,11 +1141,18 @@ function run(raw) {
     if (seg[0] === 'exit') { echo(raw, bad); return gameOver(); }
     if (seg[0] === 'help') { msgs.push('# Skriv kommandot som blocket beskriver. && eller flera argument rensar flera block.\n# ↑ hämtar förra kommandot, Esc pausar, exit avslutar, clear tömmer brunnen om du har en laddning.'); continue; }
     for (const u of units(seg, S.ps)) {
-      const b = target(canon(u, S.ps));
+      const key = canon(u, S.ps), b = target(key);
       // --help är aldrig fel: visa hjälpen som det riktiga kommandot gör
       if (!b && !S.ps && KNOWN.has(u[0]) && (u.includes('--help') || (u[0] === 'git' && u[1] === '-h'))) {
         notes.push(u[0] === 'git' ? MISSING.git + '\n\n# riktiga git --help listar alla underkommandon, git <kommando> --help visar ett av dem' : `Usage: ${u[0]} [OPTION]...\n# riktiga ${u[0]} --help listar alla flaggor`);
         continue;
+      }
+      // Filsystemet: block i Filer & mappar och fria kommandon körs på riktigt, på låtsas
+      if (!b || b.pack === 'fs') {
+        let r;
+        try { r = fake(S.fs, S.cwd, key, S.ps); } catch (e) { errs++; msgs.push(e.message); continue; }
+        // seen kan vara '', hemmappen
+        if (r) { S.cwd = r.cwd; if (r.seen !== undefined) S.seen.add(r.seen); notes.push(...r.out); if (!b) continue; }
       }
       if (!b) { errs++; explain(u, bad, msgs); continue; }
       progressed = true;
@@ -908,7 +1160,8 @@ function run(raw) {
       else b.el.querySelector('.prog').textContent = `steg ${b.step + 1} av ${b.steps.length}`;
     }
   }
-  echo(raw, bad);
+  echo(raw, bad, '', at);
+  if (S.cwd !== at) applyShell();
   msgs.forEach(m => out(m, m.startsWith('#') ? 'cmt' : 'err'));
   notes.join('\n').split('\n').forEach(l => out(l, l.startsWith('#') ? 'cmt' : ''));
   if (progressed) S.typed += raw.length;
@@ -1001,7 +1254,7 @@ const shellOpts = (cur = prefs.shell, locked = false) => SHELLS.map(([k, name, h
   `<button class="opt" data-shell="${k}" aria-pressed="${k === cur}"${locked ? ' disabled' : ''}>${name.padEnd(12)}<span class="dim">${hint}</span></button>`).join('');
 function applyShell() {
   const ps = S?.ps ?? isPS();
-  $('#ps1').innerHTML = promptHTML(ps);
+  $('#ps1').innerHTML = promptHTML(ps, S?.cwd);
   $('#shname').textContent = ps ? 'powershell' : 'bash';
   $('#lang').textContent = ps ? 'PowerShell' : 'Shell Script';
   stats();

@@ -5,8 +5,8 @@ const fs = require('fs');
 
 const html = fs.readFileSync(__dirname + '/terminal.html', 'utf8');
 const src = html.slice(html.indexOf('/* pure:start'), html.indexOf('/* pure:end */'));
-const {TASKS, POOLS, tokenize, segments, units, canon, same, fill, parts} =
-  new Function(src + '; return {TASKS, POOLS, tokenize, segments, units, canon, same, fill, parts};')();
+const {TASKS, POOLS, tokenize, segments, units, canon, same, fill, parts, fake, WORLD} =
+  new Function(src + '; return {TASKS, POOLS, tokenize, segments, units, canon, same, fill, parts, fake, WORLD};')();
 
 const key = s => canon(tokenize(s));
 const eq = (a, b) => assert.ok(same(key(a), key(b)), `${a}  borde godkännas som  ${b}`);
@@ -105,4 +105,57 @@ for (const t of TASKS) if (t[5]) for (const pick of [a => a[0], a => a[a.length 
     for (const [p, d] of parts(a.raw, true)) if (!d || /undefined/.test(d)) missing.add(`PS ${a.raw}  ->  ${p}`);
 assert.ok(!missing.size, `förklaring saknas:\n${[...missing].join('\n')}`);
 
-console.log(`ok: ${TASKS.length} uppgifter, ${n} bash-svar och ${np} PowerShell-svar kontrollerade`);
+// Låtsasfilsystemet: samma värld i båda skalen
+function shell(ps) {
+  const fs = structuredClone(WORLD);
+  const sh = s => { const r = fake(fs, sh.cwd, canon(tokenize(s, ps), ps), ps); if (r) sh.cwd = r.cwd; return r; };
+  sh.cwd = ['projekt'];
+  sh.out = s => sh(s).out.join('\n');
+  sh.bad = (s, re) => assert.throws(() => sh(s), re, `${s} borde ge fel`);
+  return sh;
+}
+let sh = shell(false);
+assert.ok(/spel/.test(sh.out('ls')) && !/\.env/.test(sh.out('ls')), 'ls visar inte dolda filer');
+assert.strictEqual(sh('ls').seen, 'projekt');
+assert.ok(/\.env/.test(sh.out('ls -a')) && /\.hemligt/.test(sh.out('ls -la')));
+sh('cd spel'); assert.deepStrictEqual(sh.cwd, ['projekt', 'spel']);
+assert.ok(/Gissa/.test(sh.out('python spel.py')));
+sh('cd ../..'); assert.deepStrictEqual(sh.cwd, []);
+assert.ok(/högre upp/.test(sh.out('cd ..')));
+assert.ok(sh('cd ~').same, 'cd dit du står ändrar ingenting');
+sh('cd projekt');
+sh.bad('cat nope.txt', /cat: nope.txt: No such file or directory/);
+sh.bad('cd notes.txt', /Not a directory/);
+sh('mkdir demo'); sh.bad('mkdir demo', /File exists/);
+sh('touch demo/a.txt'); assert.ok(sh('touch demo/a.txt').same);
+sh.bad('rm demo', /Is a directory/); sh.bad('rmdir demo', /Directory not empty/);
+sh('rm -r demo'); assert.ok(!/demo/.test(sh.out('ls')));
+sh('mv notes.txt musik'); assert.ok(/notes\.txt/.test(sh.out('ls musik')));
+sh('echo hej > x.txt'); sh('echo da >> x.txt'); assert.strictEqual(sh.out('cat x.txt'), 'hej\nda'); assert.strictEqual(sh.out('wc -l x.txt'), '2 x.txt');
+assert.strictEqual(sh('head -n 3 app.log').out.length, 3); assert.strictEqual(sh('tail -5 app.log').out.length, 5);
+sh.bad('rm -rf /', /dangerous/);
+sh('mkdir -p a/b/c'); sh('cd a/b/c'); assert.deepStrictEqual(sh.cwd, ['projekt', 'a', 'b', 'c']);
+sh('rm -r ../../../a'); assert.deepStrictEqual(sh.cwd, ['projekt'], 'mappen du stod i togs bort');
+sh('cd ~/recept'); assert.deepStrictEqual(sh.cwd, ['recept']);
+
+sh = shell(true);
+assert.ok(/\.env/.test(sh.out('Get-ChildItem')) && !/\.hemligt/.test(sh.out('gci')), 'på Windows är .env inte dold, .hemligt är det');
+assert.ok(/\.hemligt/.test(sh.out('gci -Force')));
+sh.bad('ls -la', /Get-ChildItem : A parameter cannot be found that matches parameter name 'la'/);
+sh('Set-Location SPEL'); assert.deepStrictEqual(sh.cwd, ['projekt', 'spel'], 'PowerShell hittar det riktiga namnet');
+sh('cd ..');
+sh.bad('Set-Location nope', /Error: Set-Location : Cannot find path 'C:\\Users\\du\\projekt\\nope' because it does not exist\.$/);
+sh.bad('Remove-Item musik', /has children and the Recurse parameter was not specified/);
+assert.ok(/demo/.test(sh.out('New-Item -ItemType Directory demo'))); sh.bad('mkdir demo', /already exists/);
+sh.bad('Rename-Item notes.txt todo.md', /Cannot create a file when that file already exists/);
+assert.strictEqual(sh('Get-Content app.log -Tail 3').out.length, 3);
+sh('Remove-Item musik -Recurse'); assert.ok(!/musik/.test(sh.out('ls')));
+
+// Varje uppgift i Filer & mappar går att köra mot världen utan att skalet kraschar
+for (const ps of [false, true]) for (const t of TASKS) if (t[0] === 'fs' && (!ps || t[5])) for (const pick of [a => a[0], a => a[a.length - 1]]) {
+  const s = shell(ps);
+  for (const st of fill(t, pick, ps).steps) try { s(st[0].raw.replace('{any}', 'x')); }
+  catch (e) { assert.ok(!/undefined|TypeError/.test(e.message + e.name), `${st[0].raw}: ${e.message}`); }
+}
+
+console.log(`ok: ${TASKS.length} uppgifter, ${n} bash-svar och ${np} PowerShell-svar kontrollerade, låtsasskalet i båda skalen`);

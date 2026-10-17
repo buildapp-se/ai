@@ -19,7 +19,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font);color:var(--fg);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.6}
 .wrap{max-width:68ch;margin:0 auto;padding:0 var(--outer)}
-.topbar{padding:1.1rem 0;border-bottom:1px solid var(--tertiary)}
+.topbar{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:1.1rem 0;border-bottom:1px solid var(--tertiary)}
 .topbar a{font-size:var(--fs-small);color:var(--secondary);text-decoration:none}
 .topbar a:hover{color:var(--primary)}
 
@@ -89,7 +89,7 @@ p{margin-top:.8rem;color:var(--secondary)}
 </head>
 <body>
 <div class="wrap">
-  <div class="topbar"><a href="./">&larr; Tillbaka till listan</a></div>
+  <div class="topbar"><a href="./">&larr; Tillbaka till listan</a><a href="/terminal/">Öva kommandona i spelet ./terminal &rarr;</a></div>
 
   <main class="card">
     <section id="menu">

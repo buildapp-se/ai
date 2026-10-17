@@ -28,7 +28,7 @@
 
 Flyttat till `buildapp-se/terminal` 2026-10-17, backloggen där. Kvar här:
 
-- [ ] Länka spelet `buildapp.se/terminal/` från `index.html` och quizet.
+- [x] Länka spelet `buildapp.se/terminal/` från `index.html` (kort under station 03) och quizets toppfält. Gjort 2026-10-17.
 
 ## Granskning 2026-10-06
 

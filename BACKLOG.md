@@ -25,6 +25,9 @@
 
 ## Spelet (`terminal.html`)
 
+- [ ] `[P1]` Paket "När agenten stannar": kommandon som Claude och Codex ber Patrik köra själv. Underlag från loggarna 2026-10-17 (2 536 transkript, skript `handoff-cmds.mjs` i sessionens scratchpad), sju grupper: logga in (`gh auth login -h github.com -w`, `gh auth refresh -s workflow`, `gh auth switch`, `npx wrangler login`), pusha och merga (`git push`, `git -C mapp push`, `git push -u origin gren`, `gh pr merge N --squash`), radera och städa (`git branch -D`, `git worktree remove`, `git checkout -- fil`), databas och hemligheter (`wrangler d1 execute --remote`, `wrangler secret put`), öppna filer (`start "" fil`, `explorer mapp`), installera (`winget install --id X -e`, `claude plugin install`, `codex mcp add`) och mellan skal (`powershell -Command "..."`, `wsl.exe -e bash -lc '...'`, `MSYS_NO_PATHCONV=1`). Hjälpkortet säger varför agenten stannade (behöver webbläsare, går inte att ångra, rör produktion).
+- [ ] Påskägg "formatera om datorn": `rm -rf / --no-preserve-root`, `sudo rm -rf /*`, `dd if=/dev/zero of=/dev/sda`, `mkfs`, `format C:`, `Remove-Item C:\ -Recurse -Force`, `del /s /q C:\*`. Spelet låtsas krascha: bash ger kernel panic, svart skärm och Linux-uppstart med inloggning; PowerShell ger blåskärm med procent, Windows-uppstart och PowerShell-banderollen. Sedan "# skämt, allt finns kvar". Respektera prefers-reduced-motion.
+
 - [ ] Patrik spelar och lyssnar: välj ljud bland `terminal-ljud.js`, `?ljud=gemini` och `?ljud=mp3` (bara lokalt, spåren i `_musik/`), radera det som väljs bort.
 - [ ] Om mp3 vinner: kolla Lyrias användningsvillkor, ta in `_musik/` i git och kolla att looparna inte hackar i skarven.
 - [ ] Länka spelet från `index.html` och quizet när det är klart att visas.

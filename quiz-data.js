@@ -1,4 +1,5 @@
-// Quizets frågor, data för quiz.html.
+// Quizets frågor. Läses av quiz.html och av spelet ./terminal (buildapp.se/terminal/, bossfrågan mellan nivåerna).
+// Ändra formatet bara tillsammans med båda.
 // Två sorters steg. Flerval: {q, options, answer, notes, why}, där answer är index i options,
 // notes[i] förklarar varför alternativ i är fel (null för rätt svar) och why förklarar det rätta.
 // Para ihop: {title, pairs: [[begrepp, förklaring, vad namnet betyder?, mer kontext?], ...]}, förklaringarna blandas vid visning.

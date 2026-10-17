@@ -1436,7 +1436,7 @@ document.addEventListener('selectionchange', () => document.activeElement === cm
 cmd.addEventListener('focus', () => { term.classList.remove('blur'); sync(); });
 cmd.addEventListener('blur', () => term.classList.add('blur'));
 term.addEventListener('click', e => { if (!e.target.closest('button') && !getSelection().toString()) cmd.focus(); });
-document.addEventListener('keydown', e => { if (document.activeElement !== cmd && !e.target.closest?.('button') && e.key.length === 1) cmd.focus(); });
+document.addEventListener('keydown', e => { if (document.activeElement !== cmd && !e.target.closest?.('button') && e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) cmd.focus(); }); // Ctrl+C ska kopiera markeringen, inte flytta fokus
 
 screen.addEventListener('click', e => {
   const t = e.target.closest('button');

@@ -83,6 +83,10 @@ svg{display:block}
 .blk.landed .ans{display:block}
 .blk.done{opacity:0;border-color:var(--green);box-shadow:0 0 18px var(--green)}
 .blk.miss{animation:shake .25s}
+.blk{cursor:help}.blk:hover{box-shadow:0 0 0 1px var(--c)}
+.blk .hlp{position:absolute;top:-.75em;right:.7em;padding:0 .35em;background:var(--bg);color:var(--c);font-size:12px}
+.parts{display:grid;grid-template-columns:max-content 1fr;gap:.2em 2ch;margin:.6em 0;text-align:left}
+.parts dt{color:var(--yellow);white-space:nowrap}.parts dd{margin:0}
 
 .screen{position:absolute;inset:0;overflow:auto;padding:12px 0 8px;z-index:5;background:var(--bg)}
 .screen[hidden]{display:none}
@@ -399,6 +403,99 @@ function fill(task, pick) {
   return {task, pack, lv, text: sub(text), why: sub(why),
     steps: steps.map(s => s.map(x => { const raw = sub(x); return {raw, key: canon(tokenize(raw))}; }))};
 }
+
+// Hjälpkortet: vad varje del av ett svar betyder. Nyckeln är "kommando del" (eller "git branch -d"),
+// längsta matchningen vinner, och sist prövas delen ensam för det som betyder samma överallt.
+const GLOSS = {
+  // operatorer och sökvägar
+  '|': 'pipe: skickar utskriften från kommandot före in i kommandot efter', '>': 'skriv utskriften till en fil i stället för skärmen, och skriv över filen',
+  '>>': 'lägg till utskriften sist i en fil', '&&': 'kör nästa kommando bara om det förra lyckades',
+  '.': 'mappen du står i', '..': 'mappen ovanför den du står i', '~': 'din hemmapp', '*': 'alla filer och mappar här',
+  '*.js': 'alla filnamn som slutar på .js. * matchar vad som helst', 'ERROR': 'texten som söks efter', 'HEAD~1': 'commiten före den senaste. HEAD är där du står nu', 'HEAD~': 'samma som HEAD~1: commiten före den senaste',
+  'origin': 'namnet på remoten, alltså GitHub-repot du klonade från', '{any}': 'ditt commit-meddelande, valfri text', 'deploy.sh': 'skriptet, en fil full av kommandon', 'node': 'programmet node',
+  // filer och mappar
+  'pwd': 'print working directory: skriver ut mappen du står i', 'ls': 'list: visar filer och mappar', 'cd': 'change directory: byter mapp', 'mkdir': 'make directory: skapar en mapp',
+  'touch': 'skapar en tom fil, eller uppdaterar tidsstämpeln om filen finns', 'cat': 'concatenate: skriver ut innehållet i filer', 'rm': 'remove: tar bort, utan papperskorg',
+  'rmdir': 'remove directory: tar bort en tom mapp', 'mv': 'move: flyttar eller byter namn', 'cp': 'copy: kopierar', 'head': 'visar början av en fil', 'tail': 'visar slutet av en fil',
+  'echo': 'skriver ut texten du ger den', 'wc': 'word count: räknar ord, rader eller tecken', 'chmod': 'change mode: ändrar vem som får läsa, skriva och köra en fil',
+  'du': 'disk usage: hur mycket plats något tar', 'sort': 'sorterar rader', 'uniq': 'slår ihop rader som är likadana och står efter varandra', 'bash': 'kör skriptet med bash', 'sh': 'kör skriptet med sh, bashs äldre släkting',
+  './deploy.sh': './ betyder mappen du står i, så det här kör skriptet deploy.sh härifrån',
+  'ls -l': 'long: en rad per fil med rättigheter, ägare, storlek och datum', 'ls -a': 'all: visa även dolda filer, de som börjar med punkt', 'ls -A': 'almost all: dolda filer, men inte . och ..', 'ls -h': 'human readable: storlek i kB och MB i stället för byte',
+  'rm -r': 'recursive: ta med allt inuti mappen', 'rm -R': 'recursive, samma som -r', 'rm -f': 'force: fråga inte, klaga inte', 'rm -d': 'directory: ta bort en tom mapp',
+  'mkdir -p': 'parents: skapa mapparna som saknas på vägen', 'cp -r': 'recursive: kopiera mappen med allt inuti', 'cp -R': 'recursive, samma som -r', 'cp -a': 'archive: kopiera allt inuti och behåll datum och rättigheter',
+  'head -n': 'number: antal rader', 'tail -n': 'number: antal rader', 'tail -f': 'follow: stå kvar och visa nya rader tills du trycker Ctrl+C', 'wc -l': 'lines: räkna rader',
+  'chmod +x': '+x: lägg till rätten att köra (execute) filen', 'chmod u+x': 'u+x: ge ägaren (user) rätten att köra filen', 'chmod 755': '755: ägaren får allt (7), alla andra läsa och köra (5)',
+  'du -s': 'summarize: bara totalen, inte varje undermapp', 'du -h': 'human readable: MB och GB i stället för byte', 'sort -h': 'human: förstår storlekar som 4K och 2M', 'sort -r': 'reverse: störst först', 'sort -n': 'numeric: sortera som tal, inte som text', 'uniq -c': 'count: skriv hur många av varje rad',
+  'echo hej': 'texten som skrivs ut',
+  // git och gh
+  'git': 'versionshantering: sparar historiken för dina filer', 'git init': 'initialize: gör mappen till ett repo', 'git status': 'visa vad som ändrats, ändrar ingenting', 'git add': 'lägg ändringar i staging, väntsalen inför nästa commit',
+  'git commit': 'spara en ögonblicksbild av det som ligger i staging', 'git push': 'skicka dina commits till GitHub', 'git pull': 'hämta andras commits och slå ihop med dina', 'git log': 'visa historiken. Tryck q för att komma ut',
+  'git branch': 'grenar: lista, skapa eller ta bort', 'git switch': 'byt gren', 'git checkout': 'äldre kommando som byter gren, och kan även återställa filer', 'git diff': 'difference: visa ändrade rader',
+  'git clone': 'ladda ner ett repo med hela historiken', 'git merge': 'slå ihop en annan gren med den du står på', 'git restore': 'återställ en fil till senaste commit', 'git stash': 'stash = gömma: lägg undan ändringar tillfälligt',
+  'git stash pop': 'ta tillbaka det du senast lade undan', 'git remote': 'remotes är kopior av repot på andra ställen, som GitHub', 'git reset': 'flytta tillbaka grenen till en tidigare commit', 'git blame': 'blame = skylla på: vem ändrade varje rad',
+  'git add -A': 'all: alla ändringar i hela repot', 'git add --all': 'samma som -A: alla ändringar', 'git commit -m': 'message: meddelandet kommer direkt efter', 'git commit --amend': 'skriv om senaste commit i stället för att göra en ny',
+  'git log --oneline': 'en rad per commit: kort hash och meddelande', 'git switch -c': 'create: skapa grenen och byt till den', 'git checkout -b': 'branch: skapa grenen och byt till den', 'git checkout --': 'det som följer är filer, inte grenar',
+  'git branch -a': 'all: även grenarna på GitHub', 'git branch -d': 'delete: ta bort grenen, vägrar om den inte är ihopslagen', 'git branch -D': 'delete, och ta bort även om grenen inte är ihopslagen',
+  'git push -u': 'upstream: koppla grenen till GitHub, så räcker git push nästa gång', 'git push --set-upstream': 'samma som -u: koppla grenen till GitHub', 'git remote -v': 'verbose: visa adresserna också', 'git reset --soft': 'soft: behåll ändringarna i staging',
+  'gh': 'GitHubs egen terminalklient', 'gh repo': 'kommandon för repon', 'gh repo create': 'skapa ett nytt repo på GitHub', 'gh repo clone': 'klona ett repo från GitHub', 'gh pr': 'kommandon för pull requests',
+  'gh pr create': 'öppna en pull request för grenen du står på', 'gh pr list': 'lista öppna pull requests', 'gh auth': 'inloggning', 'gh auth login': 'logga in på GitHub',
+  'gh --public': 'repot syns för alla', 'gh --private': 'repot syns bara för dig', 'gh --source': 'mappen som blir repot, . betyder här', 'gh --push': 'pusha dina commits direkt', 'gh --fill': 'fyll i titel och text från dina commits',
+  // som Claude Code
+  'grep': 'global regular expression print: söker efter text i filer', 'rg': 'ripgrep: en snabbare grep, den Claude Code använder', 'grep -r': 'recursive: sök i alla undermappar', 'grep -R': 'recursive, och följ även genvägar',
+  'grep -n': 'number: visa radnummer', 'grep -i': 'ignore case: strunta i stora och små bokstäver', 'grep -c': 'count: räkna träffarna i stället för att visa dem', 'rg -n': 'number: visa radnummer',
+  'node --version': 'visa versionen', 'node -v': 'version: visa versionen', 'npm': 'node package manager: installerar paket och kör skript', 'npm install': 'installera paketen i package.json, eller paketet du anger', 'npm i': 'kort för npm install',
+  'npm add': 'samma som npm install', 'npm run': 'kör ett skript från package.json', 'npm run dev': 'skriptet dev, som brukar starta en lokal server', 'npm test': 'kör skriptet test', 'npm t': 'kort för npm test',
+  'npm run test': 'skriptet test', 'npm create': 'kör ett create-paket som sätter upp ett nytt projekt', 'npm create vite': 'paketet create-vite', 'npm create vite@latest': 'paketet create-vite, @latest = senaste versionen',
+  'npx': 'kör ett paket direkt utan att installera det', 'npx create-vite': 'paketet som sätter upp ett Vite-projekt', 'npx create-vite@latest': 'create-vite, @latest = senaste versionen',
+  'curl': 'client URL: gör en webbförfrågan', 'wget': 'laddar ner en fil från webben', 'curl -I': 'bara svarshuvudena (headers), inte sidan', 'curl --head': 'samma som -I: bara headers', 'curl -o': 'output: spara till filen som följer',
+  'curl -O': 'spara med filnamnet från adressen', 'curl -s': 'silent: ingen förloppsmätare', 'curl -X': 'metoden, alltså vad förfrågan ska göra', 'curl POST': 'POST = skicka data', 'curl -H': 'header: extra information i förfrågan',
+  'curl Content-Type: application/json': 'headern som säger att datan är JSON', 'curl -d': 'data: det som skickas', 'curl --json': 'skicka JSON, sätter rätt header själv', 'curl {"namn":"test"}': 'datan, i JSON-format',
+  'which': 'visar vilken fil som körs för ett kommando', 'command': 'kör eller beskriv ett kommando', 'command -v': 'visa var kommandot finns', 'type': 'berättar vad ett kommando är', 'env': 'visar alla miljövariabler', 'printenv': 'visar alla miljövariabler',
+  'export': 'gör en variabel synlig för program du startar', 'export PORT=3000': 'variabeln PORT får värdet 3000',
+  'find': 'letar efter filer i alla undermappar', 'find -name': 'matcha på filnamn', 'find -type': 'matcha på typ', 'find f': 'f = file: bara filer, inte mappar',
+  'ps': 'process status: visar program som körs', 'ps aux': 'a = alla användare, u = med ägare, x = även bakgrundsprocesser', 'ps -e': 'every: alla processer', 'ps -f': 'full: fler kolumner',
+  'top': 'live-lista över processer, q avslutar', 'htop': 'snyggare top', 'kill': 'skickar en signal till en process, normalt att den ska avsluta', 'kill -9': '9 = KILL: avsluta direkt, utan städning',
+  'kill -KILL': 'KILL: avsluta direkt, utan städning', 'kill -s': 'signal: signalen som följer', 'kill KILL': 'signalen KILL: avsluta direkt',
+  'lsof': 'list open files: visar vad som har filer och portar öppna', 'lsof -i': 'internet: nätverksanslutningar', 'lsof :3000': 'port 3000', 'lsof -i:3000': 'internet, port 3000',
+  'sed': 'stream editor: ändrar text rad för rad', 'sed -i': 'in place: ändra direkt i filen', 'sed s/foo/bar/g': 's = substitute: byt foo mot bar. g = alla träffar på raden, inte bara första',
+  'jq': 'läser och plockar i JSON', 'jq .name': 'fältet name', 'jq -r': 'raw: utan citattecken runt texten',
+  'ssh': 'secure shell: en terminal på en annan dator', 'scp': 'secure copy: kopierar filer över ssh',
+  'tar': 'packar ihop och upp arkiv', 'tar -x': 'extract: packa upp', 'tar -z': 'gzip: arkivet är komprimerat (.gz)', 'tar -f': 'file: arkivfilen kommer efter', 'tar -v': 'verbose: visa varje fil', 'tar backup.tar.gz': 'arkivet',
+};
+const POOLNAME = {d: 'namnet på mappen', f: 'namnet på filen', log: 'loggfilen', b: 'namnet på grenen', repo: 'namnet på repot', msg: 'meddelandet, i citattecken eftersom det har mellanslag',
+  word: 'ordet du söker efter', user: 'användarnamnet på GitHub', pkg: 'paketet som installeras'};
+const POOLOF = Object.fromEntries(Object.entries(POOLS).flatMap(([k, vs]) => vs.map(v => [v, k])));
+const NUMS = {head: 'antal rader', tail: 'antal rader', kill: 'processens id, PID'};
+
+// Delar upp ett svar i [del, förklaring]. Förklaringen är null om ordlistan saknar delen.
+function parts(raw) {
+  const out = [];
+  let path = [], toFile = false;
+  for (const t of tokenize(raw)) {
+    const look = k => { for (let i = path.length; i > 0; i--) { const g = GLOSS[path.slice(0, i).join(' ') + ' ' + k]; if (g) return g; } return GLOSS[k]; };
+    let d;
+    if (OPS.has(t)) { d = GLOSS[t] || 'kör kommandona efter varandra'; toFile = t[0] === '>'; path = []; }
+    else if (!path.length && !toFile) { d = GLOSS[t]; path = [t]; }
+    else if (toFile) d = POOLOF[t] ? 'filen som utskriften hamnar i' : null;
+    else if (look(t)) { d = look(t); if (!t.startsWith('-') && GLOSS[path.join(' ') + ' ' + t]) path.push(t); }
+    else if (/^-\d+$/.test(t) && NUMS[path[0]]) d = `${NUMS[path[0]]}: ${t.slice(1)}`;
+    else if (/^\d+$/.test(t) && NUMS[path[0]]) d = NUMS[path[0]];
+    else if (/^--?[\w-]+=/.test(t)) d = look(t.split('=')[0]);
+    else if (/^-[A-Za-z]+$/.test(t) || (path[0] === 'tar' && /^[xzvf]+$/.test(t))) {
+      const ls = [...t.replace(/^-/, '')].map(l => look('-' + l));
+      d = ls.every(Boolean) ? ls.join('. ') : null;
+    }
+    else if (POOLOF[t]) d = POOLNAME[POOLOF[t]];
+    else if (t.split('/').every(p => POOLOF[p])) d = t.split('/').map(p => `${POOLNAME[POOLOF[p]]} ${p}`).join(', sedan ');
+    else if (t.startsWith('~/')) d = `~/ är din hemmapp, sedan ${t.slice(2)}`;
+    else if (/^https:\/\/github\.com\/|^git@github\.com:/.test(t)) d = 'adressen till repot på GitHub';
+    else if (/^https?:\/\//.test(t)) d = 'webbadressen';
+    else if (/^\w+@[\w.]+:/.test(t)) d = `användaren ${t.split('@')[0]} på servern ${t.split('@')[1].split(':')[0]}, i mappen ${t.split(':')[1]}`;
+    else if (/^\w+@[\w.]+$/.test(t)) d = `användaren ${t.split('@')[0]} på servern ${t.split('@')[1]}`;
+    out.push([t, d || null]);
+  }
+  return out;
+}
 /* pure:end */
 
 // ---------- spelet ----------
@@ -547,8 +644,9 @@ function spawn() {
   el.style.setProperty('--c', PACKS[b.pack].c);
   el.style.left = `calc(${lane * 100 / S.lanes}% + 4px)`;
   el.style.width = `calc(${100 / S.lanes}% - 8px)`;
-  el.innerHTML = `<span class="tag">${PACKS[b.pack].tag}</span><p>${esc(b.text)}</p>` +
+  el.innerHTML = `<span class="tag">${PACKS[b.pack].tag}</span><button class="hlp" tabindex="-1" aria-label="hjälp för blocket">?</button><p>${esc(b.text)}</p>` +
     (b.steps.length > 1 ? `<p class="prog">steg 1 av ${b.steps.length}</p>` : '') + '<code class="ans"></code>';
+  el.addEventListener('click', () => help(b));
   well.append(el);
   Object.assign(b, {el, lane, step: 0, landed: false, h: el.offsetHeight});
   b.y = -b.h;
@@ -781,10 +879,8 @@ function gameOver() {
   document.body.className = '';
   const entry = {s: S.score, l: S.level, c: cpm(), p: S.pack, d: new Date().toISOString().slice(0, 10)};
   const scores = load(HS, []);
-  scores.push(entry);
-  scores.sort((a, b) => b.s - a.s);
-  const place = scores.indexOf(entry) + 1;
-  save(HS, scores.slice(0, 10));
+  if (!S.helped) { scores.push(entry); scores.sort((a, b) => b.s - a.s); save(HS, scores.slice(0, 10)); }
+  const place = S.helped ? 0 : scores.indexOf(entry) + 1;
   stats();
   try { snd()?.stop(); } catch {}
   sfx(place === 1 && S.score > 0 ? 'newHighscore' : 'gameOver');
@@ -792,10 +888,26 @@ function gameOver() {
   screen.innerHTML = `<p class="dim">The terminal process "/usr/bin/bash" terminated with exit code: 1.</p>
     <pre class="logo over" aria-label="Game over">${OVER}</pre>
     <p><span class="hot">${fmt(S.score)} p</span> · nivå ${S.level} · ${cpm()} CPM · ${S.cleared} block · ${S.errors} fel</p>
-    <p class="${place === 1 ? 'hot' : 'dim'}">${place === 1 && S.score > 0 ? 'Nytt rekord!' : place <= 10 ? `Plats ${place} på din topplista.` : 'Utanför topp 10.'}</p>
+    <p class="${place === 1 ? 'hot' : 'dim'}">${S.helped ? 'Hjälpen användes, så rundan sparas inte på topplistan.' : place === 1 && S.score > 0 ? 'Nytt rekord!' : place <= 10 ? `Plats ${place} på din topplista.` : 'Utanför topp 10.'}</p>
     <div class="actions"><button data-act="start"><kbd>Enter</kbd> spela igen</button><button data-act="share"><kbd>d</kbd> dela</button><button data-act="menu"><kbd>Esc</kbd> meny</button></div>
     <p id="shared" class="cmt"></p>`;
   screen.hidden = false;
+}
+
+// Hjälpkortet: pausar och visar svaret del för del. Rundan hamnar då inte på topplistan.
+function help(b) {
+  if (mode !== 'play') return;
+  S.helped = true;
+  pause(true);
+  const step = b.steps[b.step];
+  screen.innerHTML = `<p class="cmt"># ${esc(b.text)}</p>
+    ${b.steps.length > 1 ? `<p class="dim">steg ${b.step + 1} av ${b.steps.length}</p>` : ''}
+    <p>$ ${esc(show(step[0].raw))}</p>
+    <dl class="parts">${parts(step[0].raw).map(([p, d]) => `<dt>${esc(show(p))}</dt><dd>${esc(d || '')}</dd>`).join('')}</dl>
+    ${step.length > 1 ? `<p class="dim">godkänns också: ${step.slice(1, 3).map(a => esc(show(a.raw))).join(' · ')}</p>` : ''}
+    <p class="cmt"># ${esc(b.why)}</p>
+    <p class="dim"># rundan hamnar inte på topplistan när du har använt hjälpen</p>
+    <div class="actions"><button data-act="resume"><kbd>Esc</kbd> fortsätt</button></div>`;
 }
 
 function share() {

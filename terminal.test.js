@@ -5,8 +5,8 @@ const fs = require('fs');
 
 const html = fs.readFileSync(__dirname + '/terminal.html', 'utf8');
 const src = html.slice(html.indexOf('/* pure:start'), html.indexOf('/* pure:end */'));
-const {TASKS, POOLS, tokenize, segments, units, canon, same, fill} =
-  new Function(src + '; return {TASKS, POOLS, tokenize, segments, units, canon, same, fill};')();
+const {TASKS, POOLS, tokenize, segments, units, canon, same, fill, parts} =
+  new Function(src + '; return {TASKS, POOLS, tokenize, segments, units, canon, same, fill, parts};')();
 
 const key = s => canon(tokenize(s));
 const eq = (a, b) => assert.ok(same(key(a), key(b)), `${a}  borde godkännas som  ${b}`);
@@ -64,5 +64,12 @@ for (const t of ['{f} {f2}', '{f2} {f}']) {
   assert.notStrictEqual(a, c);
 }
 for (const t of TASKS) fill(t, a => a[0]); // får inte hänga sig
+
+// Hjälpkortet: varje del av varje godkänt svar har en förklaring
+const missing = new Set();
+for (const t of TASKS) for (const pick of [a => a[0], a => a[a.length - 1]])
+  for (const s of fill(t, pick).steps) for (const a of s)
+    for (const [p, d] of parts(a.raw)) if (!d || /undefined/.test(d)) missing.add(`${a.raw}  ->  ${p}`);
+assert.ok(!missing.size, `förklaring saknas:\n${[...missing].join('\n')}`);
 
 console.log(`ok: ${TASKS.length} uppgifter, ${n} svar kontrollerade`);

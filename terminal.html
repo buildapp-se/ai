@@ -473,9 +473,31 @@ function setSound(on) {
   try { snd()?.mute(!on); } catch {}
   if (on) music(); else try { snd()?.stop(); } catch {}
 }
+// ?ljud=mp3: musiken från Lyria-spåren i _musik/ (utanför git tills villkoren är kollade, så bara lokalt),
+// effekterna från terminal-ljud.js. Ett spår per nivåband, tempot följer nivån via playbackRate.
+function mp3Music(a) {
+  const tracks = {}, {mute, setVolume} = a;
+  let cur = null, vol = .8, muted = false;
+  const apply = () => Object.values(tracks).forEach(t => (t.volume = muted ? 0 : vol * .6));
+  Object.assign(a, {
+    play(style) {
+      const t = tracks[style] ??= Object.assign(new Audio(`_musik/${style}.mp3`), {loop: true});
+      apply();
+      if (t === cur) return;
+      cur?.pause(); cur = t; t.currentTime = 0;
+      t.play().catch(() => {});
+    },
+    stop() { cur?.pause(); cur = null; },
+    // preservesPitch är på som standard: tempot höjs utan att tonen gör det. Över 1,25 låter det sönderstretchat.
+    setTempo(r) { if (cur) cur.playbackRate = Math.min(r, 1.25); },
+    setVolume(v) { setVolume(v); vol = v; apply(); },
+    mute(m) { mute(m); muted = m; apply(); },
+  });
+}
 {
-  const s = document.createElement('script');
-  s.src = new URLSearchParams(location.search).get('ljud') === 'gemini' ? 'terminal-ljud-gemini.js' : 'terminal-ljud.js';
+  const s = document.createElement('script'), ljud = new URLSearchParams(location.search).get('ljud');
+  s.src = ljud === 'gemini' ? 'terminal-ljud-gemini.js' : 'terminal-ljud.js';
+  if (ljud === 'mp3') s.onload = () => mp3Music(audio);
   document.head.append(s);
 }
 

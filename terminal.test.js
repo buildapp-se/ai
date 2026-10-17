@@ -65,11 +65,44 @@ for (const t of ['{f} {f2}', '{f2} {f}']) {
 }
 for (const t of TASKS) fill(t, a => a[0]); // får inte hänga sig
 
+// PowerShell: alias, skiftläge, förkortade och namngivna parametrar
+const pkey = s => canon(tokenize(s, true), true);
+const eqp = (a, b) => assert.ok(same(pkey(a), pkey(b)), `PS: ${a}  borde godkännas som  ${b}
+${pkey(a)}
+${pkey(b)}`);
+const nep = (a, b) => assert.ok(!same(pkey(a), pkey(b)), `PS: ${a}  borde INTE godkännas som  ${b}`);
+eqp('ls', 'Get-ChildItem');
+eqp('dir', 'Get-ChildItem');
+eqp('get-childitem -force', 'Get-ChildItem -Force');
+eqp('mkdir musik', 'New-Item -ItemType Directory musik');
+eqp('ni musik -Type Directory', 'New-Item -ItemType Directory musik');
+eqp('rm demo -r', 'Remove-Item demo -Recurse');
+eqp('Remove-Item -Path demo -Recurse -Force', 'Remove-Item demo -Force -Recurse');
+eqp('Get-Content app.log -Last 20', 'Get-Content app.log -Tail 20');
+eqp('gc app.log -tail 20', 'Get-Content app.log -Tail 20');
+eqp('sls TODO notes.txt', 'Select-String TODO notes.txt');
+eqp('Select-String -Path notes.txt -Pattern TODO', 'Select-String TODO notes.txt');
+eqp(String.raw`cd ~\musik`, 'Set-Location ~/musik');
+eqp('kill 4821', 'Stop-Process -Id 4821');
+eqp('echo hej > notes.txt', 'Write-Output hej > notes.txt');
+eqp('git commit -m "fixa menyn"', "git commit -m 'fixa menyn'");
+nep('rm -rf demo', 'Remove-Item demo -Recurse -Force');
+nep('ls -la', 'Get-ChildItem -Force');
+nep('Select-String notes.txt TODO', 'Select-String TODO notes.txt');
+// Varje PowerShell-svar godkänns av sig självt
+let np = 0;
+for (const t of TASKS) if (t[5]) for (const s of fill(t, a => a[0], true).steps) for (const a of s) {
+  assert.ok(same(pkey(a.raw.replace('{any}', '"x y"')), a.key), `PS-svaret godkänns inte: ${a.raw}`); np++;
+}
+
 // Hjälpkortet: varje del av varje godkänt svar har en förklaring
 const missing = new Set();
 for (const t of TASKS) for (const pick of [a => a[0], a => a[a.length - 1]])
   for (const s of fill(t, pick).steps) for (const a of s)
     for (const [p, d] of parts(a.raw)) if (!d || /undefined/.test(d)) missing.add(`${a.raw}  ->  ${p}`);
+for (const t of TASKS) if (t[5]) for (const pick of [a => a[0], a => a[a.length - 1]])
+  for (const s of fill(t, pick, true).steps) for (const a of s)
+    for (const [p, d] of parts(a.raw, true)) if (!d || /undefined/.test(d)) missing.add(`PS ${a.raw}  ->  ${p}`);
 assert.ok(!missing.size, `förklaring saknas:\n${[...missing].join('\n')}`);
 
-console.log(`ok: ${TASKS.length} uppgifter, ${n} svar kontrollerade`);
+console.log(`ok: ${TASKS.length} uppgifter, ${n} bash-svar och ${np} PowerShell-svar kontrollerade`);

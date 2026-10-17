@@ -200,108 +200,109 @@ const POOLS = {
   pkg: ['zod', 'express', 'dotenv', 'lodash'],
 };
 
-// [paket, svårighet 1–5, uppgift, svar, förklaring]
+// [paket, svårighet 1–5, uppgift, svar, förklaring, PowerShell-svar, PowerShell-förklaring]
+// PowerShell-svaret '=' betyder samma som i bash. Saknas det visas uppgiften bara i bash.
 // Svar: ett kommando eller en lista med godkända varianter.
 // Kedja: en lista av listor, ett steg per kommando. {any} godtar vilket ord som helst.
 const TASKS = [
-  ['fs', 1, 'Skapa mappen {d}', 'mkdir {d}', 'mkdir = make directory. Skapar en ny mapp.'],
-  ['fs', 1, 'Gå in i mappen {d}', 'cd {d}', 'cd = change directory. Byter mappen du står i.'],
-  ['fs', 1, 'Gå upp en nivå, till mappen ovanför', 'cd ..', '.. betyder alltid mappen ovanför den du står i.'],
-  ['fs', 1, 'Visa vilken mapp du står i', 'pwd', 'pwd = print working directory. Skriver ut hela sökvägen.'],
-  ['fs', 1, 'Lista filerna i mappen du står i', ['ls', 'ls .'], 'ls = list. Visar filer och mappar här.'],
-  ['fs', 1, 'Skapa en tom fil som heter {f}', 'touch {f}', 'touch skapar filen om den saknas, annars uppdateras bara tidsstämpeln.'],
-  ['fs', 1, 'Visa innehållet i {f}', 'cat {f}', 'cat = concatenate. Skriver ut filen, eller flera filer efter varandra.'],
-  ['fs', 1, 'Gå till din hemmapp', ['cd', 'cd ~'], '~ är din hemmapp. cd utan argument går också dit.'],
-  ['fs', 2, 'Ta bort filen {f}', 'rm {f}', 'rm = remove. Det finns ingen papperskorg, filen är borta direkt.'],
-  ['fs', 2, 'Byt namn på {f} till {f2}', 'mv {f} {f2}', 'mv = move. Att byta namn är att flytta filen till ett nytt namn.'],
-  ['fs', 2, 'Kopiera {f} till {f2}', 'cp {f} {f2}', 'cp = copy.'],
-  ['fs', 2, 'Flytta {f} in i mappen {d}', 'mv {f} {d}', 'Är målet en mapp hamnar filen i den, med samma namn.'],
-  ['fs', 2, 'Lista alla filer, även dolda', ['ls -a', 'ls -la', 'ls -A'], 'Filer som börjar med punkt, som .env och .gitignore, är dolda. -a = all.'],
-  ['fs', 2, 'Lista filerna med storlek och datum', ['ls -l', 'ls -la', 'ls -lh', 'ls -lah'], '-l = long. Visar rättigheter, ägare, storlek och datum.'],
-  ['fs', 2, 'Ta bort den tomma mappen {d}', ['rmdir {d}', 'rm -d {d}', 'rm -r {d}'], 'rmdir vägrar om mappen inte är tom. Det är en säkerhetsspärr.'],
-  ['fs', 2, 'Gå direkt till mappen {d} i din hemmapp', 'cd ~/{d}', '~/ är en genväg till hemmappen, så det funkar var du än står.'],
-  ['fs', 3, 'Ta bort mappen {d} och allt i den', ['rm -r {d}', 'rm -rf {d}', 'rm -R {d}'], '-r = recursive, allt i mappen följer med. -f = force, inga frågor. Dubbelkolla sökvägen.'],
-  ['fs', 3, 'Skapa mappen {d2}/{d}, även om {d2} inte finns än', 'mkdir -p {d2}/{d}', '-p = parents. Skapar mapparna som saknas på vägen.'],
-  ['fs', 3, 'Kopiera mappen {d} med allt innehåll till {d2}', ['cp -r {d} {d2}', 'cp -R {d} {d2}', 'cp -a {d} {d2}'], '-r = recursive. Utan den vägrar cp kopiera mappar.'],
-  ['fs', 3, 'Visa de 10 första raderna i {log}', ['head {log}', 'head -n 10 {log}', 'head -10 {log}'], 'head visar 10 rader om du inte säger något annat.'],
-  ['fs', 3, 'Visa de 20 sista raderna i {log}', ['tail -n 20 {log}', 'tail -20 {log}'], 'tail = svansen. Perfekt för loggar, där det nya hamnar sist.'],
-  ['fs', 3, 'Skriv texten hej i terminalen', 'echo hej', 'echo skriver ut det du ger den. Mest användbart ihop med > och variabler.'],
-  ['fs', 4, 'Skriv texten hej till {f} och skriv över det som fanns', 'echo hej > {f}', '> skickar utskriften till en fil i stället för skärmen, och skriver över filen.'],
-  ['fs', 4, 'Lägg till raden hej sist i {f}', 'echo hej >> {f}', '>> lägger till sist i filen i stället för att skriva över.'],
-  ['fs', 4, 'Följ {log} live medan nya rader skrivs', 'tail -f {log}', '-f = follow. Står kvar och visar nya rader tills du trycker Ctrl+C.'],
-  ['fs', 4, 'Räkna raderna i {f}', 'wc -l {f}', 'wc = word count. -l räknar rader i stället för ord.'],
+  ['fs', 1, 'Skapa mappen {d}', 'mkdir {d}', 'mkdir = make directory. Skapar en ny mapp.', "New-Item -ItemType Directory {d}", "mkdir finns i PowerShell också, som genväg till New-Item -ItemType Directory."],
+  ['fs', 1, 'Gå in i mappen {d}', 'cd {d}', 'cd = change directory. Byter mappen du står i.', "Set-Location {d}", "cd är ett alias för Set-Location. Alias är korta smeknamn på cmdlets."],
+  ['fs', 1, 'Gå upp en nivå, till mappen ovanför', 'cd ..', '.. betyder alltid mappen ovanför den du står i.', "Set-Location ..", ".. är mappen ovanför, precis som i bash."],
+  ['fs', 1, 'Visa vilken mapp du står i', 'pwd', 'pwd = print working directory. Skriver ut hela sökvägen.', "Get-Location", "pwd är ett alias för Get-Location."],
+  ['fs', 1, 'Lista filerna i mappen du står i', ['ls', 'ls .'], 'ls = list. Visar filer och mappar här.', ["Get-ChildItem", "Get-ChildItem ."], "ls, dir och gci är alla alias för Get-ChildItem."],
+  ['fs', 1, 'Skapa en tom fil som heter {f}', 'touch {f}', 'touch skapar filen om den saknas, annars uppdateras bara tidsstämpeln.', ["New-Item {f}", "New-Item -ItemType File {f}"], "touch finns inte i PowerShell. New-Item skapar en tom fil."],
+  ['fs', 1, 'Visa innehållet i {f}', 'cat {f}', 'cat = concatenate. Skriver ut filen, eller flera filer efter varandra.', "Get-Content {f}", "cat och type är alias för Get-Content."],
+  ['fs', 1, 'Gå till din hemmapp', ['cd', 'cd ~'], '~ är din hemmapp. cd utan argument går också dit.', ["Set-Location ~", "Set-Location $HOME"], "~ och $HOME är din hemmapp. cd utan något efter fungerar bara i PowerShell 7."],
+  ['fs', 2, 'Ta bort filen {f}', 'rm {f}', 'rm = remove. Det finns ingen papperskorg, filen är borta direkt.', "Remove-Item {f}", "rm och del är alias för Remove-Item. Ingen papperskorg här heller."],
+  ['fs', 2, 'Byt namn på {f} till {f2}', 'mv {f} {f2}', 'mv = move. Att byta namn är att flytta filen till ett nytt namn.', ["Rename-Item {f} {f2}", "Move-Item {f} {f2}"], "Rename-Item byter namn. Move-Item och mv fungerar också."],
+  ['fs', 2, 'Kopiera {f} till {f2}', 'cp {f} {f2}', 'cp = copy.', "Copy-Item {f} {f2}", "cp och copy är alias för Copy-Item."],
+  ['fs', 2, 'Flytta {f} in i mappen {d}', 'mv {f} {d}', 'Är målet en mapp hamnar filen i den, med samma namn.', "Move-Item {f} {d}", "Är målet en mapp hamnar filen i den, med samma namn."],
+  ['fs', 2, 'Lista alla filer, även dolda', ['ls -a', 'ls -la', 'ls -A'], 'Filer som börjar med punkt, som .env och .gitignore, är dolda. -a = all.', "Get-ChildItem -Force", "Dolda filer syns bara med -Force. ls -a fungerar inte här."],
+  ['fs', 2, 'Lista filerna med storlek och datum', ['ls -l', 'ls -la', 'ls -lh', 'ls -lah'], '-l = long. Visar rättigheter, ägare, storlek och datum.', "Get-ChildItem", "Get-ChildItem visar redan datum och storlek. ls -l ger fel, -l finns inte."],
+  ['fs', 2, 'Ta bort den tomma mappen {d}', ['rmdir {d}', 'rm -d {d}', 'rm -r {d}'], 'rmdir vägrar om mappen inte är tom. Det är en säkerhetsspärr.', "Remove-Item {d}", "Remove-Item tar bort en tom mapp direkt. Är den inte tom frågar PowerShell först."],
+  ['fs', 2, 'Gå direkt till mappen {d} i din hemmapp', 'cd ~/{d}', '~/ är en genväg till hemmappen, så det funkar var du än står.', ["Set-Location ~/{d}", "Set-Location $HOME/{d}"], "~ är hemmappen. Både / och \\ fungerar i sökvägar på Windows."],
+  ['fs', 3, 'Ta bort mappen {d} och allt i den', ['rm -r {d}', 'rm -rf {d}', 'rm -R {d}'], '-r = recursive, allt i mappen följer med. -f = force, inga frågor. Dubbelkolla sökvägen.', ["Remove-Item {d} -Recurse", "Remove-Item {d} -Recurse -Force"], "-Recurse tar med allt inuti, -Force även dolda filer. rm -rf ger fel i PowerShell."],
+  ['fs', 3, 'Skapa mappen {d2}/{d}, även om {d2} inte finns än', 'mkdir -p {d2}/{d}', '-p = parents. Skapar mapparna som saknas på vägen.', ["New-Item -ItemType Directory {d2}/{d}", "New-Item -ItemType Directory {d2}/{d} -Force"], "New-Item skapar mapparna som saknas på vägen av sig själv. Ingen -p behövs."],
+  ['fs', 3, 'Kopiera mappen {d} med allt innehåll till {d2}', ['cp -r {d} {d2}', 'cp -R {d} {d2}', 'cp -a {d} {d2}'], '-r = recursive. Utan den vägrar cp kopiera mappar.', "Copy-Item {d} {d2} -Recurse", "-Recurse kopierar allt inuti. Utan den blir det bara en tom mapp."],
+  ['fs', 3, 'Visa de 10 första raderna i {log}', ['head {log}', 'head -n 10 {log}', 'head -10 {log}'], 'head visar 10 rader om du inte säger något annat.', ["Get-Content {log} -TotalCount 10", "Get-Content {log} | Select-Object -First 10"], "-TotalCount, -Head och -First betyder samma sak."],
+  ['fs', 3, 'Visa de 20 sista raderna i {log}', ['tail -n 20 {log}', 'tail -20 {log}'], 'tail = svansen. Perfekt för loggar, där det nya hamnar sist.', ["Get-Content {log} -Tail 20", "Get-Content {log} | Select-Object -Last 20"], "-Tail läser bara slutet av filen, snabbt även för stora loggar."],
+  ['fs', 3, 'Skriv texten hej i terminalen', 'echo hej', 'echo skriver ut det du ger den. Mest användbart ihop med > och variabler.', "Write-Output hej", "echo är ett alias för Write-Output."],
+  ['fs', 4, 'Skriv texten hej till {f} och skriv över det som fanns', 'echo hej > {f}', '> skickar utskriften till en fil i stället för skärmen, och skriver över filen.', ["Set-Content {f} hej", "Write-Output hej > {f}"], "> fungerar i PowerShell också. Set-Content är cmdlet-varianten."],
+  ['fs', 4, 'Lägg till raden hej sist i {f}', 'echo hej >> {f}', '>> lägger till sist i filen i stället för att skriva över.', ["Add-Content {f} hej", "Write-Output hej >> {f}"], ">> lägger till sist. Add-Content är cmdlet-varianten."],
+  ['fs', 4, 'Följ {log} live medan nya rader skrivs', 'tail -f {log}', '-f = follow. Står kvar och visar nya rader tills du trycker Ctrl+C.', ["Get-Content {log} -Wait", "Get-Content {log} -Wait -Tail 10"], "-Wait står kvar och visar nya rader tills du trycker Ctrl+C."],
+  ['fs', 4, 'Räkna raderna i {f}', 'wc -l {f}', 'wc = word count. -l räknar rader i stället för ord.', "Get-Content {f} | Measure-Object -Line", "Measure-Object räknar det som kommer genom pipen. -Line räknar rader."],
   ['fs', 4, 'Gör skriptet deploy.sh körbart', ['chmod +x deploy.sh', 'chmod u+x deploy.sh', 'chmod 755 deploy.sh'], 'chmod = change mode. +x ger rätten att köra filen som program.'],
   ['fs', 4, 'Kör skriptet deploy.sh i mappen du står i', ['./deploy.sh', 'bash deploy.sh', 'sh deploy.sh'], './ betyder här. Bash letar inte i mappen du står i av säkerhetsskäl.'],
-  ['fs', 5, 'Visa hur mycket plats mappen {d} tar totalt', 'du -sh {d}', 'du = disk usage. -s = bara summan, -h = human readable (MB i stället för byte).'],
-  ['fs', 5, 'Skapa mappen {d}, gå in i den och skapa filen {f}', [['mkdir {d}'], ['cd {d}'], ['touch {f}']], 'Med && körs nästa kommando bara om det förra lyckades.'],
-  ['fs', 5, 'Visa de 5 största filerna och mapparna här', ['du -sh * | sort -h | tail -n 5', 'du -sh * | sort -h | tail -5'], 'Tre program med | emellan: mät, sortera efter storlek, visa de sista fem.'],
+  ['fs', 5, 'Visa hur mycket plats mappen {d} tar totalt', 'du -sh {d}', 'du = disk usage. -s = bara summan, -h = human readable (MB i stället för byte).', "Get-ChildItem {d} -Recurse | Measure-Object -Property Length -Sum", "Summerar Length, storleken i byte, för alla filer i mappen."],
+  ['fs', 5, 'Skapa mappen {d}, gå in i den och skapa filen {f}', [['mkdir {d}'], ['cd {d}'], ['touch {f}']], 'Med && körs nästa kommando bara om det förra lyckades.', [["New-Item -ItemType Directory {d}"], ["Set-Location {d}"], ["New-Item {f}"]], "Med ; körs kommandona efter varandra. && finns bara i PowerShell 7."],
+  ['fs', 5, 'Visa de 5 största filerna och mapparna här', ['du -sh * | sort -h | tail -n 5', 'du -sh * | sort -h | tail -5'], 'Tre program med | emellan: mät, sortera efter storlek, visa de sista fem.', "Get-ChildItem | Sort-Object Length -Descending | Select-Object -First 5", "Lista, sortera på storlek störst först, ta de fem första."],
 
-  ['git', 1, 'Gör mappen du står i till ett git-repo', 'git init', 'init = initialize. Skapar den dolda mappen .git där all historik sparas.'],
-  ['git', 1, 'Se vilka filer som ändrats sedan senaste commit', 'git status', 'git status är det du kör hela tiden. Det ändrar ingenting.'],
-  ['git', 1, 'Lägg till alla ändrade filer inför nästa commit', ['git add .', 'git add -A', 'git add --all'], 'add flyttar ändringar till staging, en väntsal inför nästa commit.'],
-  ['git', 1, 'Lägg till bara {f} inför nästa commit', 'git add {f}', 'Lägger du till en fil i taget blir varje commit en tydlig sak.'],
-  ['git', 1, 'Committa med meddelandet "{msg}"', 'git commit -m "{msg}"', 'commit sparar en ögonblicksbild. -m = message. Citattecknen behövs när meddelandet har mellanslag.'],
-  ['git', 1, 'Skicka dina commits till GitHub', 'git push', 'push skickar dina commits till remote, oftast GitHub.'],
-  ['git', 1, 'Hämta det senaste från GitHub', 'git pull', 'pull hämtar andras ändringar och slår ihop dem med dina.'],
-  ['git', 2, 'Visa historiken av commits', ['git log', 'git log --oneline'], 'Tryck q för att komma ur loggen. Alla fastnar där första gången.'],
-  ['git', 2, 'Visa historiken, en rad per commit', 'git log --oneline', '--oneline ger kort hash och meddelande per rad.'],
-  ['git', 2, 'Skapa grenen {b}', 'git branch {b}', 'En gren är en parallell version av koden. Du står kvar där du var.'],
-  ['git', 2, 'Byt till grenen {b}', ['git switch {b}', 'git checkout {b}'], 'switch är det nya namnet. checkout gör samma sak men också mycket annat.'],
-  ['git', 2, 'Skapa grenen {b} och byt till den direkt', ['git switch -c {b}', 'git checkout -b {b}'], '-c = create.'],
-  ['git', 2, 'Lista alla grenar', ['git branch', 'git branch -a'], 'Stjärnan visar vilken gren du står på.'],
-  ['git', 2, 'Se exakt vilka rader du har ändrat', 'git diff', 'diff = difference. Rött är borttaget, grönt är tillagt.'],
-  ['git', 3, 'Klona repot {repo} från GitHub-användaren {user}', ['git clone https://github.com/{user}/{repo}.git', 'git clone https://github.com/{user}/{repo}', 'git clone git@github.com:{user}/{repo}.git', 'gh repo clone {user}/{repo}'], 'clone laddar ner hela repot med all historik.'],
-  ['git', 3, 'Slå ihop grenen {b} med grenen du står på', 'git merge {b}', 'Har två ändringar rört samma rad blir det en konflikt som du får lösa.'],
-  ['git', 3, 'Ta bort grenen {b}', ['git branch -d {b}', 'git branch -D {b}'], '-d vägrar om grenen inte är ihopslagen. -D tar bort ändå.'],
-  ['git', 3, 'Skicka grenen {b} till GitHub första gången', ['git push -u origin {b}', 'git push --set-upstream origin {b}'], '-u kopplar grenen till GitHub, så räcker git push nästa gång.'],
-  ['git', 3, 'Kasta ändringarna i {f} sedan senaste commit', ['git restore {f}', 'git checkout -- {f}', 'git checkout {f}'], 'Ändringarna är borta på riktigt, git har aldrig sparat dem.'],
-  ['git', 3, 'Lägg undan dina ändringar tillfälligt', 'git stash', 'stash = gömma. Bra när du måste byta gren mitt i något.'],
-  ['git', 3, 'Ta tillbaka ändringarna du lade undan', 'git stash pop', 'pop tar det senaste du lade undan och lägger tillbaka det.'],
-  ['git', 3, 'Se vilka remotes repot är kopplat till', 'git remote -v', 'origin är bara ett namn, en konvention för stället du klonade från.'],
-  ['git', 4, 'Skapa repot {repo} på GitHub från mappen du står i, publikt, och pusha', 'gh repo create {repo} --public --source=. --push', 'gh är GitHubs egen CLI. --source=. betyder mappen du står i.'],
-  ['git', 4, 'Öppna en pull request', ['gh pr create', 'gh pr create --fill'], 'En pull request ber om att få slå ihop din gren. Där sker kodgranskningen.'],
-  ['git', 4, 'Lista öppna pull requests', 'gh pr list', 'gh pr checkout och ett nummer hämtar en PR lokalt.'],
-  ['git', 4, 'Logga in på GitHub från terminalen', 'gh auth login', 'Efter det kan både gh och git prata med GitHub utan lösenord.'],
-  ['git', 4, 'Byt meddelande på senaste commit till "{msg}"', 'git commit --amend -m "{msg}"', '--amend skriver om senaste commit. Gör det bara innan du har pushat.'],
-  ['git', 4, 'Ångra senaste commit men behåll ändringarna', ['git reset HEAD~1', 'git reset --soft HEAD~1', 'git reset HEAD~'], 'HEAD~1 är commiten före den senaste.'],
-  ['git', 5, 'Lägg upp projektet {repo} på GitHub. Mappen är inte ett git-repo än.', [['git init'], ['git add .', 'git add -A', 'git add --all'], ['git commit -m {any}'], ['gh repo create {repo} --public --source=. --push', 'gh repo create {repo} --private --source=. --push']], 'Hela vägen: skapa repo, lägg till, committa, skapa på GitHub och pusha.'],
-  ['git', 5, 'Spara allt med meddelandet "{msg}" och skicka till GitHub', [['git add .', 'git add -A', 'git add --all'], ['git commit -m "{msg}"'], ['git push']], 'De tre kommandona du kör flest gånger per dag.'],
-  ['git', 5, 'Skapa grenen {b}, byt till den och skicka den till GitHub', [['git switch -c {b}', 'git checkout -b {b}'], ['git push -u origin {b}', 'git push --set-upstream origin {b}']], 'Så börjar varje ny funktion: egen gren, direkt upp på GitHub.'],
-  ['git', 5, 'Visa vem som senast ändrade varje rad i {f}', 'git blame {f}', 'blame = skylla på. Visar commit och person per rad.'],
+  ['git', 1, 'Gör mappen du står i till ett git-repo', 'git init', 'init = initialize. Skapar den dolda mappen .git där all historik sparas.', '='],
+  ['git', 1, 'Se vilka filer som ändrats sedan senaste commit', 'git status', 'git status är det du kör hela tiden. Det ändrar ingenting.', '='],
+  ['git', 1, 'Lägg till alla ändrade filer inför nästa commit', ['git add .', 'git add -A', 'git add --all'], 'add flyttar ändringar till staging, en väntsal inför nästa commit.', '='],
+  ['git', 1, 'Lägg till bara {f} inför nästa commit', 'git add {f}', 'Lägger du till en fil i taget blir varje commit en tydlig sak.', '='],
+  ['git', 1, 'Committa med meddelandet "{msg}"', 'git commit -m "{msg}"', 'commit sparar en ögonblicksbild. -m = message. Citattecknen behövs när meddelandet har mellanslag.', '='],
+  ['git', 1, 'Skicka dina commits till GitHub', 'git push', 'push skickar dina commits till remote, oftast GitHub.', '='],
+  ['git', 1, 'Hämta det senaste från GitHub', 'git pull', 'pull hämtar andras ändringar och slår ihop dem med dina.', '='],
+  ['git', 2, 'Visa historiken av commits', ['git log', 'git log --oneline'], 'Tryck q för att komma ur loggen. Alla fastnar där första gången.', '='],
+  ['git', 2, 'Visa historiken, en rad per commit', 'git log --oneline', '--oneline ger kort hash och meddelande per rad.', '='],
+  ['git', 2, 'Skapa grenen {b}', 'git branch {b}', 'En gren är en parallell version av koden. Du står kvar där du var.', '='],
+  ['git', 2, 'Byt till grenen {b}', ['git switch {b}', 'git checkout {b}'], 'switch är det nya namnet. checkout gör samma sak men också mycket annat.', '='],
+  ['git', 2, 'Skapa grenen {b} och byt till den direkt', ['git switch -c {b}', 'git checkout -b {b}'], '-c = create.', '='],
+  ['git', 2, 'Lista alla grenar', ['git branch', 'git branch -a'], 'Stjärnan visar vilken gren du står på.', '='],
+  ['git', 2, 'Se exakt vilka rader du har ändrat', 'git diff', 'diff = difference. Rött är borttaget, grönt är tillagt.', '='],
+  ['git', 3, 'Klona repot {repo} från GitHub-användaren {user}', ['git clone https://github.com/{user}/{repo}.git', 'git clone https://github.com/{user}/{repo}', 'git clone git@github.com:{user}/{repo}.git', 'gh repo clone {user}/{repo}'], 'clone laddar ner hela repot med all historik.', '='],
+  ['git', 3, 'Slå ihop grenen {b} med grenen du står på', 'git merge {b}', 'Har två ändringar rört samma rad blir det en konflikt som du får lösa.', '='],
+  ['git', 3, 'Ta bort grenen {b}', ['git branch -d {b}', 'git branch -D {b}'], '-d vägrar om grenen inte är ihopslagen. -D tar bort ändå.', '='],
+  ['git', 3, 'Skicka grenen {b} till GitHub första gången', ['git push -u origin {b}', 'git push --set-upstream origin {b}'], '-u kopplar grenen till GitHub, så räcker git push nästa gång.', '='],
+  ['git', 3, 'Kasta ändringarna i {f} sedan senaste commit', ['git restore {f}', 'git checkout -- {f}', 'git checkout {f}'], 'Ändringarna är borta på riktigt, git har aldrig sparat dem.', ["git restore {f}", "git checkout {f}"], "Undvik git checkout -- i PowerShell: -- kan försvinna på vägen till git."],
+  ['git', 3, 'Lägg undan dina ändringar tillfälligt', 'git stash', 'stash = gömma. Bra när du måste byta gren mitt i något.', '='],
+  ['git', 3, 'Ta tillbaka ändringarna du lade undan', 'git stash pop', 'pop tar det senaste du lade undan och lägger tillbaka det.', '='],
+  ['git', 3, 'Se vilka remotes repot är kopplat till', 'git remote -v', 'origin är bara ett namn, en konvention för stället du klonade från.', '='],
+  ['git', 4, 'Skapa repot {repo} på GitHub från mappen du står i, publikt, och pusha', 'gh repo create {repo} --public --source=. --push', 'gh är GitHubs egen CLI. --source=. betyder mappen du står i.', '='],
+  ['git', 4, 'Öppna en pull request', ['gh pr create', 'gh pr create --fill'], 'En pull request ber om att få slå ihop din gren. Där sker kodgranskningen.', '='],
+  ['git', 4, 'Lista öppna pull requests', 'gh pr list', 'gh pr checkout och ett nummer hämtar en PR lokalt.', '='],
+  ['git', 4, 'Logga in på GitHub från terminalen', 'gh auth login', 'Efter det kan både gh och git prata med GitHub utan lösenord.', '='],
+  ['git', 4, 'Byt meddelande på senaste commit till "{msg}"', 'git commit --amend -m "{msg}"', '--amend skriver om senaste commit. Gör det bara innan du har pushat.', '='],
+  ['git', 4, 'Ångra senaste commit men behåll ändringarna', ['git reset HEAD~1', 'git reset --soft HEAD~1', 'git reset HEAD~'], 'HEAD~1 är commiten före den senaste.', '='],
+  ['git', 5, 'Lägg upp projektet {repo} på GitHub. Mappen är inte ett git-repo än.', [['git init'], ['git add .', 'git add -A', 'git add --all'], ['git commit -m {any}'], ['gh repo create {repo} --public --source=. --push', 'gh repo create {repo} --private --source=. --push']], 'Hela vägen: skapa repo, lägg till, committa, skapa på GitHub och pusha.', '='],
+  ['git', 5, 'Spara allt med meddelandet "{msg}" och skicka till GitHub', [['git add .', 'git add -A', 'git add --all'], ['git commit -m "{msg}"'], ['git push']], 'De tre kommandona du kör flest gånger per dag.', '='],
+  ['git', 5, 'Skapa grenen {b}, byt till den och skicka den till GitHub', [['git switch -c {b}', 'git checkout -b {b}'], ['git push -u origin {b}', 'git push --set-upstream origin {b}']], 'Så börjar varje ny funktion: egen gren, direkt upp på GitHub.', '='],
+  ['git', 5, 'Visa vem som senast ändrade varje rad i {f}', 'git blame {f}', 'blame = skylla på. Visar commit och person per rad.', '='],
 
-  ['cc', 1, 'Sök efter {word} i {f}', 'grep {word} {f}', 'grep = global regular expression print. Claude Code söker så här hela tiden.'],
-  ['cc', 1, 'Sök efter {word} i alla filer i alla undermappar', ['grep -r {word} .', 'grep -r {word}', 'grep -R {word} .', 'rg {word}'], '-r = recursive. rg (ripgrep) är en snabbare grep, och den Claude Code använder.'],
-  ['cc', 1, 'Visa vilken version av node du har', ['node --version', 'node -v'], 'Första felsökningen: kör jag rätt version?'],
-  ['cc', 1, 'Installera projektets paket', ['npm install', 'npm i'], 'Läser package.json och laddar ner allt till node_modules.'],
-  ['cc', 1, 'Starta utvecklingsservern (skriptet dev)', 'npm run dev', 'npm run kör skript från package.json. dev brukar starta en lokal server.'],
-  ['cc', 1, 'Hämta sidan https://example.com', 'curl https://example.com', 'curl = client URL. Gör en webbförfrågan och skriver ut svaret.'],
-  ['cc', 2, 'Sök efter {word} i alla filer och visa radnummer', ['grep -rn {word} .', 'grep -rn {word}', 'rg -n {word}', 'rg {word}'], '-n = line number. Så vet Claude Code exakt vilken rad den ska ändra.'],
-  ['cc', 2, 'Sök efter {word} i {f} oavsett stora och små bokstäver', 'grep -i {word} {f}', '-i = ignore case.'],
-  ['cc', 2, 'Kör projektets tester', ['npm test', 'npm run test', 'npm t'], 'Claude Code kör testerna efter en ändring för att se att inget gick sönder.'],
-  ['cc', 2, 'Visa var programmet node ligger', ['which node', 'command -v node', 'type node'], 'which letar igenom PATH och säger vilken fil som körs.'],
-  ['cc', 2, 'Visa alla miljövariabler', ['env', 'printenv'], 'Miljövariabler är inställningar som varje program du startar får med sig.'],
-  ['cc', 2, 'Sätt miljövariabeln PORT till 3000', 'export PORT=3000', 'export gör variabeln synlig för program du startar från terminalen.'],
-  ['cc', 2, 'Installera paketet {pkg} i projektet', ['npm install {pkg}', 'npm i {pkg}', 'npm add {pkg}'], 'Paketet hamnar i node_modules och skrivs in i package.json.'],
-  ['cc', 3, 'Hitta alla .js-filer under mappen du står i', ['find . -name "*.js"', 'find -name "*.js"', 'find . -type f -name "*.js"'], '-name matchar filnamn. Citattecknen hindrar bash från att tolka * själv.'],
-  ['cc', 3, 'Hitta filen {f} någonstans under mappen du står i', ['find . -name {f}', 'find -name {f}'], 'find går igenom alla undermappar. Punkten betyder: börja här.'],
-  ['cc', 3, 'Räkna hur många rader i {log} som innehåller ERROR', ['grep -c ERROR {log}', 'grep ERROR {log} | wc -l'], '-c = count. Eller grep och wc -l med en pipe |.'],
-  ['cc', 3, 'Visa raderna med ERROR i {log}, men bara de 20 sista', ['grep ERROR {log} | tail -n 20', 'grep ERROR {log} | tail -20'], '| (pipe) skickar utskriften från ett program in i nästa.'],
-  ['cc', 3, 'Hämta bara svarshuvudena från https://example.com', ['curl -I https://example.com', 'curl --head https://example.com'], '-I visar statuskod och headers. Snabbt sätt att se om en sida svarar.'],
-  ['cc', 3, 'Ladda ner https://example.com/data.json och spara som data.json', ['curl -o data.json https://example.com/data.json', 'curl -O https://example.com/data.json', 'wget https://example.com/data.json'], '-o = output till en fil. -O tar filnamnet från adressen.'],
-  ['cc', 3, 'Kör paketet create-vite utan att installera det', ['npx create-vite', 'npx create-vite@latest', 'npm create vite', 'npm create vite@latest'], 'npx kör ett paket direkt och slänger det efteråt.'],
-  ['cc', 3, 'Lista processerna som körs', ['ps aux', 'ps -ef', 'ps', 'top', 'htop'], 'Varje program som körs är en process med ett id, PID.'],
-  ['cc', 3, 'Avsluta processen med id 4821', 'kill 4821', 'kill skickar en signal. Standard är TERM: snälla, avsluta.'],
-  ['cc', 4, 'Tvinga processen 4821 att avsluta direkt', ['kill -9 4821', 'kill -KILL 4821', 'kill -s KILL 4821'], '-9 = KILL. Processen får ingen chans att städa efter sig.'],
-  ['cc', 4, 'Visa vilket program som lyssnar på port 3000', ['lsof -i :3000', 'lsof -i:3000'], 'Klassikern när servern inte vill starta: porten är redan upptagen.'],
+  ['cc', 1, 'Sök efter {word} i {f}', 'grep {word} {f}', 'grep = global regular expression print. Claude Code söker så här hela tiden.', "Select-String {word} {f}", "Select-String är PowerShells grep. sls är aliaset."],
+  ['cc', 1, 'Sök efter {word} i alla filer i alla undermappar', ['grep -r {word} .', 'grep -r {word}', 'grep -R {word} .', 'rg {word}'], '-r = recursive. rg (ripgrep) är en snabbare grep, och den Claude Code använder.', ["Get-ChildItem -Recurse | Select-String {word}", "Get-ChildItem -Recurse -File | Select-String {word}", "rg {word}"], "Get-ChildItem -Recurse hämtar filerna, Select-String söker i dem. rg fungerar likadant i båda skalen."],
+  ['cc', 1, 'Visa vilken version av node du har', ['node --version', 'node -v'], 'Första felsökningen: kör jag rätt version?', '='],
+  ['cc', 1, 'Installera projektets paket', ['npm install', 'npm i'], 'Läser package.json och laddar ner allt till node_modules.', '='],
+  ['cc', 1, 'Starta utvecklingsservern (skriptet dev)', 'npm run dev', 'npm run kör skript från package.json. dev brukar starta en lokal server.', '='],
+  ['cc', 1, 'Hämta sidan https://example.com', 'curl https://example.com', 'curl = client URL. Gör en webbförfrågan och skriver ut svaret.', ["Invoke-WebRequest https://example.com", "curl.exe https://example.com", "Invoke-RestMethod https://example.com"], "I Windows PowerShell är curl ett alias för Invoke-WebRequest. Riktiga curl heter curl.exe."],
+  ['cc', 2, 'Sök efter {word} i alla filer och visa radnummer', ['grep -rn {word} .', 'grep -rn {word}', 'rg -n {word}', 'rg {word}'], '-n = line number. Så vet Claude Code exakt vilken rad den ska ändra.', ["Get-ChildItem -Recurse | Select-String {word}", "Get-ChildItem -Recurse -File | Select-String {word}", "rg -n {word}", "rg {word}"], "Select-String visar radnumret av sig själv."],
+  ['cc', 2, 'Sök efter {word} i {f} oavsett stora och små bokstäver', 'grep -i {word} {f}', '-i = ignore case.', "Select-String {word} {f}", "Select-String struntar redan i stora och små bokstäver. -CaseSensitive slår på dem."],
+  ['cc', 2, 'Kör projektets tester', ['npm test', 'npm run test', 'npm t'], 'Claude Code kör testerna efter en ändring för att se att inget gick sönder.', '='],
+  ['cc', 2, 'Visa var programmet node ligger', ['which node', 'command -v node', 'type node'], 'which letar igenom PATH och säger vilken fil som körs.', "Get-Command node", "Get-Command visar var programmet finns. gcm är aliaset."],
+  ['cc', 2, 'Visa alla miljövariabler', ['env', 'printenv'], 'Miljövariabler är inställningar som varje program du startar får med sig.', "Get-ChildItem env:", "env: är en låtsasenhet, som C:, där miljövariablerna ligger."],
+  ['cc', 2, 'Sätt miljövariabeln PORT till 3000', 'export PORT=3000', 'export gör variabeln synlig för program du startar från terminalen.', ["$env:PORT = 3000", "$env:PORT=3000"], "$env: är där miljövariablerna bor. Gäller bara terminalen du står i."],
+  ['cc', 2, 'Installera paketet {pkg} i projektet', ['npm install {pkg}', 'npm i {pkg}', 'npm add {pkg}'], 'Paketet hamnar i node_modules och skrivs in i package.json.', '='],
+  ['cc', 3, 'Hitta alla .js-filer under mappen du står i', ['find . -name "*.js"', 'find -name "*.js"', 'find . -type f -name "*.js"'], '-name matchar filnamn. Citattecknen hindrar bash från att tolka * själv.', ["Get-ChildItem -Recurse -Filter *.js", "Get-ChildItem -Recurse *.js", "Get-ChildItem -Recurse -Include *.js"], "-Filter matchar filnamn, -Recurse går ner i alla undermappar."],
+  ['cc', 3, 'Hitta filen {f} någonstans under mappen du står i', ['find . -name {f}', 'find -name {f}'], 'find går igenom alla undermappar. Punkten betyder: börja här.', ["Get-ChildItem -Recurse -Filter {f}", "Get-ChildItem -Recurse {f}"], "Get-ChildItem -Recurse går igenom alla undermappar."],
+  ['cc', 3, 'Räkna hur många rader i {log} som innehåller ERROR', ['grep -c ERROR {log}', 'grep ERROR {log} | wc -l'], '-c = count. Eller grep och wc -l med en pipe |.', "Select-String ERROR {log} | Measure-Object", "Measure-Object räknar träffarna som kommer genom pipen."],
+  ['cc', 3, 'Visa raderna med ERROR i {log}, men bara de 20 sista', ['grep ERROR {log} | tail -n 20', 'grep ERROR {log} | tail -20'], '| (pipe) skickar utskriften från ett program in i nästa.', "Select-String ERROR {log} | Select-Object -Last 20", "| (pipe) skickar resultatet vidare. Select-Object -Last tar de sista."],
+  ['cc', 3, 'Hämta bara svarshuvudena från https://example.com', ['curl -I https://example.com', 'curl --head https://example.com'], '-I visar statuskod och headers. Snabbt sätt att se om en sida svarar.', ["Invoke-WebRequest https://example.com -Method Head", "curl.exe -I https://example.com"], "-Method Head hämtar bara statuskod och headers."],
+  ['cc', 3, 'Ladda ner https://example.com/data.json och spara som data.json', ['curl -o data.json https://example.com/data.json', 'curl -O https://example.com/data.json', 'wget https://example.com/data.json'], '-o = output till en fil. -O tar filnamnet från adressen.', ["Invoke-WebRequest https://example.com/data.json -OutFile data.json", "curl.exe -o data.json https://example.com/data.json"], "-OutFile sparar svaret i en fil."],
+  ['cc', 3, 'Kör paketet create-vite utan att installera det', ['npx create-vite', 'npx create-vite@latest', 'npm create vite', 'npm create vite@latest'], 'npx kör ett paket direkt och slänger det efteråt.', '='],
+  ['cc', 3, 'Lista processerna som körs', ['ps aux', 'ps -ef', 'ps', 'top', 'htop'], 'Varje program som körs är en process med ett id, PID.', "Get-Process", "ps är ett alias för Get-Process."],
+  ['cc', 3, 'Avsluta processen med id 4821', 'kill 4821', 'kill skickar en signal. Standard är TERM: snälla, avsluta.', "Stop-Process -Id 4821", "kill är ett alias för Stop-Process."],
+  ['cc', 4, 'Tvinga processen 4821 att avsluta direkt', ['kill -9 4821', 'kill -KILL 4821', 'kill -s KILL 4821'], '-9 = KILL. Processen får ingen chans att städa efter sig.', "Stop-Process -Id 4821 -Force", "-Force avslutar direkt, som kill -9 i bash."],
+  ['cc', 4, 'Visa vilket program som lyssnar på port 3000', ['lsof -i :3000', 'lsof -i:3000'], 'Klassikern när servern inte vill starta: porten är redan upptagen.', ["Get-NetTCPConnection -LocalPort 3000", "Get-NetTCPConnection -LocalPort 3000 -State Listen"], "Kolumnen OwningProcess är id:t på programmet som håller porten."],
   ['cc', 4, 'Ersätt alla foo med bar i {f}, direkt i filen', "sed -i 's/foo/bar/g' {f}", 'sed = stream editor. s/gammalt/nytt/g, där g betyder alla träffar på raden.'],
-  ['cc', 4, 'Hämta https://api.github.com/users/{user} och plocka ut fältet name med jq', ['curl https://api.github.com/users/{user} | jq .name', 'curl -s https://api.github.com/users/{user} | jq .name', 'curl https://api.github.com/users/{user} | jq -r .name', 'curl -s https://api.github.com/users/{user} | jq -r .name'], 'jq läser JSON. .name plockar ut ett fält. -s gör curl tyst.'],
-  ['cc', 4, 'Logga in på servern server.example.com som användaren deploy', 'ssh deploy@server.example.com', 'ssh = secure shell. En terminal på en annan dator.'],
-  ['cc', 4, 'Följ {log} live och visa bara rader med ERROR', 'tail -f {log} | grep ERROR', 'Två program i en pipe: tail matar, grep filtrerar.'],
-  ['cc', 4, 'Packa upp arkivet backup.tar.gz', ['tar -xzf backup.tar.gz', 'tar xzf backup.tar.gz', 'tar -xvzf backup.tar.gz', 'tar xvzf backup.tar.gz', 'tar -xf backup.tar.gz', 'tar xf backup.tar.gz'], '-x = extract, -z = gzip, -f = file. Moderna tar listar ut z själv.'],
-  ['cc', 5, 'Skicka JSON {"namn":"test"} med POST till https://api.example.com/items', [`curl -X POST -H "Content-Type: application/json" -d '{"namn":"test"}' https://api.example.com/items`, `curl -H "Content-Type: application/json" -d '{"namn":"test"}' https://api.example.com/items`, `curl --json '{"namn":"test"}' https://api.example.com/items`], 'Så testar Claude Code ett API: -X väljer metod, -H sätter en header, -d skickar data.'],
-  ['cc', 5, 'Kopiera {f} till mappen /var/www på server.example.com, som användaren deploy', 'scp {f} deploy@server.example.com:/var/www', 'scp = secure copy. Samma inloggning som ssh.'],
-  ['cc', 5, 'Visa de 5 vanligaste raderna i {log}', ['sort {log} | uniq -c | sort -rn | head -n 5', 'sort {log} | uniq -c | sort -rn | head -5'], 'Klassisk kedja: sortera, räkna dubbletter, sortera på antal, ta topp 5.'],
-  ['cc', 5, 'Klona {user}/{repo}, gå in i mappen och installera paketen', [['git clone https://github.com/{user}/{repo}.git', 'git clone https://github.com/{user}/{repo}', 'gh repo clone {user}/{repo}'], ['cd {repo}'], ['npm install', 'npm i']], 'Det första du gör med nästan varje JavaScript-projekt.'],
+  ['cc', 4, 'Hämta https://api.github.com/users/{user} och plocka ut fältet name med jq', ['curl https://api.github.com/users/{user} | jq .name', 'curl -s https://api.github.com/users/{user} | jq .name', 'curl https://api.github.com/users/{user} | jq -r .name', 'curl -s https://api.github.com/users/{user} | jq -r .name'], 'jq läser JSON. .name plockar ut ett fält. -s gör curl tyst.', ["Invoke-RestMethod https://api.github.com/users/{user} | Select-Object -ExpandProperty name", "Invoke-RestMethod https://api.github.com/users/{user} | Select-Object name"], "Invoke-RestMethod gör om JSON till ett objekt själv. Ingen jq behövs."],
+  ['cc', 4, 'Logga in på servern server.example.com som användaren deploy', 'ssh deploy@server.example.com', 'ssh = secure shell. En terminal på en annan dator.', '=', "Windows har ssh inbyggt, samma kommando som på Mac och Linux."],
+  ['cc', 4, 'Följ {log} live och visa bara rader med ERROR', 'tail -f {log} | grep ERROR', 'Två program i en pipe: tail matar, grep filtrerar.', "Get-Content {log} -Wait | Select-String ERROR", "Get-Content -Wait matar, Select-String filtrerar."],
+  ['cc', 4, 'Packa upp arkivet backup.tar.gz', ['tar -xzf backup.tar.gz', 'tar xzf backup.tar.gz', 'tar -xvzf backup.tar.gz', 'tar xvzf backup.tar.gz', 'tar -xf backup.tar.gz', 'tar xf backup.tar.gz'], '-x = extract, -z = gzip, -f = file. Moderna tar listar ut z själv.', '=', "Windows har tar inbyggt sedan 2018, med samma flaggor."],
+  ['cc', 5, 'Skicka JSON {"namn":"test"} med POST till https://api.example.com/items', [`curl -X POST -H "Content-Type: application/json" -d '{"namn":"test"}' https://api.example.com/items`, `curl -H "Content-Type: application/json" -d '{"namn":"test"}' https://api.example.com/items`, `curl --json '{"namn":"test"}' https://api.example.com/items`], 'Så testar Claude Code ett API: -X väljer metod, -H sätter en header, -d skickar data.', "Invoke-RestMethod https://api.example.com/items -Method Post -ContentType application/json -Body '{\"namn\":\"test\"}'", "-Method väljer metod, -ContentType säger att det är JSON, -Body är datan."],
+  ['cc', 5, 'Kopiera {f} till mappen /var/www på server.example.com, som användaren deploy', 'scp {f} deploy@server.example.com:/var/www', 'scp = secure copy. Samma inloggning som ssh.', '=', "scp följer med ssh i Windows."],
+  ['cc', 5, 'Visa de 5 vanligaste raderna i {log}', ['sort {log} | uniq -c | sort -rn | head -n 5', 'sort {log} | uniq -c | sort -rn | head -5'], 'Klassisk kedja: sortera, räkna dubbletter, sortera på antal, ta topp 5.', "Get-Content {log} | Group-Object | Sort-Object Count -Descending | Select-Object -First 5", "Group-Object räknar likadana rader. Sortera på antal och ta topp 5."],
+  ['cc', 5, 'Klona {user}/{repo}, gå in i mappen och installera paketen', [['git clone https://github.com/{user}/{repo}.git', 'git clone https://github.com/{user}/{repo}', 'gh repo clone {user}/{repo}'], ['cd {repo}'], ['npm install', 'npm i']], 'Det första du gör med nästan varje JavaScript-projekt.', [["git clone https://github.com/{user}/{repo}.git", "git clone https://github.com/{user}/{repo}", "gh repo clone {user}/{repo}"], ["Set-Location {repo}"], ["npm install", "npm i"]], "Det första du gör med nästan varje JavaScript-projekt."],
 ];
 
 const OPS = new Set(['|', '>', '>>', '&&', ';', '||']);
@@ -311,7 +312,9 @@ const VALS = {git: 'mbcCdD', head: 'nc', tail: 'nc', grep: 'eABCm', curl: 'XHdo'
 const LONGVALS = new Set(['--source', '--message', '--title', '--body', '--output', '--header', '--data', '--request', '--json']);
 
 // Delar en rad som bash: citattecken, backslash och operatorer. Oavslutat citat kastar fel.
-function tokenize(s) {
+// I PowerShell är backslash ett vanligt tecken i sökvägar och backtick är escape.
+function tokenize(s, ps = false) {
+  const escape = ps ? '`' : '\\';
   const out = [];
   let cur = '', has = false, i = 0;
   const push = () => { if (has) out.push(cur); cur = ''; has = false; };
@@ -325,11 +328,11 @@ function tokenize(s) {
     }
     if (ch === '"') {
       i++; has = true;
-      while (i < s.length && s[i] !== '"') { if (s[i] === '\\' && i + 1 < s.length) i++; cur += s[i++]; }
+      while (i < s.length && s[i] !== '"') { if (s[i] === escape && i + 1 < s.length) i++; cur += s[i++]; }
       if (i >= s.length) throw new Error('"');
       i++; continue;
     }
-    if (ch === '\\' && i + 1 < s.length) { cur += s[i + 1]; has = true; i += 2; continue; }
+    if (ch === escape && i + 1 < s.length) { cur += s[i + 1]; has = true; i += 2; continue; }
     const op = ['&&', '||', '>>', '|', ';', '>'].find(o => s.startsWith(o, i));
     if (op) { push(); out.push(op); i += op.length; continue; }
     cur += ch; has = true; i++;
@@ -347,9 +350,9 @@ function segments(tokens) {
 
 // mkdir a b blir mkdir a + mkdir b, så att ett kommando kan rensa flera block
 const MULTI = new Set(['mkdir', 'touch', 'rm', 'rmdir']);
-function units(seg) {
+function units(seg, ps = false) {
   const [cmd, ...rest] = seg;
-  if (!MULTI.has(cmd) || rest.some(t => OPS.has(t))) return [seg];
+  if (ps || !MULTI.has(cmd) || rest.some(t => OPS.has(t))) return [seg];
   const flags = rest.filter(t => t.startsWith('-')), args = rest.filter(t => !t.startsWith('-'));
   return args.length > 1 ? args.map(a => [cmd, ...flags, a]) : [seg];
 }
@@ -357,10 +360,10 @@ function units(seg) {
 const path = t => t.replace(/^\.\/(?=.)/, '').replace(/(.)\/$/, '$1');
 
 // Normalform: positionella argument i ordning, flaggor sorterade och ihopslagna (-rn = -r -n)
-function canon(seg) {
+function canon(seg, ps = false) {
   const out = [];
   let stage = [];
-  const flush = () => { if (stage.length) out.push(...canonStage(stage)); stage = []; };
+  const flush = () => { if (stage.length) out.push(...(ps ? canonPSStage : canonStage)(stage)); stage = []; };
   for (const t of seg) if (t === '|') { flush(); out.push('|'); } else stage.push(t);
   flush();
   return out;
@@ -382,6 +385,76 @@ function canonStage([cmd, ...rest]) {
   return [cmd, ...pos, ...flags.sort()];
 }
 
+// ---------- PowerShell ----------
+// Alias som finns inbyggda i Windows PowerShell 5.1. mkdir är en funktion som blir New-Item -ItemType Directory.
+const PSALIAS = {
+  ls: 'get-childitem', dir: 'get-childitem', gci: 'get-childitem', cd: 'set-location', sl: 'set-location', chdir: 'set-location',
+  pwd: 'get-location', gl: 'get-location', cat: 'get-content', gc: 'get-content', type: 'get-content',
+  rm: 'remove-item', del: 'remove-item', ri: 'remove-item', erase: 'remove-item', rd: 'remove-item', rmdir: 'remove-item',
+  cp: 'copy-item', copy: 'copy-item', cpi: 'copy-item', mv: 'move-item', move: 'move-item', mi: 'move-item',
+  ren: 'rename-item', rni: 'rename-item', ni: 'new-item', mkdir: 'new-item -itemtype directory', md: 'new-item -itemtype directory',
+  echo: 'write-output', write: 'write-output', sleep: 'start-sleep', ps: 'get-process', gps: 'get-process',
+  kill: 'stop-process', spps: 'stop-process', select: 'select-object', where: 'where-object', '?': 'where-object',
+  '%': 'foreach-object', foreach: 'foreach-object', sls: 'select-string', gcm: 'get-command', help: 'get-help', man: 'get-help',
+  curl: 'invoke-webrequest', wget: 'invoke-webrequest', iwr: 'invoke-webrequest', irm: 'invoke-restmethod',
+  sort: 'sort-object', measure: 'measure-object', group: 'group-object', ac: 'add-content', sc: 'set-content', clear: 'clear-host', cls: 'clear-host',
+};
+// Parametrarna PowerShell känner till per cmdlet, så att förkortningar (-Rec) och felstavningar (-rf) går att avgöra.
+// Värdet efter två punkter är parametrar som är växlar och inte tar något värde.
+const COMMON = 'whatif confirm erroraction verbose';
+const PSPARAMS = Object.fromEntries(Object.entries({
+  'get-childitem': 'path literalpath filter include exclude recurse depth force name attributes directory file hidden readonly system followsymlink:recurse force name directory file hidden readonly system followsymlink',
+  'get-content': 'path literalpath readcount totalcount tail filter include exclude force delimiter wait raw encoding stream:force wait raw',
+  'set-location': 'path literalpath passthru stackname:passthru',
+  'get-location': 'psprovider psdrive stack stackname:stack',
+  'new-item': 'path name itemtype value force:force',
+  'remove-item': 'path literalpath filter include exclude recurse force stream:recurse force',
+  'copy-item': 'path literalpath destination container force filter include exclude recurse passthru:container force recurse passthru',
+  'move-item': 'path literalpath destination force filter include exclude passthru:force passthru',
+  'rename-item': 'path literalpath newname force passthru:force passthru',
+  'select-string': 'inputobject pattern path literalpath simplematch casesensitive quiet list include exclude notmatch allmatches encoding context:simplematch casesensitive quiet list notmatch allmatches',
+  'select-object': 'inputobject property excludeproperty expandproperty unique last first skip skiplast wait index:unique wait',
+  'sort-object': 'property descending unique casesensitive culture inputobject:descending unique casesensitive',
+  'measure-object': 'property sum average maximum minimum line word character inputobject ignorewhitespace:sum average maximum minimum line word character ignorewhitespace',
+  'stop-process': 'id name inputobject passthru force:passthru force',
+  'get-process': 'name id inputobject includeusername module fileversioninfo:includeusername module fileversioninfo',
+}).map(([k, v]) => { const [all, sw] = v.split(':'); return [k, {all: [...all.split(' '), ...COMMON.split(' ')], sw: new Set([...sw.split(' '), ...COMMON.split(' ')])}]; }));
+const PSPARAMALIAS = {'get-content': {head: 'totalcount', first: 'totalcount', last: 'tail'}, 'new-item': {type: 'itemtype'}};
+// Ordningen positionella argument fyller parametrarna i: Select-String ord fil = -Pattern ord -Path fil
+const PSPOS = {'select-string': ['pattern', 'path'], 'copy-item': ['path', 'destination'], 'move-item': ['path', 'destination'], 'rename-item': ['path', 'newname'],
+  'set-content': ['path', 'value'], 'add-content': ['path', 'value'], 'write-output': ['inputobject'], 'measure-object': ['property'], 'sort-object': ['property'],
+  'group-object': ['property'], 'select-object': ['property'], 'stop-process': ['id'], 'get-process': ['name'], 'invoke-webrequest': ['uri'], 'invoke-restmethod': ['uri'],
+  'get-command': ['name'], 'get-help': ['name'], 'start-sleep': ['seconds'], 'get-nettcpconnection': ['localaddress']};
+const isCmdlet = c => /^[a-z]+-[a-z]+$/.test(c);
+const psval = t => path(t.toLowerCase().replace(/\\/g, '/'));
+// Hela parameternamnet, även när det är förkortat. null om ingen parameter passar, '' om flera gör det.
+function psparam(cmd, name) {
+  const n = PSPARAMALIAS[cmd]?.[name] || name, all = PSPARAMS[cmd]?.all;
+  if (!all || all.includes(n)) return n;
+  const hits = all.filter(p => p.startsWith(n));
+  return hits.length === 1 ? hits[0] : hits.length ? '' : null;
+}
+// Normalform för PowerShell: små bokstäver, alias utbytta, parametrar med namn, positionella på sina platser
+function canonPSStage([c, ...rest]) {
+  const [cmd, ...pre] = (PSALIAS[c.toLowerCase()] || c.toLowerCase()).split(' ');
+  if (!isCmdlet(cmd)) return canonStage([cmd.replace(/\.exe$/, ''), ...rest]); // git, npm, curl.exe: rättas som i bash
+  const toks = [...pre, ...rest], pos = [], named = {}, flags = [];
+  for (let i = 0; i < toks.length; i++) {
+    const t = toks[i], n = toks[i + 1];
+    if (/^-[a-z]/i.test(t)) {
+      const [raw, v] = t.slice(1).toLowerCase().split(/:(.*)/);
+      const k = psparam(cmd, raw) || raw;
+      if (v !== undefined) named[k] = psval(v);
+      else if (PSPARAMS[cmd]?.sw.has(k) || n === undefined || /^-[a-z]/i.test(n) || OPS.has(n)) flags.push(k);
+      else named[k] = psval(toks[++i]);
+    } else pos.push(t === '>' || t === '>>' ? t : psval(t));
+  }
+  const slots = (PSPOS[cmd] || ['path']).map(k => { const v = named[k]; delete named[k]; return v; });
+  for (let i = 0; i < slots.length && pos.length; i++) if (slots[i] === undefined) slots[i] = pos.shift();
+  while (slots.length && slots.at(-1) === undefined) slots.pop();
+  return [cmd, ...slots.map(v => v ?? ''), ...pos, ...Object.entries(named).map(([k, v]) => `-${k}=${v}`).sort(), ...flags.map(f => '-' + f).sort()];
+}
+
 function same(input, expected) {
   return input.length === expected.length && input.every((t, i) => {
     const e = expected[i];
@@ -390,8 +463,9 @@ function same(input, expected) {
 }
 
 // Fyller i {d}, {f2} osv. {x2} blir alltid något annat än {x}.
-function fill(task, pick) {
-  const [pack, lv, text, ans, why] = task, v = {};
+function fill(task, pick, ps = false) {
+  const [pack, lv, text, bashAns, bashWhy, psAns, psWhy] = task, v = {};
+  const ans = ps && psAns !== '=' ? psAns : bashAns, why = ps && psWhy || bashWhy;
   const sub = s => s.replace(/\{(\w+?)(2?)\}/g, (m, k, two) => {
     if (!POOLS[k]) return m;
     const key = k + two, other = two ? k : k + '2';
@@ -400,8 +474,10 @@ function fill(task, pick) {
   });
   const alts = a => (Array.isArray(a) ? a : [a]);
   const steps = Array.isArray(ans) && Array.isArray(ans[0]) ? ans.map(alts) : [alts(ans)];
-  return {task, pack, lv, text: sub(text), why: sub(why),
-    steps: steps.map(s => s.map(x => { const raw = sub(x); return {raw, key: canon(tokenize(raw))}; }))};
+  // other: bash-svaret, som hjälpkortet visar under PowerShell-svaret
+  const first = a => (Array.isArray(a) && Array.isArray(a[0]) ? a.map(x => alts(x)[0]).join(' && ') : alts(a)[0]);
+  return {task, pack, lv, text: sub(text), why: sub(why), other: ps && psAns !== '=' ? sub(first(bashAns)) : null,
+    steps: steps.map(s => s.map(x => { const raw = sub(x); return {raw, key: canon(tokenize(raw, ps), ps)}; }))};
 }
 
 // Hjälpkortet: vad varje del av ett svar betyder. Nyckeln är "kommando del" (eller "git branch -d"),
@@ -462,16 +538,45 @@ const GLOSS = {
   'ssh': 'secure shell: en terminal på en annan dator', 'scp': 'secure copy: kopierar filer över ssh',
   'tar': 'packar ihop och upp arkiv', 'tar -x': 'extract: packa upp', 'tar -z': 'gzip: arkivet är komprimerat (.gz)', 'tar -f': 'file: arkivfilen kommer efter', 'tar -v': 'verbose: visa varje fil', 'tar backup.tar.gz': 'arkivet',
 };
+// PowerShell: Verb-Substantiv. Get hämtar, Set ändrar, New skapar, Remove tar bort.
+Object.assign(GLOSS, {
+  'Get-Location': 'hämta platsen: mappen du står i. Alias: pwd', 'Set-Location': 'byt plats, alltså mapp. Alias: cd', 'Get-ChildItem': 'hämta det som ligger i mappen. Alias: ls, dir, gci',
+  'Get-ChildItem -Force': 'visa även dolda filer', 'Get-ChildItem -Recurse': 'gå igenom alla undermappar', 'Get-ChildItem -Filter': 'bara filnamn som matchar mönstret efter',
+  'Get-ChildItem -Include': 'bara filnamn som matchar mönstret efter', 'Get-ChildItem -File': 'bara filer, inte mappar', 'Get-ChildItem env:': 'env: är en låtsasenhet där miljövariablerna ligger',
+  'New-Item': 'skapa något nytt, en fil om du inte säger annat. Alias: ni', 'New-Item -ItemType': 'vilken sorts sak som skapas', 'New-Item Directory': 'en mapp', 'New-Item File': 'en fil',
+  'New-Item -Force': 'gör det även om något redan finns', 'Get-Content': 'hämta innehållet i en fil. Alias: cat, type, gc', 'Get-Content -TotalCount': 'bara de första raderna. Samma som -Head och -First',
+  'Get-Content -Tail': 'bara de sista raderna. Samma som -Last', 'Get-Content -Wait': 'stå kvar och visa nya rader tills du trycker Ctrl+C',
+  'Remove-Item': 'ta bort, utan papperskorg. Alias: rm, del', 'Remove-Item -Recurse': 'ta med allt inuti mappen', 'Remove-Item -Force': 'ta även dolda och skrivskyddade filer',
+  'Rename-Item': 'byt namn. Alias: ren', 'Move-Item': 'flytta, eller byt namn. Alias: mv, move', 'Copy-Item': 'kopiera. Alias: cp, copy', 'Copy-Item -Recurse': 'kopiera allt inuti mappen också',
+  'Write-Output': 'skriv ut. Alias: echo', 'Write-Output hej': 'texten som skrivs ut', 'Set-Content': 'skriv till en fil och ersätt det som fanns', 'Set-Content hej': 'texten som skrivs i filen',
+  'Add-Content': 'lägg till sist i en fil', 'Add-Content hej': 'texten som läggs till',
+  'Measure-Object': 'räkna och summera det som kommer genom pipen', 'Measure-Object -Line': 'räkna rader', 'Measure-Object -Property': 'vilket fält som ska räknas på',
+  'Measure-Object Length': 'Length, filens storlek i byte', 'Measure-Object -Sum': 'summera, inte bara räkna',
+  'Sort-Object': 'sortera. Alias: sort', 'Sort-Object Length': 'sortera på Length, storleken', 'Sort-Object Count': 'sortera på Count, antalet', 'Sort-Object -Descending': 'störst först',
+  'Select-Object': 'välj ut delar. Alias: select', 'Select-Object -First': 'bara de första', 'Select-Object -Last': 'bara de sista', 'Select-Object -ExpandProperty': 'plocka ut bara värdet i ett fält',
+  'Select-Object name': 'fältet name', 'Select-String': 'sök text, PowerShells grep. Alias: sls', 'Group-Object': 'samla likadana och räkna dem. Alias: group',
+  'Get-Process': 'lista program som körs. Alias: ps', 'Stop-Process': 'avsluta ett program. Alias: kill', 'Stop-Process -Id': 'processens id, PID', 'Stop-Process -Force': 'avsluta direkt, utan att fråga',
+  'Get-NetTCPConnection': 'lista nätverksanslutningar', 'Get-NetTCPConnection -LocalPort': 'bara den här porten på din dator', 'Get-NetTCPConnection -State': 'bara anslutningar i ett visst läge',
+  'Get-NetTCPConnection Listen': 'Listen: program som väntar på anslutningar, som en server', 'Get-Command': 'visa var ett kommando finns och vad det är. Alias: gcm',
+  'Invoke-WebRequest': 'gör en webbförfrågan. Alias: iwr, och curl i Windows PowerShell', 'Invoke-WebRequest -Method': 'metoden, alltså vad förfrågan ska göra',
+  'Invoke-WebRequest Head': 'HEAD: bara svarshuvudena, inte sidan', 'Invoke-WebRequest -OutFile': 'spara svaret i filen som följer',
+  'Invoke-RestMethod': 'webbförfrågan som gör om JSON-svaret till ett objekt. Alias: irm', 'Invoke-RestMethod -Method': 'metoden, alltså vad förfrågan ska göra', 'Invoke-RestMethod Post': 'POST: skicka data',
+  'Invoke-RestMethod -ContentType': 'vilken sorts data som skickas', 'Invoke-RestMethod application/json': 'datan är JSON', 'Invoke-RestMethod -Body': 'datan som skickas',
+  'Invoke-RestMethod {"namn":"test"}': 'datan, i JSON-format', 'curl.exe': 'riktiga curl. .exe behövs, annars tolkar Windows PowerShell curl som Invoke-WebRequest',
+  'curl.exe -o': 'output: spara till filen som följer', 'curl.exe -I': 'bara svarshuvudena (headers)',
+  '$HOME': 'variabeln som pekar på din hemmapp', '$env:PORT': 'miljövariabeln PORT. $env: är där miljövariablerna bor', '=': 'tilldelning: det till vänster får värdet till höger',
+  '$env:PORT 3000': 'värdet 3000', '$env:PORT=3000': 'miljövariabeln PORT får värdet 3000',
+});
 const POOLNAME = {d: 'namnet på mappen', f: 'namnet på filen', log: 'loggfilen', b: 'namnet på grenen', repo: 'namnet på repot', msg: 'meddelandet, i citattecken eftersom det har mellanslag',
   word: 'ordet du söker efter', user: 'användarnamnet på GitHub', pkg: 'paketet som installeras'};
 const POOLOF = Object.fromEntries(Object.entries(POOLS).flatMap(([k, vs]) => vs.map(v => [v, k])));
-const NUMS = {head: 'antal rader', tail: 'antal rader', kill: 'processens id, PID'};
+const NUMS = {head: 'antal rader', tail: 'antal rader', kill: 'processens id, PID', 'Get-Content': 'antal rader', 'Select-Object': 'antal', 'Stop-Process': 'processens id, PID', 'Get-NetTCPConnection': 'portnumret'};
 
 // Delar upp ett svar i [del, förklaring]. Förklaringen är null om ordlistan saknar delen.
-function parts(raw) {
+function parts(raw, ps = false) {
   const out = [];
   let path = [], toFile = false;
-  for (const t of tokenize(raw)) {
+  for (const t of tokenize(raw, ps)) {
     const look = k => { for (let i = path.length; i > 0; i--) { const g = GLOSS[path.slice(0, i).join(' ') + ' ' + k]; if (g) return g; } return GLOSS[k]; };
     let d;
     if (OPS.has(t)) { d = GLOSS[t] || 'kör kommandona efter varandra'; toFile = t[0] === '>'; path = []; }
@@ -488,6 +593,7 @@ function parts(raw) {
     else if (POOLOF[t]) d = POOLNAME[POOLOF[t]];
     else if (t.split('/').every(p => POOLOF[p])) d = t.split('/').map(p => `${POOLNAME[POOLOF[p]]} ${p}`).join(', sedan ');
     else if (t.startsWith('~/')) d = `~/ är din hemmapp, sedan ${t.slice(2)}`;
+    else if (t.startsWith('$HOME/')) d = `$HOME är din hemmapp, sedan ${t.slice(6)}`;
     else if (/^https:\/\/github\.com\/|^git@github\.com:/.test(t)) d = 'adressen till repot på GitHub';
     else if (/^https?:\/\//.test(t)) d = 'webbadressen';
     else if (/^\w+@[\w.]+:/.test(t)) d = `användaren ${t.split('@')[0]} på servern ${t.split('@')[1].split(':')[0]}, i mappen ${t.split(':')[1]}`;

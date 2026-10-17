@@ -59,15 +59,15 @@ svg{display:block}
 .term{flex:1;display:flex;flex-direction:column;min-height:0;padding:0 20px 6px;font:14px/1.4 var(--mono);cursor:text}
 .well{position:relative;flex:1;min-height:0;overflow:hidden}
 .log{flex:none;height:9.8em;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;white-space:pre-wrap;word-break:break-word}
-.prompt{flex:none;display:flex;white-space:pre}
+.prompt{flex:none;display:flex;flex-wrap:wrap;white-space:pre-wrap;overflow-wrap:anywhere;min-width:0}
 .u{color:var(--green);font-weight:700}.p{color:var(--blue);font-weight:700}
 .err{color:var(--red)}.cmt{color:var(--comment)}.hot{color:var(--yellow)}.dim{color:var(--faint)}
 .line.bad{animation:shake .25s}
 @keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
-.cmdbox{position:relative;flex:1;min-width:0}
+.cmdbox{position:relative;flex:1 1 12ch;min-width:0}
 #cmd{position:absolute;inset:0;width:100%;font:inherit;background:transparent;border:0;outline:0;color:transparent;caret-color:transparent}
 #cmd::selection{background:#264F78;color:transparent}
-#mirror{white-space:pre;overflow:hidden}
+#mirror{white-space:pre-wrap;overflow-wrap:anywhere;overflow:hidden}
 .cur{background:var(--fg);color:var(--bg)}
 .blur .cur{background:none;outline:1px solid var(--fg)}
 .play .cur,.menu-on .cur{animation:blink 1.06s step-end infinite}
@@ -349,7 +349,7 @@ function tokenize(s, ps = false) {
 // Delar på && ; || till separata kommandon
 function segments(tokens) {
   const segs = [[]];
-  for (const t of tokens) if (t === '&&' || t === ';' || t === '||') segs.push([]); else segs.at(-1).push(t);
+  for (const t of tokens) if (t === '&&' || t === ';' || t === '||') segs.push(Object.assign([], {op: t})); else segs.at(-1).push(t);
   return segs.filter(s => s.length);
 }
 
@@ -433,10 +433,13 @@ const PSPOS = {'select-string': ['pattern', 'path'], 'copy-item': ['path', 'dest
 const isCmdlet = c => /^[a-z]+-[a-z]+$/.test(c);
 const psval = t => path(t.toLowerCase().replace(/\\/g, '/'));
 // Hela parameternamnet, även när det är förkortat. null om ingen parameter passar, '' om flera gör det.
+// Filsystemets dynamiska parametrar förlorar mot de vanliga när en förkortning passar båda, som i riktig PowerShell
+const DYNAMIC = new Set(['attributes', 'directory', 'file', 'hidden', 'readonly', 'system', 'followsymlink']);
 function psparam(cmd, name) {
   const n = PSPARAMALIAS[cmd]?.[name] || name, all = PSPARAMS[cmd]?.all;
   if (!all || all.includes(n)) return n;
-  const hits = all.filter(p => p.startsWith(n));
+  let hits = all.filter(p => p.startsWith(n));
+  if (hits.length > 1) hits = hits.filter(p => !DYNAMIC.has(p)).length === 1 ? hits.filter(p => !DYNAMIC.has(p)) : hits;
   return hits.length === 1 ? hits[0] : hits.length ? '' : null;
 }
 // Normalform för PowerShell: små bokstäver, alias utbytta, parametrar med namn, positionella på sina platser
@@ -667,6 +670,7 @@ const psTable = (at, items) => (items.length ? ['', `    Directory: ${where(at, 
   '----                 -------------         ------ ----', ...items.map(([n, v]) => (typeof v === 'string' ? '-a-' : 'd--') + (PSHIDDEN.has(n) ? 'h' : '-') +
   `--        2026-10-17     12:00 ${(typeof v === 'string' ? String(v.length) : '').padStart(14)} ${n}`), ''] : []);
 const longRow = ([n, v]) => `${typeof v === 'string' ? (n.endsWith('.sh') ? '-rwxr-xr-x' : '-rw-r--r--') : 'drwxr-xr-x'} 1 du du ${String(typeof v === 'string' ? v.length : 4096).padStart(5)} okt 17 12:00 ${n}`;
+const own = (o, k, v) => Object.defineProperty(o, k, {value: v, enumerable: true, writable: true, configurable: true});
 const PSOP = {'get-childitem': 'ls', 'set-location': 'cd', 'get-location': 'pwd', 'get-content': 'cat', 'remove-item': 'rm', 'rename-item': 'ren',
   'move-item': 'mv', 'copy-item': 'cp', 'write-output': 'echo', 'set-content': 'set', 'add-content': 'add', 'new-item': 'new'};
 const PSCMD = {ls: 'Get-ChildItem', cd: 'Set-Location', cat: 'Get-Content', rm: 'Remove-Item', ren: 'Rename-Item', mv: 'Move-Item', cp: 'Copy-Item',
@@ -679,6 +683,7 @@ function fake(fs, cwd, key, ps) {
   if (key.includes('|')) return null; // ponytail: pipes körs inte, de bara rättas
   const r = key.findIndex(t => t === '>' || t === '>>');
   const [c, ...rest] = r > 0 ? key.slice(0, r) : key;
+  if (ps && !PSOP[c] && !['python', 'python3', 'node'].includes(c)) return null; // touch, head, wc: not recognized
   const op = ps ? PSOP[c] || c : c;
   const args = rest.filter(t => !t.startsWith('-')), flags = rest.filter(t => t.startsWith('-')), a0 = args[0];
   const has = (...f) => flags.some(x => f.includes(x.split('=')[0]));
@@ -687,13 +692,24 @@ function fake(fs, cwd, key, ps) {
   const parent = a => look(fs, at(a).slice(0, -1), ps).node;
   const fail = (bash, pse) => { throw new Error(ps ? (PSCMD[op] ? `${PSCMD[op]} : ` : '') + pse : bash); };
   const gone = a => `Cannot find path '${full(a)}' because it does not exist.`;
-  const put = (a, v) => { const p = parent(a), n = at(a).at(-1); p[Object.keys(p).find(k => ps && k.toLowerCase() === n.toLowerCase()) ?? n] = v; };
+  const put = (a, v) => { const p = parent(a), n = at(a).at(-1); own(p, Object.keys(p).find(k => ps && k.toLowerCase() === n.toLowerCase()) ?? n, v); };
   const del = real => { delete look(fs, real.slice(0, -1), ps).node[real.at(-1)]; };
   const alive = () => { const c2 = [...cwd]; while (typeof look(fs, c2, ps).node !== 'object') c2.pop(); return c2; };
   const ok = (out = [], extra = {}) => ({cwd, out, ...extra});
 
-  const wrong = ps && PSCMD[op] && flags.find(x => psparam(c, x.slice(1).split('=')[0]) === null);
-  if (wrong) fail('', `A parameter cannot be found that matches parameter name '${wrong.slice(1)}'.`);
+  const pname = x => x.slice(1).split('=')[0];
+  const wrong = ps && PSCMD[op] && flags.find(x => psparam(c, pname(x)) === null);
+  if (wrong) fail('', `A parameter cannot be found that matches parameter name '${pname(wrong)}'.`);
+  const vague = ps && PSCMD[op] && flags.find(x => psparam(c, pname(x)) === '');
+  if (vague) fail('', `Parameter cannot be processed because the parameter name '${pname(vague)}' is ambiguous. Possible matches include: ${PSPARAMS[c].all.filter(p => p.startsWith(pname(vague))).map(p => '-' + p[0].toUpperCase() + p.slice(1)).join(' ')}.`);
+  // Saknade argument: bash svarar med MISSING (null härifrån), PowerShell frågar efter värdet
+  const need = {mkdir: 1, touch: 1, new: 1, rm: 1, rmdir: 1, chmod: 1, set: 1, add: 1, mv: 2, cp: 2, ren: 2}[op] || 0;
+  if (args.length < need) {
+    if (!ps && !args.length) return null;
+    if (!ps) fail(`${op}: missing destination file operand after '${a0}'\nTry '${op} --help' for more information.`);
+    throw new Error(`cmdlet ${PSCMD[op]} at command pipeline position 1\nSupply values for the following parameters:\n${!args.length ? 'Path[0]' : op === 'ren' ? 'NewName' : 'Destination'}:`);
+  }
+  if (r > 0 && key[r + 1] === undefined) fail("bash: syntax error near unexpected token `newline'", 'Missing file specification after redirection operator.');
   if (args.some(a => /^\/|^[a-z]:/i.test(a))) {
     if (op === 'rm' && a0 === '/' && has('-r', '-R')) fail("rm: it is dangerous to operate recursively on '/'\nrm: use --no-preserve-root to override this failsafe");
     throw new Error('# spelets filsystem är bara din hemmapp. Använd ~ eller sökvägar härifrån.');
@@ -708,7 +724,7 @@ function fake(fs, cwd, key, ps) {
   switch (op) {
     case 'pwd': return ok(ps ? ['', 'Path', '----', where(cwd, true), ''] : [where(cwd, false)]);
     case 'cd': {
-      if (a0 === undefined) return {cwd: [], out: [], same: !cwd.length};
+      if (a0 === undefined) return ps ? {cwd, out: ['# i PowerShell 5.1 står cd kvar. Hem kommer du med cd ~'], same: true} : {cwd: [], out: [], same: !cwd.length};
       const {node, real} = get(a0);
       if (node === undefined) fail(`bash: cd: ${a0}: No such file or directory`, gone(a0));
       if (typeof node === 'string') fail(`bash: cd: ${a0}: Not a directory`, `Cannot find path '${a0}' because it does not exist.`);
@@ -765,10 +781,19 @@ function fake(fs, cwd, key, ps) {
       if (typeof parent(a0) === 'object') put(a0, dir ? {} : '');
       else if (op === 'mkdir' && !has('-p')) fail(`mkdir: cannot create directory '${a0}': No such file or directory`);
       else if (!dir) fail('', `Could not find a part of the path '${full(a0)}'.`);
-      else { let n = fs; for (const x of at(a0)) n = n[x] ??= {}; } // mkdir -p och New-Item skapar mapparna på vägen
+      else { // mkdir -p och New-Item skapar mapparna på vägen
+        let n = fs;
+        for (const x of at(a0)) {
+          if (!Object.hasOwn(n, x)) own(n, x, {});
+          n = n[x];
+          if (typeof n !== 'object') fail(`mkdir: cannot create directory '${a0}': Not a directory`, `Could not find a part of the path '${full(a0)}'.`);
+        }
+      }
       return ok(ps ? psTable(at(a0).slice(0, -1), [[name, dir ? {} : '']]) : []);
     }
     case 'rm': case 'rmdir': {
+      if (/(^|[\\/])\.\.?[\\/]?$/.test(a0)) fail(`rm: refusing to remove '.' or '..' directory: skipping '${a0}'`, `# PowerShell vägrar inte här, men hela mappen du står i hade försvunnit. Spelet säger stopp.`);
+      if (!at(a0).length) throw new Error('# nej. Det här är hela din hemmapp. På en riktig dator hade allt varit borta nu, utan papperskorg.');
       const {node, real} = get(a0);
       if (node === undefined) {
         if (!ps && op === 'rm' && has('-f')) return ok();
@@ -790,12 +815,14 @@ function fake(fs, cwd, key, ps) {
       let dest = op === 'ren' ? [...real.slice(0, -1), a1] : at(a1);
       const d = look(fs, dest, ps).node;
       if (typeof d === 'object' && op !== 'ren') dest = [...dest, real.at(-1)];
+      if (typeof node === 'object' && dest.length > real.length && real.every((x, i) => dest[i] === x))
+        fail(`${op}: cannot ${op === 'mv' ? 'move' : 'copy a directory,'} '${a0}'${op === 'mv' ? ` to a subdirectory of itself, '${a1}'` : ` into itself, '${a1}'`}`, `Cannot ${op === 'mv' ? 'move' : 'copy'} item because the destination is a subdirectory of the source.`);
       else if (d !== undefined && (op === 'ren' || (ps && op === 'mv'))) fail('', 'Cannot create a file when that file already exists.');
       const p = look(fs, dest.slice(0, -1), ps).node;
       if (typeof p !== 'object') fail(op === 'mv' ? `mv: cannot move '${a0}' to '${a1}': No such file or directory` : `cp: cannot create regular file '${a1}': No such file or directory`, `Could not find a part of the path '${where(dest, true)}'.`);
       const copy = op !== 'cp' ? node : ps && typeof node === 'object' && !has('-recurse') ? {} : structuredClone(node);
       if (op !== 'cp') del(real);
-      p[dest.at(-1)] = copy;
+      own(p, dest.at(-1), copy);
       return {cwd: alive(), out: []};
     }
     case 'du': {
@@ -811,6 +838,8 @@ function fake(fs, cwd, key, ps) {
   }
   return null;
 }
+// Tabellerna slås upp med det spelaren skriver. Utan prototyp blir toString och constructor vanliga okända ord.
+for (const o of [PACKS, POOLS, VALS, PSALIAS, PSPARAMALIAS, ...Object.values(PSPARAMALIAS), PSPARAMS, PSPOS, GLOSS, POOLNAME, NUMS, POOLOF, PROGS, FSKIND, PSOP, PSCMD]) Object.setPrototypeOf(o, null);
 /* pure:end */
 
 // ---------- spelet ----------
@@ -1068,7 +1097,7 @@ function remove(b) {
 // Landade block visar svaret, så de ger halva. combo = antal block rensade med samma Enter.
 function points(b, combo, level) {
   const base = 10 * level * b.steps.length;
-  if (b.landed) return Math.round(base / 2) * combo;
+  if (b.landed) return Math.round(base / 2); // ingen kombo på missade block, annars lönar det sig att vänta
   return Math.round(base * (2 - Math.max(0, b.y) / S.H)) * combo;
 }
 
@@ -1099,6 +1128,16 @@ function target(key) {
 }
 
 // Fel kommando: skriv det bash hade skrivit, eller rödmarkera det som skiljer mot närmaste block
+// Vanliga kommandon som spelet inte har block för svarar ändå, utan att räknas som fel
+function toy([c], notes) {
+  const k = S.ps ? psCmd(c) : c, now = new Date().toLocaleString('sv-SE', {dateStyle: 'full', timeStyle: 'medium'});
+  const hs = S.ps ? ['', '  Id CommandLine', '  -- -----------', ...hist.map((h, i) => `${String(i + 1).padStart(4)} ${h}`), ''] : hist.map((h, i) => `${String(i + 1).padStart(5)}  ${h}`);
+  const T = {whoami: S.ps ? 'buildapp\\du' : 'du', hostname: 'buildapp', date: now, 'get-date': now, history: hs, 'get-history': hs, h: hs}, t = T[k];
+  if (!Object.hasOwn(T, k) ||(!S.ps && !['whoami', 'hostname', 'date', 'history'].includes(c))) return false;
+  notes.push(...[].concat(t));
+  return true;
+}
+
 function explain(u, bad, msgs) {
   const [c, sub] = u;
   if (S.ps) {
@@ -1134,14 +1173,24 @@ function run(raw) {
     return fail();
   }
 
+  const andor = S.ps && segs.find(g => g.op === '&&' || g.op === '||')?.op;
+  if (andor) {
+    echo(raw, new Set());
+    out(`The token '${andor}' is not a valid statement separator in this version.`, 'err');
+    out('# PowerShell 5.1 har inte && och ||. Skriv ; mellan kommandona. && kom i PowerShell 7.', 'cmt');
+    return fail();
+  }
   const hits = [], bad = new Set(), msgs = [], notes = [], at = S.cwd;
-  let errs = 0, progressed = false;
+  let errs = 0, progressed = false, typed = 0, prevOk = true;
   for (let seg of segs) {
-    if (seg[0] === 'sudo') seg = seg.slice(1);
+    if ((seg.op === '&&' && !prevOk) || (seg.op === '||' && prevOk)) continue; // bash: && bara efter lyckat, || bara efter fel
+    const errsBefore = errs;
+    if (!S.ps && seg[0] === 'sudo') seg = seg.slice(1);
     if (!seg.length) continue;
+    const c0 = S.ps ? seg[0].toLowerCase() : seg[0];
     if (['clear', 'cls', 'clear-host'].includes(seg[0].toLowerCase()) && seg.length === 1) { clearCmd(); continue; }
-    if (seg[0] === 'exit') { echo(raw, bad); return gameOver(); }
-    if (seg[0] === 'help') { msgs.push('# Skriv kommandot som blocket beskriver. && eller flera argument rensar flera block.\n# ↑ hämtar förra kommandot, Esc pausar, exit avslutar, clear tömmer brunnen om du har en laddning.'); continue; }
+    if (c0 === 'exit') { echo(raw, bad); return gameOver(); }
+    if (c0 === 'help') { msgs.push('# Skriv kommandot som blocket beskriver. && eller flera argument rensar flera block.\n# ↑ hämtar förra kommandot, Esc pausar, exit avslutar, clear tömmer brunnen om du har en laddning.'); continue; }
     for (const u of units(seg, S.ps)) {
       const key = canon(u, S.ps), b = target(key);
       // --help är aldrig fel: visa hjälpen som det riktiga kommandot gör
@@ -1156,17 +1205,20 @@ function run(raw) {
         // seen kan vara '', hemmappen
         if (r) { S.cwd = r.cwd; if (r.seen !== undefined) S.seen.add(r.seen); notes.push(...r.out); if (!b) continue; }
       }
+      if (!b && toy(u, notes)) continue;
       if (!b) { errs++; explain(u, bad, msgs); continue; }
       progressed = true;
+      typed += u.join(' ').length; // CPM räknar bara det som löste något
       if (++b.step === b.steps.length) hits.push(b);
       else b.el.querySelector('.prog').textContent = `steg ${b.step + 1} av ${b.steps.length}`;
     }
+    prevOk = errs === errsBefore;
   }
   echo(raw, bad, '', at);
   if (S.cwd !== at) applyShell();
   msgs.forEach(m => out(m, m.startsWith('#') ? 'cmt' : 'err'));
   notes.join('\n').split('\n').forEach(l => out(l, l.startsWith('#') ? 'cmt' : ''));
-  if (progressed) S.typed += raw.length;
+  S.typed += typed;
 
   const n = hits.length;
   for (const b of hits) {
@@ -1180,12 +1232,12 @@ function run(raw) {
 
   const lv = S.start + Math.floor(S.cleared / 10);
   if (lv > S.level) { S.level = lv; out(`# nivå ${lv}: tempot ökar`, 'hot'); sfx('levelUp'); music(); }
-  if (errs) fail();
+  if (errs) fail(errs); // varje fel räknas, så att ett makro med ; inte lönar sig
   stats();
 }
 
-function fail() {
-  S.streak = 0; S.errors++;
+function fail(n = 1) {
+  S.streak = 0; S.errors += n;
   sfx('error');
 }
 
@@ -1319,13 +1371,13 @@ function gameOver() {
   document.body.className = '';
   const entry = {s: S.score, l: S.level, c: cpm(), p: S.pack, d: new Date().toISOString().slice(0, 10)};
   const scores = scoresLoad();
-  if (!S.helped) { scores.push(entry); scores.sort((a, b) => b.s - a.s); save(HS, scores.slice(0, 10)); }
-  const place = S.helped ? 0 : scores.indexOf(entry) + 1;
+  if (!S.helped && S.score > 0) { scores.push(entry); scores.sort((a, b) => b.s - a.s); save(HS, scores.slice(0, 10)); }
+  const place = S.helped || !S.score ? 0 : scores.indexOf(entry) + 1;
   stats();
   try { snd()?.stop(); } catch {}
   sfx(place === 1 && S.score > 0 ? 'newHighscore' : 'gameOver');
   shared = `./terminal · ${PACKS[S.pack].name} · nivå ${S.level} · ${fmt(S.score)} p · ${cpm()} CPM\nhttps://buildapp.se/ai/terminal.html`;
-  screen.innerHTML = `<p class="dim">The terminal process "/usr/bin/bash" terminated with exit code: 1.</p>
+  screen.innerHTML = `<p class="dim">The terminal process "${S.ps ? 'C:&#92;WINDOWS&#92;System32&#92;WindowsPowerShell&#92;v1.0&#92;powershell.exe' : '/usr/bin/bash'}" terminated with exit code: 1.</p>
     <pre class="logo over" aria-label="Game over">${OVER}</pre>
     <p><span class="hot">${fmt(S.score)} p</span> · nivå ${S.level} · ${cpm()} CPM · ${S.cleared} block · ${S.errors} fel</p>
     <p class="${place === 1 ? 'hot' : 'dim'}">${S.helped ? 'Hjälpen användes, så rundan sparas inte på topplistan.' : place === 1 && S.score > 0 ? 'Nytt rekord!' : place <= 10 ? `Plats ${place} på din topplista.` : 'Utanför topp 10.'}</p>
@@ -1395,6 +1447,7 @@ screen.addEventListener('click', e => {
   cmd.focus();
 });
 
+const typing = e => !e.ctrlKey && !e.metaKey && !e.altKey && (e.key.length === 1 || e.key === 'Backspace' || e.key === 'Delete');
 cmd.addEventListener('keydown', e => {
   try { snd()?.init?.(); } catch {} // ljud som inte kan starta får aldrig stoppa tangenterna
   const k = e.key;
@@ -1402,13 +1455,13 @@ cmd.addEventListener('keydown', e => {
   if (mode === 'shell') {
     if (k === 'Enter') { setShell(prefs.shell); menu(); }
     else if (['ArrowUp', 'ArrowDown', '1', '2'].includes(k)) setShell(k === '1' ? 'ps' : k === '2' ? 'bash' : otherShell());
-    else return;
+    else if (!typing(e)) return;
     return e.preventDefault();
   }
   if (mode === 'settings') {
     if (k === 'Escape') closeSettings();
     else if (k === 's' && backTo === 'menu') setShell(otherShell());
-    else return;
+    else if (!typing(e)) return;
     return e.preventDefault();
   }
   if (mode === 'menu') {
@@ -1420,15 +1473,16 @@ cmd.addEventListener('keydown', e => {
       setPack(keys[(i + keys.length) % keys.length]);
     }
     else if (k === 'ArrowLeft' || k === 'ArrowRight') setLevel(k === 'ArrowLeft' ? -1 : 1);
+    else if (typing(e)) return e.preventDefault();
     else return;
     e.preventDefault();
     return music();
   }
   if (mode === 'over') {
-    if (k === 'Enter') start(); else if (k === 'd') share(); else if (k === 'Escape') menu(); else return;
+    if (k === 'Enter') start(); else if (k === 'd') share(); else if (k === 'Escape') menu(); else if (!typing(e)) return;
     return e.preventDefault();
   }
-  if (mode === 'pause') { if (k === 'Escape' || k === 'Enter') { e.preventDefault(); pause(false); } return; }
+  if (mode === 'pause') { if (k === 'Escape' || k === 'Enter') { e.preventDefault(); pause(false); } else if (typing(e)) e.preventDefault(); return; } // inget förskrivet svar under paus
   if (k === 'Enter') { e.preventDefault(); const v = cmd.value; cmd.value = ''; run(v); }
   else if (k === 'Escape') pause(true);
   else if (k === 'ArrowUp' || k === 'ArrowDown') {
@@ -1456,7 +1510,7 @@ $('#gear').addEventListener('click', () => { settings(); cmd.focus(); });
 function frame(now) {
   const dt = Math.min(.05, (now - last) / 1000);
   last = now;
-  if (mode === 'play') tick(dt);
+  try { if (mode === 'play') tick(dt); } catch (e) { console.error(e); } // ponytail: ett fel ska synas i konsolen, inte frysa spelet
   requestAnimationFrame(frame);
 }
 

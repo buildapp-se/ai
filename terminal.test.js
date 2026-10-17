@@ -151,6 +151,25 @@ sh.bad('Rename-Item notes.txt todo.md', /Cannot create a file when that file alr
 assert.strictEqual(sh('Get-Content app.log -Tail 3').out.length, 3);
 sh('Remove-Item musik -Recurse'); assert.ok(!/musik/.test(sh.out('ls')));
 
+// Fynd från testagenterna 2026-10-17
+for (const w of ['toString -a', 'constructor', '__proto__', 'hasOwnProperty -x']) for (const ps of [false, true]) canon(tokenize(w, ps), ps); // får inte kasta
+sh = shell(false);
+assert.strictEqual(sh('mkdir'), null, 'mkdir utan argument: MISSING-texten i spelet');
+sh.bad('mv notes.txt', /missing destination file operand/);
+sh.bad('echo hej >', /unexpected token `newline'/);
+sh.bad('rm -r .', /refusing to remove/); sh.bad('rm -rf ~', /hemmapp/);
+sh.bad('mv spel spel/inne', /subdirectory of itself/); sh.bad('cp -r musik musik', /into itself/);
+sh.bad('mkdir -p notes.txt/a', /Not a directory/);
+sh('mkdir __proto__'); assert.ok(/__proto__/.test(sh.out('ls')), '__proto__ är en vanlig mapp');
+assert.deepStrictEqual(segments(tokenize('cd x && ls || pwd')).map(g => g.op), [undefined, '&&', '||']);
+sh = shell(true);
+assert.strictEqual(sh('touch x.txt'), null, 'touch finns inte i PowerShell');
+sh.bad('Remove-Item', /Supply values for the following parameters:\nPath\[0\]:/);
+sh.bad('rm -f notes.txt', /ambiguous. Possible matches include: -Filter -Force/);
+sh.bad('rm -rf spel', /parameter name 'rf'\./);
+assert.ok(/\.hemligt/.test(sh.out('gci -fo')), '-fo är -Force, inte tvetydigt');
+assert.ok(sh('cd').same && sh.cwd.length, 'cd utan argument står kvar i PowerShell 5.1');
+
 // Varje uppgift i Filer & mappar går att köra mot världen utan att skalet kraschar
 for (const ps of [false, true]) for (const t of TASKS) if (t[0] === 'fs' && (!ps || t[5])) for (const pick of [a => a[0], a => a[a.length - 1]]) {
   const s = shell(ps);

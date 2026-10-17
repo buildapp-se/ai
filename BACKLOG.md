@@ -20,6 +20,7 @@
 - [x] Pedagogisk förklaring per felval i flervalsfrågorna (`notes`). Gjort 2026-10-16.
 - [x] Terminalkommandonas namn (`cd` = change directory) visas efter varje omgång. Gjort 2026-10-16.
 - [ ] Programspråk och backend: para ihop-delarna saknar förklaring efter omgången. Förkortningar som HTML, CSS, SQL, API, CDN och VPS kan få samma namnlista som kommandona (tredje fältet i paret).
+- [ ] Dubbletter mellan quizen: Kontextfönster (Grunder steg 6 och Tekniska ord), Databas och API (Backend och Tekniska ord, nästan ordagrant), commit-texten i Tekniska ord upprepas i git-förklaringen. Skriv om Tekniska ord så att de kompletterar (granskning 2026-10-17).
 - [ ] Illustrationer till frågorna (till exempel hur en token delar upp ett ord, eller hur frontend, API och databas hänger ihop).
 - [ ] Engelsk version, som resten av sidan (`data-sv`-mönstret).
 

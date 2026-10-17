@@ -868,6 +868,8 @@ const OVER = [
 
 // ---------- lagring ----------
 const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
+// Topplistan ligger i webbläsaren och kan vara trasig: en dålig post får inte krascha menyn
+const scoresLoad = () => [].concat(load(HS, [])).filter(s => Number.isFinite(s?.s) && PACKS[s.p]);
 const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
 const HS = 'term-highscores', SOUND = 'term-sound', SHELL = 'term-shell';
 
@@ -1198,7 +1200,7 @@ function clearCmd() {
 
 // ---------- statistik ----------
 const cpm = () => (S && S.time > 5 ? Math.round(S.typed / (S.time / 60)) : 0);
-const best = () => load(HS, [])[0]?.s ?? 0;
+const best = () => scoresLoad()[0]?.s ?? 0;
 let lastStats = '';
 function stats() {
   const landed = S ? S.blocks.filter(b => b.landed).length : 0;
@@ -1224,7 +1226,7 @@ function menu() {
   document.body.className = 'menu-on';
   well.querySelectorAll('.blk').forEach(e => e.remove());
   S = null;
-  const scores = load(HS, []);
+  const scores = scoresLoad();
   screen.innerHTML = `<pre class="logo" aria-label="./terminal">${BANNER}</pre>
     <p>Uppgifter faller som block. Skriv rätt kommando innan de når botten.</p>
     <div class="cols"><div>
@@ -1316,7 +1318,7 @@ function gameOver() {
   mode = 'over';
   document.body.className = '';
   const entry = {s: S.score, l: S.level, c: cpm(), p: S.pack, d: new Date().toISOString().slice(0, 10)};
-  const scores = load(HS, []);
+  const scores = scoresLoad();
   if (!S.helped) { scores.push(entry); scores.sort((a, b) => b.s - a.s); save(HS, scores.slice(0, 10)); }
   const place = S.helped ? 0 : scores.indexOf(entry) + 1;
   stats();
@@ -1394,7 +1396,7 @@ screen.addEventListener('click', e => {
 });
 
 cmd.addEventListener('keydown', e => {
-  snd()?.init?.();
+  try { snd()?.init?.(); } catch {} // ljud som inte kan starta får aldrig stoppa tangenterna
   const k = e.key;
   if (e.ctrlKey && k === ',' && mode !== 'shell' && mode !== 'over') { e.preventDefault(); return settings(); }
   if (mode === 'shell') {

@@ -1,0 +1,866 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>./terminal | Lär dig terminalen</title>
+<meta name="description" content="Uppgifter faller som tetrisblock. Skriv rätt terminalkommando innan de når botten: filer, git, GitHub och verktygen Claude Code använder.">
+<link rel="canonical" href="https://buildapp.se/ai/terminal.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+/* Färger från VS Code Dark Modern och dess terminal */
+:root{color-scheme:dark;--bg:#181818;--editor:#1F1F1F;--border:#2B2B2B;--fg:#CCCCCC;--dim:#9D9D9D;--faint:#6E7681;--accent:#0078D4;
+  --green:#23D18B;--blue:#3B8EEA;--red:#F14C4C;--yellow:#E5C07B;--comment:#6A9955;
+  --key:#9CDCFE;--str:#CE9178;--num:#B5CEA8;--brace:#FFD700;
+  --ui:"Segoe WPC","Segoe UI",system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono',Consolas,Menlo,monospace}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font:13px/1.4 var(--ui);overflow:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+svg{display:block}
+.win{display:flex;flex-direction:column;height:100dvh}
+
+.titlebar{height:35px;flex:none;display:flex;align-items:center;gap:6px;padding-left:8px;background:var(--bg);border-bottom:1px solid var(--border);color:var(--dim)}
+.titlebar img{width:16px;height:16px;margin-right:4px}
+.menu span{padding:3px 7px;border-radius:4px}
+.cmdcenter{flex:0 1 380px;margin:0 auto;height:24px;display:flex;align-items:center;justify-content:center;gap:6px;border:1px solid #3C3C3C;border-radius:6px;background:#222;color:var(--dim)}
+.winctl{display:flex;height:100%}
+.winctl span{width:46px;display:grid;place-items:center}
+
+.main{flex:1;display:flex;min-height:0}
+.activity{width:48px;flex:none;border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding-top:4px;color:#868686}
+.activity span{width:48px;height:48px;display:grid;place-items:center}
+.activity span:first-child{color:#D7D7D7;box-shadow:inset 2px 0 var(--accent)}
+.work{flex:1;display:flex;flex-direction:column;min-width:0}
+
+.editor{flex:none;background:var(--editor)}
+.tabs{display:flex;height:35px;background:var(--bg);border-bottom:1px solid var(--border)}
+.tab{display:flex;align-items:center;gap:6px;padding:0 12px;border-right:1px solid var(--border);color:var(--dim)}
+.tab.on{background:var(--editor);color:#fff;box-shadow:inset 0 1px var(--accent);margin-bottom:-1px}
+.tab b{color:var(--brace);font-weight:400;font-family:var(--mono)}
+.crumbs{padding:2px 16px;color:var(--dim);font-size:12px}
+.code{display:grid;grid-template-columns:50px 1fr;font:13px/19px var(--mono);padding:2px 0 8px;white-space:pre}
+.code .ln{color:var(--faint);text-align:right;padding-right:22px}
+.k{color:var(--key)}.s{color:var(--str)}.n{color:var(--num)}.br{color:var(--brace)}
+
+.panel{flex:1;display:flex;flex-direction:column;min-height:0;border-top:1px solid var(--border);background:var(--bg)}
+.ptabs{height:35px;flex:none;display:flex;align-items:center;gap:4px;padding:0 8px;font-size:11px;letter-spacing:.04em}
+.ptabs{overflow:hidden}
+.ptabs>span{padding:0 6px;line-height:33px;color:var(--dim);white-space:nowrap}
+.ptabs>span.on{color:#E7E7E7;box-shadow:inset 0 -1px #E7E7E7}
+.badge{display:inline-block;min-width:18px;padding:0 5px;margin-left:4px;border-radius:9px;background:#616161;color:#fff;text-align:center;line-height:18px;letter-spacing:0}
+.badge[data-n="0"]{display:none}
+.pright{margin-left:auto;display:flex;align-items:center;gap:12px;color:var(--dim);letter-spacing:0;font-size:12px}
+
+.term{flex:1;display:flex;flex-direction:column;min-height:0;padding:0 20px 6px;font:14px/1.4 var(--mono);cursor:text}
+.well{position:relative;flex:1;min-height:0;overflow:hidden}
+.log{flex:none;height:9.8em;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;white-space:pre-wrap;word-break:break-word}
+.prompt{flex:none;display:flex;white-space:pre}
+.u{color:var(--green);font-weight:700}.p{color:var(--blue);font-weight:700}
+.err{color:var(--red)}.cmt{color:var(--comment)}.hot{color:var(--yellow)}.dim{color:var(--faint)}
+.line.bad{animation:shake .25s}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.cmdbox{position:relative;flex:1;min-width:0}
+#cmd{position:absolute;inset:0;width:100%;font:inherit;background:transparent;border:0;outline:0;color:transparent;caret-color:transparent}
+#cmd::selection{background:#264F78;color:transparent}
+#mirror{white-space:pre;overflow:hidden}
+.cur{background:var(--fg);color:var(--bg)}
+.blur .cur{background:none;outline:1px solid var(--fg)}
+.play .cur,.menu-on .cur{animation:blink 1.06s step-end infinite}
+@keyframes blink{50%{background:none;color:inherit}}
+
+/* Blocken: TUI-ramar i paketets färg */
+.blk{position:absolute;top:0;padding:.55em .9em .5em;border:1px solid var(--c);background:var(--bg);will-change:transform;transition:opacity .3s,border-color .3s}
+.blk .tag{position:absolute;top:-.75em;left:.7em;padding:0 .35em;background:var(--bg);color:var(--c);font-size:12px}
+.blk p{color:#E7E7E7}
+.blk .prog{color:var(--c);font-size:12px;margin-top:.2em}
+.blk .ans{display:none;color:var(--dim);font-size:13px;margin-top:.25em}
+.blk.landed{border-color:#4A4A4A;--c:#6E6E6E}
+.blk.landed p{color:var(--dim)}
+.blk.landed .ans{display:block}
+.blk.done{opacity:0;border-color:var(--green);box-shadow:0 0 18px var(--green)}
+.blk.miss{animation:shake .25s}
+
+.screen{position:absolute;inset:0;overflow:auto;padding:12px 0 8px;z-index:5;background:var(--bg)}
+.screen[hidden]{display:none}
+.logo{font:clamp(5px,1.5vw,12px)/1.1 var(--mono);color:var(--blue);white-space:pre;margin:4px 0 10px}
+.logo.over{color:var(--red)}
+.screen h2{font:inherit;color:var(--comment);margin-top:1.1em}
+.cols{display:grid;gap:0 6ch}
+@media (min-width:1000px){.cols{grid-template-columns:auto minmax(0,64ch)}}
+.screen p{max-width:76ch}
+.opts{display:flex;flex-direction:column;align-items:flex-start}
+.opt{padding:1px 6px;margin-left:-6px;text-align:left;white-space:pre}
+.opt[aria-pressed=true]{background:#264F78;color:#fff}
+.opt:hover{background:#2A2D2E}
+.opt[aria-pressed=true]:hover{background:#264F78}
+.opt .dim{margin-left:1ch}
+.lvl{display:flex;align-items:center;gap:1ch}
+.lvl button{padding:0 6px;color:var(--blue)}
+.scores{border-collapse:collapse}
+.scores td{padding:0 2ch 0 0;white-space:nowrap}
+.scores td:nth-child(2){text-align:right}
+.actions{display:flex;flex-wrap:wrap;gap:1ch 3ch;margin-top:1.1em}
+.actions button{color:var(--blue)}
+.actions button:hover,.lvl button:hover{text-decoration:underline}
+kbd{font:inherit;color:var(--yellow)}
+
+.status{height:22px;flex:none;display:flex;align-items:center;border-top:1px solid var(--border);color:var(--fg);font-size:12px}
+.status>span,.status>button{display:flex;align-items:center;gap:4px;height:100%;padding:0 8px;white-space:nowrap}
+.status .remote{background:var(--accent);color:#fff;padding:0 10px}
+.status .sp{margin-left:auto}
+.status>button:hover{background:#2A2D2E}
+
+@media (max-height:760px),(max-width:700px){.editor{display:none}}
+@media (max-width:700px){.activity,.menu,.winctl,.status .hide,.ptabs>span:not(.on):not(:first-child),.pright{display:none}.term{padding:0 10px 6px;font-size:13px}.cmdcenter{flex-basis:auto;padding:0 12px}}
+@media (prefers-reduced-motion:reduce){.blk{transition:none}.line.bad,.blk.miss{animation:none}}
+</style>
+</head>
+<body>
+<div class="win">
+  <header class="titlebar">
+    <img src="favicon.svg" alt="">
+    <div class="menu"><span>File</span><span>Edit</span><span>Selection</span><span>View</span><span>Go</span><span>Run</span><span>Terminal</span><span>Help</span></div>
+    <div class="cmdcenter"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3.5 3.5"/></svg>terminal</div>
+    <div class="winctl" aria-hidden="true">
+      <span><svg width="10" height="10"><path d="M0 5h10" stroke="currentColor"/></svg></span>
+      <span><svg width="10" height="10"><rect x=".5" y=".5" width="9" height="9" fill="none" stroke="currentColor"/></svg></span>
+      <span><svg width="10" height="10"><path d="m0 0 10 10M10 0 0 10" stroke="currentColor"/></svg></span>
+    </div>
+  </header>
+
+  <div class="main">
+    <nav class="activity" aria-hidden="true">
+      <span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M14 3H7a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7z"/><path d="M14 3v4h4M3 7v13a1 1 0 0 0 1 1h10"/></svg></span>
+      <span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/></svg></span>
+      <span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="7" cy="5" r="2"/><circle cx="7" cy="19" r="2"/><circle cx="17" cy="8" r="2"/><path d="M7 7v10M17 10c0 4-10 3-10 7"/></svg></span>
+      <span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="m8 5 11 7-11 7z"/></svg></span>
+      <span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 10h6v10H4zM10 14h6v6h-6zM14 4h6v6h-6z"/></svg></span>
+    </nav>
+
+    <div class="work">
+      <section class="editor" aria-hidden="true">
+        <div class="tabs"><div class="tab on"><b>{}</b> stats.json</div><div class="tab">README.md</div></div>
+        <div class="crumbs">ai &rsaquo; <b class="br" style="font-weight:400">{}</b> stats.json</div>
+        <div class="code" id="code"></div>
+      </section>
+
+      <section class="panel">
+        <div class="ptabs" aria-hidden="true">
+          <span>PROBLEMS<span class="badge" id="problems" data-n="0">0</span></span><span>OUTPUT</span><span>DEBUG CONSOLE</span><span class="on">TERMINAL</span><span>PORTS</span>
+          <div class="pright"><span>bash</span><span>+</span><span>&#8943;</span></div>
+        </div>
+        <div class="term" id="term">
+          <div class="well" id="well"><div class="screen" id="screen"></div></div>
+          <div class="log" id="log" aria-live="polite"></div>
+          <div class="prompt"><span><span class="u">du@buildapp</span>:<span class="p">~/projekt</span>$ </span><span class="cmdbox"><span id="mirror"></span><input id="cmd" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Skriv kommando"></span></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <footer class="status">
+    <span class="remote"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="m2 6 3 3-3 3M14 4l-3 3 3 3"/></svg></span>
+    <span class="hide"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="5" cy="3.5" r="1.5"/><circle cx="5" cy="12.5" r="1.5"/><circle cx="11" cy="5.5" r="1.5"/><path d="M5 5v6M11 7c0 3-6 2-6 4"/></svg>main</span>
+    <span id="st-err">&#8855; 0 &#9888; 0</span>
+    <span class="sp" id="st-level">nivå 1</span>
+    <span id="st-score">0 p</span>
+    <span class="hide" id="st-cpm">0 CPM</span>
+    <span id="st-clear">clear &times;0</span>
+    <button id="sound" type="button"></button>
+    <span class="hide">Shell Script</span>
+  </footer>
+</div>
+
+<script>
+/* pure:start  (ren logik utan DOM, testas av terminal.test.js) */
+const PACKS = {
+  fs: {name: 'Filer & mappar', tag: 'fil', c: '#4FC1FF', hint: 'mkdir, cd, ls, rm, mv, cp'},
+  git: {name: 'Git & GitHub', tag: 'git', c: '#DCDCAA', hint: 'git, gh'},
+  cc: {name: 'Som Claude Code', tag: 'claude', c: '#C586C0', hint: 'grep, curl, find, jq, npm'},
+  all: {name: 'Allt', hint: 'alla tre blandat'},
+};
+
+const POOLS = {
+  d: ['musik', 'bilder', 'recept', 'kvitton', 'skola', 'backup', 'demo', 'assets', 'docs', 'src', 'semester', 'spel'],
+  f: ['notes.txt', 'todo.md', 'index.html', 'app.js', 'style.css', 'data.json', 'README.md', 'config.yml', 'main.py'],
+  log: ['server.log', 'app.log', 'error.log'],
+  b: ['dark-mode', 'fix-login', 'ny-meny', 'mobil-vy', 'kontaktsida'],
+  repo: ['tradgard', 'receptbok', 'portfolio', 'spellista', 'budget'],
+  msg: ['första versionen', 'fixa menyn', 'lägg till sök', 'rätta stavfel', 'ny startsida'],
+  word: ['TODO', 'fetch', 'useState', 'password', 'API_KEY'],
+  user: ['octocat', 'torvalds', 'sindresorhus'],
+  pkg: ['zod', 'express', 'dotenv', 'lodash'],
+};
+
+// [paket, svårighet 1–5, uppgift, svar, förklaring]
+// Svar: ett kommando eller en lista med godkända varianter.
+// Kedja: en lista av listor, ett steg per kommando. {any} godtar vilket ord som helst.
+const TASKS = [
+  ['fs', 1, 'Skapa mappen {d}', 'mkdir {d}', 'mkdir = make directory. Skapar en ny mapp.'],
+  ['fs', 1, 'Gå in i mappen {d}', 'cd {d}', 'cd = change directory. Byter mappen du står i.'],
+  ['fs', 1, 'Gå upp en nivå, till mappen ovanför', 'cd ..', '.. betyder alltid mappen ovanför den du står i.'],
+  ['fs', 1, 'Visa vilken mapp du står i', 'pwd', 'pwd = print working directory. Skriver ut hela sökvägen.'],
+  ['fs', 1, 'Lista filerna i mappen du står i', ['ls', 'ls .'], 'ls = list. Visar filer och mappar här.'],
+  ['fs', 1, 'Skapa en tom fil som heter {f}', 'touch {f}', 'touch skapar filen om den saknas, annars uppdateras bara tidsstämpeln.'],
+  ['fs', 1, 'Visa innehållet i {f}', 'cat {f}', 'cat = concatenate. Skriver ut filen, eller flera filer efter varandra.'],
+  ['fs', 1, 'Gå till din hemmapp', ['cd', 'cd ~'], '~ är din hemmapp. cd utan argument går också dit.'],
+  ['fs', 2, 'Ta bort filen {f}', 'rm {f}', 'rm = remove. Det finns ingen papperskorg, filen är borta direkt.'],
+  ['fs', 2, 'Byt namn på {f} till {f2}', 'mv {f} {f2}', 'mv = move. Att byta namn är att flytta filen till ett nytt namn.'],
+  ['fs', 2, 'Kopiera {f} till {f2}', 'cp {f} {f2}', 'cp = copy.'],
+  ['fs', 2, 'Flytta {f} in i mappen {d}', 'mv {f} {d}', 'Är målet en mapp hamnar filen i den, med samma namn.'],
+  ['fs', 2, 'Lista alla filer, även dolda', ['ls -a', 'ls -la', 'ls -A'], 'Filer som börjar med punkt, som .env och .gitignore, är dolda. -a = all.'],
+  ['fs', 2, 'Lista filerna med storlek och datum', ['ls -l', 'ls -la', 'ls -lh', 'ls -lah'], '-l = long. Visar rättigheter, ägare, storlek och datum.'],
+  ['fs', 2, 'Ta bort den tomma mappen {d}', ['rmdir {d}', 'rm -d {d}', 'rm -r {d}'], 'rmdir vägrar om mappen inte är tom. Det är en säkerhetsspärr.'],
+  ['fs', 2, 'Gå direkt till mappen {d} i din hemmapp', 'cd ~/{d}', '~/ är en genväg till hemmappen, så det funkar var du än står.'],
+  ['fs', 3, 'Ta bort mappen {d} och allt i den', ['rm -r {d}', 'rm -rf {d}', 'rm -R {d}'], '-r = recursive, allt i mappen följer med. -f = force, inga frågor. Dubbelkolla sökvägen.'],
+  ['fs', 3, 'Skapa mappen {d2}/{d}, även om {d2} inte finns än', 'mkdir -p {d2}/{d}', '-p = parents. Skapar mapparna som saknas på vägen.'],
+  ['fs', 3, 'Kopiera mappen {d} med allt innehåll till {d2}', ['cp -r {d} {d2}', 'cp -R {d} {d2}', 'cp -a {d} {d2}'], '-r = recursive. Utan den vägrar cp kopiera mappar.'],
+  ['fs', 3, 'Visa de 10 första raderna i {log}', ['head {log}', 'head -n 10 {log}', 'head -10 {log}'], 'head visar 10 rader om du inte säger något annat.'],
+  ['fs', 3, 'Visa de 20 sista raderna i {log}', ['tail -n 20 {log}', 'tail -20 {log}'], 'tail = svansen. Perfekt för loggar, där det nya hamnar sist.'],
+  ['fs', 3, 'Skriv texten hej i terminalen', 'echo hej', 'echo skriver ut det du ger den. Mest användbart ihop med > och variabler.'],
+  ['fs', 4, 'Skriv texten hej till {f} och skriv över det som fanns', 'echo hej > {f}', '> skickar utskriften till en fil i stället för skärmen, och skriver över filen.'],
+  ['fs', 4, 'Lägg till raden hej sist i {f}', 'echo hej >> {f}', '>> lägger till sist i filen i stället för att skriva över.'],
+  ['fs', 4, 'Följ {log} live medan nya rader skrivs', 'tail -f {log}', '-f = follow. Står kvar och visar nya rader tills du trycker Ctrl+C.'],
+  ['fs', 4, 'Räkna raderna i {f}', 'wc -l {f}', 'wc = word count. -l räknar rader i stället för ord.'],
+  ['fs', 4, 'Gör skriptet deploy.sh körbart', ['chmod +x deploy.sh', 'chmod u+x deploy.sh', 'chmod 755 deploy.sh'], 'chmod = change mode. +x ger rätten att köra filen som program.'],
+  ['fs', 4, 'Kör skriptet deploy.sh i mappen du står i', ['./deploy.sh', 'bash deploy.sh', 'sh deploy.sh'], './ betyder här. Bash letar inte i mappen du står i av säkerhetsskäl.'],
+  ['fs', 5, 'Visa hur mycket plats mappen {d} tar totalt', 'du -sh {d}', 'du = disk usage. -s = bara summan, -h = human readable (MB i stället för byte).'],
+  ['fs', 5, 'Skapa mappen {d}, gå in i den och skapa filen {f}', [['mkdir {d}'], ['cd {d}'], ['touch {f}']], 'Med && körs nästa kommando bara om det förra lyckades.'],
+  ['fs', 5, 'Visa de 5 största filerna och mapparna här', ['du -sh * | sort -h | tail -n 5', 'du -sh * | sort -h | tail -5'], 'Tre program med | emellan: mät, sortera efter storlek, visa de sista fem.'],
+
+  ['git', 1, 'Gör mappen du står i till ett git-repo', 'git init', 'init = initialize. Skapar den dolda mappen .git där all historik sparas.'],
+  ['git', 1, 'Se vilka filer som ändrats sedan senaste commit', 'git status', 'git status är det du kör hela tiden. Det ändrar ingenting.'],
+  ['git', 1, 'Lägg till alla ändrade filer inför nästa commit', ['git add .', 'git add -A', 'git add --all'], 'add flyttar ändringar till staging, en väntsal inför nästa commit.'],
+  ['git', 1, 'Lägg till bara {f} inför nästa commit', 'git add {f}', 'Lägger du till en fil i taget blir varje commit en tydlig sak.'],
+  ['git', 1, 'Committa med meddelandet "{msg}"', 'git commit -m "{msg}"', 'commit sparar en ögonblicksbild. -m = message. Citattecknen behövs när meddelandet har mellanslag.'],
+  ['git', 1, 'Skicka dina commits till GitHub', 'git push', 'push skickar dina commits till remote, oftast GitHub.'],
+  ['git', 1, 'Hämta det senaste från GitHub', 'git pull', 'pull hämtar andras ändringar och slår ihop dem med dina.'],
+  ['git', 2, 'Visa historiken av commits', ['git log', 'git log --oneline'], 'Tryck q för att komma ur loggen. Alla fastnar där första gången.'],
+  ['git', 2, 'Visa historiken, en rad per commit', 'git log --oneline', '--oneline ger kort hash och meddelande per rad.'],
+  ['git', 2, 'Skapa grenen {b}', 'git branch {b}', 'En gren är en parallell version av koden. Du står kvar där du var.'],
+  ['git', 2, 'Byt till grenen {b}', ['git switch {b}', 'git checkout {b}'], 'switch är det nya namnet. checkout gör samma sak men också mycket annat.'],
+  ['git', 2, 'Skapa grenen {b} och byt till den direkt', ['git switch -c {b}', 'git checkout -b {b}'], '-c = create.'],
+  ['git', 2, 'Lista alla grenar', ['git branch', 'git branch -a'], 'Stjärnan visar vilken gren du står på.'],
+  ['git', 2, 'Se exakt vilka rader du har ändrat', 'git diff', 'diff = difference. Rött är borttaget, grönt är tillagt.'],
+  ['git', 3, 'Klona repot {repo} från GitHub-användaren {user}', ['git clone https://github.com/{user}/{repo}.git', 'git clone https://github.com/{user}/{repo}', 'git clone git@github.com:{user}/{repo}.git', 'gh repo clone {user}/{repo}'], 'clone laddar ner hela repot med all historik.'],
+  ['git', 3, 'Slå ihop grenen {b} med grenen du står på', 'git merge {b}', 'Har två ändringar rört samma rad blir det en konflikt som du får lösa.'],
+  ['git', 3, 'Ta bort grenen {b}', ['git branch -d {b}', 'git branch -D {b}'], '-d vägrar om grenen inte är ihopslagen. -D tar bort ändå.'],
+  ['git', 3, 'Skicka grenen {b} till GitHub första gången', ['git push -u origin {b}', 'git push --set-upstream origin {b}'], '-u kopplar grenen till GitHub, så räcker git push nästa gång.'],
+  ['git', 3, 'Kasta ändringarna i {f} sedan senaste commit', ['git restore {f}', 'git checkout -- {f}', 'git checkout {f}'], 'Ändringarna är borta på riktigt, git har aldrig sparat dem.'],
+  ['git', 3, 'Lägg undan dina ändringar tillfälligt', 'git stash', 'stash = gömma. Bra när du måste byta gren mitt i något.'],
+  ['git', 3, 'Ta tillbaka ändringarna du lade undan', 'git stash pop', 'pop tar det senaste du lade undan och lägger tillbaka det.'],
+  ['git', 3, 'Se vilka remotes repot är kopplat till', 'git remote -v', 'origin är bara ett namn, en konvention för stället du klonade från.'],
+  ['git', 4, 'Skapa repot {repo} på GitHub från mappen du står i, publikt, och pusha', 'gh repo create {repo} --public --source=. --push', 'gh är GitHubs egen CLI. --source=. betyder mappen du står i.'],
+  ['git', 4, 'Öppna en pull request', ['gh pr create', 'gh pr create --fill'], 'En pull request ber om att få slå ihop din gren. Där sker kodgranskningen.'],
+  ['git', 4, 'Lista öppna pull requests', 'gh pr list', 'gh pr checkout och ett nummer hämtar en PR lokalt.'],
+  ['git', 4, 'Logga in på GitHub från terminalen', 'gh auth login', 'Efter det kan både gh och git prata med GitHub utan lösenord.'],
+  ['git', 4, 'Byt meddelande på senaste commit till "{msg}"', 'git commit --amend -m "{msg}"', '--amend skriver om senaste commit. Gör det bara innan du har pushat.'],
+  ['git', 4, 'Ångra senaste commit men behåll ändringarna', ['git reset HEAD~1', 'git reset --soft HEAD~1', 'git reset HEAD~'], 'HEAD~1 är commiten före den senaste.'],
+  ['git', 5, 'Lägg upp projektet {repo} på GitHub. Mappen är inte ett git-repo än.', [['git init'], ['git add .', 'git add -A', 'git add --all'], ['git commit -m {any}'], ['gh repo create {repo} --public --source=. --push', 'gh repo create {repo} --private --source=. --push']], 'Hela vägen: skapa repo, lägg till, committa, skapa på GitHub och pusha.'],
+  ['git', 5, 'Spara allt med meddelandet "{msg}" och skicka till GitHub', [['git add .', 'git add -A', 'git add --all'], ['git commit -m "{msg}"'], ['git push']], 'De tre kommandona du kör flest gånger per dag.'],
+  ['git', 5, 'Skapa grenen {b}, byt till den och skicka den till GitHub', [['git switch -c {b}', 'git checkout -b {b}'], ['git push -u origin {b}', 'git push --set-upstream origin {b}']], 'Så börjar varje ny funktion: egen gren, direkt upp på GitHub.'],
+  ['git', 5, 'Visa vem som senast ändrade varje rad i {f}', 'git blame {f}', 'blame = skylla på. Visar commit och person per rad.'],
+
+  ['cc', 1, 'Sök efter {word} i {f}', 'grep {word} {f}', 'grep = global regular expression print. Claude Code söker så här hela tiden.'],
+  ['cc', 1, 'Sök efter {word} i alla filer i alla undermappar', ['grep -r {word} .', 'grep -r {word}', 'grep -R {word} .', 'rg {word}'], '-r = recursive. rg (ripgrep) är en snabbare grep, och den Claude Code använder.'],
+  ['cc', 1, 'Visa vilken version av node du har', ['node --version', 'node -v'], 'Första felsökningen: kör jag rätt version?'],
+  ['cc', 1, 'Installera projektets paket', ['npm install', 'npm i'], 'Läser package.json och laddar ner allt till node_modules.'],
+  ['cc', 1, 'Starta utvecklingsservern (skriptet dev)', 'npm run dev', 'npm run kör skript från package.json. dev brukar starta en lokal server.'],
+  ['cc', 1, 'Hämta sidan https://example.com', 'curl https://example.com', 'curl = client URL. Gör en webbförfrågan och skriver ut svaret.'],
+  ['cc', 2, 'Sök efter {word} i alla filer och visa radnummer', ['grep -rn {word} .', 'grep -rn {word}', 'rg -n {word}', 'rg {word}'], '-n = line number. Så vet Claude Code exakt vilken rad den ska ändra.'],
+  ['cc', 2, 'Sök efter {word} i {f} oavsett stora och små bokstäver', 'grep -i {word} {f}', '-i = ignore case.'],
+  ['cc', 2, 'Kör projektets tester', ['npm test', 'npm run test', 'npm t'], 'Claude Code kör testerna efter en ändring för att se att inget gick sönder.'],
+  ['cc', 2, 'Visa var programmet node ligger', ['which node', 'command -v node', 'type node'], 'which letar igenom PATH och säger vilken fil som körs.'],
+  ['cc', 2, 'Visa alla miljövariabler', ['env', 'printenv'], 'Miljövariabler är inställningar som varje program du startar får med sig.'],
+  ['cc', 2, 'Sätt miljövariabeln PORT till 3000', 'export PORT=3000', 'export gör variabeln synlig för program du startar från terminalen.'],
+  ['cc', 2, 'Installera paketet {pkg} i projektet', ['npm install {pkg}', 'npm i {pkg}', 'npm add {pkg}'], 'Paketet hamnar i node_modules och skrivs in i package.json.'],
+  ['cc', 3, 'Hitta alla .js-filer under mappen du står i', ['find . -name "*.js"', 'find -name "*.js"', 'find . -type f -name "*.js"'], '-name matchar filnamn. Citattecknen hindrar bash från att tolka * själv.'],
+  ['cc', 3, 'Hitta filen {f} någonstans under mappen du står i', ['find . -name {f}', 'find -name {f}'], 'find går igenom alla undermappar. Punkten betyder: börja här.'],
+  ['cc', 3, 'Räkna hur många rader i {log} som innehåller ERROR', ['grep -c ERROR {log}', 'grep ERROR {log} | wc -l'], '-c = count. Eller grep och wc -l med en pipe |.'],
+  ['cc', 3, 'Visa raderna med ERROR i {log}, men bara de 20 sista', ['grep ERROR {log} | tail -n 20', 'grep ERROR {log} | tail -20'], '| (pipe) skickar utskriften från ett program in i nästa.'],
+  ['cc', 3, 'Hämta bara svarshuvudena från https://example.com', ['curl -I https://example.com', 'curl --head https://example.com'], '-I visar statuskod och headers. Snabbt sätt att se om en sida svarar.'],
+  ['cc', 3, 'Ladda ner https://example.com/data.json och spara som data.json', ['curl -o data.json https://example.com/data.json', 'curl -O https://example.com/data.json', 'wget https://example.com/data.json'], '-o = output till en fil. -O tar filnamnet från adressen.'],
+  ['cc', 3, 'Kör paketet create-vite utan att installera det', ['npx create-vite', 'npx create-vite@latest', 'npm create vite', 'npm create vite@latest'], 'npx kör ett paket direkt och slänger det efteråt.'],
+  ['cc', 3, 'Lista processerna som körs', ['ps aux', 'ps -ef', 'ps', 'top', 'htop'], 'Varje program som körs är en process med ett id, PID.'],
+  ['cc', 3, 'Avsluta processen med id 4821', 'kill 4821', 'kill skickar en signal. Standard är TERM: snälla, avsluta.'],
+  ['cc', 4, 'Tvinga processen 4821 att avsluta direkt', ['kill -9 4821', 'kill -KILL 4821', 'kill -s KILL 4821'], '-9 = KILL. Processen får ingen chans att städa efter sig.'],
+  ['cc', 4, 'Visa vilket program som lyssnar på port 3000', ['lsof -i :3000', 'lsof -i:3000'], 'Klassikern när servern inte vill starta: porten är redan upptagen.'],
+  ['cc', 4, 'Ersätt alla foo med bar i {f}, direkt i filen', "sed -i 's/foo/bar/g' {f}", 'sed = stream editor. s/gammalt/nytt/g, där g betyder alla träffar på raden.'],
+  ['cc', 4, 'Hämta https://api.github.com/users/{user} och plocka ut fältet name med jq', ['curl https://api.github.com/users/{user} | jq .name', 'curl -s https://api.github.com/users/{user} | jq .name', 'curl https://api.github.com/users/{user} | jq -r .name', 'curl -s https://api.github.com/users/{user} | jq -r .name'], 'jq läser JSON. .name plockar ut ett fält. -s gör curl tyst.'],
+  ['cc', 4, 'Logga in på servern server.example.com som användaren deploy', 'ssh deploy@server.example.com', 'ssh = secure shell. En terminal på en annan dator.'],
+  ['cc', 4, 'Följ {log} live och visa bara rader med ERROR', 'tail -f {log} | grep ERROR', 'Två program i en pipe: tail matar, grep filtrerar.'],
+  ['cc', 4, 'Packa upp arkivet backup.tar.gz', ['tar -xzf backup.tar.gz', 'tar xzf backup.tar.gz', 'tar -xvzf backup.tar.gz', 'tar xvzf backup.tar.gz', 'tar -xf backup.tar.gz', 'tar xf backup.tar.gz'], '-x = extract, -z = gzip, -f = file. Moderna tar listar ut z själv.'],
+  ['cc', 5, 'Skicka JSON {"namn":"test"} med POST till https://api.example.com/items', [`curl -X POST -H "Content-Type: application/json" -d '{"namn":"test"}' https://api.example.com/items`, `curl -H "Content-Type: application/json" -d '{"namn":"test"}' https://api.example.com/items`, `curl --json '{"namn":"test"}' https://api.example.com/items`], 'Så testar Claude Code ett API: -X väljer metod, -H sätter en header, -d skickar data.'],
+  ['cc', 5, 'Kopiera {f} till mappen /var/www på server.example.com, som användaren deploy', 'scp {f} deploy@server.example.com:/var/www', 'scp = secure copy. Samma inloggning som ssh.'],
+  ['cc', 5, 'Visa de 5 vanligaste raderna i {log}', ['sort {log} | uniq -c | sort -rn | head -n 5', 'sort {log} | uniq -c | sort -rn | head -5'], 'Klassisk kedja: sortera, räkna dubbletter, sortera på antal, ta topp 5.'],
+  ['cc', 5, 'Klona {user}/{repo}, gå in i mappen och installera paketen', [['git clone https://github.com/{user}/{repo}.git', 'git clone https://github.com/{user}/{repo}', 'gh repo clone {user}/{repo}'], ['cd {repo}'], ['npm install', 'npm i']], 'Det första du gör med nästan varje JavaScript-projekt.'],
+];
+
+const OPS = new Set(['|', '>', '>>', '&&', ';', '||']);
+const ANY = '{any}';
+// Korta flaggor som tar ett värde, per kommando, så att -m "text" hålls ihop när flaggorna sorteras
+const VALS = {git: 'mbcCdD', head: 'nc', tail: 'nc', grep: 'eABCm', curl: 'XHdo', lsof: 'ip', ssh: 'ip', kill: 's', tar: 'fC', sed: 'e', du: 'd', sort: 'k'};
+const LONGVALS = new Set(['--source', '--message', '--title', '--body', '--output', '--header', '--data', '--request', '--json']);
+
+// Delar en rad som bash: citattecken, backslash och operatorer. Oavslutat citat kastar fel.
+function tokenize(s) {
+  const out = [];
+  let cur = '', has = false, i = 0;
+  const push = () => { if (has) out.push(cur); cur = ''; has = false; };
+  while (i < s.length) {
+    const ch = s[i];
+    if (/\s/.test(ch)) { push(); i++; continue; }
+    if (ch === "'") {
+      const j = s.indexOf("'", i + 1);
+      if (j < 0) throw new Error("'");
+      cur += s.slice(i + 1, j); has = true; i = j + 1; continue;
+    }
+    if (ch === '"') {
+      i++; has = true;
+      while (i < s.length && s[i] !== '"') { if (s[i] === '\\' && i + 1 < s.length) i++; cur += s[i++]; }
+      if (i >= s.length) throw new Error('"');
+      i++; continue;
+    }
+    if (ch === '\\' && i + 1 < s.length) { cur += s[i + 1]; has = true; i += 2; continue; }
+    const op = ['&&', '||', '>>', '|', ';', '>'].find(o => s.startsWith(o, i));
+    if (op) { push(); out.push(op); i += op.length; continue; }
+    cur += ch; has = true; i++;
+  }
+  push();
+  return out;
+}
+
+// Delar på && ; || till separata kommandon
+function segments(tokens) {
+  const segs = [[]];
+  for (const t of tokens) if (t === '&&' || t === ';' || t === '||') segs.push([]); else segs.at(-1).push(t);
+  return segs.filter(s => s.length);
+}
+
+// mkdir a b blir mkdir a + mkdir b, så att ett kommando kan rensa flera block
+const MULTI = new Set(['mkdir', 'touch', 'rm', 'rmdir']);
+function units(seg) {
+  const [cmd, ...rest] = seg;
+  if (!MULTI.has(cmd) || rest.some(t => OPS.has(t))) return [seg];
+  const flags = rest.filter(t => t.startsWith('-')), args = rest.filter(t => !t.startsWith('-'));
+  return args.length > 1 ? args.map(a => [cmd, ...flags, a]) : [seg];
+}
+
+const path = t => t.replace(/^\.\/(?=.)/, '').replace(/(.)\/$/, '$1');
+
+// Normalform: positionella argument i ordning, flaggor sorterade och ihopslagna (-rn = -r -n)
+function canon(seg) {
+  const out = [];
+  let stage = [];
+  const flush = () => { if (stage.length) out.push(...canonStage(stage)); stage = []; };
+  for (const t of seg) if (t === '|') { flush(); out.push('|'); } else stage.push(t);
+  flush();
+  return out;
+}
+function canonStage([cmd, ...rest]) {
+  if (cmd === 'find') return [cmd, ...rest.map(path)]; // find har långa flaggor med ett streck, -name
+  const vals = VALS[cmd] || '', pos = [], flags = [];
+  for (let i = 0; i < rest.length; i++) {
+    const t = rest[i], next = rest[i + 1];
+    const free = next !== undefined && !next.startsWith('-') && !OPS.has(next);
+    if (/^--[\w-]+=/.test(t)) { const k = t.indexOf('='); flags.push(t.slice(0, k) + '=' + path(t.slice(k + 1))); }
+    else if (/^--[\w-]+$/.test(t)) flags.push(LONGVALS.has(t) && free ? t + '=' + path(rest[++i]) : t);
+    else if (/^-[A-Za-z]+$/.test(t)) {
+      const letters = [...t.slice(1)];
+      letters.forEach((l, k) => flags.push('-' + l + (k === letters.length - 1 && vals.includes(l) && free ? '=' + rest[++i] : '')));
+    }
+    else pos.push(t === '>' || t === '>>' ? t : path(t));
+  }
+  return [cmd, ...pos, ...flags.sort()];
+}
+
+function same(input, expected) {
+  return input.length === expected.length && input.every((t, i) => {
+    const e = expected[i];
+    return t === e || e === ANY || (e.endsWith('=' + ANY) && t.startsWith(e.slice(0, -ANY.length)));
+  });
+}
+
+// Fyller i {d}, {f2} osv. {x2} blir alltid något annat än {x}.
+function fill(task, pick) {
+  const [pack, lv, text, ans, why] = task, v = {};
+  const sub = s => s.replace(/\{(\w+?)(2?)\}/g, (m, k, two) => {
+    if (!POOLS[k]) return m;
+    const key = k + two, other = two ? k : k + '2';
+    if (!(key in v)) v[key] = pick(POOLS[k].filter(x => x !== v[other]));
+    return v[key];
+  });
+  const alts = a => (Array.isArray(a) ? a : [a]);
+  const steps = Array.isArray(ans) && Array.isArray(ans[0]) ? ans.map(alts) : [alts(ans)];
+  return {task, pack, lv, text: sub(text), why: sub(why),
+    steps: steps.map(s => s.map(x => { const raw = sub(x); return {raw, key: canon(tokenize(raw))}; }))};
+}
+/* pure:end */
+
+// ---------- spelet ----------
+const $ = s => document.querySelector(s);
+const well = $('#well'), screen = $('#screen'), log = $('#log'), cmd = $('#cmd'), mirror = $('#mirror'), term = $('#term');
+const rnd = a => a[Math.floor(Math.random() * a.length)];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+const fmt = n => n.toLocaleString('sv-SE');
+const show = raw => raw.replace(ANY, '"meddelande"');
+
+// Alla kommandon spelet känner till, för bash: X: command not found
+const KNOWN = new Set(['ls', 'cd', 'echo', 'clear', 'exit', 'help', 'sudo', 'vim', 'nano', 'code', 'python', 'python3', 'node', 'man', 'history', 'whoami', 'date', 'open', 'less', 'claude', 'uniq', 'sort', 'jq']);
+for (const t of TASKS) for (const s of fill(t, a => a[0]).steps) for (const a of s) {
+  const tk = tokenize(a.raw);
+  tk.forEach((x, i) => { if (i === 0 || tk[i - 1] === '|') KNOWN.add(x); });
+}
+const GIT = new Set(['init', 'status', 'add', 'commit', 'push', 'pull', 'log', 'branch', 'switch', 'checkout', 'diff', 'clone', 'merge', 'restore', 'stash', 'remote', 'fetch', 'reset', 'rebase', 'tag', 'show', 'config', 'blame', 'rm', 'mv']);
+const MISSING = {
+  mkdir: "mkdir: missing operand\nTry 'mkdir --help' for more information.",
+  touch: "touch: missing file operand\nTry 'touch --help' for more information.",
+  rm: "rm: missing operand\nTry 'rm --help' for more information.",
+  rmdir: "rmdir: missing operand\nTry 'rmdir --help' for more information.",
+  cp: "cp: missing file operand\nTry 'cp --help' for more information.",
+  mv: "mv: missing file operand\nTry 'mv --help' for more information.",
+  chmod: "chmod: missing operand\nTry 'chmod --help' for more information.",
+  grep: "Usage: grep [OPTION]... PATTERNS [FILE]...\nTry 'grep --help' for more information.",
+  curl: "curl: try 'curl --help' or 'curl --manual' for more information",
+  git: 'usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]',
+  kill: 'bash: kill: usage: kill [-s sigspec | -n signum | -sigspec] pid | jobspec ... or kill -l [sigspec]',
+  tar: "tar: You must specify one of the '-Acdtrux', '--delete' or '--test-label' options\nTry 'tar --help' or 'tar --usage' for more information.",
+};
+
+// figlet -f ansi_regular
+const BANNER = [
+  '       ██ ████████ ███████ ██████  ███    ███ ██ ███    ██  █████  ██',
+  '      ██     ██    ██      ██   ██ ████  ████ ██ ████   ██ ██   ██ ██',
+  '     ██      ██    █████   ██████  ██ ████ ██ ██ ██ ██  ██ ███████ ██',
+  '    ██       ██    ██      ██   ██ ██  ██  ██ ██ ██  ██ ██ ██   ██ ██',
+  '██ ██        ██    ███████ ██   ██ ██      ██ ██ ██   ████ ██   ██ ███████'].join('\n');
+const OVER = [
+  ' ██████   █████  ███    ███ ███████      ██████  ██    ██ ███████ ██████',
+  '██       ██   ██ ████  ████ ██          ██    ██ ██    ██ ██      ██   ██',
+  '██   ███ ███████ ██ ████ ██ █████       ██    ██ ██    ██ █████   ██████',
+  '██    ██ ██   ██ ██  ██  ██ ██          ██    ██  ██  ██  ██      ██   ██',
+  ' ██████  ██   ██ ██      ██ ███████      ██████    ████   ███████ ██   ██'].join('\n');
+
+// ---------- lagring ----------
+const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
+const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+const HS = 'term-highscores', SOUND = 'term-sound';
+
+// ---------- ljud ----------
+// Ljudmotorn ligger i en egen fil. ?ljud=gemini laddar Geminis version för jämförelse.
+let soundOn = load(SOUND, true);
+const snd = () => (typeof audio === 'undefined' ? null : audio);
+const sfx = (name, ...a) => { if (soundOn) try { snd()?.sfx[name](...a); } catch {} };
+function music() {
+  const a = snd();
+  if (!a || !soundOn) return;
+  try {
+    a.init();
+    if (mode !== 'play') return a.play('menu'), a.setTempo(1);
+    const L = S.level, style = L <= 3 ? 'calm' : L <= 7 ? 'drive' : 'panic', from = L <= 3 ? 1 : L <= 7 ? 4 : 8;
+    a.play(style);
+    a.setTempo(Math.min(1.6, 1 + (L - from) * .08));
+  } catch {}
+}
+function setSound(on) {
+  soundOn = on; save(SOUND, on);
+  $('#sound').textContent = on ? 'ljud på' : 'ljud av';
+  $('#sound').setAttribute('aria-pressed', on);
+  try { snd()?.mute(!on); } catch {}
+  if (on) music(); else try { snd()?.stop(); } catch {}
+}
+{
+  const s = document.createElement('script');
+  s.src = new URLSearchParams(location.search).get('ljud') === 'gemini' ? 'terminal-ljud-gemini.js' : 'terminal-ljud.js';
+  document.head.append(s);
+}
+
+// ---------- tillstånd ----------
+const prefs = {pack: 'fs', level: 1};
+let mode = 'menu', S = null, last = performance.now(), hist = [], hpos = 0, shared = '';
+
+function laneCount() { const w = well.clientWidth; return w < 560 ? 1 : w < 980 ? 2 : 3; }
+
+function start() {
+  well.querySelectorAll('.blk').forEach(e => e.remove());
+  S = {pack: prefs.pack, start: prefs.level, level: prefs.level, score: 0, cleared: 0, streak: 0, charges: 0, errors: 0,
+    typed: 0, time: 0, blocks: [], spawnIn: .4, recent: [], seq: 0, lanes: laneCount(), H: well.clientHeight};
+  log.replaceChildren();
+  out(`# ${PACKS[S.pack].name}, nivå ${S.level}. Lös vilket block som helst. Esc pausar.`, 'cmt');
+  mode = 'play';
+  screen.hidden = true;
+  document.body.className = 'play';
+  cmd.value = ''; sync(); cmd.focus();
+  music();
+}
+
+// ---------- block ----------
+function spawn() {
+  const floors = [...Array(S.lanes)].map((_, lane) => {
+    const inLane = S.blocks.filter(b => b.lane === lane);
+    const top = Math.min(Infinity, ...inLane.filter(b => !b.landed).map(b => b.y));
+    const floor = Math.min(S.H, ...inLane.filter(b => b.landed).map(b => b.y));
+    return {lane, top, floor};
+  }).filter(l => l.top > 10);
+  if (!floors.length) return false;
+  const best = Math.max(...floors.map(l => l.floor));
+  const lane = rnd(floors.filter(l => l.floor === best)).lane;
+
+  const maxLv = Math.min(5, Math.ceil(S.level / 2));
+  const fits = t => (S.pack === 'all' || t[0] === S.pack) && t[1] <= maxLv;
+  let pool = TASKS.filter(t => fits(t) && !S.recent.includes(t));
+  if (!pool.length) pool = TASKS.filter(fits);
+  const weighted = pool.flatMap(t => Array(t[1]).fill(t)); // svårare uppgifter oftare när de låsts upp
+  let b;
+  for (let i = 0; i < 6; i++) { b = fill(rnd(weighted), rnd); if (!S.blocks.some(x => x.text === b.text)) break; }
+  S.recent.push(b.task);
+  if (S.recent.length > Math.min(8, pool.length - 1)) S.recent.shift();
+
+  const el = document.createElement('div');
+  el.className = 'blk';
+  el.style.setProperty('--c', PACKS[b.pack].c);
+  el.style.left = `calc(${lane * 100 / S.lanes}% + 4px)`;
+  el.style.width = `calc(${100 / S.lanes}% - 8px)`;
+  el.innerHTML = `<span class="tag">${PACKS[b.pack].tag}</span><p>${esc(b.text)}</p>` +
+    (b.steps.length > 1 ? `<p class="prog">steg 1 av ${b.steps.length}</p>` : '') + '<code class="ans"></code>';
+  well.append(el);
+  Object.assign(b, {el, lane, step: 0, landed: false, h: el.offsetHeight});
+  b.y = -b.h;
+  S.blocks.push(b);
+  return true;
+}
+
+function land(b) {
+  b.landed = true;
+  b.order = ++S.seq;
+  b.el.classList.add('landed');
+  b.el.querySelector('.ans').textContent = '$ ' + show(b.steps[b.step][0].raw);
+  S.streak = 0;
+  out(`# missat: ${show(b.steps[b.step][0].raw)}`, 'hot');
+  sfx('land');
+}
+
+function tick(dt) {
+  S.time += dt;
+  const speed = S.H / Math.max(7, 26 - 2 * (S.level - 1)); // sekunder från topp till botten
+  if (!S.blocks.some(b => !b.landed)) S.spawnIn = Math.min(S.spawnIn, .5);
+  if ((S.spawnIn -= dt) <= 0) S.spawnIn = spawn() ? Math.max(1.8, 7 - .55 * (S.level - 1)) : .3;
+
+  for (let lane = 0; lane < S.lanes; lane++) {
+    let floor = S.H;
+    const inLane = S.blocks.filter(b => b.lane === lane);
+    for (const b of inLane.filter(b => b.landed).sort((a, c) => a.order - c.order)) {
+      b.y = Math.min(b.y + 900 * dt, floor - b.h); // faller ner när ett block under rensats
+      floor = b.y;
+    }
+    for (const b of inLane.filter(b => !b.landed).sort((a, c) => c.y - a.y)) {
+      b.y += speed * dt;
+      if (b.y + b.h >= floor) {
+        b.y = floor - b.h;
+        land(b);
+        if (b.y < 0) return gameOver();
+      }
+      floor = Math.min(floor, b.y);
+    }
+  }
+  for (const b of S.blocks) b.el.style.transform = `translateY(${b.y}px)`;
+  stats();
+}
+
+function remove(b) {
+  S.blocks.splice(S.blocks.indexOf(b), 1);
+  b.el.classList.add('done');
+  setTimeout(() => b.el.remove(), 300);
+}
+
+// Poäng per rensat block. Ju högre upp blocket är när du löser det, desto snabbare var du.
+// Landade block visar svaret, så de ger halva. combo = antal block rensade med samma Enter.
+function points(b, combo, level) {
+  const base = 10 * level * b.steps.length;
+  if (b.landed) return Math.round(base / 2) * combo;
+  return Math.round(base * (2 - Math.max(0, b.y) / S.H)) * combo;
+}
+
+// ---------- terminalen ----------
+function out(text, cls = '') {
+  for (const line of String(text).split('\n')) {
+    const d = document.createElement('div');
+    d.className = 'line ' + cls;
+    d.textContent = line;
+    log.append(d);
+  }
+  while (log.children.length > 60) log.firstChild.remove();
+}
+
+function echo(raw, bad, extra = '') {
+  const d = document.createElement('div');
+  d.className = 'line' + (bad.size ? ' bad' : '');
+  const words = raw.split(/(\s+)/).map(w => (bad.has(w.replace(/^['"]|['"]$/g, '')) ? `<span class="err">${esc(w)}</span>` : esc(w)));
+  d.innerHTML = `<span class="u">du@buildapp</span>:<span class="p">~/projekt</span>$ ${words.join('')}${extra}`;
+  log.append(d);
+}
+
+// Hittar blocket som ett kommando löser: fallande före landade, lägst först
+function target(key) {
+  return S.blocks
+    .filter(b => b.step < b.steps.length && b.steps[b.step].some(a => same(key, a.key)))
+    .sort((a, c) => a.landed - c.landed || c.y - a.y)[0];
+}
+
+// Fel kommando: skriv det bash hade skrivit, eller rödmarkera det som skiljer mot närmaste block
+function explain(u, bad, msgs) {
+  const [c, sub] = u;
+  if (!KNOWN.has(c)) return msgs.push(`bash: ${c}: command not found`);
+  if (c === 'git' && sub && !GIT.has(sub)) return msgs.push(`git: '${sub}' is not a git command. See 'git --help'.`);
+  if (u.length === 1 && MISSING[c]) return msgs.push(MISSING[c]);
+  let near = null, most = -1;
+  for (const b of S.blocks) for (const a of b.steps[b.step] || []) {
+    const tk = tokenize(a.raw);
+    const hits = u.filter(t => tk.includes(t)).length;
+    if (tk[0] === c && hits > most) { near = tk; most = hits; }
+  }
+  const flagOk = t => /^-[A-Za-z]+$/.test(t) && [...t.slice(1)].every(l => near.some(n => /^-[A-Za-z]+$/.test(n) && n.includes(l)));
+  const wrong = near ? u.slice(1).filter(t => !near.includes(t) && !flagOk(t) && !near.includes(ANY)) : u.slice(1);
+  (wrong.length ? wrong : u.length > 1 ? u.slice(1) : u).forEach(t => bad.add(t));
+}
+
+function run(raw) {
+  if (!raw.trim()) return echo(raw, new Set());
+  hist.push(raw); hpos = hist.length;
+  let segs;
+  try { segs = segments(tokenize(raw)); }
+  catch (e) { echo(raw, new Set()); out(`bash: unexpected EOF while looking for matching \`${e.message}'`, 'err'); return fail(); }
+
+  const hits = [], bad = new Set(), msgs = [];
+  let errs = 0, progressed = false;
+  for (let seg of segs) {
+    if (seg[0] === 'sudo') seg = seg.slice(1);
+    if (!seg.length) continue;
+    if (seg[0] === 'clear' && seg.length === 1) { clearCmd(); continue; }
+    if (seg[0] === 'exit') { echo(raw, bad); return gameOver(); }
+    if (seg[0] === 'help') { msgs.push('# Skriv kommandot som blocket beskriver. && eller flera argument rensar flera block.\n# ↑ hämtar förra kommandot, Esc pausar, exit avslutar, clear tömmer brunnen om du har en laddning.'); continue; }
+    for (const u of units(seg)) {
+      const b = target(canon(u));
+      if (!b) { errs++; explain(u, bad, msgs); continue; }
+      progressed = true;
+      if (++b.step === b.steps.length) hits.push(b);
+      else b.el.querySelector('.prog').textContent = `steg ${b.step + 1} av ${b.steps.length}`;
+    }
+  }
+  echo(raw, bad);
+  msgs.forEach(m => out(m, m.startsWith('#') ? 'cmt' : 'err'));
+  if (progressed) S.typed += raw.length;
+
+  const n = hits.length;
+  for (const b of hits) {
+    const p = points(b, n, S.level);
+    S.score += p; S.cleared++;
+    if (++S.streak % 10 === 0 && S.charges < 3) { S.charges++; out('# 10 rätt i rad: +1 clear. Skriv clear när brunnen börjar bli full.', 'hot'); }
+    out(`# +${fmt(p)}  ${b.why}`, 'cmt');
+    remove(b);
+  }
+  if (n > 1) { out(`# kombo x${n}`, 'hot'); sfx('combo', n); } else if (n || progressed) sfx('clear');
+
+  const lv = S.start + Math.floor(S.cleared / 10);
+  if (lv > S.level) { S.level = lv; out(`# nivå ${lv}: tempot ökar`, 'hot'); sfx('levelUp'); music(); }
+  if (errs) fail();
+  stats();
+}
+
+function fail() {
+  S.streak = 0; S.errors++;
+  sfx('error');
+}
+
+function clearCmd() {
+  if (mode === 'play' && S.charges > 0) {
+    S.charges--;
+    [...S.blocks].forEach(remove);
+    sfx('bomb');
+    setTimeout(() => out('# clear: brunnen tömd', 'hot'));
+  } else setTimeout(() => log.replaceChildren()); // som riktig clear: töm skärmen
+}
+
+// ---------- statistik ----------
+const cpm = () => (S && S.time > 5 ? Math.round(S.typed / (S.time / 60)) : 0);
+const best = () => load(HS, [])[0]?.s ?? 0;
+let lastStats = '';
+function stats() {
+  const landed = S ? S.blocks.filter(b => b.landed).length : 0;
+  const rows = [['pack', PACKS[S?.pack ?? prefs.pack].name], ['score', S?.score ?? 0], ['level', S?.level ?? prefs.level],
+    ['cpm', cpm()], ['streak', S?.streak ?? 0], ['clear', S?.charges ?? 0], ['best', best()]];
+  const key = rows.join() + landed + (S?.errors ?? 0);
+  if (key === lastStats) return;
+  lastStats = key;
+  const lines = ['<span class="br">{</span>', ...rows.map(([k, v], i) =>
+    `  <span class="k">"${k}"</span>: ${typeof v === 'string' ? `<span class="s">"${esc(v)}"</span>` : `<span class="n">${v}</span>`}${i < rows.length - 1 ? ',' : ''}`), '<span class="br">}</span>'];
+  $('#code').innerHTML = lines.map((l, i) => `<span class="ln">${i + 1}</span><span>${l}</span>`).join('');
+  $('#problems').textContent = $('#problems').dataset.n = landed;
+  $('#st-err').innerHTML = `&#8855; ${S?.errors ?? 0} &#9888; ${landed}`;
+  $('#st-level').textContent = `nivå ${S?.level ?? prefs.level}`;
+  $('#st-score').textContent = `${fmt(S?.score ?? 0)} p`;
+  $('#st-cpm').textContent = `${cpm()} CPM`;
+  $('#st-clear').textContent = `clear ×${S?.charges ?? 0}`;
+}
+
+// ---------- skärmar ----------
+function menu() {
+  mode = 'menu';
+  document.body.className = 'menu-on';
+  well.querySelectorAll('.blk').forEach(e => e.remove());
+  S = null;
+  const scores = load(HS, []);
+  screen.innerHTML = `<pre class="logo" aria-label="./terminal">${BANNER}</pre>
+    <p>Uppgifter faller som block. Skriv rätt kommando innan de når botten.</p>
+    <div class="cols"><div>
+    <h2># paket <span class="dim">(1 till 4)</span></h2>
+    <div class="opts">${Object.entries(PACKS).map(([k, p], i) =>
+      `<button class="opt" data-pack="${k}" aria-pressed="${k === prefs.pack}">[${i + 1}] ${p.name.padEnd(16)}<span class="dim">${p.hint}</span></button>`).join('')}</div>
+    <h2># startnivå <span class="dim">(← →)</span></h2>
+    <div class="lvl"><button data-lv="-1" aria-label="Lägre nivå">&lsaquo;</button><b id="lv">${prefs.level}</b><span class="hot" id="bar">[${'#'.repeat(prefs.level)}${'-'.repeat(10 - prefs.level)}]</span><button data-lv="1" aria-label="Högre nivå">&rsaquo;</button></div>
+    <div class="actions"><button data-act="start"><kbd>Enter</kbd> starta</button></div>
+    </div><div>
+    <h2># så funkar det</h2>
+    <p>Lös vilket block som helst. <span class="hot">&&</span> eller flera argument (<span class="hot">mkdir a b</span>) rensar flera på en gång och ger kombo. 10 rätt i rad ger en <span class="hot">clear</span> som tömmer brunnen. Missade block visar svaret och kan fortfarande rensas för halva poängen.</p>
+    ${matchMedia('(pointer:coarse)').matches ? '<p class="hot">Spelas bäst med tangentbord.</p>' : ''}
+    <h2># topplista</h2>
+    ${scores.length ? `<table class="scores">${scores.map((s, i) => `<tr><td>${i + 1}.</td><td>${fmt(s.s)} p</td><td>nivå ${s.l}</td><td>${s.c} CPM</td><td class="dim">${esc(PACKS[s.p]?.name ?? '')}</td><td class="dim">${new Date(s.d).toLocaleDateString('sv-SE', {day: 'numeric', month: 'short'})}</td></tr>`).join('')}</table>` : '<p class="dim">Inga resultat än.</p>'}
+    </div></div>`;
+  screen.hidden = false;
+  stats();
+  music();
+}
+
+function setLevel(d) {
+  prefs.level = Math.max(1, Math.min(10, prefs.level + d));
+  $('#lv').textContent = prefs.level;
+  $('#bar').textContent = `[${'#'.repeat(prefs.level)}${'-'.repeat(10 - prefs.level)}]`;
+  stats();
+}
+function setPack(k) {
+  prefs.pack = k;
+  screen.querySelectorAll('[data-pack]').forEach(b => b.setAttribute('aria-pressed', b.dataset.pack === k));
+  stats();
+}
+
+function gameOver() {
+  mode = 'over';
+  document.body.className = '';
+  const entry = {s: S.score, l: S.level, c: cpm(), p: S.pack, d: new Date().toISOString().slice(0, 10)};
+  const scores = load(HS, []);
+  scores.push(entry);
+  scores.sort((a, b) => b.s - a.s);
+  const place = scores.indexOf(entry) + 1;
+  save(HS, scores.slice(0, 10));
+  stats();
+  try { snd()?.stop(); } catch {}
+  sfx(place === 1 && S.score > 0 ? 'newHighscore' : 'gameOver');
+  shared = `./terminal · ${PACKS[S.pack].name} · nivå ${S.level} · ${fmt(S.score)} p · ${cpm()} CPM\nhttps://buildapp.se/ai/terminal.html`;
+  screen.innerHTML = `<p class="dim">The terminal process "/usr/bin/bash" terminated with exit code: 1.</p>
+    <pre class="logo over" aria-label="Game over">${OVER}</pre>
+    <p><span class="hot">${fmt(S.score)} p</span> · nivå ${S.level} · ${cpm()} CPM · ${S.cleared} block · ${S.errors} fel</p>
+    <p class="${place === 1 ? 'hot' : 'dim'}">${place === 1 && S.score > 0 ? 'Nytt rekord!' : place <= 10 ? `Plats ${place} på din topplista.` : 'Utanför topp 10.'}</p>
+    <div class="actions"><button data-act="start"><kbd>Enter</kbd> spela igen</button><button data-act="share"><kbd>d</kbd> dela</button><button data-act="menu"><kbd>Esc</kbd> meny</button></div>
+    <p id="shared" class="cmt"></p>`;
+  screen.hidden = false;
+}
+
+function share() {
+  const done = msg => { $('#shared').textContent = msg; };
+  navigator.clipboard.writeText(shared).then(() => done('# kopierat, klistra in i en chatt'), () => done(shared));
+}
+
+function pause(on) {
+  if (on && mode === 'play') {
+    mode = 'pause';
+    screen.innerHTML = '<p class="cmt"># pausad</p><div class="actions"><button data-act="resume"><kbd>Esc</kbd> fortsätt</button><button data-act="quit">avsluta</button></div>';
+    screen.hidden = false;
+    try { snd()?.stop(); } catch {}
+  } else if (!on && mode === 'pause') {
+    mode = 'play';
+    screen.hidden = true;
+    last = performance.now();
+    cmd.focus();
+    music();
+  }
+}
+
+// ---------- inmatning ----------
+// Egen blockmarkör: inputfältet är osynligt och spegeln ritar texten med markören där den står
+function sync() {
+  const v = cmd.value, i = cmd.selectionStart ?? v.length;
+  mirror.innerHTML = `${esc(v.slice(0, i))}<span class="cur">${esc(v[i] ?? ' ')}</span>${esc(v.slice(i + 1))}`;
+}
+cmd.addEventListener('input', sync);
+document.addEventListener('selectionchange', () => document.activeElement === cmd && sync());
+cmd.addEventListener('focus', () => { term.classList.remove('blur'); sync(); });
+cmd.addEventListener('blur', () => term.classList.add('blur'));
+term.addEventListener('click', e => { if (!e.target.closest('button') && !getSelection().toString()) cmd.focus(); });
+document.addEventListener('keydown', e => { if (document.activeElement !== cmd && !e.target.closest?.('button') && e.key.length === 1) cmd.focus(); });
+
+screen.addEventListener('click', e => {
+  const t = e.target.closest('button');
+  if (!t) return;
+  if (t.dataset.pack) setPack(t.dataset.pack);
+  if (t.dataset.lv) setLevel(+t.dataset.lv);
+  ({start, share, menu, resume: () => pause(false), quit: gameOver})[t.dataset.act]?.();
+  cmd.focus();
+});
+
+cmd.addEventListener('keydown', e => {
+  snd()?.init?.();
+  const k = e.key;
+  if (mode === 'menu') {
+    if (k === 'Enter') start();
+    else if (k >= '1' && k <= '4') setPack(Object.keys(PACKS)[k - 1]);
+    else if (k === 'ArrowLeft' || k === 'ArrowRight') setLevel(k === 'ArrowLeft' ? -1 : 1);
+    else return;
+    e.preventDefault();
+    return music();
+  }
+  if (mode === 'over') {
+    if (k === 'Enter') start(); else if (k === 'd') share(); else if (k === 'Escape') menu(); else return;
+    return e.preventDefault();
+  }
+  if (mode === 'pause') { if (k === 'Escape' || k === 'Enter') { e.preventDefault(); pause(false); } return; }
+  if (k === 'Enter') { e.preventDefault(); const v = cmd.value; cmd.value = ''; run(v); }
+  else if (k === 'Escape') pause(true);
+  else if (k === 'ArrowUp' || k === 'ArrowDown') {
+    e.preventDefault();
+    hpos = Math.max(0, Math.min(hist.length, hpos + (k === 'ArrowUp' ? -1 : 1)));
+    cmd.value = hist[hpos] ?? '';
+  } else if (e.ctrlKey && k === 'c' && !cmd.value.slice(cmd.selectionStart, cmd.selectionEnd)) {
+    e.preventDefault(); echo(cmd.value, new Set(), '^C'); cmd.value = '';
+  } else if (e.ctrlKey && k === 'l') { e.preventDefault(); log.replaceChildren(); }
+  else if (k === 'Tab') e.preventDefault();
+  else return;
+  sync();
+});
+
+window.addEventListener('blur', () => pause(true));
+window.addEventListener('resize', () => {
+  if (!S) return;
+  S.H = well.clientHeight;
+  for (const b of S.blocks) b.h = b.el.offsetHeight;
+});
+$('#sound').addEventListener('click', () => setSound(!soundOn));
+
+function frame(now) {
+  const dt = Math.min(.05, (now - last) / 1000);
+  last = now;
+  if (mode === 'play') tick(dt);
+  requestAnimationFrame(frame);
+}
+
+setSound(soundOn);
+menu();
+sync();
+cmd.focus();
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

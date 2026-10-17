@@ -1,13 +1,15 @@
 ---
 schemaVersion: 1
 status: active
-currentGoal: Hålla AI-resurssidan aktuell
-nextAction: Välja ny kontaktadress och fler resurser enligt BACKLOG.md
+currentGoal: Hålla AI-resurssidan aktuell, plus spelet ./terminal
+nextAction: Patrik spelar terminal.html och väljer ljudmotor; sedan ny kontaktadress och fler resurser enligt BACKLOG.md
 blockers: []
 reviewedAt: 2026-10-17
 ---
 
 # Handoff: AI-resurssidan
+
+**2026-10-17, `terminal.html` (spelet `./terminal`).** Kommandon faller som tetrisblock i en kopia av VS Code:s terminal. Tre paket (Filer & mappar, Git & GitHub, Som Claude Code) plus Allt, 96 uppgifter i svårighet 1 till 5, startnivå 1 till 10, nivå upp var 10:e block. Riktiga bash- och git-felmeddelanden, rödmarkerade argument när kommandot är giltigt men fel, kombo för `&&` och flera argument, `clear`-laddning var 10:e rätt i rad, CPM, lokal topp 10 och dela-knapp. Två ljudmotorer med samma gränssnitt: min (`terminal-ljud.js`) och Geminis (`terminal-ljud-gemini.js`, `?ljud=gemini`); Patrik väljer efter att ha lyssnat. Verifierat: `node terminal.test.js` grön, spelat i Playwright i 1440 och 390 px, inga konsolfel med någon av ljudmotorerna. Ljudet är inte avlyssnat av mig. `integritet.html` version 2.5 med de två nya nycklarna. Struktur i `CONTEXT.md`.
 
 **2026-10-16, `quiz.html`.** Fristående quiz på `buildapp.se/ai/quiz.html`: fyra quiz plus blandat läge, förklaring per felsvar, ordkort med 60 tekniska ord i grupper (20 per runda), svårighetsreglage, klarade ord och resultat per quiz i `localStorage` (`quiz-mastered`, `quiz-results`, båda redovisade i `integritet.html`). Egen favicon och logo. Sista commit `0ecbfdb`; live verifierat 2026-10-17 (200). Struktur i `CONTEXT.md`.
 

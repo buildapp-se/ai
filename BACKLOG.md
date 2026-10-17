@@ -23,6 +23,15 @@
 - [ ] Illustrationer till frågorna (till exempel hur en token delar upp ett ord, eller hur frontend, API och databas hänger ihop).
 - [ ] Engelsk version, som resten av sidan (`data-sv`-mönstret).
 
+## Spelet (`terminal.html`)
+
+- [ ] Patrik spelar och lyssnar: välj ljudmotor (`terminal-ljud.js` eller `?ljud=gemini`), radera den andra.
+- [ ] Musik som mp3 från Gemini/Lyria att jämföra med (`?ljud=mp3`). Kräver koll av användningsvillkoren först.
+- [ ] Länka spelet från `index.html` och quizet när det är klart att visas.
+- [ ] Paket med Claude Code-kommandon (`claude`, `/init`, `/clear`, `/compact`).
+- [ ] Programspråk som egna paket (Python-REPL, JS-konsol, SQL).
+- [ ] Delad topplista mellan vänner. Kräver backend och ny integritetstext; bara om ni faktiskt tävlar.
+
 ## Granskning 2026-10-06
 
 Fynd från den automatiska sviten (aifabriken `tools/audit-suite.ts`: headers, npm audit, secrets, Actions, markup, axe). Mätvärdena står som `(automated)`-rader under `## Audits` i CONTEXT.md.

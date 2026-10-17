@@ -11,9 +11,9 @@ saker byggs, inte vara en uttömmande katalog.
 - `index.html` innehåller hela sidan: HTML, CSS och JS i en fil, inget byggsteg.
   Serveras som GitHub Pages project site under `buildapp.se/ai/`.
 - **Sidan är helt statisk sedan 2026-08-27.** Ingen backend, inga nätverksanrop
-  utom Google Fonts. `localStorage` används bara till `lang`, `view` och
+  utom Google Fonts. `localStorage` används bara till `lang`, `view`,
   quizets `quiz-mastered` och `quiz-results` (senaste och bästa resultat per
-  quiz). En ny nyckel kräver att `integritet.html` uppdateras.
+  quiz) och spelets `term-highscores` och `term-sound`. En ny nyckel kräver att `integritet.html` uppdateras.
   Ikonerna (`logo.png`, `favicon.svg`) ligger i repot sedan 2026-09-16; fram
   till dess hotlinkades de från orgutveckling.se, vilket motsade policyn. Sedan
   2026-10-16 är de sidans egna: terminalprompt `>_` på violett `--p1`.
@@ -35,6 +35,21 @@ saker byggs, inte vara en uttömmande katalog.
   kräva en ny `localStorage`-nyckel). 20 ord per runda, okända först; ord rätt på första
   försöket sparas i `quiz-mastered`, ett felsvar tar bort ordet igen. Ännu inte
   länkad från `index.html`, se `BACKLOG.md`.
+
+- `terminal.html` (sedan 2026-10-17) är spelet `./terminal`: uppgifter faller som
+  tetrisblock i en kopia av VS Code:s terminal, spelaren skriver kommandot. En fil
+  utan byggsteg, bara svenska. Uppgifterna ligger som data i `TASKS`
+  (`[paket, svårighet 1–5, uppgift, svar, förklaring]`, paketen `fs`, `git`, `cc`),
+  med mallord som `{d}` och `{f2}` ur `POOLS`. Ett svar kan vara en lista med
+  varianter, en kedja (lista av listor, ett steg per kommando) och innehålla jokern
+  `{any}`. Rättningen normaliserar i stället för att jämföra strängar: flaggordning,
+  ihopslagna flaggor (`-rn`), citattecken, `./` och avslutande `/` spelar ingen roll,
+  men ordet i ett argument måste stämma. `&&`, `;` och flera argument till
+  `mkdir`/`touch`/`rm` rensar flera block (kombo). Den rena logiken står mellan
+  `pure:start` och `pure:end` och testas av `terminal.test.js` (`node terminal.test.js`),
+  som också kör varje svar i `TASKS` mot sig självt. Ljudet ligger i
+  `terminal-ljud.js`; `?ljud=gemini` laddar `terminal-ljud-gemini.js` i stället, samma
+  gränssnitt, för att jämföra de två. Ännu inte länkat från `index.html`.
 
 ## Constraints
 

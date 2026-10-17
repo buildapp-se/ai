@@ -13,7 +13,7 @@ saker byggs, inte vara en uttömmande katalog.
 - **Sidan är helt statisk sedan 2026-08-27.** Ingen backend, inga nätverksanrop
   utom Google Fonts. `localStorage` används bara till `lang`, `view`,
   quizets `quiz-mastered` och `quiz-results` (senaste och bästa resultat per
-  quiz) och spelets `term-highscores`, `term-sound` och `term-shell`. En ny nyckel kräver att `integritet.html` uppdateras.
+  quiz). En ny nyckel kräver att `integritet.html` uppdateras. Spelet `./terminal` sparar sina `term-*`-nycklar på samma ursprung men redovisar dem i sin egen `buildapp.se/terminal/integritet.html` (sedan version 2.8 här).
   Ikonerna (`logo.png`, `favicon.svg`) ligger i repot sedan 2026-09-16; fram
   till dess hotlinkades de från orgutveckling.se, vilket motsade policyn. Sedan
   2026-10-16 är de sidans egna: terminalprompt `>_` på violett `--p1`.
@@ -25,7 +25,7 @@ saker byggs, inte vara en uttömmande katalog.
   röstsiffror per länk och ett testförslag, inga personuppgifter.
 
 - `quiz.html` (sedan 2026-10-16) är ett fristående quiz, också en enda fil utan
-  byggsteg, bara svenska. Allt innehåll ligger som data i `QUIZZES` i `quiz-data.js` (sedan 2026-10-17 egen fil, eftersom spelet `buildapp.se/terminal/` läser samma frågor till sin bossfråga; ändra formatet bara tillsammans med spelet): flerval
+  byggsteg, bara svenska. Allt innehåll ligger som data i `QUIZZES` i `quiz-data.js` (egen fil sedan 2026-10-17): flerval
   (`q`), para ihop (`pairs`) och ordkort (`groups`, felsvar läggs sist i högen som
   i Quizlet). Ordkorten ligger i grupper av närliggande ord och felalternativen
   tas ur samma grupp, så att man inte kan utesluta sig fram; två betydelser i en
@@ -37,9 +37,8 @@ saker byggs, inte vara en uttömmande katalog.
   länkad från `index.html`, se `BACKLOG.md`.
 
 - Spelet `./terminal` låg här som `terminal.html` och flyttade 2026-10-17 till eget repo,
-  `buildapp-se/terminal` (lokalt `C:\dev\terminal`), med historiken kvar, live på `buildapp.se/terminal/`. Den gamla adressen togs bort i stället för att skicka vidare: spelet var aldrig länkat. Spelets
-  `localStorage`-nycklar (`term-highscores`, `term-sound`, `term-shell`) ligger på samma
-  ursprung och redovisas fortfarande i `integritet.html` här.
+  `buildapp-se/terminal` (lokalt `C:\dev\terminal`), med historiken kvar, live på `buildapp.se/terminal/`. Den gamla adressen togs bort i stället för att skicka vidare: spelet var aldrig länkat. Spelet har
+  egen integritetstext sedan 2026-10-17.
 
 ## Constraints
 

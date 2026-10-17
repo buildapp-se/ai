@@ -36,35 +36,11 @@ saker byggs, inte vara en uttömmande katalog.
   försöket sparas i `quiz-mastered`, ett felsvar tar bort ordet igen. Ännu inte
   länkad från `index.html`, se `BACKLOG.md`.
 
-- `terminal.html` (sedan 2026-10-17) är spelet `./terminal`: uppgifter faller som
-  tetrisblock i en kopia av VS Code:s terminal, spelaren skriver kommandot. En fil
-  utan byggsteg, bara svenska. Uppgifterna ligger som data i `TASKS`
-  (`[paket, svårighet 1–5, uppgift, svar, förklaring, PowerShell-svar, PowerShell-förklaring]`,
-  paketen `fs`, `git`, `cc`; PowerShell-svaret `'='` betyder samma som bash, saknas det
-  visas uppgiften bara i bash),
-  med mallord som `{d}` och `{f2}` ur `POOLS`. Ett svar kan vara en lista med
-  varianter, en kedja (lista av listor, ett steg per kommando) och innehålla jokern
-  `{any}`. Rättningen normaliserar i stället för att jämföra strängar: flaggordning,
-  ihopslagna flaggor (`-rn`), citattecken, `./` och avslutande `/` spelar ingen roll,
-  men ordet i ett argument måste stämma. `&&`, `;` och flera argument till
-  `mkdir`/`touch`/`rm` rensar flera block (kombo). Den rena logiken står mellan
-  `pure:start` och `pure:end` och testas av `terminal.test.js` (`node terminal.test.js`),
-  som också kräver en förklaring i `GLOSS` för varje del av varje svar (hjälpkortet).
-  Skalet väljs vid första besöket (förval PowerShell på Windows), byts med `s` i menyn,
-  under inställningar (kugghjulet eller Ctrl+,) och låses när rundan startar (`S.ps`).
-  PowerShell rättas med alias (`PSALIAS`), skiftlägesokänsligt, förkortade och
-  positionella parametrar (`PSPARAMS`, `PSPOS`) och ger PowerShells egna felmeddelanden.
-  Låtsasfilsystemet `WORLD` (hemmappen med `projekt/`, rundan börjar där) körs av `fake()`,
-  som tar rättningens kanoniska form och därför tjänar båda skalen. Fria kommandon och block
-  i Filer & mappar körs mot det; prompten följer mappen. Filer & mappar släpper ett block i
-  taget: ny mapp ger först "lista", sedan "kör programmet" om det finns ett, sedan "gå in".
-  Mallorden dras ur filsystemet (dolda namn aldrig, dem hittar man själv) och varje uppgift
-  provkörs på en kopia (`doable`), så blocket ber bara om det som går att göra där du står.
-  I PowerShell är bara `.git` och `.hemligt` dolda: på Windows döljer punkten i namnet ingenting.
-  Testet
-  som också kör varje svar i `TASKS` mot sig självt. Ljudet ligger i
-  `terminal-ljud.js`; `?ljud=gemini` laddar `terminal-ljud-gemini.js` i stället, samma
-  gränssnitt, för att jämföra de två. Ännu inte länkat från `index.html`.
+- `terminal.html` är sedan 2026-10-17 bara en vidarebefordran till
+  `buildapp.se/terminal/`: spelet `./terminal` flyttade samma dag till eget repo,
+  `buildapp-se/terminal` (lokalt `C:\dev\terminal`), med historiken kvar. Spelets
+  `localStorage`-nycklar (`term-highscores`, `term-sound`, `term-shell`) ligger på samma
+  ursprung och redovisas fortfarande i `integritet.html` här.
 
 ## Constraints
 

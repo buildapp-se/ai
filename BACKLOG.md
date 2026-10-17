@@ -23,21 +23,11 @@
 - [ ] Illustrationer till frågorna (till exempel hur en token delar upp ett ord, eller hur frontend, API och databas hänger ihop).
 - [ ] Engelsk version, som resten av sidan (`data-sv`-mönstret).
 
-## Spelet (`terminal.html`)
+## Spelet
 
-- [ ] `[P1]` Paket "När agenten stannar": kommandon som Claude och Codex ber Patrik köra själv. Underlag från loggarna 2026-10-17 (2 536 transkript, skript `handoff-cmds.mjs` i sessionens scratchpad), sju grupper: logga in (`gh auth login -h github.com -w`, `gh auth refresh -s workflow`, `gh auth switch`, `npx wrangler login`), pusha och merga (`git push`, `git -C mapp push`, `git push -u origin gren`, `gh pr merge N --squash`), radera och städa (`git branch -D`, `git worktree remove`, `git checkout -- fil`), databas och hemligheter (`wrangler d1 execute --remote`, `wrangler secret put`), öppna filer (`start "" fil`, `explorer mapp`), installera (`winget install --id X -e`, `claude plugin install`, `codex mcp add`) och mellan skal (`powershell -Command "..."`, `wsl.exe -e bash -lc '...'`, `MSYS_NO_PATHCONV=1`). Hjälpkortet säger varför agenten stannade (behöver webbläsare, går inte att ångra, rör produktion).
-- [ ] Påskägg "formatera om datorn": `rm -rf / --no-preserve-root`, `sudo rm -rf /*`, `dd if=/dev/zero of=/dev/sda`, `mkfs`, `format C:`, `Remove-Item C:\ -Recurse -Force`, `del /s /q C:\*`. Spelet låtsas krascha: bash ger kernel panic, svart skärm och Linux-uppstart med inloggning; PowerShell ger blåskärm med procent, Windows-uppstart och PowerShell-banderollen. Kraschen sitter kvar: ut kommer man bara genom att installera om exakt rätt (en liten uppgiftskedja i rätt skal: boota från USB, välja disk, partitionera, skapa användare) eller genom hård omladdning (Ctrl+F5) eller att rensa webbplatsdata. Vanlig F5 startar i kraschen igen. Teknik: efter omladdningen syns ingen skillnad mellan F5 och Ctrl+F5, och `localStorage` överlever båda, så Ctrl+F5 och Ctrl+Shift+R fångas i `keydown` och rensar kraschen innan webbläsaren laddar om. Shift-klick på omladdningsknappen går inte att se; rensad webbplatsdata fungerar av sig själv. Kräver en ny `localStorage`-nyckel och därmed ny version av `integritet.html`. Respektera prefers-reduced-motion.
-- [ ] Påskägg "gå in i en agent": `claude`, `codex`, `opencode` med flera byter prompten mot agentens (`>`). Där inne rensar bara `!ls` block; skriver man `ls` utan `!` går det som en fråga till agenten, som svarar roligt men inte hjälper (spinnerord som "Funderar…" medan blocken faller, "Du har helt rätt!", ger rätt svar i fel skal, ber om lov med y/n, "usage limit, återställs kl 03.00"). Esc avbryter tänkandet. Ut med `/exit` eller Ctrl+C två gånger, som på riktigt; hjälpkortet visar alltid vägen ut. Lärdomen: i Claude Code skickar du text till agenten, `!` kör skalet (i Git Bash). Varje skämt ska bära en sådan lärdom, annars stryks det.
+Flyttat till `buildapp-se/terminal` 2026-10-17, backloggen där. Kvar här:
 
-- [ ] Patrik spelar och lyssnar: välj ljud bland `terminal-ljud.js`, `?ljud=gemini` och `?ljud=mp3` (bara lokalt, spåren i `_musik/`), radera det som väljs bort.
-- [ ] Om mp3 vinner: kolla Lyrias användningsvillkor, ta in `_musik/` i git och kolla att looparna inte hackar i skarven.
-- [ ] Länka spelet från `index.html` och quizet när det är klart att visas.
-- [ ] Bygg om paketet Som Claude Code från loggdatan (2026-10-17: grep, head, git, curl, uv, ls, tail, node i topp; PowerShell mest för att döda dev-servrar). Ta också med kommandon Patrik kör själv med `!` (bash-input i transkripten), t.ex. `powershell -Command "Stop-Process -Id N"`: det han gör på riktigt ska han kunna öva på.
-- [ ] Paket Terminalvett: hjälp (Get-Help, Get-Command), installera (winget, npm, uv, npx/uvx), processer och portar, miljö (PATH, `$?`), nätverk (ipconfig, ping, Resolve-DnsName, Test-NetConnection), ssh-keygen, zip. Hjälpkortet får raden "begreppet bakom".
-- [ ] Paket Cloudflare (wrangler login/dev/deploy/tail/secret put, d1 execute --remote, rollback) och Firebase (login, use, deploy --only hosting, emulators:start).
-- [ ] VS Code-ramen gör saker: README.md-flik med instruktioner, menyerna, PROBLEMS med dina fel, OUTPUT med topplistan, kommandopaletten, tooltips. Plus påskäggen (DEBUG CONSOLE-fusk, vim, sl, sudo, Konami, cat .env med flera).
-- [ ] Programspråk som egna paket (Python-REPL, JS-konsol, SQL).
-- [ ] Delad topplista mellan vänner. Kräver backend och ny integritetstext; bara om ni faktiskt tävlar.
+- [ ] Länka spelet `buildapp.se/terminal/` från `index.html` och quizet.
 
 ## Granskning 2026-10-06
 

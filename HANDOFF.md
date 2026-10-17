@@ -9,7 +9,7 @@ reviewedAt: 2026-10-17
 
 # Handoff: AI-resurssidan
 
-**2026-10-17, spelet `./terminal` flyttat** till eget repo `buildapp-se/terminal` (`C:\dev\terminal`, live på `buildapp.se/terminal/`) med historiken kvar; dess handoff och backlog ligger där. Här finns bara `terminal.html` kvar som vidarebefordran.
+**2026-10-17, spelet `./terminal` flyttat** till eget repo `buildapp-se/terminal` (`C:\dev\terminal`, live på `buildapp.se/terminal/`) med historiken kvar; dess handoff och backlog ligger där. Den gamla adressen `terminal.html` är borttagen (ingen länkade till den).
 
 **2026-10-16, `quiz.html`.** Fristående quiz på `buildapp.se/ai/quiz.html`: fyra quiz plus blandat läge, förklaring per felsvar, ordkort med 60 tekniska ord i grupper (20 per runda), svårighetsreglage, klarade ord och resultat per quiz i `localStorage` (`quiz-mastered`, `quiz-results`, båda redovisade i `integritet.html`). Egen favicon och logo. Sista commit `0ecbfdb`; live verifierat 2026-10-17 (200). Struktur i `CONTEXT.md`.
 

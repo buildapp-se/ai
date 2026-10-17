@@ -36,9 +36,8 @@ saker byggs, inte vara en uttömmande katalog.
   försöket sparas i `quiz-mastered`, ett felsvar tar bort ordet igen. Ännu inte
   länkad från `index.html`, se `BACKLOG.md`.
 
-- `terminal.html` är sedan 2026-10-17 bara en vidarebefordran till
-  `buildapp.se/terminal/`: spelet `./terminal` flyttade samma dag till eget repo,
-  `buildapp-se/terminal` (lokalt `C:\dev\terminal`), med historiken kvar. Spelets
+- Spelet `./terminal` låg här som `terminal.html` och flyttade 2026-10-17 till eget repo,
+  `buildapp-se/terminal` (lokalt `C:\dev\terminal`), med historiken kvar, live på `buildapp.se/terminal/`. Den gamla adressen togs bort i stället för att skicka vidare: spelet var aldrig länkat. Spelets
   `localStorage`-nycklar (`term-highscores`, `term-sound`, `term-shell`) ligger på samma
   ursprung och redovisas fortfarande i `integritet.html` här.
 

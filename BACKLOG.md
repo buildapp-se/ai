@@ -25,8 +25,8 @@
 
 ## Spelet (`terminal.html`)
 
-- [ ] Patrik spelar och lyssnar: välj ljudmotor (`terminal-ljud.js` eller `?ljud=gemini`), radera den andra.
-- [ ] Musik som mp3 från Gemini/Lyria att jämföra med (`?ljud=mp3`). Kräver koll av användningsvillkoren först.
+- [ ] Patrik spelar och lyssnar: välj ljud bland `terminal-ljud.js`, `?ljud=gemini` och `?ljud=mp3` (bara lokalt, spåren i `_musik/`), radera det som väljs bort.
+- [ ] Om mp3 vinner: kolla Lyrias användningsvillkor, ta in `_musik/` i git och kolla att looparna inte hackar i skarven.
 - [ ] Länka spelet från `index.html` och quizet när det är klart att visas.
 - [ ] Paket med Claude Code-kommandon (`claude`, `/init`, `/clear`, `/compact`).
 - [ ] Programspråk som egna paket (Python-REPL, JS-konsol, SQL).

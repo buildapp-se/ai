@@ -4,10 +4,12 @@ status: active
 currentGoal: Hålla AI-resurssidan aktuell
 nextAction: Välja ny kontaktadress och fler resurser enligt BACKLOG.md
 blockers: []
-reviewedAt: 2026-10-07
+reviewedAt: 2026-10-17
 ---
 
 # Handoff: AI-resurssidan
+
+**2026-10-16, `quiz.html`.** Fristående quiz på `buildapp.se/ai/quiz.html`: fyra quiz plus blandat läge, förklaring per felsvar, ordkort med 60 tekniska ord i grupper (20 per runda), svårighetsreglage, klarade ord och resultat per quiz i `localStorage` (`quiz-mastered`, `quiz-results`, båda redovisade i `integritet.html`). Egen favicon och logo. Sista commit `0ecbfdb`; live verifierat 2026-10-17 (200). Struktur i `CONTEXT.md`.
 
 **2026-10-06, nattbatch på grenen `batch/2026-10-06` (mergad till `main` och deployad 2026-10-07 på Patriks order).** Två P3 från granskningen: font-länken tappar nu `as` när `rel` byts till `stylesheet` (html-validate `attribute-misuse` 0 på renderad DOM), och kortens 25 dekorativa pilar är `aria-hidden` efter en kontrastgenomgång av all synlig text (sv/en, kort/lista, 390 och 1280 px, 0 under gränsen). Externa länkar: 60 av 62 svarar 200, två svarar 403 på skript. Kvar för Patrik: ny kontaktadress (finns i `index.html` rad 187 och JS i botten, samt fyra ställen i `integritet.html`) och vilka resurser som ska in i listan.
 

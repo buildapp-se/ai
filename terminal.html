@@ -717,7 +717,7 @@ function menu() {
   screen.innerHTML = `<pre class="logo" aria-label="./terminal">${BANNER}</pre>
     <p>Uppgifter faller som block. Skriv rätt kommando innan de når botten.</p>
     <div class="cols"><div>
-    <h2># paket <span class="dim">(1 till 4)</span></h2>
+    <h2># paket <span class="dim">(↑ ↓ eller 1 till 4)</span></h2>
     <div class="opts">${Object.entries(PACKS).map(([k, p], i) =>
       `<button class="opt" data-pack="${k}" aria-pressed="${k === prefs.pack}">[${i + 1}] ${p.name.padEnd(16)}<span class="dim">${p.hint}</span></button>`).join('')}</div>
     <h2># startnivå <span class="dim">(← →)</span></h2>
@@ -817,6 +817,10 @@ cmd.addEventListener('keydown', e => {
   if (mode === 'menu') {
     if (k === 'Enter') start();
     else if (k >= '1' && k <= '4') setPack(Object.keys(PACKS)[k - 1]);
+    else if (k === 'ArrowUp' || k === 'ArrowDown') {
+      const keys = Object.keys(PACKS), i = keys.indexOf(prefs.pack) + (k === 'ArrowUp' ? -1 : 1);
+      setPack(keys[(i + keys.length) % keys.length]);
+    }
     else if (k === 'ArrowLeft' || k === 'ArrowRight') setLevel(k === 'ArrowLeft' ? -1 : 1);
     else return;
     e.preventDefault();
@@ -833,6 +837,7 @@ cmd.addEventListener('keydown', e => {
     e.preventDefault();
     hpos = Math.max(0, Math.min(hist.length, hpos + (k === 'ArrowUp' ? -1 : 1)));
     cmd.value = hist[hpos] ?? '';
+    cmd.setSelectionRange(cmd.value.length, cmd.value.length);
   } else if (e.ctrlKey && k === 'c' && !cmd.value.slice(cmd.selectionStart, cmd.selectionEnd)) {
     e.preventDefault(); echo(cmd.value, new Set(), '^C'); cmd.value = '';
   } else if (e.ctrlKey && k === 'l') { e.preventDefault(); log.replaceChildren(); }

@@ -25,7 +25,7 @@ saker byggs, inte vara en uttömmande katalog.
   röstsiffror per länk och ett testförslag, inga personuppgifter.
 
 - `quiz.html` (sedan 2026-10-16) är ett fristående quiz, också en enda fil utan
-  byggsteg, bara svenska. Allt innehåll ligger som data i `QUIZZES`: flerval
+  byggsteg, bara svenska. Allt innehåll ligger som data i `QUIZZES` i `quiz-data.js` (sedan 2026-10-17 egen fil, eftersom spelet `buildapp.se/terminal/` läser samma frågor till sin bossfråga; ändra formatet bara tillsammans med spelet): flerval
   (`q`), para ihop (`pairs`) och ordkort (`groups`, felsvar läggs sist i högen som
   i Quizlet). Ordkorten ligger i grupper av närliggande ord och felalternativen
   tas ur samma grupp, så att man inte kan utesluta sig fram; två betydelser i en

@@ -16,3 +16,4 @@ AGENTS.md
 .mcp.json
 .vscode/
 _musik/
+.playwright-mcp/

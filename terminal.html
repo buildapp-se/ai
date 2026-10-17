@@ -615,6 +615,7 @@ function target(key) {
 function explain(u, bad, msgs) {
   const [c, sub] = u;
   if (!KNOWN.has(c)) return msgs.push(`bash: ${c}: command not found`);
+  if (c === 'git' && sub?.startsWith('-')) return msgs.push(`unknown option: ${sub}\n${MISSING.git}`);
   if (c === 'git' && sub && !GIT.has(sub)) return msgs.push(`git: '${sub}' is not a git command. See 'git --help'.`);
   if (u.length === 1 && MISSING[c]) return msgs.push(MISSING[c]);
   let near = null, most = -1;
@@ -635,7 +636,7 @@ function run(raw) {
   try { segs = segments(tokenize(raw)); }
   catch (e) { echo(raw, new Set()); out(`bash: unexpected EOF while looking for matching \`${e.message}'`, 'err'); return fail(); }
 
-  const hits = [], bad = new Set(), msgs = [];
+  const hits = [], bad = new Set(), msgs = [], notes = [];
   let errs = 0, progressed = false;
   for (let seg of segs) {
     if (seg[0] === 'sudo') seg = seg.slice(1);
@@ -645,6 +646,11 @@ function run(raw) {
     if (seg[0] === 'help') { msgs.push('# Skriv kommandot som blocket beskriver. && eller flera argument rensar flera block.\n# ↑ hämtar förra kommandot, Esc pausar, exit avslutar, clear tömmer brunnen om du har en laddning.'); continue; }
     for (const u of units(seg)) {
       const b = target(canon(u));
+      // --help är aldrig fel: visa hjälpen som det riktiga kommandot gör
+      if (!b && KNOWN.has(u[0]) && (u.includes('--help') || (u[0] === 'git' && u[1] === '-h'))) {
+        notes.push(u[0] === 'git' ? MISSING.git + '\n\n# riktiga git --help listar alla underkommandon, git <kommando> --help visar ett av dem' : `Usage: ${u[0]} [OPTION]...\n# riktiga ${u[0]} --help listar alla flaggor`);
+        continue;
+      }
       if (!b) { errs++; explain(u, bad, msgs); continue; }
       progressed = true;
       if (++b.step === b.steps.length) hits.push(b);
@@ -653,6 +659,7 @@ function run(raw) {
   }
   echo(raw, bad);
   msgs.forEach(m => out(m, m.startsWith('#') ? 'cmt' : 'err'));
+  notes.join('\n').split('\n').forEach(l => out(l, l.startsWith('#') ? 'cmt' : ''));
   if (progressed) S.typed += raw.length;
 
   const n = hits.length;

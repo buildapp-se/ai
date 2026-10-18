@@ -2,9 +2,9 @@
 schemaVersion: 1
 status: active
 currentGoal: Hålla AI-resurssidan aktuell
-nextAction: Länka buildapp.se/terminal/ från index.html och quizet; ny kontaktadress och fler resurser enligt BACKLOG.md
+nextAction: Ny kontaktadress och fler resurser enligt BACKLOG.md
 blockers: []
-reviewedAt: 2026-10-17
+reviewedAt: 2026-10-18
 ---
 
 # Handoff: AI-resurssidan

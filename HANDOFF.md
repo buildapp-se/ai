@@ -1,13 +1,15 @@
 ---
 schemaVersion: 1
 status: active
-currentGoal: Hålla AI-resurssidan aktuell
-nextAction: Ny kontaktadress och fler resurser enligt BACKLOG.md
+currentGoal: Hålla solsystemssidan på buildapp.se/ai aktuell
+nextAction: Ändringar görs i webbverkstad runs/ai-solsystem och kopieras hit enligt CONTEXT.md
 blockers: []
 reviewedAt: 2026-10-27
 ---
 
 # Handoff: AI-resurssidan
+
+**2026-10-27, ny sida live: "Från idé till publicerad sida".** Den gamla byggordningssidan ersatt av solsystemssidan från webbverkstad `runs/ai-solsystem` (riktning `a`). Kopierat: `index.html`, `app.js`, `three.js`, ikoner, `og.png`, `og.source.html`, `integritet.html` (version 3.0, ingen lagring), `fonts/`, och de avsnittsfiler `index.html` refererar under `sections/`. `logo.png` borttagen (inget refererade den, inte heller buildapp-se.github.io eller terminal). `quiz-data.js` kvar för spelet. `contrast.test.js` omskriven: läser `:root` ur `index.html` och testar den mörka paletten i stället för den gamla ljusa. Lokalt verifierat: alla anrop 200, 0 konsolfel, kartan och Datorn-scenen ritas, integritet öppnas och länkar tillbaka, sidfotens mejl `kontakt@buildapp.se`. Gate `check.mjs` PASS. Avsnitten nedan om kartan med elva stationer, röstning och kontaktadress gäller den gamla sidan.
 
 **2026-10-27, quizet borttaget** på Patriks begäran: `quiz.html` raderad, länkarna i toppfält och sidfot borta, `integritet.html` version 2.9 (bara `lang` och `view` kvar, ändringsstycke om de gamla quiznycklarna). `quiz-data.js` ligger kvar eftersom spelet `buildapp.se/terminal/` läser den till bossfrågan.
 
@@ -21,9 +23,9 @@ reviewedAt: 2026-10-27
 
 ## Läget
 
-Sidan är live på `buildapp.se/ai/` och fungerar. Den har två delar: kartan med
-elva stationer i fyra faser, som är sidans tes, och den kurerade Claude
-Code-listan med röstning. Arkitektur och designresonemang står i `PROJECT.md`.
+Sidan är live på `buildapp.se/ai/`: solsystemskartan över AI-bolagen och avsnitten
+under den. Källan är webbverkstad `runs/ai-solsystem`; arkitektur och
+driftsättning står i `CONTEXT.md`, design i `directions/a/DESIGN.md` där.
 
 ## Recent work
 
@@ -91,17 +93,14 @@ Policyn 2.2 säger båda sakerna i ändringsstycket.
 
 ## Verification
 
-- `node contrast.test.js` kontrollerar att palettens fem fasfärger klarar
-  WCAG-kontrast mot bottnen. Kör den innan en färg ändras.
-
-## Unresolved details
-
-- Kontaktmailen är fortfarande `kontakt@orgutveckling.se` i topbar och footer.
-  Footern byggs i JS längst ner i `index.html`.
+- `node contrast.test.js` läser färgtokens ur `:root` i `index.html` och kräver
+  4,5:1 för text- och signalfärger, 3:1 för benchmarkfärgerna, mot `--space`
+  och `--sheet`. Kör den efter varje ny kopiering från webbverkstad.
+- `node C:/dev/webbverkstad/gates/check.mjs C:/dev/ai/index.html` ska ge PASS.
 
 ## Resume here
 
-`batch/2026-10-06` är mergad till `main` och deployad 2026-10-07 på Patriks order. Nästa: kontaktadressen, som kräver ett beslut om ny adress.
+Ny sida live 2026-10-27. Nästa ändring görs i webbverkstad och kopieras hit.
 
 ## Granskning 2026-09-16
 

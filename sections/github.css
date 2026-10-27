@@ -1,0 +1,45 @@
+#github .intro-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 0 var(--gutter); max-width: 60rem; }
+#github .intro-cols p { color: var(--muted); margin: 0 0 1rem; }
+#github .intro-cols b { color: var(--text); }
+#github .steps-sub { color: var(--muted); margin: 0 0 1.6rem; font-size: 0.95rem; }
+
+#github .shots { list-style: none; margin: 0; padding: 0; counter-reset: shot; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); gap: 2rem var(--gutter); }
+#github .shots li { counter-increment: shot; }
+#github .shots p { margin: 0.8rem 0 0; font-size: 0.95rem; color: var(--muted); }
+#github .shots p b { color: var(--text); }
+#github code { font: 600 1em var(--body); color: var(--text); }
+
+/* the mock: a wireframe of GitHub drawn in lines on purpose, not a fake screenshot */
+#github .mock { position: relative; height: 9.5rem; border: 1px solid var(--line); border-radius: var(--radius); background: color-mix(in srgb, var(--text) 3%, transparent); overflow: hidden; font-size: 0.875rem; line-height: 1.2; color: var(--muted); }
+#github .mock::before { content: counter(shot); position: absolute; right: 0.5rem; bottom: 0.3rem; font: 700 2.4rem/1 var(--display); color: color-mix(in srgb, var(--text) 10%, transparent); }
+#github .m-bar, #github .m-tabs { display: flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.6rem; border-bottom: 1px solid var(--line); }
+#github .m-logo { width: 1rem; height: 1rem; border-radius: 50%; background: var(--line); }
+#github .m-sp { flex: 1; }
+#github .m-body { padding: 0.6rem; }
+#github .m-btn { padding: 0.2rem 0.5rem; border: 1px solid var(--line); border-radius: 4px; }
+#github .m-hot { color: var(--space); background: var(--text); border: 1px solid var(--text); border-radius: 4px; padding: 0.2rem 0.5rem; font-weight: 600; }
+#github .m-menu { margin-left: auto; width: max-content; display: grid; gap: 0.3rem; padding: 0.4rem; border: 1px solid var(--line); border-radius: 4px; }
+#github .m-menu span { padding: 0.2rem 0.5rem; }
+#github .m-form { display: grid; gap: 0.35rem; justify-items: start; }
+#github .m-lab { font-weight: 600; color: var(--text); }
+#github .m-input { padding: 0.2rem 0.5rem; border: 1px solid var(--line); border-radius: 4px; }
+#github .m-row { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+#github .m-radio::before { content: "○ "; }
+#github .m-radio.m-on::before { content: "● "; color: var(--text); }
+#github .m-tab { padding: 0.2rem 0.3rem; }
+#github .m-cur { color: var(--text); box-shadow: inset 0 -2px var(--muted); }
+#github .m-files { display: grid; gap: 0.35rem; }
+#github .m-files span { padding: 0.25rem 0; border-bottom: 1px solid var(--line); }
+#github .m-new { color: var(--text); }
+#github .m-new::after { content: " ny"; color: var(--muted); font-weight: 600; }
+#github .m-lines { display: grid; gap: 0.5rem; padding: 0.7rem 0.6rem; align-content: start; flex: 1; }
+#github .m-lines i { display: block; height: 0.4rem; border-radius: 2px; background: var(--line); }
+#github .m-lines i:nth-child(2) { width: 70%; }
+#github .m-lines i:nth-child(3) { width: 45%; }
+#github .m-split { display: flex; height: 100%; }
+#github .m-side { display: grid; gap: 0.3rem; align-content: start; padding: 0.6rem; border-right: 1px solid var(--line); }
+#github .m-side span { padding: 0.2rem 0.5rem; }
+#github .m-live { color: var(--text); font-weight: 600; }
+#github .m-url { color: var(--text); word-break: break-all; }
+
+#github .src { margin: 2.5rem 0 0; font-size: 0.875rem; color: var(--muted); max-width: 46rem; }

@@ -1,0 +1,73 @@
+
+/* Category cards: the page's one surface (--sheet, 1 px --line, --radius), no glow, no accent. */
+#andra .an-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr)); gap: 1rem; }
+#andra .an-card {
+  display: flex; flex-direction: column; gap: 0.55rem;
+  padding: 1.4rem 1.3rem 1.3rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--sheet);
+}
+#andra .an-glyph { width: 3.4rem; height: 3.4rem; fill: none; stroke: var(--text); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; margin-bottom: 0.4rem; }
+#andra .an-glyph > circle:first-child { stroke-width: 1; stroke: var(--line); }
+#andra .an-cat { margin: 0; color: var(--muted); font-weight: 600; font-size: 0.9rem; }
+#andra .an-card h3 { margin: 0; }
+#andra .an-card h3 small { font: 500 0.95rem/1 var(--body); color: var(--muted); letter-spacing: 0; margin-left: 0.25rem; }
+#andra .an-rank { margin: 0; font-size: 0.9rem; font-weight: 600; color: var(--text); }
+#andra .an-what { margin: 0.2rem 0 0; }
+#andra .an-also, #andra .an-price { margin: 0; color: var(--muted); font-size: 0.92rem; }
+#andra .an-also span, #andra .an-price b { display: block; color: var(--text); font-weight: 600; font-size: 0.9rem; margin-bottom: 0.1rem; }
+#andra .an-price { padding-top: 0.6rem; border-top: 1px solid var(--line); margin-top: auto; }
+#andra .an-go {
+  display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; align-self: flex-start; margin-top: 0.3rem;
+  padding: 0 1rem; border-radius: var(--radius); border: 1px solid var(--line);
+  color: var(--text); text-decoration: none; font-weight: 600; font-size: 0.95rem;
+  transition: border-color 160ms var(--ease);
+}
+@media (hover: hover) { #andra .an-go:hover { border-color: var(--text); } }
+#andra .an-note, #andra .an-src { font-size: 0.875rem; color: var(--muted); margin: 1.2rem 0 0; max-width: 48rem; border-left: 2px solid var(--line); padding-left: 0.8rem; }
+
+/* Local models */
+#andra .an-local { margin-top: clamp(4rem, 9vw, 7rem); }
+#andra .an-how { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 1rem; margin: 0 0 3rem; }
+#andra .an-how article { border: 1px solid var(--line); border-radius: var(--radius); padding: 1.2rem; }
+#andra .an-how h3 { margin: 0 0 0.5rem; }
+#andra .an-how p { margin: 0; color: var(--muted); }
+#andra .an-how b { color: var(--text); }
+#andra .an-card a:not(.an-go), #andra .an-note a { color: var(--text); text-underline-offset: 3px; }
+#andra .an-how a { color: var(--text); text-underline-offset: 3px; display: inline-block; padding: 0.7rem 0; margin: -0.7rem 0; }
+
+/* Hardware ladder: pillar height grows with memory, bottoms aligned like a staircase.
+   Flat fills: shared memory and RAM at 10 % --text, graphics memory (VRAM) at 22 %. */
+#andra .an-ladder { margin: 0; }
+#andra .an-ladder-h { font: 700 1.15rem/1.2 var(--display); margin: 0 0 1.5rem; }
+#andra .an-ladder ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; align-items: start; background: linear-gradient(var(--line), var(--line)) 0 21.5rem / 100% 1px no-repeat; }
+#andra .an-ladder li { --h: calc(5rem + var(--gb) * 0.17rem); display: grid; grid-template-rows: 21.5rem auto; gap: 1rem; }
+#andra .an-pillar {
+  align-self: end; height: var(--h); position: relative; overflow: hidden;
+  border-radius: var(--radius) var(--radius) 0 0;
+  border: 1px solid var(--line); border-bottom-color: var(--text);
+  background: color-mix(in srgb, var(--text) 10%, transparent);
+  display: flex; flex-direction: column; justify-content: flex-end; padding: 0.9rem;
+}
+#andra .an-pillar b { font: 700 clamp(1.5rem, 1rem + 1.4vw, 2.3rem)/1 var(--display); letter-spacing: -0.03em; position: relative; }
+#andra .an-pillar i { font-style: normal; color: var(--muted); font-size: 0.875rem; position: relative; }
+#andra .is-vram .an-pillar { background: color-mix(in srgb, var(--text) 22%, transparent); }
+/* the striped field: memory the operating system keeps for itself (DESIGN.md, Ytor) */
+#andra .an-os { position: absolute; inset: 0 0 auto; height: 38%; background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--space) 55%, transparent) 0 5px, transparent 5px 10px); border-bottom: 1px dashed color-mix(in srgb, var(--text) 35%, transparent); }
+#andra .an-step h3 { margin: 0 0 0.3rem; }
+#andra .an-step p { margin: 0 0 0.45rem; }
+#andra .an-hw { color: var(--muted); font-size: 0.92rem; }
+#andra .an-cost { font-weight: 600; color: var(--text); font-size: 0.95rem; }
+#andra .an-runs { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+#andra .an-runs span { font-size: 0.875rem; padding: 0.2rem 0.55rem; border-radius: var(--radius); border: 1px solid var(--line); }
+#andra .an-feel { color: var(--muted); font-size: 0.88rem; }
+#andra .an-src { margin-top: 2rem; }
+
+/* Phone: the staircase turns sideways, bar width carries the memory size. */
+@media (max-width: 760px) {
+  #andra .an-ladder ol { background: none; grid-template-columns: 1fr; gap: 1.6rem; }
+  #andra .an-ladder li { grid-template-rows: auto auto; gap: 0.8rem; }
+  #andra .an-pillar { height: 4.2rem; width: calc(38% + var(--gb) * 0.62%); padding: 0.6rem 0.8rem; flex-direction: row; align-items: flex-end; gap: 0.5rem; justify-content: flex-start; border-radius: 0 var(--radius) var(--radius) 0; border-bottom-color: var(--line); border-left-color: var(--text); }
+  #andra .an-os { inset: 0 0 0 auto; height: auto; width: 38%; border-bottom: 0; border-left: 1px dashed color-mix(in srgb, var(--text) 35%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #andra .an-go { transition: none; }
+}

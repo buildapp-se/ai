@@ -1,0 +1,88 @@
+/* Benchmarks section. Company colours --bm-<id> are declared once in index.html :root (planet colours, DESIGN.md). */
+#benchmarks p, #benchmarks .bm-salt { max-width: 42rem; }
+#benchmarks .bm-how, #benchmarks .bm-note, #benchmarks figcaption, #benchmarks caption { color: var(--muted); }
+#benchmarks .bm-how { margin: 0 0 1rem; }
+
+#benchmarks .bm-salt { border: 1px solid var(--line); border-radius: var(--radius); padding: 0 1rem; }
+#benchmarks .bm-salt summary { min-height: 44px; display: flex; align-items: center; font-weight: 600; cursor: pointer; }
+#benchmarks .bm-salt ul { margin: 0 0 1rem; padding-left: 1.2rem; }
+#benchmarks .bm-salt li { margin: 0.35rem 0; }
+
+/* chart */
+#benchmarks .bm-fig { margin: 0; }
+#benchmarks .bm-chart { width: 100%; min-height: 200px; }
+#benchmarks .bm-chart svg { display: block; overflow: visible; font-family: var(--body); }
+#benchmarks .bm-good { fill: color-mix(in srgb, var(--text) 4%, transparent); }
+#benchmarks .bm-q { fill: var(--muted); font: 600 0.875rem var(--body); letter-spacing: 0.02em; }
+#benchmarks .bm-grid { stroke: var(--line); stroke-width: 1; }
+#benchmarks .bm-split { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 4 4; }
+#benchmarks .bm-tick, #benchmarks .bm-axis { fill: var(--muted); font-size: 14px; }
+#benchmarks .bm-trail { fill: none; stroke: var(--c); stroke-width: 1.6; opacity: 0.75; }
+#benchmarks .bm-gen { stroke: var(--c); stroke-width: 1.4; stroke-dasharray: 3 4; opacity: 0.8; }
+#benchmarks .bm-dot { fill: var(--c); stroke: var(--space); stroke-width: 1.5; }
+#benchmarks .bm-old { fill: var(--space); stroke: var(--c); stroke-width: 1.5; }
+#benchmarks .bm-label { fill: var(--text); font-size: 14px; font-weight: 600; paint-order: stroke; stroke: var(--space); stroke-width: 4px; stroke-linejoin: round; }
+#benchmarks figcaption, #benchmarks .bm-key { font-size: 0.875rem; margin-top: 0.6rem; color: var(--muted); }
+#benchmarks .bm-key { margin-bottom: 0; }
+
+/* table: cells centre vertically so the model button (44 px tap height) lines up with its row */
+#benchmarks .bm-table-wrap { margin-top: 2rem; overflow-x: auto; }
+#benchmarks .bm-table { border-collapse: collapse; width: 100%; max-width: 48rem; font-size: 0.92rem; font-variant-numeric: tabular-nums; }
+#benchmarks caption { text-align: left; font-size: 0.875rem; padding-bottom: 0.6rem; }
+#benchmarks .bm-table th, #benchmarks .bm-table td { text-align: left; padding: 0.45rem 0.6rem 0.45rem 0; border-bottom: 1px solid var(--line); vertical-align: middle; }
+#benchmarks .bm-table thead th { color: var(--muted); font-weight: 600; font-size: 0.875rem; padding-block: 0; vertical-align: bottom; }
+#benchmarks .bm-table tbody th { font-weight: 600; }
+#benchmarks .bm-table td:first-child { color: var(--muted); }
+#benchmarks .bm-table td:nth-child(4), #benchmarks .bm-table td:nth-child(5) { white-space: nowrap; }
+#benchmarks .bm-sw { display: inline-block; width: 0.6em; height: 0.6em; border-radius: 50%; background: var(--c); margin-right: 0.45em; }
+
+/* links */
+#benchmarks .bm-links { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr)); gap: 0.4rem var(--gutter); }
+#benchmarks .bm-links li { padding: 0.1rem 0 0.6rem; border-top: 1px solid var(--line); }
+#benchmarks .bm-links a { font-weight: 600; text-decoration-thickness: 2px; display: inline-flex; align-items: center; min-height: 44px; }
+#benchmarks .bm-links span { display: block; color: var(--muted); font-size: 0.92rem; }
+
+/* highlighting: quadrant buttons, clickable quadrants, pickable rows. --star marks what is selected. */
+#benchmarks .bm-filter { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 1rem; }
+#benchmarks .bm-filter button, #benchmarks .bm-pick { font: inherit; color: var(--text); cursor: pointer; }
+#benchmarks .bm-filter button { min-height: 44px; padding: 0.45rem 0.9rem; background: transparent; border: 1px solid var(--line); border-radius: var(--radius); font-weight: 600; transition: border-color 160ms var(--ease), background 160ms var(--ease); }
+#benchmarks .bm-filter button[aria-pressed="true"] { background: var(--star); border-color: var(--star); color: var(--space); }
+@media (hover: hover) { #benchmarks .bm-filter button:hover { border-color: var(--text); } }
+#benchmarks .bm-zone { fill: transparent; cursor: pointer; transition: fill 200ms var(--ease); }
+#benchmarks .bm-zone.bm-good { fill: color-mix(in srgb, var(--text) 4%, transparent); }
+#benchmarks .bm-zone:hover { fill: color-mix(in srgb, var(--text) 7%, transparent); }
+#benchmarks .bm-zone.is-on { fill: color-mix(in srgb, var(--star) 16%, transparent); }
+#benchmarks .bm-series { cursor: pointer; transition: opacity 200ms var(--ease); }
+#benchmarks .bm-series.is-dim { opacity: 0.12; }
+#benchmarks .bm-series.is-on .bm-trail { stroke-width: 3; opacity: 1; }
+#benchmarks .bm-series.is-on .bm-dot { stroke: var(--text); }
+/* negative block margin cancels the cell padding: 44 px hit area, row height unchanged */
+#benchmarks .bm-pick { background: none; border: 0; padding: 0; min-height: 44px; margin-block: -0.45rem; text-align: left; font-weight: 600; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+#benchmarks .bm-table tbody tr { transition: opacity 200ms var(--ease), background 200ms var(--ease); }
+#benchmarks .bm-table tbody tr.is-dim { opacity: 0.35; }
+#benchmarks .bm-table tbody tr.is-on { background: color-mix(in srgb, var(--star) 8%, transparent); }
+#benchmarks .bm-table tbody tr.is-hover { background: color-mix(in srgb, var(--text) 5%, transparent); }
+
+/* sortable headers: click toggles ascending / descending */
+#benchmarks .bm-sort { font: inherit; color: inherit; background: none; border: 0; padding: 0; min-height: 44px; min-width: 44px; cursor: pointer; text-align: left; text-transform: inherit; letter-spacing: inherit; }
+#benchmarks .bm-sort::after { content: " ↕"; opacity: 0.45; }
+#benchmarks th[aria-sort="ascending"] .bm-sort::after { content: " ↑"; opacity: 1; color: var(--star); }
+#benchmarks th[aria-sort="descending"] .bm-sort::after { content: " ↓"; opacity: 1; color: var(--star); }
+@media (hover: hover) { #benchmarks .bm-sort:hover { color: var(--text); } }
+
+/* phones: the whole table fits 390 px without sideways scroll, at 14 px. Short headers; the long ones stay for screen readers. */
+#benchmarks .bm-short { display: none; }
+@media (max-width: 600px) {
+  #benchmarks .bm-table { font-size: 0.875rem; }
+  #benchmarks .bm-table th, #benchmarks .bm-table td { padding-right: 0.35rem; }
+  #benchmarks .bm-table th:last-child, #benchmarks .bm-table td:last-child { padding-right: 0; }
+  #benchmarks .bm-long { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  #benchmarks .bm-short { display: inline; }
+}
+/* under ~375 px the table still scrolls sideways: a light edge shows there is more, and leaves once you reach the end
+   (the "local" cover scrolls with the table and hides the "scroll" shadow at the far end) */
+#benchmarks .bm-table-wrap {
+  background:
+    linear-gradient(to left, var(--space) 40%, transparent) right / 2.5rem 100% no-repeat local,
+    radial-gradient(farthest-side at 100% 50%, color-mix(in srgb, var(--text) 22%, transparent), transparent) right / 1rem 100% no-repeat scroll;
+}

@@ -1,0 +1,91 @@
+/* Verifiera: låt AI:n granska sitt eget arbete. Scoped under #verifiera. No JS of its own; copy button uses grilla.js. */
+#verifiera .v-head { max-width: 44rem; }
+#verifiera strong { color: var(--text); font-weight: 600; }
+
+/* ---------- the ladder: a staircase that climbs from the machine's checks (--cool) to a human's view (--text) ---------- */
+#verifiera .v-ladder { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0 clamp(0.6rem, 1.2vw, 1.2rem); align-items: end; }
+#verifiera .v-ladder li { --c: color-mix(in oklch, var(--cool) calc(100% - var(--i) * 25%), var(--text)); display: flex; flex-direction: column; }
+#verifiera .v-step { padding: 0 0.2rem 1rem; }
+#verifiera .v-time { display: inline-block; margin: 0 0 0.6rem; padding: 0.2rem 0.6rem; border-radius: var(--radius); border: 1px solid color-mix(in srgb, var(--c) 45%, transparent); color: var(--c); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; }
+#verifiera .v-step h4 { margin: 0 0 0.45rem; font: 700 1.02rem/1.2 var(--display); letter-spacing: -0.015em; }
+#verifiera .v-step p { margin: 0; color: var(--muted); font-size: 0.93rem; line-height: 1.45; }
+#verifiera .v-step .v-tools { margin-top: 0.6rem; font-size: 0.875rem; color: var(--c); }
+#verifiera .v-riser {
+  position: relative; height: calc(3.2rem + var(--i) * 2.6rem); border-radius: var(--radius) var(--radius) 0 0;
+  background: color-mix(in srgb, var(--c) 14%, transparent); border-top: 2px solid var(--c);
+}
+#verifiera .v-riser span { position: absolute; left: 0.7rem; bottom: 0.4rem; font: 700 clamp(1.8rem, 1.2rem + 1.6vw, 3rem)/1 var(--display); color: color-mix(in srgb, var(--c) 55%, transparent); }
+#verifiera .v-axis { display: flex; justify-content: space-between; gap: 1rem; margin: 0; padding-top: 0.7rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.9rem; font-weight: 600; }
+#verifiera .v-axis span:first-child { color: var(--cool); }
+#verifiera .v-axis span:last-child { color: var(--text); }
+
+/* ---------- two cards ---------- */
+#verifiera .v-duo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gutter); margin-top: clamp(2.5rem, 5vw, 4rem); }
+#verifiera .v-card { padding: 1.3rem 1.4rem 1.4rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--sheet); }
+#verifiera .v-card-k { margin: 0 0 0.7rem; font: 700 1.05rem/1.2 var(--display); letter-spacing: -0.015em; }
+#verifiera .v-card > p { color: var(--muted); margin: 0 0 1rem; }
+#verifiera .v-term { margin: 0; padding: 0.9rem 1rem; border-radius: var(--radius); background: color-mix(in srgb, var(--space) 45%, transparent); border: 1px solid var(--line); font: 400 0.875rem/1.6 var(--body); white-space: pre-wrap; overflow-wrap: anywhere; }
+#verifiera .v-dim { color: var(--muted); }
+#verifiera .v-err { color: var(--fail); font-weight: 600; }
+#verifiera .v-ok { color: var(--ok); font-weight: 600; }
+#verifiera .v-tests ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.85rem; }
+#verifiera .v-tests li { position: relative; padding-left: 1.6rem; color: var(--muted); font-size: 0.97rem; }
+#verifiera .v-tests li::before { content: ""; position: absolute; left: 0; top: 0.42em; width: 0.7rem; height: 0.7rem; border-radius: 50%; background: var(--muted); }
+
+/* ---------- browser matrix ---------- */
+#verifiera .v-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+#verifiera .v-matrix { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+#verifiera .v-matrix th, #verifiera .v-matrix td { padding: 0.9rem 0.6rem; border-bottom: 1px solid var(--line); text-align: center; vertical-align: middle; }
+#verifiera .v-matrix thead th { font-size: 0.875rem; font-weight: 600; color: var(--muted); padding-top: 0; }
+#verifiera .v-matrix th:first-child, #verifiera .v-matrix .v-note, #verifiera .v-matrix .v-note-h { text-align: left; }
+#verifiera .v-matrix tbody th { font: 700 1rem/1.2 var(--display); letter-spacing: -0.015em; }
+#verifiera .v-matrix tbody th small { display: block; margin-top: 0.2rem; font: 400 0.875rem/1.2 var(--body); color: var(--muted); letter-spacing: 0; }
+#verifiera .v-note { color: var(--muted); font-size: 0.9rem; max-width: 26rem; }
+#verifiera .v-th-short { display: none; }
+#verifiera .v-matrix td.y span, #verifiera .v-matrix td.n span, #verifiera .v-matrix td.m span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+#verifiera .v-matrix td.y::before, #verifiera .v-matrix td.n::before, #verifiera .v-matrix td.m::before { content: ""; display: inline-block; width: 14px; height: 14px; border-radius: 50%; }
+#verifiera .v-matrix td.y::before { background: var(--text); }
+#verifiera .v-matrix td.n::before { border: 1.5px solid color-mix(in srgb, var(--text) 25%, transparent); width: 11px; height: 11px; }
+#verifiera .v-matrix td.m::before { background: linear-gradient(90deg, var(--text) 50%, transparent 50%); border: 1.5px solid var(--text); width: 11px; height: 11px; }
+#verifiera .v-matrix tbody tr:hover { background: color-mix(in srgb, var(--text) 3%, transparent); }
+#verifiera .v-fix { margin: 1.2rem 0 0; padding: 0.9rem 1.1rem; border-left: 2px solid var(--line); color: var(--muted); max-width: 52rem; font-size: 0.95rem; }
+
+/* ---------- the prompt ---------- */
+#verifiera .v-prompt { margin-top: clamp(2.5rem, 5vw, 3.5rem); border: 1px solid var(--line); border-radius: var(--radius); background: var(--sheet); overflow: hidden; }
+#verifiera .v-prompt-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.55rem 0.6rem 0.55rem 1.1rem; border-bottom: 1px solid var(--line); }
+#verifiera .v-prompt-k { margin: 0; font-size: 0.875rem; font-weight: 600; color: var(--muted); }
+#verifiera .v-prompt pre { margin: 0; padding: 1rem 1.1rem 1.2rem; white-space: pre-wrap; overflow-wrap: anywhere; font: 400 1rem/1.55 var(--body); color: var(--text); }
+#verifiera .v-copybtn {
+  flex: none; min-height: 44px; min-width: 6.5rem; padding: 0.4rem 1rem; border: 1px solid var(--line); border-radius: var(--radius);
+  background: transparent; color: var(--text); font: 600 0.9rem/1 var(--body); cursor: pointer;
+  transition: border-color 160ms var(--ease);
+}
+#verifiera .v-copybtn.is-done { border-color: var(--text); }
+@media (hover: hover) { #verifiera .v-copybtn:hover { border-color: var(--text); } }
+
+/* ---------- narrow screens ---------- */
+@media (max-width: 1000px) {
+  #verifiera .v-ladder { grid-template-columns: minmax(0, 1fr); gap: 0.7rem; }
+  #verifiera .v-ladder li { flex-direction: row-reverse; align-items: stretch; gap: 1rem; margin-left: calc((4 - var(--i)) * 0.9rem); }
+  #verifiera .v-riser { flex: none; height: auto; width: calc(2.8rem + var(--i) * 0.9rem); border-top: 0; border-left: 2px solid var(--c); border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  #verifiera .v-riser span { left: auto; right: 0.5rem; bottom: auto; top: 0.6rem; font-size: 1.6rem; }
+  #verifiera .v-step { padding: 0.6rem 0 0.8rem; }
+  #verifiera .v-axis { display: none; }
+  #verifiera .v-duo { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 700px) {
+  #verifiera .v-ladder li { margin-left: 0; }
+  #verifiera .v-matrix, #verifiera .v-matrix tbody, #verifiera .v-matrix thead { display: block; }
+  #verifiera .v-matrix tr { display: grid; grid-template-columns: minmax(0, 1fr) repeat(4, 3.6rem); align-items: center; border-bottom: 1px solid var(--line); }
+  #verifiera .v-matrix th, #verifiera .v-matrix td { border: 0; padding: 0.7rem 0.2rem; }
+  #verifiera .v-matrix th:first-child { padding-left: 0; }
+  /* 14 px headers: the sort arrow wraps under the name */
+  #verifiera .v-matrix thead th { font-size: 0.875rem; letter-spacing: 0; padding-block: 0; line-height: 1.2; }
+  #verifiera .v-matrix thead th:not(:first-child) .t-sort::after { display: block; }
+  #verifiera .v-note-h { display: none; }
+  #verifiera .v-matrix .v-note { grid-column: 1 / -1; padding: 0 0 0.9rem; max-width: none; }
+  #verifiera .v-th-long { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  #verifiera .v-th-short { display: inline; }
+  #verifiera .v-prompt-bar { flex-wrap: wrap; }
+}

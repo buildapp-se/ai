@@ -1,0 +1,22 @@
+/* Koll: checklistan, sju grupper i spalter. Scoped under #koll. Copy button uses grilla.js. */
+#koll .k-groups { columns: 3 20rem; column-gap: var(--gutter); }
+#koll .k-group { break-inside: avoid; margin-bottom: 2.5rem; }
+#koll .k-group h3 { margin: 0 0 0.2rem; padding-bottom: 0.7rem; border-bottom: 1px solid var(--line); }
+#koll ul { list-style: none; margin: 0; padding: 0; }
+#koll li { padding: 0.9rem 0 0.5rem; border-bottom: 1px solid var(--line); }
+#koll h4 { margin: 0 0 0.3rem; font: 600 1.02rem/1.3 var(--body); }
+#koll li p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+/* links stay inline, so a wrapped line flows like text; vertical padding (which takes no line space) gives the 44 px hit area,
+   and the row's own padding keeps that area inside the row */
+#koll .k-how { margin-top: 0.15rem; padding: 0.7rem 0; font-size: 0.9rem; }
+#koll .k-how a { padding-block: 0.85rem; color: var(--text); font-weight: 600; overflow-wrap: anywhere; }
+@media (hover: hover) { #koll .k-how a:hover { text-decoration-thickness: 2px; } }
+
+/* the prompt, same shape as verifiera's */
+#koll .k-prompt { margin-top: 1rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--sheet); overflow: hidden; }
+#koll .k-prompt-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.55rem 0.6rem 0.55rem 1.1rem; border-bottom: 1px solid var(--line); }
+#koll .k-prompt-k { margin: 0; font-size: 0.875rem; font-weight: 600; color: var(--muted); }
+#koll .k-prompt pre { margin: 0; padding: 1rem 1.1rem 1.2rem; white-space: pre-wrap; overflow-wrap: anywhere; font: 400 1rem/1.55 var(--body); color: var(--text); }
+#koll .k-copybtn { flex: none; min-height: 44px; min-width: 6.5rem; padding: 0.4rem 1rem; border: 1px solid var(--line); border-radius: var(--radius); background: transparent; font: 600 0.9rem/1 var(--body); transition: border-color 160ms var(--ease); }
+#koll .k-copybtn.is-done { border-color: var(--text); }
+@media (hover: hover) { #koll .k-copybtn:hover { border-color: var(--text); } }

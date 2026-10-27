@@ -6,12 +6,11 @@
   the right order", och märket är kartans ryggrad. Den gamla bilden hade röstpil,
   bock och kickern "Curated · Ranked · Voted", alltså tre påståenden om funktioner
   som inte finns kvar. Renderingskommandot står i `og.source.html`.
-- [ ] Byt kontaktmailen från `kontakt@orgutveckling.se` i topbar och footer när en
-  ny adress finns. Footern byggs i JS längst ner i `index.html`.
+- [x] Byt kontaktmailen från `kontakt@orgutveckling.se`. Löst 2026-10-27 med nya sidan: sidfoten visar `kontakt@buildapp.se`.
 
 ## Innehåll
 
-- [ ] Fler resurser i den kurerade listan.
+- [x] Fler resurser i den kurerade listan. Stängd 2026-10-27: listan fanns på den gamla sidan, som ersatts. Innehållet i nya sidan ändras i webbverkstad `runs/ai-solsystem` (avsnittet `lar`).
 
 ## Quiz
 

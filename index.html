@@ -1,857 +1,1202 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="sv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="index, follow">
-<link rel="icon" type="image/png" sizes="512x512" href="logo.png"><link rel="icon" type="image/svg+xml" href="favicon.svg">
-
-<title>Every name, in the right order – what you need to build with AI</title>
-<meta name="description" content="Eleven steps from an empty folder to a site on the internet: model, terminal, editor, framework, hosting, database, login. What every tool name actually means, when to pick which, and the security and GDPR rules that apply the whole way.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Från idé till publicerad sida | AI-bolagen på en karta</title>
+<meta name="description" content="Först en karta över AI-bolagen, deras modeller och verktyg. Sedan vägen från idé till en publicerad sida: verktyg, GitHub, kontroller och var du lär dig mer.">
 <link rel="canonical" href="https://buildapp.se/ai/">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Every name, in the right order">
-<meta property="og:description" content="Eleven steps from an empty folder to a site on the internet. What every tool name actually means and when to pick which.">
+<meta property="og:site_name" content="buildapp.se">
+<meta property="og:locale" content="sv_SE">
 <meta property="og:url" content="https://buildapp.se/ai/">
+<meta property="og:title" content="Från idé till publicerad sida">
+<meta property="og:description" content="En karta över AI-bolagen, och sedan vägen från idé till en publicerad sida, steg för steg.">
 <meta property="og:image" content="https://buildapp.se/ai/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:locale" content="en_US">
-<meta property="og:locale:alternate" content="sv_SE">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Från idé till publicerad sida, buildapp.se/ai, med planeter i en bana.">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@500;700&family=Public+Sans:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet';this.removeAttribute('as')">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@500;700&family=Public+Sans:wght@400;500;600&display=swap"></noscript>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "name": "Every name, in the right order",
-  "description": "Eleven steps from an empty folder to a site on the internet, and what every tool name along the way actually means.",
-  "url": "https://buildapp.se/ai/",
-  "inLanguage": "en"
-}
-</script>
+<meta name="twitter:title" content="Från idé till publicerad sida">
+<meta name="twitter:description" content="En karta över AI-bolagen, och sedan vägen från idé till en publicerad sida, steg för steg.">
+<meta name="twitter:image" content="https://buildapp.se/ai/og.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Från idé till publicerad sida","description":"Först en karta över AI-bolagen, deras modeller och verktyg. Sedan vägen från idé till en publicerad sida: verktyg, GitHub, kontroller och var du lär dig mer.","url":"https://buildapp.se/ai/","inLanguage":"sv","image":"https://buildapp.se/ai/og.png","dateModified":"2026-10-27","isPartOf":{"@type":"WebSite","name":"buildapp.se","url":"https://buildapp.se/"}}</script>
 <style>
-/* Paletten är lånad från syntaxfärgning i en kodeditor. De fem hue:arna är inte dekor:
-   var och en märker ut en fas i bygget, så färgen säger var på vägen du befinner dig.
-   Alla fem är kontrastkontrollerade mot bottnen, se contrast.test.js. */
-:root{--fg:#14181F;--bg:#F4F6F8;--card:#fff;--primary:#6544E0;--secondary:#5A6472;--tertiary:#DDE3EA;--font:'Public Sans',system-ui,sans-serif;--font-display:'Bricolage Grotesque',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;--grafit:#14181F;--petrol:#1C6FE0;--lera:#9A6100;--p1:#6544E0;--p2:#1F8A5B;--p3:#9A6100;--p4:#1C6FE0;--p5:#C0304A;--outer:clamp(1.25rem,4vw,2.5rem);--fs-small:.8125rem;--fs-body:1rem;--fs-large:1.1875rem;--ls-heading:-.02em;--lh-body:1.65;--radius-btn:100px;--t:.16s ease;--maxw:1180px}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:var(--font);font-size:var(--fs-body);color:var(--fg);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:var(--lh-body);overflow-x:hidden}
-a{color:inherit;text-underline-offset:.2em}
-.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--outer)}
+@font-face { font-family: "Unbounded"; src: url(fonts/unbounded-latin-400-normal.woff2) format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Unbounded"; src: url(fonts/unbounded-latin-700-normal.woff2) format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Familjen Grotesk"; src: url(fonts/familjen-grotesk-latin-400-normal.woff2) format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Familjen Grotesk"; src: url(fonts/familjen-grotesk-latin-600-normal.woff2) format("woff2"); font-weight: 600; font-display: swap; }
 
-/* Topbar: avsändaren */
-.topbar{display:flex;justify-content:flex-end;align-items:center;gap:1rem;padding:1.1rem 0;border-bottom:1px solid var(--tertiary)}
-.topbar-right{display:flex;align-items:center;gap:1rem}
-.topbar-link{font-size:var(--fs-small);color:var(--secondary);text-decoration:none;white-space:nowrap}
-.topbar-link:hover{color:var(--primary)}
-.lang-toggle{display:flex;border:1.5px solid var(--tertiary);border-radius:var(--radius-btn);overflow:hidden}
-.lang-toggle button{background:transparent;border:0;cursor:pointer;padding:.35em .7em;min-height:44px;min-width:44px;font-size:.7rem;font-weight:700;letter-spacing:.05em;color:var(--secondary);font-family:var(--font);transition:all var(--t)}
-.lang-toggle button:hover{color:var(--primary)}
-.lang-toggle button.active{background:var(--grafit);color:#fff}
+/* Tokens: see DESIGN.md. --planet is set per lab from the scene. */
+:root {
+  --space: #05070d;
+  --text: #e9edf5;
+  --muted: rgb(233 237 245 / 0.68);
+  --line: rgb(233 237 245 / 0.16);
+  --star: #f2c46d;
+  --sheet: rgb(7 10 18);
+  --planet: var(--muted); /* until the scene sets a lab colour: links and list markers stay neutral */
+  --display: "Unbounded", sans-serif;
+  --body: "Familjen Grotesk", sans-serif;
+  --radius: 6px;
+  --ease: cubic-bezier(0.76, 0, 0.24, 1);
+  --gutter: clamp(16px, 3vw, 40px);
+  /* One container for the list and every section; the hero text and map foot share its left edge. */
+  --wrap: 80rem;
+  --edge: max(var(--gutter), calc((100% - var(--wrap)) / 2 + var(--gutter)));
+  --sec-pad: clamp(3rem, 8vw, 6rem);
+  /* Signal colours, sections only (DESIGN.md): the machine side, pass, fail. */
+  --cool: #8ab8ff;
+  --ok: #7ee0a6;
+  --fail: #ff8f8f;
+  /* Benchmarks company colours: the planet colours (src/main.js LOOKS), lifted where the dark ground needs it (DESIGN.md). */
+  --bm-anthropic: #d97757; --bm-openai: #f4f4f2; --bm-google: #08b962; --bm-meta: #0082fb; --bm-xai: #9a9a9a;
+  --bm-mistral: #ff8205; --bm-deepseek: #4d6bfe; --bm-qwen: #a59ffb; --bm-moonshot: #e8e8e6;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { background: var(--space); }
+body { margin: 0; background: var(--space); color: var(--text); font: 400 1rem/1.55 var(--body); }
+a { color: inherit; text-decoration-color: var(--planet); text-underline-offset: 0.2em; }
+:focus-visible { outline: 2px solid var(--star); outline-offset: 3px; border-radius: var(--radius); }
+button { font: inherit; color: inherit; cursor: pointer; }
+.btn { min-height: 44px; padding: 0.55rem 1rem; background: transparent; border: 1px solid var(--line); border-radius: var(--radius); font-weight: 600; transition: border-color 160ms var(--ease); }
+@media (hover: hover) { .btn:hover { border-color: var(--text); } }
 
-/* KARTAN: byggordningen ritad som en ryggrad. Rubriken till vänster står kvar
-   medan man scrollar och byter accentfärg till den fas man befinner sig i.
-   Det är sidans signaturelement, så inget annat på sidan rör sig. */
-.map{--accent:var(--p1);display:grid;grid-template-columns:minmax(0,16rem) minmax(0,1fr);gap:clamp(1.5rem,5vw,4rem);padding:clamp(2rem,5vw,3.5rem) 0 clamp(1.5rem,3vw,2.5rem)}
-.map[data-p="1"]{--accent:var(--p1)}
-.map[data-p="2"]{--accent:var(--p2)}
-.map[data-p="3"]{--accent:var(--p3)}
-.map[data-p="4"]{--accent:var(--p4)}
-.map[data-p="5"]{--accent:var(--p5)}
-.map-intro{position:sticky;top:1.75rem;align-self:start}
-.map-intro h1{font-family:var(--font-display);font-size:clamp(2rem,3.9vw,2.9rem);font-weight:800;line-height:.97;letter-spacing:-.038em}
-.map-intro h1 i{font-style:normal;color:var(--accent);transition:color .45s ease}
-.map-lede{margin-top:1.1em;font-size:var(--fs-small);color:var(--secondary);line-height:1.6;max-width:23em}
-.map-here{margin-top:1.4em;font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);transition:color .45s ease;display:flex;align-items:center;gap:.55em}
-.map-here::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor;flex-shrink:0}
+/* ---------- intro ---------- */
+.intro { padding: var(--gutter); max-width: 38rem; margin-left: calc(var(--edge) - var(--gutter)); }
+h1 { font: 700 clamp(1.7rem, 1rem + 2.6vw, 3.3rem)/1.05 var(--display); letter-spacing: -0.03em; margin: 0 0 0.9rem; }
+.intro .lede { margin: 0 0 1.2rem; color: var(--muted); max-width: 27rem; }
+.controls { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.has-3d .intro { position: absolute; top: 0; left: 0; z-index: 3; pointer-events: none; }
+.has-3d .intro .controls { pointer-events: auto; }
+.intro .controls { display: none; }
+.has-3d .intro .controls { display: flex; }
+.is-focused .intro { opacity: 0; transition: opacity 400ms var(--ease); }
+/* once the visitor starts exploring, the heading shrinks into the corner and the lede steps back */
+.has-3d h1 { transition: font-size 600ms var(--ease); }
+.is-exploring:not(.is-narrow) h1 { font-size: 1.35rem; }
+.has-3d .intro .lede { max-height: 12rem; overflow: hidden; transition: max-height 600ms var(--ease), opacity 600ms var(--ease), margin 600ms var(--ease); }
+.is-exploring:not(.is-narrow) .intro .lede { opacity: 0; max-height: 0; margin: 0; }
+/* a focused planet owns the screen: the intro goes completely, and its faded buttons can't catch taps */
+.has-3d.is-focused .intro { opacity: 0; visibility: hidden; transition: opacity 400ms var(--ease), visibility 0s 400ms; }
+/* no WebGL: the intro and the list are the page, no map-sized gap between them */
+.no-webgl .intro .controls { display: flex; }
+.no-webgl .list { padding-top: 1rem; }
+.no-webgl #toggle-list { display: none; } /* the list is already the page */
 
-/* Faser och stationer */
-.phase-label{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:var(--accent);margin:2.75rem 0 1.5rem;display:flex;align-items:center;gap:.75rem}
-.phase-label::after{content:'';flex:1;height:1px;background:currentColor;opacity:.3}
-.phase:first-child .phase-label{margin-top:0}
-.station{position:relative;padding-left:2.4rem;padding-bottom:2.25rem}
-.station:last-child{padding-bottom:.5rem}
-/* Två linjer ovanpå varandra: den prickade är vägen kvar, den fyllda ritas när stationen nås */
-.station::before{content:'';position:absolute;left:.5rem;top:.6rem;bottom:0;width:2px;background:repeating-linear-gradient(var(--tertiary) 0 3px,transparent 3px 8px)}
-.station::after{content:'';position:absolute;left:.5rem;top:.6rem;bottom:0;width:2px;background:var(--accent);transform:scaleY(0);transform-origin:top;transition:transform .85s cubic-bezier(.33,0,.15,1)}
-.station.lit::after{transform:scaleY(1)}
-.station:last-child::before,.station:last-child::after{bottom:auto;height:1.75rem}
-.station-head{position:relative}
-.station-head::before{content:'';position:absolute;left:calc(-1.9rem - 4.5px);top:.42rem;width:11px;height:11px;border-radius:50%;background:var(--bg);border:2px solid var(--tertiary);transition:border-color .45s ease .15s,background .45s ease .15s}
-.station.lit .station-head::before{border-color:var(--accent);background:var(--accent)}
-.station-no{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.12em;color:var(--secondary)}
-.station-name{font-family:var(--font-display);font-size:clamp(1.3rem,2.4vw,1.7rem);font-weight:700;letter-spacing:-.028em;line-height:1.1;margin-top:.1em}
-.station-what{font-size:var(--fs-small);color:var(--secondary);margin-top:.3em;max-width:46em}
+/* ---------- the map ---------- */
+#space { display: none; }
+.has-3d #space { display: block; position: relative; height: 100svh; min-height: 560px; overflow: hidden; }
+#space canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.labels { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+.p-name-wrap { pointer-events: none; }
+.p-name-wrap.is-far, .p-models.is-far { filter: brightness(0.62); } /* farther half of the ring: background */
+.p-name-wrap, .p-models { transition: filter 400ms var(--ease); }
+.p-name {
+  pointer-events: auto; min-height: 44px; padding: 0.5rem 0.75rem; background: none; border: 0;
+  font: 700 clamp(0.875rem, 0.75rem + 0.35vw, 1.1rem)/1 var(--display); letter-spacing: -0.01em;
+  text-shadow: 0 1px 12px var(--space);
+  transition: opacity 400ms var(--ease);
+}
+.p-name::after { content: ""; display: block; height: 2px; margin-top: 0.4rem; background: var(--planet); transform: scaleX(0.25); transition: transform 200ms var(--ease); }
+.p-name.is-lit::after { transform: scaleX(1); }
+.p-models { list-style: none; margin: 0; padding: 0.3rem 0.55rem; border-radius: var(--radius); background: rgb(5 7 13 / 0.94); text-align: center; font-size: 0.8rem; line-height: 1.4; color: var(--muted); text-shadow: 0 1px 10px var(--space); transition: opacity 400ms var(--ease), filter 400ms var(--ease); }
+.p-models li:first-child { color: var(--text); font-weight: 600; }
+.p-models { overflow: hidden; } /* layoutLabels() trims a crowded card from the bottom */
+/* a label with no free spot on screen (layoutLabels() in src/main.js): gone, but a name stays reachable by keyboard */
+.labels .p-name.is-hidden, .labels .p-models.is-hidden { opacity: 0; pointer-events: none; transition: none; } /* out at once, back with a fade */
+.labels .p-name.is-hidden:focus-visible { opacity: 1; }
+.moon-label { font-size: 0.78rem; padding: 0.15rem 0.45rem; border-radius: var(--radius); background: rgb(5 7 13 / 0.7); white-space: nowrap; opacity: 0; transition: opacity 200ms var(--ease); }
+.moon-label.is-on { opacity: 1; }
+.is-focused .p-name:not(.is-lit) { opacity: 0.3; }
+.is-focused .p-name.is-lit { opacity: 0; } /* the panel heading names it */
+.is-focused .p-models, .is-narrow .p-models { opacity: 0; }
+.foot { position: absolute; z-index: 3; bottom: var(--gutter); left: var(--edge); right: var(--edge); display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; font-size: 0.875rem; color: var(--muted); pointer-events: none; }
+.foot > span:first-child { white-space: nowrap; } /* the hint stays one line under the zoom buttons; the date wraps instead */
+.foot > span:last-child { text-align: right; }
+.is-focused .foot { opacity: 0; }
+.zoom { position: absolute; z-index: 5; left: var(--edge); bottom: calc(var(--gutter) + 2.2rem); display: flex; gap: 0.4rem; }
+.zoom .btn { min-width: 44px; padding: 0.4rem; font: 700 1.2rem/1 var(--display); background: var(--sheet); }
+.is-narrow.is-focused .zoom { bottom: calc(56svh + 0.6rem); } /* phones: just above the sheet, clear of the heading */
 
-/* Verktygskort: vad det är, och när man ska välja just det */
-.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(14.5rem,1fr));gap:.7rem;margin-top:1.1rem}
-.tool{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--tertiary);border-radius:12px;padding:.95rem 1.05rem 1.05rem;text-decoration:none;color:var(--fg);transition:border-color var(--t),transform var(--t),box-shadow var(--t)}
-.tool:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 6px 20px rgba(20,24,31,.07)}
-.tool-name{font-family:var(--font-display);font-size:1.02rem;font-weight:700;letter-spacing:-.02em;line-height:1.15}
-.tool-meta{font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.11em;text-transform:uppercase;color:var(--secondary);margin-top:.35em}
-.tool-what{font-size:var(--fs-small);line-height:1.5;margin-top:.7em}
-.tool-when{font-size:var(--fs-small);line-height:1.5;color:var(--secondary);margin-top:.6em}
-.tool-when b{display:block;font-family:var(--mono);font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:.25em}
+/* ---------- the panel ---------- */
+.panel.is-leaving::after { content: attr(data-leave); position: sticky; bottom: 0; display: block; margin: 1rem calc(var(--gutter) * -1) calc(var(--gutter) * -1); padding: 0.8rem var(--gutter); background: var(--text); color: var(--space); font-weight: 600; text-align: center; }
+.panel {
+  position: absolute; z-index: 4; top: 0; right: 0; bottom: 0; width: min(31rem, 44vw);
+  overflow-y: auto; padding: var(--gutter); background: var(--sheet); border-left: 1px solid var(--line);
+  transition: transform 600ms var(--ease), opacity 600ms var(--ease);
+}
+@starting-style { .panel { transform: translateX(2rem); opacity: 0; } }
+.panel[hidden] { display: none; }
+.is-narrow .panel { top: auto; left: 0; width: auto; max-height: 56svh; border-left: 0; border-top: 1px solid var(--line); }
+.panel h2 { font: 700 clamp(1.6rem, 1.2rem + 1.4vw, 2.5rem)/1.05 var(--display); letter-spacing: -0.03em; margin: 1.2rem 0 1rem; outline: none; }
+.panel h2::before { content: ""; display: inline-block; width: 0.55em; height: 0.55em; margin-right: 0.35em; border-radius: 50%; background: var(--planet); vertical-align: 0.08em; }
+.panel h3, .company h3 { font: 600 1rem/1.3 var(--body); margin: 1.6rem 0 0.5rem; color: var(--muted); }
+.panel-top, .panel-nav { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.panel-nav { margin-top: 2rem; }
+.facts { display: grid; grid-template-columns: repeat(3, auto); gap: 0.4rem 1.6rem; justify-content: start; margin: 0 0 1rem; }
+.facts dt { font-size: 0.875rem; color: var(--muted); }
+.facts dd { margin: 0; font-weight: 600; }
+.blurb { margin: 0; max-width: 34rem; }
+.models { margin: 0; padding-left: 1.4rem; }
+.models li { margin: 0.3rem 0; }
+.models li::marker { color: var(--planet); font-weight: 600; }
+.m-name { font-weight: 600; }
+.m-note, .tools span { color: var(--muted); }
+.tools { list-style: none; margin: 0; padding: 0; }
+.tools li { margin: 0.45rem 0; }
+.tools a { font-weight: 600; text-decoration-thickness: 2px; }
 
-/* Säkerhet & juridik är ingen station, det löper längs hela vägen */
-.band{--accent:var(--p5);margin-top:3rem;padding-top:1.6rem;border-top:2px solid var(--accent)}
-.band .station{padding-left:0}
-.band .station::before,.band .station::after,.band .station-head::before{display:none}
+/* ---------- the list (no JavaScript, or by choice) ---------- */
+.list, .sec { max-width: var(--wrap); margin: 0 auto; padding: var(--sec-pad) var(--gutter); }
+/* with the map, the list starts folded (hidden, src/main.js) and "Visa som lista" opens it; without WebGL or JS it is the page */
+.list-body { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); gap: 3rem var(--gutter); }
+.company h2 { font: 700 1.5rem/1.1 var(--display); letter-spacing: -0.02em; margin: 0 0 0.8rem; }
 
-/* Fördjupningen: den kurerade länklistan som fanns här innan */
-.deep{padding-top:clamp(2rem,4vw,3rem);border-top:1px solid var(--tertiary)}
-.deep-head{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:var(--secondary)}
-.deep h2{font-family:var(--font-display);font-size:clamp(1.6rem,3vw,2.1rem);font-weight:800;letter-spacing:-.032em;line-height:1.05;margin-top:.35em}
-.deep-lede{margin-top:.8em;font-size:var(--fs-small);color:var(--secondary);max-width:44em;line-height:1.6}
+/* ---------- sections below the list: one heading scale, one lede, one rhythm ---------- */
+.sec { border-top: 1px solid var(--line); }
+/* footer: the buildapp.se family line (home, e-mail, privacy), outside the build-filled sections. Gaps, no separators. */
+.site-foot { max-width: var(--wrap); margin: 0 auto; padding: 1.5rem var(--gutter) 3rem; border-top: 1px solid var(--line); color: var(--muted); display: flex; flex-wrap: wrap; align-items: center; column-gap: 1.5rem; }
+#footer-email:empty { display: none; } /* no JS: no address, and no empty gap */
+.site-foot a { display: inline-flex; align-items: center; min-height: 44px; }
+.site-foot a:hover { color: var(--text); }
+.sec h2 { font: 700 clamp(1.6rem, 1.1rem + 2vw, 2.8rem)/1.05 var(--display); letter-spacing: -0.03em; margin: 0 0 1rem; }
+.sec h3 { font: 700 clamp(1.05rem, 0.95rem + 0.5vw, 1.35rem)/1.2 var(--display); letter-spacing: -0.02em; margin: 2.5rem 0 0.8rem; }
+.sec .lede { color: var(--muted); font-size: 1.08rem; max-width: 42rem; margin: 0 0 2.5rem; }
+.sec .lede:has(+ .lede) { margin-bottom: 1rem; }
+.sec .lede strong, .sec .lede b { color: var(--text); font-weight: 600; }
+.eyebrow { margin: 0 0 0.6rem; color: var(--muted); font-weight: 600; }
 
-/* Verktygsrad: filter + vy-toggle */
-.toolbar{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;padding:1.25rem 0;position:sticky;top:0;background:var(--bg);z-index:50;opacity:0;animation:fadeUp .5s ease .45s forwards}
-.filter-btn{padding:.4em 1em;min-height:44px;border-radius:var(--radius-btn);font-size:var(--fs-small);font-weight:600;border:1.5px solid var(--tertiary);background:transparent;color:var(--secondary);cursor:pointer;transition:all var(--t);font-family:var(--font)}
-.filter-btn:hover{border-color:var(--primary);color:var(--primary)}
-.filter-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
-.view-toggle{margin-left:auto;display:flex;border:1.5px solid var(--tertiary);border-radius:var(--radius-btn);overflow:hidden}
-.view-toggle button{background:transparent;border:0;cursor:pointer;padding:.45em .8em;min-height:44px;min-width:44px;justify-content:center;color:var(--secondary);display:flex;align-items:center;transition:all var(--t)}
-.view-toggle button:hover{color:var(--primary)}
-.view-toggle button.active{background:var(--grafit);color:#fff}
-.view-toggle svg{width:14px;height:14px;fill:currentColor}
-
-/* Sektioner */
-.content{display:flex;flex-direction:column;gap:clamp(2.5rem,5vw,4rem);padding-bottom:2rem}
-.link-section{display:flex;flex-direction:column;gap:1.1rem}
-.link-section.hidden{display:none}
-.section-header{display:flex;align-items:center;gap:.85rem;padding-bottom:.7rem;border-bottom:1px solid var(--tertiary)}
-.section-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.section-icon svg{width:16px;height:16px;fill:#fff}
-.icon-official{background:var(--primary)}
-.icon-guide{background:var(--p4)}
-.icon-channel{background:var(--p5)}
-.icon-repo{background:var(--grafit)}
-.icon-mcp{background:var(--lera)}
-.section-title{font-family:var(--font-display);font-size:1.1rem;font-weight:700;letter-spacing:-.01em}
-.section-count{font-size:var(--fs-small);color:var(--secondary);font-weight:500;margin-left:auto;font-variant-numeric:tabular-nums}
-
-/* Kortläge */
-.link-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(18.5rem,1fr));gap:.9rem}
-.link-card{display:flex;align-items:flex-start;gap:.875rem;padding:1rem 1.125rem;background:var(--card);border-radius:12px;text-decoration:none;color:var(--fg);transition:transform var(--t),box-shadow var(--t),border-color var(--t);border:1px solid var(--tertiary)}
-.link-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(42,46,55,.08);border-color:var(--primary)}
-.link-card-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem}
-.link-card-icon svg{width:17px;height:17px;fill:#fff}
-.lc-official{background:var(--primary)}
-.lc-guide{background:var(--p4)}
-.lc-channel{background:var(--p5)}
-.lc-repo{background:var(--grafit)}
-.lc-mcp{background:var(--lera)}
-.lc-ovrigt{background:var(--secondary)}
-.link-card-body{display:flex;flex-direction:column;gap:.2em;min-width:0}
-.link-card-title{font-size:.9375rem;font-weight:700;line-height:1.25;letter-spacing:var(--ls-heading)}
-.link-card-sub{font-size:var(--fs-small);color:var(--secondary);line-height:1.45}
-.link-card-area{display:inline-block;font-family:var(--mono);font-size:.62rem;font-weight:500;letter-spacing:.06em;color:var(--primary);background:#EEEAFD;border-radius:100px;padding:.25em .75em;margin-top:.35em;align-self:flex-start;white-space:nowrap}
-.link-card-arrow{margin-left:auto;color:var(--tertiary);font-size:.9rem;transition:color var(--t),transform var(--t);flex-shrink:0;align-self:center;padding-left:.5rem}
-.link-card:hover .link-card-arrow{color:var(--primary);transform:translateX(3px)}
-
-/* Listläge: excel-rader, fast snyggare */
-body.view-list .link-grid{display:flex;flex-direction:column;gap:0;background:var(--card);border:1px solid var(--tertiary);border-radius:12px;overflow:hidden}
-body.view-list .link-card{border:0;border-bottom:1px solid var(--tertiary);border-radius:0;padding:.55rem 1rem;align-items:center}
-body.view-list .link-card:last-child{border-bottom:0}
-body.view-list .link-card:hover{transform:none;box-shadow:none;background:var(--bg)}
-body.view-list .link-card-icon,body.view-list .link-card-sub,body.view-list .link-card-arrow{display:none}
-body.view-list .link-card-body{flex-direction:row;align-items:center;gap:.75rem;flex:1;min-width:0}
-body.view-list .link-card-title{font-weight:600;font-size:.875rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-body.view-list .link-card-area{margin:0 0 0 auto}
-
-/* Dialog */
-.form-actions{display:flex;gap:.5rem;justify-content:flex-end;margin-top:1.25rem}
-
-/* Footer */
-.site-footer{margin-top:1rem;padding:1.5rem 0 2rem;border-top:1px solid var(--tertiary);display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.5em;font-size:var(--fs-small);color:var(--secondary)}
-.site-footer a{color:var(--secondary)}
-.site-footer a:hover{color:var(--primary)}
-
-button:focus-visible,a:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}}
-@media(max-width:860px){.map{grid-template-columns:1fr;gap:1.75rem}.map-intro{position:static}.map-lede{max-width:none}}
-@media(max-width:640px){body.view-list .link-card-area{display:none}.topbar-link{display:none}.station{padding-left:1.9rem}.station-head::before{left:calc(-1.4rem - 4.5px)}}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; }
+}
 </style>
+<script src="three.js" defer></script>
 </head>
 <body>
+<header class="intro">
+  <h1 data-i18n="title">Från idé till publicerad sida</h1>
+  <p class="lede" data-i18n="lede">Kartan visar AI-bolagen och deras verktyg, och resten av sidan tar dig från första idé till en sida på nätet. Klicka eller tryck på en planet för att flyga dit.</p>
+  <div class="controls">
+    <button class="btn" id="lang" type="button" lang="en">English</button>
+    <button class="btn" id="toggle-list" type="button" aria-controls="list">Visa som lista</button>
+  </div>
+</header>
 
-<div class="wrap">
-  <header class="topbar">
-    <div class="topbar-right">
-      <a href="mailto:kontakt@orgutveckling.se" class="topbar-link">kontakt@orgutveckling.se</a>
-      <div class="lang-toggle" role="group" aria-label="Language">
-        <button id="langSv" type="button">SV</button>
-        <button id="langEn" type="button">EN</button>
+<section id="space" aria-label="Karta">
+  <aside id="panel" class="panel" hidden aria-labelledby="panel-title">
+    <div class="panel-top"><button class="btn" id="back" type="button" data-i18n="back">Tillbaka till kartan</button></div>
+    <h2 id="panel-title" tabindex="-1"></h2>
+    <div id="panel-body"></div>
+    <nav class="panel-nav" aria-label="Bolag">
+      <button class="btn" id="prev" type="button" data-i18n="prev">Föregående bolag</button>
+      <button class="btn" id="next" type="button" data-i18n="next">Nästa bolag</button>
+    </nav>
+  </aside>
+  <div class="zoom"><button class="btn" id="zoom-in" type="button" aria-label="Zooma in">+</button><button class="btn" id="zoom-out" type="button" aria-label="Zooma ut">&minus;</button></div>
+  <div class="foot"><span data-i18n="hint">Dra för att vrida, klicka på en planet</span><span><span data-i18n="checked">Uppgifterna kontrollerade</span> <span id="checked-date">27 oktober 2026</span></span></div>
+</section>
+
+<section id="list" class="list" aria-label="Lista">
+<div class="list-body" id="list-body">
+<!--list:start-->
+<article class="company" id="lista-anthropic">
+<h2>Anthropic</h2>
+<dl class="facts">
+  <div><dt>Land</dt><dd>USA</dd></div>
+  <div><dt>Huvudkontor</dt><dd>San Francisco</dd></div>
+  <div><dt>Går att ladda ner</dt><dd>Nej</dd></div>
+</dl>
+<p class="blurb">Amerikanskt AI-företag som grundades 2021 och utvecklar språkmodellerna i Claude-familjen. Det är känt för sitt fokus på AI-säkerhet och för starka modeller inom programmering och agentarbete.</p>
+<h3>Modeller, bäst först (efter testpoäng)</h3>
+<ol class="models"><li><span class="m-name">Claude Opus 5.5</span> <span class="m-note">flaggskepp för kod och kunskapsarbete</span></li><li><span class="m-name">Claude Sonnet 5.5</span> <span class="m-note">balans mellan fart och förmåga</span></li><li><span class="m-name">Claude Fable 5.1</span> <span class="m-note">för krävande resonemang och långa agentuppdrag</span></li><li><span class="m-name">Claude Haiku 5.5</span> <span class="m-note">snabbast och billigast</span></li></ol>
+<h3>Verktyg</h3>
+<ul class="tools"><li><a href="https://claude.ai" rel="noopener">Claude</a> <span>Chattassistent på webben, i datorn och i mobilen</span></li><li><a href="https://claude.com/product/claude-code" rel="noopener">Claude Code</a> <span>Kodagent i terminalen, editorn och appen</span></li><li><a href="https://claude.com/product/cowork" rel="noopener">Claude Cowork</a> <span>Agent som utför kontorsuppgifter med dina filer</span></li><li><a href="https://claude.com/platform/api" rel="noopener">Claude Platform</a> <span>API för utvecklare som bygger med Claude</span></li></ul>
+</article>
+<article class="company" id="lista-openai">
+<h2>OpenAI</h2>
+<dl class="facts">
+  <div><dt>Land</dt><dd>USA</dd></div>
+  <div><dt>Huvudkontor</dt><dd>San Francisco</dd></div>
+  <div><dt>Går att ladda ner</dt><dd>Delvis</dd></div>
+</dl>
+<p class="blurb">Amerikanskt AI-företag som grundades 2015 och står bakom ChatGPT. Det är mest känt för GPT-modellerna och för att ha gjort AI-chatt till en vardagssak.</p>
+<h3>Modeller</h3>
+<ol class="models"><li><span class="m-name">GPT-6 Astra</span> <span class="m-note">flaggskepp, gradvis utrullning</span></li><li><span class="m-name">GPT-6.1 Sol</span> <span class="m-note">nästan i nivå med Astra, lägre pris</span></li><li><span class="m-name">GPT-6.1 Terra</span> <span class="m-note">snabb, stark på bild och datoranvändning</span></li><li><span class="m-name">GPT-6 Luna</span> <span class="m-note">snabb och billig för stora volymer</span></li><li><span class="m-name">gpt-oss-120b</span> <span class="m-note">öppna vikter</span></li></ol>
+<h3>Verktyg</h3>
+<ul class="tools"><li><a href="https://chatgpt.com" rel="noopener">ChatGPT</a> <span>Världens mest kända AI-chatt, på webben och i appar</span></li><li><a href="https://openai.com/codex/" rel="noopener">Codex</a> <span>Kodagent i ChatGPT, terminalen och editorn</span></li><li><a href="https://developers.openai.com/api/docs" rel="noopener">OpenAI API</a> <span>API för utvecklare som bygger med GPT-modellerna</span></li></ul>
+</article>
+<article class="company" id="lista-google">
+<h2>Google (Gemini / DeepMind)</h2>
+<dl class="facts">
+  <div><dt>Land</dt><dd>USA</dd></div>
+  <div><dt>Huvudkontor</dt><dd>Mountain View</dd></div>
+  <div><dt>Går att ladda ner</dt><dd>Delvis</dd></div>
+</dl>
+<p class="blurb">Googles AI-modeller tas fram av Google DeepMind, ett forskningslabb med bas i London som ägs av Alphabet. Gemini finns i en egen app och är inbyggt i Googles tjänster.</p>
+<h3>Modeller</h3>
+<ol class="models"><li><span class="m-name">Gemini 4 Argon</span> <span class="m-note">flaggskepp för resonemang</span></li><li><span class="m-name">Gemini 3.8 Flash</span> <span class="m-note">snabb, för agenter och kod</span></li><li><span class="m-name">Gemini 3.5 Flash-Lite</span> <span class="m-note">snabbast och billigast</span></li><li><span class="m-name">Nano Banana 2.1</span> <span class="m-note">skapar och redigerar bilder</span></li><li><span class="m-name">Gemma 4</span> <span class="m-note">öppna vikter</span></li></ol>
+<h3>Verktyg</h3>
+<ul class="tools"><li><a href="https://gemini.google.com" rel="noopener">Gemini</a> <span>Googles AI-assistent på webben och i mobilen</span></li><li><a href="https://antigravity.google" rel="noopener">Google Antigravity</a> <span>Plattform för att bygga mjukvara med AI-agenter</span></li><li><a href="https://aistudio.google.com" rel="noopener">Google AI Studio</a> <span>Testa Gemini-modellerna och hämta en API-nyckel</span></li><li><a href="https://notebooklm.google.com" rel="noopener">NotebookLM</a> <span>Forskningsassistent som arbetar med dina egna källor</span></li></ul>
+</article>
+<article class="company" id="lista-meta">
+<h2>Meta</h2>
+<dl class="facts">
+  <div><dt>Land</dt><dd>USA</dd></div>
+  <div><dt>Huvudkontor</dt><dd>Menlo Park</dd></div>
+  <div><dt>Går att ladda ner</dt><dd>Delvis</dd></div>
+</dl>
+<p class="blurb">Amerikanskt teknikföretag bakom Facebook, Instagram och WhatsApp, där AI-labbet Meta Superintelligence Labs utvecklar Muse-modellerna. Meta blev tidigt känt för de öppna Llama-modellerna och släpper fortfarande vissa modeller med öppna vikter.</p>
+<h3>Modeller</h3>
+<ol class="models"><li><span class="m-name">Muse Wonder Full</span> <span class="m-note">största modellen, via Muse Codes planer från 50 dollar i månaden</span></li><li><span class="m-name">Muse Wonder</span> <span class="m-note">flaggskepp för agenter och kod</span></li><li><span class="m-name">Muse Spark 1.3</span> <span class="m-note">föregående generation, snabbare</span></li><li><span class="m-name">Muse Spark Open</span> <span class="m-note">öppna vikter, för kod och agenter</span></li><li><span class="m-name">Muse Glimmer</span> <span class="m-note">öppna vikter, körs på ett eget grafikkort</span></li></ol>
+<h3>Verktyg</h3>
+<ul class="tools"><li><a href="https://www.meta.ai" rel="noopener">Meta AI</a> <span>Assistent i Metas appar och i en egen app</span></li><li><a href="https://ai.meta.com/muse/" rel="noopener">Muse</a> <span>Personlig AI-agent i mobilen och datorn</span></li><li><a href="https://dev.meta.ai/products/muse-code/" rel="noopener">Muse Code</a> <span>Kodverktyg i terminalen med flera agenter</span></li><li><a href="https://dev.meta.ai/products/meta-model-api/" rel="noopener">Meta Model API</a> <span>API för utvecklare som bygger med Muse-modellerna</span></li></ul>
+</article>
+<article class="company" id="lista-xai">
+<h2>xAI</h2>
+<dl class="facts">
+  <div><dt>Land</dt><dd>USA</dd></div>
+  <div><dt>Huvudkontor</dt><dd>Palo Alto</dd></div>
+  <div><dt>Går att ladda ner</dt><dd>Delvis</dd></div>
+</dl>
+<p class="blurb">AI-företag som Elon Musk grundade 2023 och som sedan 2026 ägs av SpaceX. Det är känt för chattassistenten Grok, som också finns inbyggd i X.</p>
+<h3>Modeller</h3>
+<ol class="models"><li><span class="m-name">Grok 4.7</span> <span class="m-note">flaggskepp för kod och chatt</span></li><li><span class="m-name">Grok 4.6</span> <span class="m-note">föregående version</span></li><li><span class="m-name">Grok 4.3</span> <span class="m-note">lång kontext, lägre pris</span></li><li><span class="m-name">Grok Imagine</span> <span class="m-note">skapar bilder och video</span></li><li><span class="m-name">Grok Voice 3.0</span> <span class="m-note">röstsamtal i realtid</span></li></ol>
+<h3>Verktyg</h3>
+<ul class="tools"><li><a href="https://grok.com" rel="noopener">Grok</a> <span>Chattassistent på webben, i appar och i X</span></li><li><a href="https://docs.x.ai/build/overview" rel="noopener">Grok Build</a> <span>Kodagent via API och kommandorad</span></li><li><a href="https://docs.x.ai" rel="noopener">xAI API</a> <span>API för text, röst, bild och video</span></li><li><a href="https://grokipedia.com" rel="noopener">Grokipedia</a> <span>AI-skrivet uppslagsverk</span></li></ul>
+</article>
+<article class="company" id="lista-mistral">
+<h2>Mistral AI</h2>
+<dl class="facts">
+  <div><dt>Land</dt><dd>Frankrike</dd></div>
+  <div><dt>Huvudkontor</dt><dd>Paris</dd></div>
+  <div><dt>Går att ladda ner</dt><dd>Delvis</dd></div>
+</dl>
+<p class="blurb">Franskt AI-företag som grundades 2023 och utvecklar egna språkmodeller. Det är känt för modeller med öppna vikter och för att erbjuda AI som drivs i Europa.</p>
+<h3>Modeller</h3>
+<ol class="models"><li><span class="m-name">Mistral Large 4</span> <span class="m-note">flaggskepp, öppna vikter</span></li><li><span class="m-name">Mistral Medium 3.5</span> <span class="m-note">resonemang och kod</span></li><li><span class="m-name">Mistral Small 4</span> <span class="m-note">snabb och billig, öppna vikter</span></li><li><span class="m-name">Ministral 3</span> <span class="m-note">små modeller för enheter</span></li><li><span class="m-name">Voxtral</span> <span class="m-note">tal till text och text till tal</span></li></ol>
+<h3>Verktyg</h3>
+<ul class="tools"><li><a href="https://mistral.ai/products/vibe/" rel="noopener">Vibe</a> <span>Assistent och kodagent, hette tidigare Le Chat</span></li><li><a href="https://mistral.ai/products/studio/" rel="noopener">Studio</a> <span>Verktyg för att bygga och styra AI-agenter</span></li><li><a href="https://docs.mistral.ai" rel="noopener">Mistral API</a> <span>API för Mistrals modeller, drivs i Europa</span></li></ul>
+</article>
+<article class="company" id="lista-deepseek">
+<h2>DeepSeek</h2>
+<dl class="facts">
+  <div><dt>Land</dt><dd>Kina</dd></div>
+  <div><dt>Huvudkontor</dt><dd>Hangzhou</dd></div>
+  <div><dt>Går att ladda ner</dt><dd>Ja</dd></div>
+</dl>
+<p class="blurb">Kinesiskt AI-företag som grundades 2023 och ägs av hedgefonden High-Flyer. Det är känt för starka modeller med öppna vikter och ett lågt pris i sitt API.</p>
+<h3>Modeller, bäst först (efter testpoäng)</h3>
+<ol class="models"><li><span class="m-name">DeepSeek-V4.1-Flash</span> <span class="m-note">snabb och billig, ser bilder, öppna vikter</span></li><li><span class="m-name">DeepSeek-V4-Pro</span> <span class="m-note">större, äldre modell, öppna vikter</span></li></ol>
+<h3>Verktyg</h3>
+<ul class="tools"><li><a href="https://chat.deepseek.com" rel="noopener">DeepSeek Chat</a> <span>Gratis chattassistent på webben</span></li><li><a href="https://www.deepseek.com/en/download" rel="noopener">DeepSeek-appen</a> <span>Chattappen för mobilen</span></li><li><a href="https://platform.deepseek.com" rel="noopener">DeepSeek API</a> <span>Billigt API för utvecklare</span></li></ul>
+</article>
+<article class="company" id="lista-qwen">
+<h2>Alibaba (Qwen)</h2>
+<dl class="facts">
+  <div><dt>Land</dt><dd>Kina</dd></div>
+  <div><dt>Huvudkontor</dt><dd>Hangzhou</dd></div>
+  <div><dt>Går att ladda ner</dt><dd>Delvis</dd></div>
+</dl>
+<p class="blurb">Qwen är språkmodellfamiljen från Alibaba Cloud, molndelen av den kinesiska e-handelsjätten Alibaba. Den är känd för att släppa många modeller med öppna vikter, från små till mycket stora.</p>
+<h3>Modeller</h3>
+<ol class="models"><li><span class="m-name">Qwen3.8-Max</span> <span class="m-note">flaggskepp</span></li><li><span class="m-name">Qwen3.7-Plus</span> <span class="m-note">balans mellan pris och förmåga</span></li><li><span class="m-name">Qwen3.8-Flash</span> <span class="m-note">snabb och billig, öppna vikter</span></li><li><span class="m-name">Qwen3.8-Omni-Flash</span> <span class="m-note">förstår text, bild, ljud och video</span></li><li><span class="m-name">Qwen3.8-27B</span> <span class="m-note">öppna vikter, Apache 2.0</span></li></ol>
+<h3>Verktyg</h3>
+<ul class="tools"><li><a href="https://chat.qwen.ai" rel="noopener">Qwen Chat</a> <span>Gratis chattassistent på webben</span></li><li><a href="https://github.com/QwenLM/qwen-code" rel="noopener">Qwen Code</a> <span>Kodagent med öppen källkod för terminalen</span></li><li><a href="https://www.alibabacloud.com/en/product/modelstudio" rel="noopener">Model Studio</a> <span>Alibaba Clouds API för Qwen-modellerna</span></li></ul>
+</article>
+<article class="company" id="lista-moonshot">
+<h2>Moonshot AI</h2>
+<dl class="facts">
+  <div><dt>Land</dt><dd>Kina</dd></div>
+  <div><dt>Huvudkontor</dt><dd>Beijing</dd></div>
+  <div><dt>Går att ladda ner</dt><dd>Delvis</dd></div>
+</dl>
+<p class="blurb">Kinesiskt AI-företag som grundades 2023 och står bakom assistenten Kimi. Det är känt för mycket stora modeller med öppna vikter och för att hantera långa texter.</p>
+<h3>Modeller</h3>
+<ol class="models"><li><span class="m-name">Kimi K3.1 Pro</span> <span class="m-note">flaggskepp för kod och kunskapsarbete</span></li><li><span class="m-name">Kimi K3.1 Pro Highspeed</span> <span class="m-note">samma modell, 2 till 3 gånger snabbare</span></li><li><span class="m-name">Kimi K3</span> <span class="m-note">förra flaggskeppet, öppna vikter</span></li><li><span class="m-name">Kimi K2.7 Code</span> <span class="m-note">specialiserad på kod, öppna vikter</span></li><li><span class="m-name">Kimi K2.6</span> <span class="m-note">äldre allroundmodell, öppna vikter</span></li></ol>
+<h3>Verktyg</h3>
+<ul class="tools"><li><a href="https://www.kimi.com" rel="noopener">Kimi</a> <span>Chattassistent med djupsökning, presentationer och dokument</span></li><li><a href="https://www.kimi.com/code" rel="noopener">Kimi Code</a> <span>Kodagent som app, i terminalen och i VS Code</span></li><li><a href="https://platform.kimi.ai" rel="noopener">Kimi API</a> <span>API för utvecklare som bygger med Kimi</span></li></ul>
+</article>
+<!--list:end-->
+</div>
+</section>
+
+<!--sections:start-->
+<link rel="stylesheet" href="sections/start.css">
+<section id="start" class="sec" aria-labelledby="start-h">
+  <h2 id="start-h">Kom igång i fyra steg</h2>
+  <p class="lede">Vill du bara fråga saker räcker chatten: <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a>, <a href="https://chatgpt.com" target="_blank" rel="noopener">ChatGPT</a> eller <a href="https://gemini.google.com" target="_blank" rel="noopener">Gemini</a>, gratis att börja med. Vill du bygga något, en webbsida eller en liten app, behöver du ett verktyg som skriver koden åt dig. Så här ser vägen ut.</p>
+
+  <figure class="path">
+    <ol class="path-steps">
+      <li><span class="n">1</span><b>Idé</b><span>Beskriv med vanliga ord vad du vill bygga. Börja litet: en sida om dig själv, en lista, ett spel.</span></li>
+      <li><span class="n">2</span><b>Verktyg</b><span>Lovable eller Replit i webbläsaren. Claude Code eller Codex när projektet växer.</span></li>
+      <li class="is-gh"><span class="n">3</span><b>GitHub</b><span>Ett gratis konto, där dina projekt bor. Koden sparas i ett repo, med historik över varje ändring.</span></li>
+      <li><span class="n">4</span><b>Publicerad sida</b><span><a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a> eller verktygets egen hosting ger en länk du kan dela.</span></li>
+    </ol>
+    <figcaption>Steg 3 är versionshantering: varje ändring sparas, så du kan alltid gå tillbaka.</figcaption>
+  </figure>
+
+  <div class="tiers">
+    <article>
+      <h3>Lättast: bygg i webbläsaren</h3>
+      <p><b><a href="https://lovable.dev" target="_blank" rel="noopener">Lovable</a></b> och <b><a href="https://replit.com" target="_blank" rel="noopener">Replit</a></b> låter dig beskriva en sida i en chatt och se den växa fram direkt. Ingen installation. Båda kan koppla projektet till GitHub.</p>
+    </article>
+    <article>
+      <h3>Vanligast för att bygga på riktigt</h3>
+      <p><b><a href="https://www.claude.com/product/claude-code" target="_blank" rel="noopener">Claude Code</a></b> (Anthropic) och <b><a href="https://developers.openai.com/codex" target="_blank" rel="noopener">Codex</a></b> (OpenAI) är kodagenter som arbetar i dina filer och ditt repo.</p>
+    </article>
+    <article>
+      <h3>Bara frågor?</h3>
+      <p>Då räcker chatten. Du behöver inget av ovanstående för att fråga, sammanfatta eller skriva text.</p>
+    </article>
+  </div>
+
+  <div class="cost">
+    <h3>Vad kostar det?</h3>
+    <p>Gratisnivåerna räcker för att prova, men tar slut fort när du bygger. Räkna med en betalplan på <b>ungefär 200 till 250 kr i månaden</b>. Priserna sätts i dollar, så kronbeloppet följer växelkursen (omräknat med 10 kr per dollar, moms kan tillkomma).</p>
+    <table data-sortable>
+      <thead><tr><th scope="col">Verktyg</th><th scope="col">Plan</th><th scope="col">Pris</th></tr></thead>
+      <tbody>
+        <tr><td>Lovable</td><td>Pro</td><td>från ungefär 25 dollar ≈ 250 kr</td></tr>
+        <tr><td>Replit</td><td>Core</td><td>20 dollar ≈ 200 kr</td></tr>
+        <tr><td>Claude Code</td><td>ingår i Claude Pro</td><td>20 dollar ≈ 200 kr</td></tr>
+        <tr><td>Codex</td><td>ingår i ChatGPT Plus</td><td>20 dollar ≈ 200 kr</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Claude Code ingår i Claude Pro och Codex i ChatGPT Plus, så du betalar för planen, inte för kodverktyget separat.</p>
+    <p class="note">Priser per månad vid månadsbetalning, kontrollerade 27 oktober 2026. Årsbetalning är något billigare: Replit Core 18 dollar och Claude Pro 17 dollar i månaden.</p>
+  </div>
+</section>
+<script src="sections/start.js" defer></script>
+
+<link rel="stylesheet" href="sections/github.css">
+<section id="github" class="sec" aria-labelledby="github-h">
+  <h2 id="github-h">Ett repo per projekt</h2>
+  <div class="intro-cols">
+    <p>Ett konto på <a href="https://github.com/signup">GitHub</a> kan vem som helst skaffa, gratis. Varje projekt får ett eget <b>repo</b> (repository): en mapp med all kod och hela historiken över vad som ändrats.</p>
+    <p>Du kopplar din AI-agent till GitHub och pekar den mot ett repo. Agenten läser koden, gör ändringar och sparar dem där. Lovable, Replit, Claude Code och Codex kan alla arbeta så. I Lovable
+ och Replit sköter verktyget själv publiceringen och synkar koden till GitHub. Med Claude Code eller Codex ”pushar” agenten, det vill säga skickar upp ändringarna, till ditt repo.</p>
+  </div>
+
+  <h3 class="steps-h">Publicera en sida på GitHub Pages, bild för bild</h3>
+  <p class="steps-sub">Schematiska skisser, inte skärmdumpar. Knapparna heter samma sak som på GitHub, som är på engelska.</p>
+
+  <ol class="shots">
+    <li>
+      <div class="mock" aria-hidden="true">
+        <div class="m-bar"><span class="m-logo"></span><span class="m-sp"></span><span class="m-hot m-btn">+</span></div>
+        <div class="m-body">
+          <div class="m-menu"><span class="m-hot">New repository</span><span>Import repository</span></div>
+        </div>
       </div>
+      <p><b>Nytt repo.</b> Klicka på <b>+</b> uppe till höger och välj <b>New repository</b>.</p>
+    </li>
+    <li>
+      <div class="mock" aria-hidden="true">
+        <div class="m-body m-form">
+          <span class="m-lab">Repository name</span><span class="m-input">min-sida</span>
+          <span class="m-radio m-on">Public</span><span class="m-radio">Private</span>
+          <span class="m-hot m-btn m-green">Create repository</span>
+        </div>
+      </div>
+      <p><b>Namn och synlighet.</b> Välj <b>Public</b> (krävs på gratiskontot) och klicka på <b>Create repository</b>.</p>
+    </li>
+    <li>
+      <div class="mock" aria-hidden="true">
+        <div class="m-tabs"><span class="m-tab m-cur">Code</span><span class="m-tab">Issues</span><span class="m-sp"></span><span class="m-hot m-btn">Add file</span></div>
+        <div class="m-body m-files"><span>README.md</span><span class="m-new">index.html</span></div>
+      </div>
+      <p><b>Lägg in sidan.</b> Din agent pushar koden, eller välj <b>Add file</b> och ladda upp en <code>index.html</code>.</p>
+    </li>
+    <li>
+      <div class="mock" aria-hidden="true">
+        <div class="m-tabs"><span class="m-tab">Code</span><span class="m-tab">Issues</span><span class="m-tab">Actions</span><span class="m-tab m-hot">Settings</span></div>
+        <div class="m-body m-lines"><i></i><i></i><i></i></div>
+      </div>
+      <p><b>Inställningar.</b> Klicka på fliken <b>Settings</b> under reponamnet.</p>
+    </li>
+    <li>
+      <div class="mock" aria-hidden="true">
+        <div class="m-split">
+          <div class="m-side"><span>General</span><span>Branches</span><span>Actions</span><span class="m-hot">Pages</span></div>
+          <div class="m-lines"><i></i><i></i><i></i></div>
+        </div>
+      </div>
+      <p><b>Pages.</b> Välj <b>Pages</b> i sidomenyn, under ”Code, planning, and automation”.</p>
+    </li>
+    <li>
+      <div class="mock" aria-hidden="true">
+        <div class="m-body m-form">
+          <span class="m-lab">Build and deployment · Source</span><span class="m-input">Deploy from a branch ▾</span>
+          <span class="m-lab">Branch</span>
+          <span class="m-row"><span class="m-input m-hot">main ▾</span><span class="m-input">/ (root) ▾</span><span class="m-btn">Save</span></span>
+        </div>
+      </div>
+      <p><b>Välj gren.</b> Source: <b>Deploy from a branch</b>, branch <b>main</b>, mapp <b>/ (root)</b>, sedan <b>Save</b>.</p>
+    </li>
+    <li>
+      <div class="mock" aria-hidden="true">
+        <div class="m-body m-form">
+          <span class="m-live">Your site is live at</span>
+          <span class="m-url">https://dittnamn.github.io/min-sida/</span>
+          <span class="m-hot m-btn">Visit site</span>
+        </div>
+      </div>
+      <p><b>Klart.</b> Efter några minuter (ibland upp till tio) visas länken. Klicka på <b>Visit site</b> och dela adressen.</p>
+
+    </li>
+  </ol>
+  <p class="src">Stegen följer GitHubs egen guide: <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site">Configuring a publishing source</a>. Sidan blir alltid offentlig på internet.</p>
+</section>
+
+<link rel="stylesheet" href="sections/andra.css">
+<section id="andra" class="sec" aria-labelledby="andra-h">
+  <h2 id="andra-h">Andra sorters AI</h2>
+  <p class="lede">Språkmodellerna på kartan skriver text. Men det finns modeller som pratar, gör musik, filmar och lyssnar, och där är det ofta andra företag som leder. Så här ser toppen ut i oktober 2026, mätt i blindtester där folk röstar på det bästa resultatet utan att veta vilken modell som gjorde vad.</p>
+
+  <ul class="an-grid" role="list">
+    <li class="an-card">
+      <svg class="an-glyph" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30"/><path d="M14 32v0M20 26v12M26 18v28M32 24v16M38 14v36M44 22v20M50 29v6"/></svg>
+      <p class="an-cat">Röst och tal</p>
+      <h3>ElevenLabs</h3>
+      <p class="an-rank">Etta i talarenan: Eleven v4</p>
+      <p class="an-what">Läser upp text med naturlig, känslosam röst och kan klona din egen röst.</p>
+      <p class="an-also"><span>På svenska</span> Svenska står på <a href="https://elevenlabs.io/docs/overview/models">den officiella språklistan</a> för Eleven v4. Topplistan mäter bara engelska (amerikansk och brittisk accent), och vi hittade ingen oberoende jämförelse av svenska.</p>
+      <p class="an-price"><b>Gratis</b> 10 000 krediter i månaden, ungefär 10 minuter tal. Betalt från 6 dollar.</p>
+      <a class="an-go" href="https://elevenlabs.io/">Prova ElevenLabs</a>
+    </li>
+
+    <li class="an-card">
+      <svg class="an-glyph" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30"/><path d="M32 12v8M32 44v8M12 32h8M44 32h8M18 18l6 6M40 40l6 6M46 18l-6 6M24 40l-6 6"/><circle cx="32" cy="32" r="5"/></svg>
+      <p class="an-cat">Ljudeffekter</p>
+      <h3>ElevenLabs</h3>
+      <p class="an-rank">Ingen oberoende topplista finns</p>
+      <p class="an-what">Skriv ”dörr som knarrar i ett tomt hus” och få ljudet. Bra för filmer, spel och poddar.</p>
+      <p class="an-also"><span>Tips</span> Samma konto som rösterna, ingår i gratisplanen.</p>
+      <p class="an-price"><b>Gratis</b> runt 50 effekter i månaden. Kommersiellt bruk kräver betalplan.</p>
+      <a class="an-go" href="https://elevenlabs.io/sound-effects">Prova ljudeffekter</a>
+    </li>
+
+    <li class="an-card">
+      <svg class="an-glyph" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30"/><path d="M26 42V18l18-4v24"/><circle cx="21" cy="42" r="5"/><circle cx="39" cy="38" r="5"/></svg>
+      <p class="an-cat">Musik</p>
+      <h3>Suno</h3>
+      <p class="an-rank">Etta i musikarenan: Suno v6</p>
+      <p class="an-what">Hela låtar med sång och text från en enda mening. Leder både med sång och instrumentalt.</p>
+      <p class="an-also"><span>På svenska</span> Vi hittade varken en officiell språklista från Suno eller ett oberoende test av svensk sång.</p>
+      <p class="an-price"><b>Gratis</b> 50 krediter om dagen, inte för kommersiellt bruk. Pro kostar 8 dollar i månaden.</p>
+      <a class="an-go" href="https://suno.com/">Prova Suno</a>
+    </li>
+
+    <li class="an-card">
+      <svg class="an-glyph" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30"/><rect x="15" y="20" width="26" height="24" rx="3"/><path d="M41 28l10-6v20l-10-6"/></svg>
+      <p class="an-cat">Video</p>
+      <h3>Seedance 2.5 <small>ByteDance</small></h3>
+      <p class="an-rank">Prova den här först</p>
+      <p class="an-what">Skriv vad som ska hända, eller ladda upp en bild, och få ett kort videoklipp med ljud. Upp till 30 sekunder.</p>
+      <p class="an-also"><span>Varför inte ettan?</span> Ettan heter <a href="https://wan.video/">Wan 3.0</a> (Alibaba), och Seedance 2.5 kom femma, 18 poäng efter. De sex bästa ligger inom 19 poäng. Wan kräver ett konto hos <a href="https://www.alibabacloud.com/en/product/modelstudio">Alibaba Cloud</a> och kostar per sekund. Seedance är enklast att komma åt.</p>
+      <p class="an-price"><b>Gratis att börja</b> Logga in i Dreamina (CapCut). Nya konton kan få provkrediter, sedan kostar det.</p>
+      <a class="an-go" href="https://dreamina.capcut.com/">Prova Seedance i Dreamina</a>
+    </li>
+
+    <li class="an-card">
+      <svg class="an-glyph" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30"/><rect x="15" y="17" width="34" height="30" rx="3"/><path d="M15 41l10-10 8 8 5-5 11 11"/><circle cx="40" cy="26" r="3"/></svg>
+      <p class="an-cat">Bild</p>
+      <h3>GPT Image 2.5 <small>OpenAI</small></h3>
+      <p class="an-rank">Etta i bildarenan</p>
+      <p class="an-what">Bilder från text, och den är bäst på att stava rätt när bilden ska innehålla ord. Testerna gäller engelska, och vi hittade inget test av svensk text i bilder.</p>
+      <p class="an-also"><span>Också i toppen</span> <a href="https://deepmind.google/models/gemini-image/">Nano Banana 2.1</a> (Google), <a href="https://microsoft.ai/models/mai-image-2-6/">MAI-Image</a> (Microsoft)</p>
+      <p class="an-price"><b>Prova</b> GPT Image i ChatGPT och Nano Banana i <a href="https://gemini.google.com/">Gemini</a>. Gratisnivåerna har ett dagstak.</p>
+      <a class="an-go" href="https://chatgpt.com/">Prova i ChatGPT</a>
+    </li>
+
+    <li class="an-card">
+      <svg class="an-glyph" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30"/><path d="M14 22v8M19 18v16M24 23v6"/><path d="M32 26h6M34 20l6 6-6 6"/><path d="M44 20h8M44 26h8M44 32h5"/><path d="M16 42h32M16 48h22"/></svg>
+      <p class="an-cat">Tal till text, på svenska</p>
+      <h3>KB-Whisper <small>Kungliga biblioteket</small></h3>
+      <p class="an-rank">Vårt eget test: ungefär vart åttonde till vart sextonde ord fel</p>
+      <p class="an-what">Vi lät tre gratismodeller skriva ut två svenska klipp på drygt 2 minuter: KB-Whisper, <a href="https://github.com/openai/whisper">Whisper</a> large-v3 och Whisper large-v3-turbo (båda från OpenAI). Ungefär vart åttonde till vart sextonde ord blev fel. Flest fel blev det på upplästa nyhetsmeningar, mest utländska namn. KB:s svenska modell och OpenAI:s Whisper var lika bra, skillnaden var bara några ord.</p>
+      <p class="an-also"><span>Ärligt</span> Det här är vårt eget lilla test med två klipp, ingen forskningsstudie. Räkna med att rätta namn och ovanliga ord själv.</p>
+      <p class="an-price"><b>Gratis, utan konto</b> Länken går till Whisper Web, en fristående demo, inte KB:s egen. Den kör KB-Whisper i webbläsaren och uppger att ljudet stannar på din dator. Vill du hellre ha en tjänst: <a href="https://elevenlabs.io/speech-to-text">ElevenLabs Scribe</a> uppger under 5 % fel på svenska och ger 12 minuter gratis i månaden. Det har vi inte testat.</p>
+      <a class="an-go" href="https://kb-whisper.mesu.re/">Prova KB-Whisper i webbläsaren</a>
+    </li>
+  </ul>
+  <p class="an-note">Ettor på <a href="https://artificialanalysis.ai/text-to-image/arena">arenorna hos Artificial Analysis</a>, hämtade 27 oktober 2026. Där röstar folk mest på engelska. Tal till text bygger på vårt eget test. Den internationella listan, mest på engelska, toppas av <a href="https://github.com/FunAudioLLM/Fun-ASR">Fun-ASR</a> från Alibaba. Topplistorna byts ut på veckor, och skillnaden mellan plats 1 och 5 är ofta liten. Dollarpriser per månad, 1 dollar är ungefär 10 kr.</p>
+
+  <div class="an-local">
+    <h2 id="andra-lokal">AI på din egen dator</h2>
+    <p class="lede">Lokalt betyder att modellen körs på din dator. Inget du skriver lämnar den, det kostar inget per fråga och det funkar utan internet. Priset: modellerna är mindre och svagare än de stora i molnet, och du behöver mycket minne.</p>
+
+    <div class="an-how">
+      <article>
+        <h3>Verktygen</h3>
+        <p><a href="https://ollama.com/">Ollama</a> och <a href="https://lmstudio.ai/">LM Studio</a> är gratis. Ladda ner, välj en modell, chatta. Båda har ett vanligt programfönster där du chattar, och Ollama går också att styra från terminalen.</p>
+      </article>
+      <article>
+        <h3>Modellerna folk kör</h3>
+        <p><a href="https://github.com/openai/gpt-oss">gpt-oss</a> (OpenAI), <a href="https://deepmind.google/models/gemma/">Gemma 4</a> (Google), <a href="https://huggingface.co/Qwen">Qwen</a> (Alibaba), <a href="https://huggingface.co/meta-models/Muse-Glimmer-30B">Muse Glimmer</a> (Meta, efterträdare till de äldre <a href="https://huggingface.co/meta-llama">Llama</a>-modellerna) och <a href="https://huggingface.co/deepseek-ai">DeepSeek</a>. Alla har öppna vikter: filen går att ladda ner.</p>
+      </article>
+      <article>
+        <h3>Tumregeln</h3>
+        <p>Modellfilen måste rymmas i minnet, med marginal. Men vilket minne? Grafikminnet (VRAM) sitter på grafikkortet och är snabbast. Macens delade minne fungerar nästan som grafikminne. Vanligt RAM (arbetsminne) funkar också, men långsamt.</p>
+      </article>
     </div>
-  </header>
 
-  <section class="map" data-p="1">
-    <div class="map-intro">
-      <h1><span data-sv="Alla namn,">Every name,</span> <i data-sv="i rätt ordning.">in the right order.</i></h1>
-      <p class="map-lede" data-sv="Elva steg från en tom mapp till en sajt vem som helst kan besöka. Vad varje namn faktiskt betyder, och när du ska välja vilket.">Eleven steps from an empty folder to a site anyone can visit. What each name actually means, and when to pick which.</p>
-      <p class="map-here" id="mapHere" data-sv="Före du börjar">Before you start</p>
+    <figure class="an-ladder">
+      <figcaption class="an-ladder-h">Vad räcker din dator till?</figcaption>
+      <ol>
+        <li style="--gb:16">
+          <div class="an-pillar"><span class="an-os"></span><b>16 GB</b><i>RAM eller delat minne</i></div>
+          <div class="an-step">
+            <h3>Vanlig dator</h3>
+            <p class="an-hw">Laptop med 16 GB RAM (arbetsminne), eller Mac mini med 16 GB delat minne. Inget grafikkort behövs.</p>
+            <p class="an-cost">från ungefär 12 000 kr</p>
+            <p class="an-runs"><span>Gemma 4 E4B</span><span>små Qwen</span></p>
+            <p class="an-feel">Bra för att prova. Windows eller macOS tar själva en del av minnet (det randiga fältet), så bara små modeller.</p>
+          </div>
+        </li>
+        <li style="--gb:16" class="is-vram">
+          <div class="an-pillar"><b>16 GB</b><i>grafikminne (VRAM)</i></div>
+          <div class="an-step">
+            <h3>Speldator</h3>
+            <p class="an-hw">Pc med grafikkort som har 16 GB grafikminne (VRAM), till exempel RTX 5060 Ti. Här avgör grafikminnet, inte datorns RAM.</p>
+            <p class="an-cost">ungefär 7 500 till 11 000 kr för kortet</p>
+            <p class="an-runs"><span>gpt-oss-20b</span><span>Gemma 4 12B</span></p>
+            <p class="an-feel">Snabbt. Här börjar det kännas som en riktig chatt.</p>
+          </div>
+        </li>
+        <li style="--gb:64">
+          <div class="an-pillar"><b>64 GB</b><i>delat minne</i></div>
+          <div class="an-step">
+            <h3>Mac med mycket minne</h3>
+            <p class="an-hw">Mac Studio M5 Max med 64 GB delat minne. Processor och grafik delar på samma minne, så det är det som avgör.</p>
+            <p class="an-cost">ungefär 41 000 kr</p>
+            <p class="an-runs"><span>Gemma 4 31B</span><span>Qwen 27B</span><span>Muse Glimmer</span></p>
+            <p class="an-feel">Mellanstora modeller, bra nog för det mesta vardagliga.</p>
+          </div>
+        </li>
+        <li style="--gb:96">
+          <div class="an-pillar"><b>96 GB</b><i>delat minne</i></div>
+          <div class="an-step">
+            <h3>Kraftfull dator</h3>
+            <p class="an-hw">Mac Studio M5 Ultra med 96 GB delat minne. Eller pc med RTX 5090, som har 32 GB grafikminne (VRAM).</p>
+            <p class="an-cost">Mac: ungefär 73 000 kr<br>RTX 5090: ungefär 55 000 till 85 000 kr för kortet</p>
+            <p class="an-runs"><span>gpt-oss-120b</span><span>allt ovan</span></p>
+            <p class="an-feel">De största öppna modellerna. Ändå en bit efter molnets bästa. gpt-oss-120b (65 GB) ryms inte i RTX 5090:s 32 GB, så där lånar den vanligt RAM och går långsammare.</p>
+          </div>
+        </li>
+      </ol>
+      <p class="an-src">Priser i butik 27 oktober 2026: Apples svenska webbutik och PriceRunner. Grafikkort är dyrare än vid lanseringen. Modellstorlekar från Ollamas bibliotek: gpt-oss-20b 14 GB, Gemma 4 31B 20 GB, Muse Glimmer 19 GB, gpt-oss-120b 65 GB.</p>
+    </figure>
+  </div>
+</section>
+
+<link rel="stylesheet" href="sections/datorn.css">
+<section id="datorn" class="sec" aria-labelledby="datorn-h">
+  <div class="d-head">
+    <h2 id="datorn-h">Datorn: skärmen, lådan och molnet</h2>
+    <p class="lede">En webbplats har två halvor. <strong>Frontend</strong> är det du ser på skärmen. <strong>Backend</strong> är koden som körs i lådan under skrivbordet, utom synhåll: den sparar, räknar och svarar när sidan ber om något. Det backend sparar hamnar i en <strong>databas</strong> (här ritad som ett serverskåp).</p>
+    <p class="lede">Lådan och databasen behöver inte stå hemma hos dig. Oftast hyr man plats i någon annans serverrum, det som kallas <strong>molnet</strong>. <span class="d-only3d">Välj en del med knapparna eller tryck på den i bilden.</span><span class="d-only-list">Här nedanför står vad varje del gör och vilka språk och tjänster som hör till den.</span></p>
+  </div>
+
+  <div class="d-scene" hidden>
+    <div class="d-pick" role="group" aria-label="Välj del av datorn">
+      <button type="button" data-show="all" aria-pressed="true">Visa hela</button>
+      <button type="button" data-show="screen" aria-pressed="false">Skärmen</button>
+      <button type="button" data-show="box" aria-pressed="false">Lådan</button>
+      <button type="button" data-show="db" aria-pressed="false">Databasen</button>
+      <button type="button" data-show="cloud" aria-pressed="false">Molnet</button>
+      <button type="button" data-show="dns" aria-pressed="false">Hitta sidan</button>
     </div>
-
-    <div class="map-track">
-
-      <div class="phase" data-p="1" data-name="Before you start" data-name-sv="Före du börjar">
-        <p class="phase-label" data-sv="Fas 1 · Före du börjar">Phase 1 · Before you start</p>
-
-        <div class="station">
-          <div class="station-head">
-            <p class="station-no">01</p>
-            <h2 class="station-name" data-sv="Modellen">The model</h2>
-            <p class="station-what" data-sv="Vem du pratar med, och vem som faktiskt skriver koden.">Who you talk to, and who actually writes the code.</p>
-          </div>
-          <div class="tools">
-            <a class="tool" href="https://claude.com/claude-code" target="_blank" rel="noopener">
-              <p class="tool-name">Claude Code</p>
-              <p class="tool-meta" data-sv="Kodmodell · Anthropic">Coding model · Anthropic</p>
-              <p class="tool-what" data-sv="Läser, skriver och kör kod direkt i din terminal, med hela projektmappen i blickfånget.">Reads, writes and runs code directly in your terminal, with your whole project folder in view.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du vill få färdiga funktioner byggda, inte kodsnuttar att klistra in själv.">you want finished features built, not snippets to paste in yourself.</span></p>
-            </a>
-            <a class="tool" href="https://openai.com/codex" target="_blank" rel="noopener">
-              <p class="tool-name">Codex</p>
-              <p class="tool-meta" data-sv="Kodmodell · OpenAI">Coding model · OpenAI</p>
-              <p class="tool-what" data-sv="OpenAI:s motsvarighet. Skriver och kör kod åt dig i terminalen eller i molnet.">OpenAI's equivalent. Writes and runs code for you in the terminal or in the cloud.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du redan betalar för ChatGPT och vill ha kodhjälpen i samma abonnemang.">you already pay for ChatGPT and want the coding help in the same subscription.</span></p>
-            </a>
-            <a class="tool" href="https://claude.ai" target="_blank" rel="noopener">
-              <p class="tool-name">Claude</p>
-              <p class="tool-meta" data-sv="Chattmodell · Anthropic">Chat model · Anthropic</p>
-              <p class="tool-what" data-sv="Chattmodellen i webbläsaren. Förklarar, planerar och skriver text.">The chat model in your browser. Explains, plans and writes text.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du vill tänka högt och förstå problemet innan någon kod finns.">you want to think out loud and understand the problem before any code exists.</span></p>
-            </a>
-            <a class="tool" href="https://chatgpt.com" target="_blank" rel="noopener">
-              <p class="tool-name">ChatGPT</p>
-              <p class="tool-meta" data-sv="Chattmodell · OpenAI">Chat model · OpenAI</p>
-              <p class="tool-what" data-sv="Den mest använda chattmodellen. Stark på att förklara och skriva text.">The most widely used chat model. Strong at explaining and at writing text.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du vill ha en andra åsikt, eller redan är van vid den.">you want a second opinion, or you are already used to it.</span></p>
-            </a>
-            <a class="tool" href="https://gemini.google.com" target="_blank" rel="noopener">
-              <p class="tool-name">Gemini</p>
-              <p class="tool-meta" data-sv="Chatt & kod · Google">Chat & code · Google</p>
-              <p class="tool-what" data-sv="Googles modell, finns både som chatt och som kodverktyg i terminalen.">Google's model, available both as chat and as a coding tool in the terminal.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du jobbar i Googles verktyg och vill ha allt på samma ställe.">you work inside Google's tools and want everything in one place.</span></p>
-            </a>
-          </div>
-        </div>
-
-        <div class="station">
-          <div class="station-head">
-            <p class="station-no">02</p>
-            <h2 class="station-name">Skills, MCP &amp; plugins</h2>
-            <p class="station-what" data-sv="Tre sätt att göra modellen vass på just ditt projekt i stället för allmän.">Three ways to make the model sharp on your project instead of generic.</p>
-          </div>
-          <div class="tools">
-            <a class="tool" href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">
-              <p class="tool-name">Skills</p>
-              <p class="tool-meta" data-sv="Instruktioner">Instructions</p>
-              <p class="tool-what" data-sv="Mappar med skrivna instruktioner som modellen laddar in först när uppgiften kräver det.">Folders of written instructions the model loads only when the task calls for them.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du upprepar samma förklaring gång på gång och vill skriva ner den en gång för alla.">you keep repeating the same explanation and want it written down once and for all.</span></p>
-            </a>
-            <a class="tool" href="https://modelcontextprotocol.io" target="_blank" rel="noopener">
-              <p class="tool-name">MCP</p>
-              <p class="tool-meta" data-sv="Kopplingar">Connections</p>
-              <p class="tool-what" data-sv="En gemensam standard som låter modellen nå riktiga system: din databas, GitHub, en kalender.">A shared standard that lets the model reach real systems: your database, GitHub, a calendar.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="modellen behöver färsk data eller ska utföra något i ett system, inte bara skriva text om det.">the model needs live data or has to act in a system, not just write text about it.</span></p>
-            </a>
-            <a class="tool" href="https://code.claude.com/docs/en/plugins" target="_blank" rel="noopener">
-              <p class="tool-name">Plugins</p>
-              <p class="tool-meta" data-sv="Paket">Packages</p>
-              <p class="tool-what" data-sv="Skills, kommandon och MCP-kopplingar paketerade så att de installeras i ett steg.">Skills, commands and MCP connections bundled so they install in one step.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du vill ha någon annans färdiga uppsättning i stället för att sätta ihop den själv.">you want someone else's finished setup instead of assembling it yourself.</span></p>
-            </a>
-          </div>
-        </div>
-
-        <div class="station">
-          <div class="station-head">
-            <p class="station-no">03</p>
-            <h2 class="station-name" data-sv="Terminalen">The terminal</h2>
-            <p class="station-what" data-sv="Det svarta fönstret där du faktiskt kör kodmodellerna. Det är här AI-kodandet sker.">The black window where you actually run the coding models. This is where AI coding happens.</p>
-          </div>
-          <div class="tools">
-            <a class="tool" href="https://learn.microsoft.com/en-us/windows/terminal/" target="_blank" rel="noopener">
-              <p class="tool-name">Windows Terminal</p>
-              <p class="tool-meta" data-sv="Fönstret · Microsoft">The window · Microsoft</p>
-              <p class="tool-what" data-sv="Det moderna terminalfönstret i Windows, med flikar och läsbar text.">The modern terminal window on Windows, with tabs and readable text.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du sitter på Windows. Det är den här du ska öppna.">you are on Windows. This is the one to open.</span></p>
-            </a>
-            <a class="tool" href="https://learn.microsoft.com/en-us/powershell/" target="_blank" rel="noopener">
-              <p class="tool-name">PowerShell</p>
-              <p class="tool-meta" data-sv="Skalet · Microsoft">The shell · Microsoft</p>
-              <p class="tool-what" data-sv="Språket terminalen förstår i Windows. Kommandon som cd och ls är PowerShell.">The language the terminal understands on Windows. Commands like cd and ls are PowerShell.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="standard i Windows. Värt att kunna namnet så du kan tala om för AI:n vilket skal du kör.">default on Windows. Worth knowing the name so you can tell the AI which shell you run.</span></p>
-            </a>
-            <a class="tool" href="https://learn.microsoft.com/en-us/windows/wsl/" target="_blank" rel="noopener">
-              <p class="tool-name">WSL</p>
-              <p class="tool-meta" data-sv="Linux i Windows">Linux inside Windows</p>
-              <p class="tool-what" data-sv="Kör ett riktigt Linux inuti Windows, så att instruktioner skrivna för Mac och Linux fungerar.">Runs a real Linux inside Windows, so instructions written for Mac and Linux work.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="kommandona i en guide inte fungerar i Windows, vilket händer ofta.">a guide's commands do not work on Windows, which happens often.</span></p>
-            </a>
-            <a class="tool" href="/terminal/">
-              <p class="tool-name">./terminal</p>
-              <p class="tool-meta" data-sv="Öva · buildapp.se">Practice · buildapp.se (in Swedish)</p>
-              <p class="tool-what" data-sv="Ett spel där uppgifter faller som block. Skriv rätt kommando i bash eller PowerShell innan de landar.">A game where tasks fall like blocks. Type the right command in bash or PowerShell before they land.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du vill lära dig kommandona utan att vara rädd för att förstöra något. Allt händer på låtsas.">you want to learn the commands without fear of breaking anything. Nothing is real.</span></p>
-            </a>
-          </div>
-        </div>
-
-        <div class="station">
-          <div class="station-head">
-            <p class="station-no">04</p>
-            <h2 class="station-name" data-sv="Editorn">The editor</h2>
-            <p class="station-what" data-sv="Där du ser filerna och läser vad AI:n har ändrat.">Where you see the files and read what the AI has changed.</p>
-          </div>
-          <div class="tools">
-            <a class="tool" href="https://code.visualstudio.com" target="_blank" rel="noopener">
-              <p class="tool-name">VS Code</p>
-              <p class="tool-meta" data-sv="Editor · Microsoft">Editor · Microsoft</p>
-              <p class="tool-what" data-sv="Gratis, och den de flesta guider utgår från att du har. Öppnar en hel projektmapp på en gång.">Free, and the one most guides assume you have. Opens a whole project folder at once.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="nästan alltid. Börja här.">almost always. Start here.</span></p>
-            </a>
-            <a class="tool" href="https://cursor.com" target="_blank" rel="noopener">
-              <p class="tool-name">Cursor</p>
-              <p class="tool-meta" data-sv="Editor · Anysphere">Editor · Anysphere</p>
-              <p class="tool-what" data-sv="VS Code ombyggd kring AI, som redigerar koden inuti själva editorn.">VS Code rebuilt around AI, editing the code inside the editor itself.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du vill ha AI:n i samma fönster som koden i stället för i en terminal bredvid.">you want the AI in the same window as the code rather than in a terminal beside it.</span></p>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="phase" data-p="2" data-name="What gets built" data-name-sv="Vad som byggs">
-        <p class="phase-label" data-sv="Fas 2 · Vad som byggs">Phase 2 · What gets built</p>
-
-        <div class="station">
-          <div class="station-head">
-            <p class="station-no">05</p>
-            <h2 class="station-name" data-sv="Språk & ramverk">Language &amp; framework</h2>
-            <p class="station-what" data-sv="Vad AI:n bygger med. Det här är valet som mest påverkar hur projektet blir.">What the AI builds with. This is the choice that most changes how the project turns out.</p>
-          </div>
-          <div class="tools">
-            <a class="tool" href="https://developer.mozilla.org/en-US/docs/Learn_web_development" target="_blank" rel="noopener">
-              <p class="tool-name">HTML, CSS &amp; JavaScript</p>
-              <p class="tool-meta" data-sv="Inget ramverk · &quot;vanilla&quot;">No framework · "vanilla"</p>
-              <p class="tool-what" data-sv="De tre språken varje webbläsare förstår av sig själv. Inget att installera, en enda fil kan vara hela sajten.">The three languages every browser understands on its own. Nothing to install, one file can be the entire site.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="sajten mest visar saker. Snabbast att bygga, lättast att laga, och går aldrig sönder av en uppdatering.">the site mostly shows things. Fastest to build, easiest to fix, and never breaks from an update.</span></p>
-            </a>
-            <a class="tool" href="https://react.dev" target="_blank" rel="noopener">
-              <p class="tool-name">React</p>
-              <p class="tool-meta" data-sv="Gränssnittsbibliotek · Meta">Interface library · Meta</p>
-              <p class="tool-what" data-sv="Bygger gränssnitt av återanvändbara bitar och ritar om dem själv när data ändras.">Builds interfaces from reusable pieces and redraws them itself when data changes.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="mycket på skärmen ändras när man klickar, och samma bit återkommer på flera ställen. Kostar extra verktyg att sätta upp.">much on screen changes as you click, and the same piece appears in several places. Costs extra tooling to set up.</span></p>
-            </a>
-            <a class="tool" href="https://nodejs.org" target="_blank" rel="noopener">
-              <p class="tool-name">Node.js</p>
-              <p class="tool-meta" data-sv="Serverruntime · OpenJS">Server runtime · OpenJS</p>
-              <p class="tool-what" data-sv="Kör JavaScript på en server i stället för i webbläsaren. Ingen konkurrent till React, det arbetar under.">Runs JavaScript on a server instead of in the browser. Not a rival to React, it works underneath.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="något ska sparas, skickas eller hållas hemligt. Lösenord och API-nycklar kan aldrig ligga i webbläsaren.">something has to be saved, sent, or kept secret. Passwords and API keys can never live in the browser.</span></p>
-            </a>
-          </div>
-        </div>
-
-        <div class="station">
-          <div class="station-head">
-            <p class="station-no">06</p>
-            <h2 class="station-name" data-sv="Design & gränssnitt">Design &amp; interface</h2>
-            <p class="station-what" data-sv="Hur det ser ut, inte bara vad det gör.">How it looks, not just what it does.</p>
-          </div>
-          <div class="tools">
-            <a class="tool" href="https://tailwindcss.com" target="_blank" rel="noopener">
-              <p class="tool-name">Tailwind CSS</p>
-              <p class="tool-meta" data-sv="Formgivning">Styling</p>
-              <p class="tool-what" data-sv="Formgivning skriven som små klasser direkt i markupen i stället för i en separat fil.">Styling written as small classes straight in the markup instead of in a separate file.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du vill att AI ska ge ett enhetligt utseende. Modeller skriver Tailwind träffsäkert.">you want AI to produce a consistent look. Models write Tailwind reliably.</span></p>
-            </a>
-            <a class="tool" href="https://ui.shadcn.com" target="_blank" rel="noopener">
-              <p class="tool-name">shadcn/ui</p>
-              <p class="tool-meta" data-sv="Komponenter">Components</p>
-              <p class="tool-what" data-sv="Färdiga knappar, dialoger och formulär som du kopierar in i projektet och sedan äger själv.">Finished buttons, dialogs and forms you copy into the project and then own yourself.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du bygger med React och vill att det ska se färdigt ut utan att formge varje del.">you build with React and want it to look finished without designing every part.</span></p>
-            </a>
-            <a class="tool" href="https://www.figma.com" target="_blank" rel="noopener">
-              <p class="tool-name">Figma</p>
-              <p class="tool-meta" data-sv="Designverktyg">Design tool</p>
-              <p class="tool-what" data-sv="Rita gränssnittet innan det byggs, och ge bilden till AI:n.">Draw the interface before it is built, and hand the picture to the AI.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du vet hur det ska se ut och ord inte räcker fram.">you know what it should look like and words are not getting you there.</span></p>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="phase" data-p="3" data-name="Onto the internet" data-name-sv="Ut på nätet">
-        <p class="phase-label" data-sv="Fas 3 · Ut på nätet">Phase 3 · Onto the internet</p>
-
-        <div class="station">
-          <div class="station-head">
-            <p class="station-no">07</p>
-            <h2 class="station-name" data-sv="Versionshantering">Version control</h2>
-            <p class="station-what" data-sv="Där koden sparas, med alla tidigare versioner kvar.">Where the code is saved, with every earlier version kept.</p>
-          </div>
-          <div class="tools">
-            <a class="tool" href="https://github.com" target="_blank" rel="noopener">
-              <p class="tool-name">GitHub</p>
-              <p class="tool-meta" data-sv="Kodlagring · Microsoft">Code hosting · Microsoft</p>
-              <p class="tool-what" data-sv="Sparar projektet och hela dess historik, så att en dålig ändring alltid kan ångras.">Saves the project and its whole history, so a bad change can always be undone.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="alltid, från dag ett. Det är också skyddsnätet som gör det tryggt att låta AI ändra filer.">always, from day one. It is also the safety net that makes it safe to let AI change files.</span></p>
-            </a>
-            <a class="tool" href="https://gitlab.com" target="_blank" rel="noopener">
-              <p class="tool-name">GitLab</p>
-              <p class="tool-meta" data-sv="Kodlagring">Code hosting</p>
-              <p class="tool-what" data-sv="Samma idé som GitHub, och kan köras på din egen server.">The same idea as GitHub, and can be run on your own server.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="en arbetsgivare kräver det, eller koden inte får ligga hos Microsoft.">an employer requires it, or the code may not sit with Microsoft.</span></p>
-            </a>
-          </div>
-        </div>
-
-        <div class="station">
-          <div class="station-head">
-            <p class="station-no">08</p>
-            <h2 class="station-name">Hosting</h2>
-            <p class="station-what" data-sv="Där sajten faktiskt körs så att andra kan nå den.">Where the site actually runs so other people can reach it.</p>
-          </div>
-          <div class="tools">
-            <a class="tool" href="https://vercel.com" target="_blank" rel="noopener">
-              <p class="tool-name">Vercel</p>
-              <p class="tool-meta" data-sv="Hosting">Hosting</p>
-              <p class="tool-what" data-sv="Kopplas till GitHub och publicerar en ny version varje gång du sparar.">Connects to GitHub and publishes a new version every time you save.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du bygger med React eller Next.js. Minst uppsättning av alla.">you build with React or Next.js. Least setup of them all.</span></p>
-            </a>
-            <a class="tool" href="https://pages.cloudflare.com" target="_blank" rel="noopener">
-              <p class="tool-name">Cloudflare Pages</p>
-              <p class="tool-meta" data-sv="Hosting">Hosting</p>
-              <p class="tool-what" data-sv="Samma idé, med ett generöst gratislager och små serverfunktioner inkluderade.">The same idea, with a generous free tier and small server functions included.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du behöver lite serversida utan att betala för en server.">you need a bit of backend without paying for a server.</span></p>
-            </a>
-            <a class="tool" href="https://www.netlify.com" target="_blank" rel="noopener">
-              <p class="tool-name">Netlify</p>
-              <p class="tool-meta" data-sv="Hosting">Hosting</p>
-              <p class="tool-what" data-sv="Samma jobb, och länge det enklaste för rena HTML-sajter.">The same job, and long the simplest option for plain HTML sites.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="sajten är statisk och du vill ha den publicerad på en minut.">the site is static and you want it published in a minute.</span></p>
-            </a>
-          </div>
-        </div>
-
-        <div class="station">
-          <div class="station-head">
-            <p class="station-no">09</p>
-            <h2 class="station-name" data-sv="Domän & DNS">Domain &amp; DNS</h2>
-            <p class="station-what" data-sv="Adressen folk skriver in, och systemet som pekar den mot din sajt.">The address people type, and the system that points it at your site.</p>
-          </div>
-          <div class="tools">
-            <a class="tool" href="https://www.cloudflare.com/products/registrar/" target="_blank" rel="noopener">
-              <p class="tool-name">Cloudflare Registrar</p>
-              <p class="tool-meta" data-sv="Domän">Domain</p>
-              <p class="tool-what" data-sv="Säljer domäner till självkostnadspris, utan förstaårsrabatt som sedan tredubblas.">Sells domains at cost price, with no first-year discount that triples later.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du vill ha en .com, .app eller .dev och slippa överraskningar vid förnyelsen.">you want a .com, .app or .dev and want to avoid renewal surprises.</span></p>
-            </a>
-            <a class="tool" href="https://www.loopia.se" target="_blank" rel="noopener">
-              <p class="tool-name">Loopia</p>
-              <p class="tool-meta" data-sv="Domän · Sverige">Domain · Sweden</p>
-              <p class="tool-what" data-sv="Svensk återförsäljare. Behövs för .se, som Cloudflare inte säljer.">Swedish registrar. Needed for .se, which Cloudflare does not sell.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du vill ha en .se-adress.">you want a .se address.</span></p>
-            </a>
-            <a class="tool" href="https://www.cloudflare.com/learning/dns/what-is-dns/" target="_blank" rel="noopener">
-              <p class="tool-name">DNS</p>
-              <p class="tool-meta" data-sv="Telefonkatalogen">The phone book</p>
-              <p class="tool-what" data-sv="Översätter namnet till serverns nummer. En ändring kan ta några timmar att spridas.">Translates the name into the server's number. A change can take a few hours to spread.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="alltid värt att känna till, för &quot;det funkar inte än&quot; är oftast bara DNS som inte spridit sig klart.">always worth knowing, because "it does not work yet" is usually just DNS not finished spreading.</span></p>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="phase" data-p="4" data-name="When the app grows" data-name-sv="När appen växer">
-        <p class="phase-label" data-sv="Fas 4 · När appen växer">Phase 4 · When the app grows</p>
-
-        <div class="station">
-          <div class="station-head">
-            <p class="station-no">10</p>
-            <h2 class="station-name" data-sv="Databas">Database</h2>
-            <p class="station-what" data-sv="Där datan bor när något ska minnas mellan besöken.">Where the data lives once something has to be remembered between visits.</p>
-          </div>
-          <div class="tools">
-            <a class="tool" href="https://www.postgresql.org" target="_blank" rel="noopener">
-              <p class="tool-name">PostgreSQL</p>
-              <p class="tool-meta" data-sv="Databas">Database</p>
-              <p class="tool-what" data-sv="Standardvalet för riktiga applikationer. Gratis, och klarar nästan allt.">The standard choice for real applications. Free, and handles almost anything.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="användare, beställningar eller annat som inte får försvinna.">users, orders, or anything that must not be lost.</span></p>
-            </a>
-            <a class="tool" href="https://sqlite.org" target="_blank" rel="noopener">
-              <p class="tool-name">SQLite</p>
-              <p class="tool-meta" data-sv="Databas i en fil">Database in a file</p>
-              <p class="tool-what" data-sv="En hel databas i en enda fil. Inget att installera eller köra.">An entire database in a single file. Nothing to install or run.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="små projekt, eller medan du provar dig fram. Kan bytas ut senare.">small projects, or while you are trying things out. Can be swapped later.</span></p>
-            </a>
-            <a class="tool" href="https://developers.cloudflare.com/d1/" target="_blank" rel="noopener">
-              <p class="tool-name">Cloudflare D1</p>
-              <p class="tool-meta" data-sv="SQLite som tjänst">Hosted SQLite</p>
-              <p class="tool-what" data-sv="SQLite som Cloudflare driftar, bredvid din hosting.">SQLite run by Cloudflare, right next to your hosting.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du redan ligger på Cloudflare och vill hålla dig till en leverantör.">you are already on Cloudflare and want to keep it to one supplier.</span></p>
-            </a>
-          </div>
-        </div>
-
-        <div class="station">
-          <div class="station-head">
-            <p class="station-no">11</p>
-            <h2 class="station-name" data-sv="Inloggning">Login</h2>
-            <p class="station-what" data-sv="Att låta användare ha konton utan att du själv lagrar lösenord.">Letting users have accounts without you storing passwords yourself.</p>
-          </div>
-          <div class="tools">
-            <a class="tool" href="https://supabase.com" target="_blank" rel="noopener">
-              <p class="tool-name">Supabase</p>
-              <p class="tool-meta" data-sv="Inloggning + databas">Login + database</p>
-              <p class="tool-what" data-sv="Inloggning och en Postgres-databas i ett, byggt på öppen källkod.">Login and a Postgres database in one, built on open source.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du behöver båda, och vill kunna flytta ut datan senare.">you need both, and want to be able to move the data out later.</span></p>
-            </a>
-            <a class="tool" href="https://firebase.google.com" target="_blank" rel="noopener">
-              <p class="tool-name">Firebase</p>
-              <p class="tool-meta" data-sv="Inloggning + databas · Google">Login + database · Google</p>
-              <p class="tool-what" data-sv="Googles version. Mycket snabb att komma igång med, svårare att flytta ifrån.">Google's version. Very quick to start with, harder to move away from.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="du vill ha inloggning med Google, Apple och e-post igång idag.">you want Google, Apple and email login working today.</span></p>
-            </a>
-            <a class="tool" href="https://clerk.com" target="_blank" rel="noopener">
-              <p class="tool-name">Clerk</p>
-              <p class="tool-meta" data-sv="Inloggning">Login</p>
-              <p class="tool-what" data-sv="Färdiga inloggningsrutor som du släpper rakt in i ett React-projekt.">Finished login screens you drop straight into a React project.</p>
-              <p class="tool-when"><b data-sv="Välj när">Choose when</b><span data-sv="inloggningen ska se bra ut utan att du bygger rutorna.">login should look good without you building the screens.</span></p>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="phase band" data-p="5" data-name="Applies the whole way" data-name-sv="Gäller hela vägen">
-        <p class="phase-label" data-sv="Gäller hela vägen">Applies the whole way</p>
-        <div class="station">
-          <div class="station-head">
-            <h2 class="station-name" data-sv="Säkerhet & juridik">Security &amp; law</h2>
-            <p class="station-what" data-sv="Inget steg. De här gäller från första raden, och AI:n tar inte upp dem om inte du gör det.">Not a step. These apply from the first line, and the AI will not raise them unless you do.</p>
-          </div>
-          <div class="tools">
-            <a class="tool" href="https://www.imy.se/privatperson/dataskydd/" target="_blank" rel="noopener">
-              <p class="tool-name">GDPR</p>
-              <p class="tool-meta" data-sv="Lag · EU">Law · EU</p>
-              <p class="tool-what" data-sv="EU:s regler för hantering av personuppgifter. Ett namn eller en e-postadress är redan en personuppgift.">EU rules for handling personal data. A name or an email address is already personal data.</p>
-              <p class="tool-when"><b data-sv="Gäller när">Applies when</b><span data-sv="något om en person sparas. IMY är den svenska tillsynsmyndigheten.">anything about a person is saved. IMY is the Swedish supervisory authority.</span></p>
-            </a>
-            <a class="tool" href="https://www.pts.se" target="_blank" rel="noopener">
-              <p class="tool-name" data-sv="Cookie-samtycke">Cookie consent</p>
-              <p class="tool-meta" data-sv="Samtycke">Consent</p>
-              <p class="tool-what" data-sv="Att fråga innan du lagrar kakor eller startar spårning. Det ska vara lika lätt att tacka nej som att tacka ja.">Asking before you store cookies or start tracking. Declining must be as easy as accepting.</p>
-              <p class="tool-when"><b data-sv="Gäller när">Applies when</b><span data-sv="du lägger till besöksstatistik eller bäddar in något från en annan sajt. PTS är tillsynsmyndighet i Sverige.">you add analytics or embed anything from another site. PTS supervises this in Sweden.</span></p>
-            </a>
-            <a class="tool" href="https://owasp.org/www-project-top-ten/" target="_blank" rel="noopener">
-              <p class="tool-name">OWASP Top 10</p>
-              <p class="tool-meta" data-sv="Säkerhetslista">Security list</p>
-              <p class="tool-what" data-sv="De tio vanligaste säkerhetsmissarna i webbapplikationer, hållna aktuella av branschen.">The ten most common security mistakes in web applications, kept current by the industry.</p>
-              <p class="tool-when"><b data-sv="Gäller när">Applies when</b><span data-sv="något ska gå live. Be AI:n gå igenom koden mot listan innan dess.">anything is about to go live. Ask the AI to review your code against the list first.</span></p>
-            </a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <section class="deep">
-    <p class="deep-head" data-sv="Fördjupning">Going deeper</p>
-    <h2 data-sv="Lär dig Claude Code">Learn Claude Code</h2>
-    <p class="deep-lede" data-sv="Kartan ovan namnger verktygen. Härifrån och ner ligger de bästa resurserna för att faktiskt lära sig det som står i station 01, i prioriterad ordning.">The map above names the tools. From here down are the best resources for actually learning what station 01 points at, in priority order.</p>
-  </section>
-
-  <div class="toolbar">
-    <button class="filter-btn active" onclick="filterLinks('all', this)" data-sv="Alla">All</button>
-    <button class="filter-btn" onclick="filterLinks('official', this)" data-sv="Kom igång">Getting started</button>
-    <button class="filter-btn" onclick="filterLinks('guide', this)" data-sv="Guider">Guides</button>
-    <button class="filter-btn" onclick="filterLinks('video', this)">YouTube</button>
-    <button class="filter-btn" onclick="filterLinks('repo', this)" data-sv="Repos & verktyg">Repos & tools</button>
-    <button class="filter-btn" onclick="filterLinks('mcp', this)">MCP & skills</button>
-    <div class="view-toggle" role="group" aria-label="View mode">
-      <button id="viewCards" class="active" title="Card view" aria-label="Card view"><svg viewBox="0 0 24 24"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/></svg></button>
-      <button id="viewList" title="Compact list" aria-label="Compact list"><svg viewBox="0 0 24 24"><path d="M3 5h18v2.5H3V5zm0 5.75h18v2.5H3v-2.5zM3 16.5h18V19H3v-2.5z"/></svg></button>
+    <div class="d-canvas" aria-hidden="true"></div>
+    <!-- phones: the current step's sentence right under the picture, copied from the list below -->
+    <p class="d-cap" aria-hidden="true" hidden></p>
+    <div class="d-panel">
+      <p class="d-kicker" id="d-kicker">Datorn</p>
+      <p class="d-ptitle" id="d-ptitle">Välj en del</p>
+      <p class="d-ptext" id="d-ptext" aria-live="polite">Tryck på skärmen, lådan, databasen eller molnet i bilden, eller välj med knapparna. Esc visar hela igen.</p>
+      <!-- Hitta sidan: how the browser finds buildapp.se. 203.0.113.10 is from the range set aside for examples.
+           The only copy of the step texts: the phone caption above copies them from here. -->
+      <ol class="d-steps" hidden>
+        <li><b>Du skriver buildapp.se.</b> <span>Webbläsaren kan namnet, men inte adressen.</span></li>
+        <li><b>Datorn frågar närmaste DNS-server.</b> <span>Oftast den hos din internetleverantör. Vet den inte svaret frågar den vidare, först om .se och sedan om buildapp.se. Svaret sparas en stund.</span></li>
+        <li><b>Svaret är en IP-adress: 203.0.113.10.</b> <span>Som en gatuadress: den kan ändras om sidan flyttar.</span></li>
+        <li><b>Sidan kommer.</b> <span>Webbläsaren skickar en fråga till den adressen, servern svarar med sidan och skärmen ritar den.</span></li>
+      </ol>
+      <button type="button" class="d-replay" hidden>Spela igen</button>
     </div>
   </div>
 
-  <main class="content">
+  <div class="d-rig">
+    <!-- Skärmen: frontend -->
+    <div class="d-screen d-zone" data-part="screen">
+        <h3 class="d-label">Frontend: <span>skärmen</span></h3>
+        <p class="d-about">Skärmen är frontend: det du ser. Webbläsaren ritar sidan med HTML, CSS och JavaScript. När du klickar på något som behöver sparas eller räknas ut frågar sidan backend.</p>
 
-    <!-- Getting started (official) -->
-    <div class="link-section" data-type="official">
-      <div class="section-header">
-        <div class="section-icon icon-official"><svg viewBox="0 0 24 24"><path d="M12 2 1 7l11 5 9-4.09V15h2V7L12 2zm-7 9.18v4L12 19l7-3.82v-4L12 15l-7-3.82z"/></svg></div>
-        <h2 class="section-title" data-sv="Kom igång – officiella resurser">Getting started – official resources</h2>
-        <span class="section-count">4</span>
+        <h4 class="d-group">Webben</h4>
+        <dl class="d-chips">
+          <div><dt><button class="d-chip" type="button" aria-describedby="d-html">HTML</button></dt>
+            <dd id="d-html">Sidans innehåll och struktur: rubriker, text, bilder och knappar. Varje webbsida börjar som HTML.</dd></div>
+          <div><dt><button class="d-chip" type="button" aria-describedby="d-css">CSS</button></dt>
+            <dd id="d-css">Utseendet: färger, typsnitt, avstånd och hur sidan anpassar sig efter mobil eller dator.</dd></div>
+          <div><dt><button class="d-chip" type="button" aria-describedby="d-js">JavaScript</button></dt>
+            <dd id="d-js">Gör sidan levande: reagerar på klick, hämtar data och ändrar sidan medan du tittar. Det enda programspråk som alla webbläsare kör direkt.</dd></div>
+          <div><dt><button class="d-chip" type="button" aria-describedby="d-ts">TypeScript</button></dt>
+            <dd id="d-ts">JavaScript med typer, från Microsoft. Den hittar fel innan koden körs och översätts sedan till vanlig JavaScript.</dd></div>
+          <div><dt><button class="d-chip" type="button" aria-describedby="d-three">three.js</button></dt>
+            <dd id="d-three">Ett JavaScript-bibliotek för 3D i webbläsaren. Solsystemet ovanför är byggt med det, och allt räknas ut på din egen dator.</dd></div>
+        </dl>
+
+        <h4 class="d-group">Appar</h4>
+        <dl class="d-chips">
+          <div><dt><button class="d-chip" type="button" aria-describedby="d-swift">Swift</button></dt>
+            <dd id="d-swift">Apples språk för appar till iPhone, iPad och Mac.</dd></div>
+          <div><dt><button class="d-chip" type="button" aria-describedby="d-kotlin">Kotlin</button></dt>
+            <dd id="d-kotlin">Googles förstahandsval för Android-appar sedan 2019.</dd></div>
+        </dl>
+
+        <p class="d-info" aria-hidden="true">Välj ett språk.</p>
+    </div>
+
+    <!-- Lådan: backend -->
+    <div class="d-tower d-zone" data-part="box">
+      <h3 class="d-label">Backend: <span>lådan</span></h3>
+      <p class="d-about">Lådan är backend: koden som körs utom synhåll. Den tar emot frågor från skärmen, till exempel en inloggning, räknar ut svaret och hämtar eller sparar det i databasen.</p>
+      <h4 class="d-group">Språk på servern</h4>
+      <dl class="d-chips">
+        <div><dt><button class="d-chip" type="button" aria-describedby="d-node">Node.js</button></dt>
+          <dd id="d-node">Gör att JavaScript kan köras på en server och inte bara i webbläsaren. Samma språk på båda sidor.</dd></div>
+        <div><dt><button class="d-chip" type="button" aria-describedby="d-py">Python</button></dt>
+          <dd id="d-py">Lättläst och mycket populärt, särskilt för AI, dataanalys och servrar.</dd></div>
+        <div><dt><button class="d-chip" type="button" aria-describedby="d-rust">Rust</button></dt>
+          <dd id="d-rust">Snabbt som C men skyddar mot vanliga minnesfel. Används där fart och säkerhet är viktigast.</dd></div>
+        <div><dt><button class="d-chip" type="button" aria-describedby="d-go">Go</button></dt>
+          <dd id="d-go">Googles enkla och snabba språk för servrar och nätverkstjänster.</dd></div>
+        <div><dt><button class="d-chip" type="button" aria-describedby="d-java">Java</button></dt>
+          <dd id="d-java">Gammal arbetshäst i banker och stora företag. Var länge huvudspråket för Android.</dd></div>
+        <div><dt><button class="d-chip" type="button" aria-describedby="d-cs">C#</button></dt>
+          <dd id="d-cs">Microsofts språk för servrar och Windowsprogram. Används också i spelmotorn Unity.</dd></div>
+        <div><dt><button class="d-chip" type="button" aria-describedby="d-php">PHP</button></dt>
+          <dd id="d-php">Ett av webbens äldsta serverspråk. WordPress är skrivet i PHP.</dd></div>
+      </dl>
+      <p class="d-info" aria-hidden="true">Välj ett språk.</p>
+    </div>
+
+    <!-- Databasen -->
+    <div class="d-db d-zone" data-part="db">
+      <h3 class="d-label">Databasen</h3>
+      <p class="d-about">Databasen är där allt sparas: användare, beställningar, inlägg. Här är den ritad som ett serverskåp. Bara backend pratar med den: backend läser och skriver och skickar svaret vidare till skärmen.</p>
+      <dl class="d-chips">
+        <div><dt><button class="d-chip" type="button" aria-describedby="d-sql">SQL</button></dt>
+          <dd id="d-sql">Inte en databas utan språket man ställer frågor till databaser med, till exempel ”hämta alla kunder i Umeå”.</dd></div>
+        <div><dt><button class="d-chip" type="button" aria-describedby="d-pg">PostgreSQL</button></dt>
+          <dd id="d-pg">Gratis och kraftfull databas med öppen källkod. Ett vanligt förstaval för nya projekt.</dd></div>
+        <div><dt><button class="d-chip" type="button" aria-describedby="d-mysql">MySQL</button></dt>
+          <dd id="d-mysql">En av världens mest använda databaser. Följer ofta med WordPress-sajter.</dd></div>
+        <div><dt><button class="d-chip" type="button" aria-describedby="d-sqlite">SQLite</button></dt>
+          <dd id="d-sqlite">En hel databas i en enda fil, utan egen server. Finns inbyggd i varje iPhone och Android-telefon.</dd></div>
+        <div><dt><button class="d-chip" type="button" aria-describedby="d-mongo">MongoDB</button></dt>
+          <dd id="d-mongo">Sparar data som dokument i stället för tabeller. Kallas NoSQL.</dd></div>
+        <div><dt><button class="d-chip" type="button" aria-describedby="d-redis">Redis</button></dt>
+          <dd id="d-redis">Håller data i arbetsminnet för blixtsnabba svar. Används ofta som cache, ett snabbt mellanlager.</dd></div>
+      </dl>
+      <p class="d-info" aria-hidden="true">Välj en databas.</p>
+    </div>
+
+    <!-- Molnet -->
+    <div class="d-cloud d-zone" data-part="cloud">
+      <h3 class="d-label">Molnet</h3>
+      <p class="d-about">Molnet är någon annans dator, ett serverrum du hyr plats i. Både backend och databasen kan flytta hit, så slipper du ha en egen låda igång dygnet runt. Cloudflare, Vercel, AWS, Supabase och GitHub Pages bor här.</p>
+      <dl class="d-chips">
+        <div><dt><button class="d-chip" type="button" aria-describedby="d-cf">Cloudflare</button></dt>
+          <dd id="d-cf">Ett världsomspännande nätverk som kör din kod nära användaren och har egna databaser och fillagring. Har en generös gratisnivå.</dd></div>
+        <div><dt><button class="d-chip" type="button" aria-describedby="d-vercel">Vercel</button></dt>
+          <dd id="d-vercel">Publicerar webbplatser direkt från koden, med små serverfunktioner.</dd></div>
+        <div><dt><button class="d-chip" type="button" aria-describedby="d-aws">AWS</button></dt>
+          <dd id="d-aws">Amazons molntjänst, den största i världen. Där går det att hyra nästan allt, från servrar till AI.</dd></div>
+        <div><dt><button class="d-chip" type="button" aria-describedby="d-supa">Supabase</button></dt>
+          <dd id="d-supa">En färdig backend: PostgreSQL-databas, inloggning och fillagring utan att du sköter någon server.</dd></div>
+        <div><dt><button class="d-chip" type="button" aria-describedby="d-ghp">GitHub Pages</button></dt>
+          <dd id="d-ghp">Gratis publicering av sidor som bara är frontend, direkt från ett GitHub-repo.</dd></div>
+      </dl>
+      <p class="d-info" aria-hidden="true">Välj en leverantör.</p>
+    </div>
+  </div>
+
+  <p class="d-note"><strong>Den här sidan är ren frontend.</strong> Servern skickar bara över filerna, sedan ritar din egen dator hela solsystemet med HTML, CSS, JavaScript och three.js.</p>
+</section>
+<script src="sections/datorn.js" defer></script>
+
+<link rel="stylesheet" href="sections/grilla.css">
+<section id="grilla" class="sec" aria-labelledby="grilla-h">
+  <div class="g-grid">
+    <div class="g-copy">
+      <p class="eyebrow">Arbetssätt</p>
+      <h2 id="grilla-h">Låt AI:n fråga ut dig</h2>
+      <p class="lede">Skriv en mening om vad du vill bygga. Be sedan agenten ställa ungefär <strong>20 frågor</strong> innan den skriver en enda rad kod. Du svarar med vanliga ord, ingen teknik krävs. Frågorna hittar luckorna du inte visste fanns, och resultatet blir oftast bättre än med en lång beskrivning.</p>
+
+      <div class="g-skill">
+        <p class="g-skill-k">Idén kommer från</p>
+        <p class="g-skill-t"><strong>grill me</strong>, en skill av <a href="https://www.youtube.com/@mattpocockuk" target="_blank" rel="noopener">Matt Pocock</a></p>
+        <p>En skill är en färdig instruktion till agenten, som den följer när du ber om det. Matt Pocock är TypeScript-lärare och delar sina skills öppet på GitHub. Skillen <em>grill me</em> startar en intervju som pågår tills alla val i planen är gjorda, ett i taget. Agenten ställer frågorna i omgångar, numrerar dem och föreslår ett eget svar på varje, så att du kan svara ”ja” eller ändra. Fakta letar den upp själv. Besluten lämnar den till dig.</p>
+        <a class="g-link" href="https://github.com/mattpocock/skills/tree/main/skills/productivity/grill-me">Se grill me på GitHub</a>
       </div>
-      <div class="link-grid">
-        <a href="https://code.claude.com/docs/en/overview" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-official"><svg viewBox="0 0 24 24"><path d="M12 2 1 7l11 5 9-4.09V15h2V7L12 2zm-7 9.18v4L12 19l7-3.82v-4L12 15l-7-3.82z"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title" data-sv="Officiell dokumentation">Official documentation</p><p class="link-card-sub" data-sv="Källan till allt. Börja med Quickstart och Common Workflows. Alltid aktuell.">The source of truth. Start with Quickstart and Common Workflows. Always current.</p><span class="link-card-area" data-sv="1. Börja här">1. Start here</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="https://anthropic.skilljar.com/claude-code-in-action" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-official"><svg viewBox="0 0 24 24"><path d="M12 2 1 7l11 5 9-4.09V15h2V7L12 2zm-7 9.18v4L12 19l7-3.82v-4L12 15l-7-3.82z"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title">Anthropic Academy: Claude Code in Action</p><p class="link-card-sub" data-sv="Gratis officiell videokurs. Strukturerad och bra för nybörjare.">Free official video course. Structured and beginner-friendly.</p><span class="link-card-area" data-sv="2. Kurs">2. Course</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-official"><svg viewBox="0 0 24 24"><path d="M12 2 1 7l11 5 9-4.09V15h2V7L12 2zm-7 9.18v4L12 19l7-3.82v-4L12 15l-7-3.82z"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title">Claude Code: Best practices</p><p class="link-card-sub" data-sv="Anthropics egen artikel om hur man faktiskt jobbar med verktyget. Mest citerad.">Anthropic's own article on how to actually work with the tool. Most cited.</p><span class="link-card-area" data-sv="3. Arbetssätt">3. Workflow</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-official"><svg viewBox="0 0 24 24"><path d="M12 2 1 7l11 5 9-4.09V15h2V7L12 2zm-7 9.18v4L12 19l7-3.82v-4L12 15l-7-3.82z"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title" data-sv="Officiell changelog">Official changelog</p><p class="link-card-sub" data-sv="Nya funktioner släpps varje vecka. Skumma då och då.">New features ship weekly. Skim it now and then.</p><span class="link-card-area" data-sv="Håll dig uppdaterad">Stay updated</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
+
+      <div class="g-prompt">
+        <div class="g-prompt-bar">
+          <p class="g-prompt-k" id="g-prompt-k">Utan att installera något: klistra in i valfri chatt eller agent</p>
+          <button class="g-copybtn" type="button" data-copy="g-prompt-text">Kopiera</button>
+        </div>
+        <pre id="g-prompt-text" aria-labelledby="g-prompt-k" tabindex="0">Jag vill bygga: [beskriv i en mening].
+
+Innan du skriver någon kod, intervjua mig. Ställ ungefär 20 frågor, några i taget och numrerade. Ge ditt eget förslag på svar till varje fråga, så att jag kan svara ja eller ändra. Fråga om allt som påverkar resultatet: vem som ska använda det, vad som är viktigast och vad som ska hända när något går fel. Sådant du kan ta reda på själv letar du upp i stället för att fråga. Jag är inte tekniker, så skriv enkelt.
+
+När inga frågor återstår: sammanfatta planen i punktform och vänta på mitt ok innan du börjar.</pre>
       </div>
     </div>
 
-    <!-- Guides & communities -->
-    <div class="link-section" data-type="guide">
-      <div class="section-header">
-        <div class="section-icon icon-guide"><svg viewBox="0 0 24 24"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/></svg></div>
-        <h2 class="section-title" data-sv="Guider & communities">Guides & communities</h2>
-        <span class="section-count">5</span>
+    <figure class="g-chat" aria-labelledby="g-chat-cap">
+      <div class="g-chat-top">
+        <span class="g-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <figcaption id="g-chat-cap">Exempel: en förälder i fotbollslaget</figcaption>
+        <button class="g-replay" type="button" hidden>Spela upp</button>
       </div>
-      <div class="link-grid">
-        <a href="https://claudelog.com/" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-guide"><svg viewBox="0 0 24 24"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1z"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title">ClaudeLog</p><p class="link-card-sub" data-sv="Bästa inofficiella sajten. Dokumentation och best practices från tung verklig användning.">Best unofficial site. Docs and best practices from heavy real-world use.</p><span class="link-card-area">Community</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="https://github.com/FlorianBruniaux/claude-code-ultimate-guide" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-guide"><svg viewBox="0 0 24 24"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1z"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title">Claude Code Ultimate Guide</p><p class="link-card-sub" data-sv="Enorm communityguide med 7 moduler, diagram och färdiga mallar.">Huge community guide with 7 modules, diagrams and ready-made templates.</p><span class="link-card-area" data-sv="Djupdykning">Deep dive</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="https://codewithmukesh.com/blog/claude-code-for-beginners/" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-guide"><svg viewBox="0 0 24 24"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1z"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title" data-sv="Code with Mukesh: nybörjarguide">Code with Mukesh: beginner guide</p><p class="link-card-sub" data-sv="Gedigen skriven genomgång: CLAUDE.md, Plan Mode, priser. Uppdaterad 2026.">Solid written walkthrough: CLAUDE.md, Plan Mode, pricing. Updated 2026.</p><span class="link-card-area" data-sv="Nybörjare">Beginner</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="https://github.com/luongnv89/claude-howto" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-guide"><svg viewBox="0 0 24 24"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1z"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title">claude-howto</p><p class="link-card-sub" data-sv="Visuell, exempeldriven guide med mallar att kopiera rakt av.">Visual, example-driven guide with copy-paste templates.</p><span class="link-card-area" data-sv="Nybörjare">Beginner</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="https://www.scriptbyai.com/claude-code-resource-list/" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-guide"><svg viewBox="0 0 24 24"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1z"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title">Claude Code Resource List</p><p class="link-card-sub" data-sv="Kurerad katalog över hela ekosystemet: agenter, skills, plugins, MCP.">Curated directory of the whole ecosystem: agents, skills, plugins, MCP.</p><span class="link-card-area" data-sv="Katalog">Directory</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
+      <div class="g-progress" aria-hidden="true"><span></span></div>
+      <ol class="g-log">
+        <li class="g-msg g-me"><span class="g-who">Du</span>Jag vill ha en sida där föräldrarna ser vem som kör till bortamatcherna.</li>
+        <li class="g-msg g-ai"><span class="g-who">Agent: fråga 1</span>Ska föräldrarna logga in, eller räcker en hemlig länk? <span class="g-sugg">Mitt förslag: en hemlig länk, då slipper ni lösenord.</span></li>
+        <li class="g-msg g-me">Länk räcker.</li>
+        <li class="g-msg g-ai"><span class="g-who">Agent: fråga 2</span>Vem lägger in matcherna? <span class="g-sugg">Förslag: tränaren, en gång per säsong.</span></li>
+        <li class="g-msg g-me">Ja, tränaren.</li>
+        <li class="g-msg g-ai"><span class="g-who">Agent: fråga 3</span>Hur många barn får plats i en bil? <span class="g-sugg">Förslag: fyra, så räcker en vanlig bil.</span></li>
+        <li class="g-msg g-me">Ja, fyra.</li>
+        <li class="g-msg g-ai"><span class="g-who">Agent: fråga 4</span>Vad ska hända om ingen har anmält sig tre dagar före en match? <span class="g-sugg">Förslag: ett mejl till alla föräldrar.</span></li>
+        <li class="g-msg g-me">Bra, gör så.</li>
+        <li class="g-skip">+ 16 frågor till om mobil, utseende och vem som får ändra</li>
+        <li class="g-plan">
+          <p class="g-plan-k">Planen agenten bygger efter</p>
+          <ul>
+            <li>Mobilsida bakom en hemlig länk, ingen inloggning</li>
+            <li>Tränaren lägger in säsongens matcher</li>
+            <li>Föräldrar skriver upp sig på en bil med fyra platser</li>
+            <li>Saknas förare tre dagar före går ett mejl ut</li>
+          </ul>
+          <p class="g-plan-foot"><span>20 beslut fattade</span></p>
+
+        </li>
+      </ol>
+    </figure>
+  </div>
+</section>
+<script src="sections/grilla.js" defer></script>
+
+<link rel="stylesheet" href="sections/verifiera.css">
+<section id="verifiera" class="sec" aria-labelledby="verifiera-h">
+  <div class="v-head">
+    <p class="eyebrow">Arbetssätt</p>
+    <h2 id="verifiera-h">Låt AI:n granska sitt eget arbete</h2>
+    <p class="lede">En agent som inte kan se resultatet gissar, och säger ”klart” ändå. Ge den ett sätt att kontrollera, så hittar och rättar den sina egna fel innan du ens ser dem. Det finns flera sätt, från blixtsnabba till nästan mänskliga. Bäst är att använda flera. Bygger du i Lovable eller Replit: be den testa i förhandsvisningen och visa en skärmbild av resultatet.</p>
+  </div>
+
+  <h3 class="v-sub">Stegen, från snabbast till mest verklig</h3>
+  <ol class="v-ladder">
+    <li style="--i:0">
+      <div class="v-step">
+        <p class="v-time">Under en sekund</p>
+        <h4>Typkontroll och kompilator</h4>
+        <p>Programmet läser koden innan den körs. Fångar felstavade namn, saknade fält och fel sorts värde.</p>
+        <p class="v-tools"><a href="https://www.typescriptlang.org" target="_blank" rel="noopener">TypeScript</a>, Rust, Swift, Kotlin, Go</p>
       </div>
+      <div class="v-riser" aria-hidden="true"><span>1</span></div>
+    </li>
+    <li style="--i:1">
+      <div class="v-step">
+        <p class="v-time">Sekunder</p>
+        <h4>Linter</h4>
+        <p>Letar efter slarv och kända fallgropar: kod som aldrig används, kod som inte väntar på svar, riskabla mönster.</p>
+        <p class="v-tools"><a href="https://eslint.org" target="_blank" rel="noopener">ESLint</a>, <a href="https://biomejs.dev" target="_blank" rel="noopener">Biome</a>, <a href="https://docs.astral.sh/ruff/" target="_blank" rel="noopener">Ruff</a></p>
+      </div>
+      <div class="v-riser" aria-hidden="true"><span>2</span></div>
+    </li>
+    <li style="--i:2">
+      <div class="v-step">
+        <p class="v-time">Sekunder</p>
+        <h4>Tester</h4>
+        <p>Små program som kör din kod och jämför svaret med det rätta. Fångar logik som räknar fel och gammalt som går sönder.</p>
+        <p class="v-tools"><a href="https://vitest.dev" target="_blank" rel="noopener">Vitest</a>, <a href="https://jestjs.io" target="_blank" rel="noopener">Jest</a>, <a href="https://docs.pytest.org" target="_blank" rel="noopener">pytest</a></p>
+      </div>
+      <div class="v-riser" aria-hidden="true"><span>3</span></div>
+    </li>
+    <li style="--i:3">
+      <div class="v-step">
+        <p class="v-time">Tiotals sekunder</p>
+        <h4>Kör appen och ta skärmbilder</h4>
+        <p>Agenten öppnar sidan i mobil- och datorstorlek och tittar. Fångar trasig layout och felmeddelanden i konsolen (webbläsarens logg över fel).</p>
+        <p class="v-tools"><a href="https://playwright.dev" target="_blank" rel="noopener">Playwright</a>, <a href="https://github.com/ChromeDevTools/chrome-devtools-mcp" target="_blank" rel="noopener">Chrome DevTools MCP</a></p>
+      </div>
+      <div class="v-riser" aria-hidden="true"><span>4</span></div>
+    </li>
+    <li style="--i:4">
+      <div class="v-step">
+        <p class="v-time">Minuter</p>
+        <h4>Styr en riktig webbläsare</h4>
+        <p>Klickar, skriver och går igenom flödet som en människa. Fångar knappar som inte gör något och formulär som fastnar.</p>
+        <p class="v-tools"><a href="https://learn.chatgpt.com/docs/chrome-extension" target="_blank" rel="noopener">Codex</a>, <a href="https://claude.com/claude-in-chrome" target="_blank" rel="noopener">Claude i Chrome</a>, Playwright</p>
+      </div>
+      <div class="v-riser" aria-hidden="true"><span>5</span></div>
+    </li>
+  </ol>
+  <p class="v-axis" aria-hidden="true"><span>Snabbt och billigt</span><span>Närmast verkligheten</span></p>
+
+  <div class="v-duo">
+    <div class="v-card v-ts">
+      <p class="v-card-k">Därför TypeScript</p>
+      <p>TypeScript passar agenter just för att det säger ifrån direkt. Skriver agenten fel ger typkontrollen ett felmeddelande med fil och rad, och agenten rättar innan något körs. Samma sak gäller allt som <strong>kompileras</strong> (översätts till ett körbart program innan det körs), som Rust, Swift och Kotlin: bygget går inte igenom, och agenten märker själv att något är fel.</p>
+      <pre class="v-term" aria-label="Exempel på ett fel från typkontrollen"><span class="v-dim">$ npx tsc</span>
+<span class="v-err">src/bil.ts:12:5</span> Property 'platser' is missing.
+<span class="v-dim">Agenten:</span> Jag rättar fältet och kör igen.
+<span class="v-ok">Inga fel.</span></pre>
+    </div>
+    <div class="v-card v-tests">
+      <p class="v-card-k">Därför ska agenten skriva tester</p>
+      <ul>
+        <li><strong>Ett test är ett löfte i kod.</strong> Det som fungerade i går måste fungera i dag, även när något nytt läggs till.</li>
+        <li><strong>Agenten glömmer, testerna minns.</strong> Nästa session vet ingenting om förra, men testerna finns kvar och säger till.</li>
+        <li><strong>Den tröttnar aldrig.</strong> Agenten kan köra hundra tester efter varje ändring. Det orkar ingen människa.</li>
+        <li><strong>Automatiskt vid varje ändring.</strong> Med CI (automatisk kontroll på GitHub), till exempel <a href="https://github.com/features/actions" target="_blank" rel="noopener">GitHub Actions</a>, körs testerna varje gång koden skickas upp.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="v-sub">Verktygen som låter agenten se webbläsaren</h3>
+  <div class="v-tablewrap">
+    <table class="v-matrix" data-sortable>
+      <caption class="v-sr">Vilka webbläsare varje verktyg kan styra</caption>
+      <thead>
+        <tr><th scope="col">Verktyg</th><th scope="col">Chrome</th><th scope="col">Edge</th><th scope="col">Firefox</th><th scope="col"><span class="v-th-long">Safari-motorn</span><span class="v-th-short" aria-hidden="true">Safari</span></th><th scope="col" class="v-note-h">Bra att veta</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Codex<small>tillägg i webbläsaren</small></th>
+          <td class="y"><span>Ja</span></td><td class="y"><span>Ja</span></td><td class="n"><span>Nej</span></td><td class="n"><span>Nej</span></td>
+          <td class="v-note">Fungerar även i Brave, Opera och Vivaldi. Appen har dessutom en inbyggd webbläsare som räcker för att testa din egen sida.</td>
+        </tr>
+        <tr>
+          <th scope="row">Claude i Chrome<small>tillägg i webbläsaren</small></th>
+          <td class="y"><span>Ja</span></td><td class="y"><span>Ja</span></td><td class="n"><span>Nej</span></td><td class="n"><span>Nej</span></td>
+          <td class="v-note">Kräver betald plan. Claude Code hittar tillägget även i Brave, Arc, Vivaldi och Opera.</td>
+        </tr>
+        <tr>
+          <th scope="row">Playwright<small>gratis, från Microsoft</small></th>
+          <td class="y"><span>Ja</span></td><td class="y"><span>Ja</span></td><td class="y"><span>Ja</span></td><td class="y"><span>Ja</span></td>
+          <td class="v-note">Bredast stöd. Kör osynligt i bakgrunden, perfekt för tester som agenten skriver och kör själv.</td>
+        </tr>
+        <tr>
+          <th scope="row">Chrome DevTools MCP<small>från Googles Chrome-team</small></th>
+          <td class="y"><span>Ja</span></td><td class="m"><span>Ej officiellt</span></td><td class="n"><span>Nej</span></td><td class="n"><span>Nej</span></td>
+          <td class="v-note">Ser konsolen, nätverket och hur snabb sidan är. Officiellt bara Chrome.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <div class="v-prompt">
+    <div class="v-prompt-bar">
+      <p class="v-prompt-k" id="v-prompt-k">Lägg till sist i varje uppdrag</p>
+      <button class="v-copybtn" type="button" data-copy="v-prompt-text">Kopiera</button>
+    </div>
+    <pre id="v-prompt-text" aria-labelledby="v-prompt-k" tabindex="0">Innan du säger att du är klar: bevisa att det fungerar. Kör typkontrollen och testerna, och skriv nya tester för det du har byggt. Öppna sidan i en riktig webbläsare, ta skärmbilder i mobil- och datorstorlek och titta på dem. Kontrollera att konsolen inte visar några fel. Rätta det du hittar och kör allt igen.</pre>
+  </div>
+</section>
+
+<link rel="stylesheet" href="sections/koll.css">
+<section id="koll" class="sec" aria-labelledby="koll-h">
+  <p class="eyebrow">Innan du publicerar</p>
+  <h2 id="koll-h">Det här ska din sida klara</h2>
+  <p class="lede">En checklista i sju delar, från säkerhet till drift. Allt går att kolla gratis, och det mesta kan agenten göra åt dig. Kolla allt du kan klicka på själv, och ge resten till agenten med texten längst ner.</p>
+
+  <div class="k-groups">
+    <div class="k-group">
+      <h3>Säkerhet</h3>
+      <ul>
+        <li><h4>Krypterad anslutning</h4><p>Sidan ska bara gå att nå via https, och http ska skicka vidare dit. Annars kan andra på samma wifi läsa och ändra trafiken.</p><p class="k-how">Kolla: <a href="https://www.ssllabs.com/ssltest/" target="_blank" rel="noopener">SSL Labs</a>, sikta på betyget A</p></li>
+        <li><h4>Säkerhetshuvuden</h4><p>Små instruktioner servern skickar med varje sida, som talar om för webbläsaren vad som är tillåtet. De försvårar flera vanliga attacker.</p><p class="k-how">Kolla: <a href="https://developer.mozilla.org/en-US/observatory" target="_blank" rel="noopener">Mozilla Observatory</a>, <a href="https://securityheaders.com/" target="_blank" rel="noopener">securityheaders.com</a></p></li>
+        <li><h4>Vanliga attacker</h4><p>De tio största riskkategorierna enligt OWASP, till exempel att se någon annans data genom att ändra ett nummer i adressen. Viktigast om sidan har inloggning.</p><p class="k-how">Kolla: <a href="https://owasp.org/Top10/" target="_blank" rel="noopener">OWASP Top 10</a> som lista till agenten, <a href="https://www.zaproxy.org/docs/docker/baseline-scan/" target="_blank" rel="noopener">ZAP:s passiva skanning (baseline)</a>, som bara tittar och inte attackerar</p></li>
+        <li><h4>Skydd mot spam och överbelastning</h4><p>Formulär och knappar som sparar något behöver ett tak, annars kan ett skript fylla din databas på en natt.</p><p class="k-how">Gratis: <a href="https://www.cloudflare.com/application-services/products/turnstile/" target="_blank" rel="noopener">Cloudflare Turnstile</a> mot robotar, plus en gräns per användare och dag</p></li>
+      </ul>
     </div>
 
-    <!-- YouTube -->
-    <div class="link-section" data-type="video">
-      <div class="section-header">
-        <div class="section-icon icon-channel"><svg viewBox="0 0 24 24"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81zM10 15V9l5.2 3-5.2 3z"/></svg></div>
-        <h2 class="section-title" data-sv="YouTube – mest sedda">YouTube – most watched</h2>
-        <span class="section-count">7</span>
-      </div>
-      <div class="link-grid">
-        <a href="https://www.youtube.com/watch?v=QoQBzR1NIqI" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-channel"><svg viewBox="0 0 24 24"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81zM10 15V9l5.2 3-5.2 3z"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title" data-sv="Claude Code Full Course, 4 timmar (Nick Saraev)">Claude Code Full Course, 4 hours (Nick Saraev)</p><p class="link-card-sub" data-sv="Mest sedda Claude Code-videon, över 1,4 miljoner visningar. Från grund till agentteam.">The most watched Claude Code video, 1.4M+ views. From basics to agent teams.</p><span class="link-card-area" data-sv="Fullständig kurs">Full course</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="https://www.youtube.com/watch?v=Ffh9OeJ7yxw" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-channel"><svg viewBox="0 0 24 24"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81zM10 15V9l5.2 3-5.2 3z"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title">800+ hours of Claude Code in 8 minutes</p><p class="link-card-sub" data-sv="Edmund Yong destillerar lärdomar och okända trick, snabbt och tätt.">Edmund Yong distils lessons and hidden tricks, fast and dense.</p><span class="link-card-area" data-sv="Snabbstart">Quick start</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="https://www.youtube.com/watch?v=LIEuGD0pJ18" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-channel"><svg viewBox="0 0 24 24"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81zM10 15V9l5.2 3-5.2 3z"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title">Beginner to Advanced in 11 Minutes</p><p class="link-card-sub" data-sv="Kompakt genomgång från nybörjare till avancerad på 11 minuter.">Compact walkthrough from beginner to advanced in 11 minutes.</p><span class="link-card-area" data-sv="Snabbstart">Quick start</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="https://www.youtube.com/watch?v=XuSFUvUdvQA" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-channel"><svg viewBox="0 0 24 24"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81zM10 15V9l5.2 3-5.2 3z"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title">Anthropic's 7 Hour Course in 27 Minutes</p><p class="link-card-sub" data-sv="Sammanfattning av Anthropics officiella kurs i komprimerat format.">Anthropic's official course summarised in compact form.</p><span class="link-card-area" data-sv="Sammanfattning">Summary</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="https://www.youtube.com/watch?v=pRfIWmddRsE" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-channel"><svg viewBox="0 0 24 24"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81zM10 15V9l5.2 3-5.2 3z"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title">How Anthropic Employees Use Claude Code</p><p class="link-card-sub" data-sv="Hur Anthropics egna anställda faktiskt använder verktyget dagligen.">How Anthropic's own staff actually use the tool day to day.</p><span class="link-card-area" data-sv="Arbetssätt">Workflow</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="https://www.youtube.com/@anthropic-ai" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-channel"><svg viewBox="0 0 24 24"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81zM10 15V9l5.2 3-5.2 3z"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title" data-sv="Anthropic (officiell kanal)">Anthropic (official channel)</p><p class="link-card-sub" data-sv="Officiella demos, lanseringar och genomgångar direkt från källan.">Official demos, launches and walkthroughs straight from the source.</p><span class="link-card-area" data-sv="Officiell">Official</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="https://www.youtube.com/@mattpocockuk" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-channel"><svg viewBox="0 0 24 24"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81zM10 15V9l5.2 3-5.2 3z"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title">Matt Pocock</p><p class="link-card-sub" data-sv="TypeScript- och AI-utbildaren bakom AI Hero. Korta, vassa videor om AI-assisterad kodning.">The TypeScript and AI educator behind AI Hero. Short, sharp videos on AI-assisted coding.</p><span class="link-card-area" data-sv="Kanal">Channel</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
+    <div class="k-group">
+      <h3>Koden</h3>
+      <ul>
+        <li><h4>Kända hål i paketen</h4><p>Din sida bygger på kod andra skrivit. När ett hål hittas i den kod du lånat behöver du uppdatera.</p><p class="k-how">Kolla: <a href="https://docs.npmjs.com/cli/commands/npm-audit" target="_blank" rel="noopener">npm audit</a> före varje publicering</p></li>
+        <li><h4>Inga hemligheter i koden</h4><p>Lösenord och API-nycklar får aldrig ligga i koden, inte ens i en gammal version. Den som ser historiken ser nyckeln.</p><p class="k-how">Kolla: <a href="https://github.com/gitleaks/gitleaks" target="_blank" rel="noopener">gitleaks</a>, <a href="https://docs.github.com/en/code-security/secret-scanning/introduction/about-secret-scanning" target="_blank" rel="noopener">GitHubs hemlighetsskanning</a></p></li>
+        <li><h4>Inga personuppgifter i historiken</h4><p>Innan ett repo blir publikt: sök igenom alla gamla versioner efter namn och adresser. Det som raderats i dag finns kvar i historiken.</p><p class="k-how">Kolla: be agenten söka igenom hela git-historiken</p></li>
+        <li><h4>Säkra automatiska flöden</h4><p>Har du GitHub Actions (kod som körs automatiskt på GitHub) ska lånade steg vara låsta till en exakt commit (SHA) och ha så lite behörighet som möjligt.</p><p class="k-how">Kolla: <a href="https://github.com/zizmorcore/zizmor" target="_blank" rel="noopener">zizmor</a></p></li>
+        <li><h4>Tester som faktiskt säger ifrån</h4><p>Ett test som aldrig blir rött skyddar inget. Mutationstest ändrar koden med flit och ser om testerna märker det.</p><p class="k-how">Kolla: <a href="https://stryker-mutator.io" target="_blank" rel="noopener">Stryker</a></p></li>
+      </ul>
     </div>
 
-    <!-- Repos & tools -->
-    <div class="link-section" data-type="repo">
-      <div class="section-header">
-        <div class="section-icon icon-repo"><svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8 0 3.2.9.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1 .9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg></div>
-        <h2 class="section-title" data-sv="GitHub-repos & verktyg">GitHub repos & tools</h2>
-        <span class="section-count">5</span>
-      </div>
-      <div class="link-grid">
-        <a href="https://github.com/hesreallyhim/awesome-claude-code" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-repo"><svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8 0 3.2.9.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1 .9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title">awesome-claude-code</p><p class="link-card-sub" data-sv="Mest kända kurerade listan: skills, hooks, kommandon, agenter, verktyg.">The best-known curated list: skills, hooks, commands, agents, tools.</p><span class="link-card-area" data-sv="Börja här">Start here</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="https://github.com/obra/superpowers" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-repo"><svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8 0 3.2.9.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1 .9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title">obra/superpowers</p><p class="link-card-sub" data-sv="Mest stjärnmärkta repot: komplett arbetsmetodik för AI-agenter (TDD, YAGNI).">Most starred repo: a complete working methodology for AI agents (TDD, YAGNI).</p><span class="link-card-area" data-sv="Metodik">Methodology</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="https://github.com/rohitg00/awesome-claude-code-toolkit" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-repo"><svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8 0 3.2.9.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1 .9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title">awesome-claude-code-toolkit</p><p class="link-card-sub" data-sv="135 agenter, 35 skills, 176+ plugins, hooks och MCP-konfigar, allt på ett ställe.">135 agents, 35 skills, 176+ plugins, hooks and MCP configs in one place.</p><span class="link-card-area" data-sv="Verktygslåda">Toolbox</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="https://github.com/yamadashy/repomix" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-repo"><svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8 0 3.2.9.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1 .9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title">repomix</p><p class="link-card-sub" data-sv="Packar hela din kodbas till en AI-vänlig fil. 25 000+ stjärnor.">Packs your whole codebase into one AI-friendly file. 25,000+ stars.</p><span class="link-card-area" data-sv="Verktyg">Tool</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="https://github.com/anthropics/claude-code" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-repo"><svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8 0 3.2.9.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1 .9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title">anthropics/claude-code</p><p class="link-card-sub" data-sv="Officiella repot: issues, diskussioner och changelog.">The official repo: issues, discussions and changelog.</p><span class="link-card-area" data-sv="Officiell">Official</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
+    <div class="k-group">
+      <h3>Alla ska kunna använda den</h3>
+      <ul>
+        <li><h4>Tillgänglighet</h4><p>Sidan ska fungera med skärmläsare och tangentbord, och texten ska synas tydligt mot bakgrunden. För offentlig sektor är det lag.</p><p class="k-how">Kolla: <a href="https://wave.webaim.org" target="_blank" rel="noopener">WAVE</a>, och gå igenom sidan med bara Tab-tangenten. Måttstock: <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank" rel="noopener">WCAG 2.2 AA</a></p></li>
+        <li><h4>Lätt att använda</h4><p>Knappar stora nog för en tumme (minst 44 pixlar), svar direkt på varje klick och få val åt gången.</p><p class="k-how">Läs: <a href="https://lawsofux.com" target="_blank" rel="noopener">Laws of UX</a></p></li>
+        <li><h4>Mobil och flera webbläsare</h4><p>De flesta besökare kommer från mobilen, och Safari och Firefox visar ibland saker annorlunda än Chrome.</p><p class="k-how">Kolla: <a href="https://developer.chrome.com/docs/devtools/device-mode" target="_blank" rel="noopener">mobilläget i Chrome</a>, <a href="https://playwright.dev" target="_blank" rel="noopener">Playwright</a> för Firefox och Safari-motorn</p></li>
+      </ul>
     </div>
 
-    <!-- MCP & skills -->
-    <div class="link-section" data-type="mcp">
-      <div class="section-header">
-        <div class="section-icon icon-mcp"><svg viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0 0 10h10a5 5 0 0 0 0-10zm0 8H7a3 3 0 0 1 0-6h10a3 3 0 0 1 0 6z"/><circle cx="7" cy="12" r="1.5"/><circle cx="17" cy="12" r="1.5"/></svg></div>
-        <h2 class="section-title">MCP & skills</h2>
-        <span class="section-count">4</span>
-      </div>
-      <div class="link-grid">
-        <a href="https://github.com/anthropics/skills" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-mcp"><svg viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0 0 10h10a5 5 0 0 0 0-10z"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title">anthropics/skills</p><p class="link-card-sub" data-sv="Anthropics officiella skill-mallar: dokument, webbappar, MCP-generering m.m.">Anthropic's official skill templates: documents, web apps, MCP generation and more.</p><span class="link-card-area" data-sv="Officiell">Official</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="https://github.com/modelcontextprotocol/servers" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-mcp"><svg viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0 0 10h10a5 5 0 0 0 0-10z"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title">modelcontextprotocol/servers</p><p class="link-card-sub" data-sv="Officiella MCP-servrar: filsystem, GitHub, databaser och mycket mer.">Official MCP servers: file system, GitHub, databases and much more.</p><span class="link-card-area" data-sv="Officiell">Official</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="https://github.com/travisvn/awesome-claude-skills" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-mcp"><svg viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0 0 10h10a5 5 0 0 0 0-10z"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title">awesome-claude-skills</p><p class="link-card-sub" data-sv="Kurerad lista med skills och verktyg för att anpassa Claude Code.">Curated list of skills and tools for customising Claude Code.</p><span class="link-card-area">Skills</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-        <a href="https://nimbalyst.com/blog/best-claude-code-mcp-servers/" target="_blank" rel="noopener" class="link-card">
-          <div class="link-card-icon lc-mcp"><svg viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0 0 10h10a5 5 0 0 0 0-10z"/></svg></div>
-          <div class="link-card-body"><p class="link-card-title" data-sv="Bästa MCP-servrarna 2026 (rankade)">Best MCP servers 2026 (ranked)</p><p class="link-card-sub" data-sv="Testade och rankade MCP-servrar för Claude Code.">Tested and ranked MCP servers for Claude Code.</p><span class="link-card-area">Ranking</span></div>
-          <span class="link-card-arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
+    <div class="k-group">
+      <h3>Fart</h3>
+      <ul>
+        <li><h4>Snabb på en vanlig mobil</h4><p>Sidan ska visa sitt viktigaste innehåll inom 2,5 sekunder och inte hoppa runt medan den laddar. Långsamma sidor lämnas och rankas lägre.</p><p class="k-how">Kolla: <a href="https://pagespeed.web.dev" target="_blank" rel="noopener">PageSpeed Insights</a>, sikta på 90 eller mer</p></li>
+      </ul>
     </div>
 
+    <div class="k-group">
+      <h3>Synas på nätet</h3>
+      <ul>
+        <li><h4>Felfri kod och hela länkar</h4><p>Trasig HTML kan se rätt ut i en webbläsare och fel i en annan, och döda länkar får sidan att se övergiven ut.</p><p class="k-how">Kolla: <a href="https://validator.w3.org/nu/" target="_blank" rel="noopener">W3C-validatorn</a>, <a href="https://validator.w3.org/checklink" target="_blank" rel="noopener">W3C:s länkkontroll</a></p></li>
+        <li><h4>En riktig 404-sida</h4><p>En adress som inte finns ska ge en hjälpsam sida med väg tillbaka, och svara ”404” så att Google inte sparar den.</p><p class="k-how">Kolla: skriv en påhittad adress på din sida och se vad som händer</p></li>
+        <li><h4>Google hittar sidan</h4><p>Titel och beskrivning på varje sida, en sitemap (lista över alla sidor) och inget som av misstag säger åt Google att låta bli.</p><p class="k-how">Kolla: <a href="https://search.google.com/search-console/about" target="_blank" rel="noopener">Google Search Console</a></p></li>
+        <li><h4>Delningsbild</h4><p>När någon delar länken i Messenger eller på LinkedIn ska en bild och en rubrik synas, inte en grå ruta.</p><p class="k-how">Kolla: <a href="https://www.opengraph.xyz" target="_blank" rel="noopener">opengraph.xyz</a></p></li>
+        <li><h4>Ikon i fliken</h4><p>En favicon (den lilla ikonen i webbläsarfliken) gör sidan lätt att hitta bland tjugo öppna flikar och i bokmärken.</p><p class="k-how">Kolla: <a href="https://realfavicongenerator.net/favicon-checker" target="_blank" rel="noopener">Favicon checker</a></p></li>
+      </ul>
+    </div>
 
-  </main>
+    <div class="k-group">
+      <h3>Juridik och integritet</h3>
+      <ul>
+        <li><h4>Personuppgifter enligt GDPR</h4><p>Sparar sidan namn, mejl eller annat om människor ska du kunna säga varför, hur länge och hur man får det raderat.</p><p class="k-how">Läs: <a href="https://www.imy.se/verksamhet/dataskydd/det-har-galler-enligt-gdpr/" target="_blank" rel="noopener">IMY om GDPR</a></p></li>
+        <li><h4>Kakor och samtycke</h4><p>Kakor och liknande lagring (även localStorage) som inte behövs för att sidan ska fungera, till exempel för statistik och reklam, kräver ett ja från besökaren innan de sätts.</p><p class="k-how">Läs: <a href="https://www.pts.se/internet-och-telefoni/kakor-cookies/" target="_blank" rel="noopener">PTS om kakor</a></p></li>
+        <li><h4>Inga oväntade spårare</h4><p>Typsnitt, kartor och videoklipp från andra kan skicka dina besökares adresser vidare utan att du vet om det.</p><p class="k-how">Kolla: <a href="https://themarkup.org/blacklight" target="_blank" rel="noopener">Blacklight</a></p></li>
+        <li><h4>Rätt att använda bilder och typsnitt</h4><p>Allt du inte gjort själv har en licens. Kolla att den tillåter din användning, och skriv ut upphovspersonen där licensen kräver det.</p><p class="k-how">Kolla: licensen där du hämtade filen</p></li>
+      </ul>
+    </div>
 
-  <footer class="site-footer">
-    <div><span data-sv="Alla namn, i rätt ordning. Uppdateras löpande.">Every name, in the right order. Updated continuously.</span></div>
-    <div><a href="integritet.html" data-sv="Integritetspolicy">Privacy policy</a> &middot; <span id="footer-email"></span></div>
-  </footer>
-</div>
+    <div class="k-group">
+      <h3>Drift</h3>
+      <ul>
+        <li><h4>Säkerhetskopior som går att återställa</h4><p>En kopia du aldrig provat att läsa tillbaka är en förhoppning. Återställ en gång till ett testställe, så vet du.</p><p class="k-how">Kolla: be agenten exportera databasen och läsa in den på nytt</p></li>
+        <li><h4>Du får veta när den ligger nere</h4><p>En tjänst som besöker sidan med jämna mellanrum och mejlar dig när den inte svarar.</p><p class="k-how">Gratis: <a href="https://uptimerobot.com" target="_blank" rel="noopener">UptimeRobot</a></p></li>
+        <li><h4>Du får veta när något går fel</h4><p>Fel som besökarna får ska hamna i en logg du ser, inte bara försvinna.</p><p class="k-how">Gratis att börja: <a href="https://sentry.io" target="_blank" rel="noopener">Sentry</a></p></li>
+        <li><h4>Domänen förnyas</h4><p>Glömmer du att betala tar någon annan adressen. Slå på automatisk förnyelse och skriv upp när den går ut.</p><p class="k-how">Läs: <a href="https://internetstiftelsen.se/domaner/" target="_blank" rel="noopener">Internetstiftelsen om domäner</a></p></li>
+        <li><h4>Mejl som kommer fram</h4><p>Skickar sidan mejl behöver domänen SPF, DKIM och DMARC, tre inställningar som visar att mejlet verkligen kommer från dig. Annars hamnar det i skräpposten.</p><p class="k-how">Kolla: <a href="https://internet.nl" target="_blank" rel="noopener">internet.nl</a>, testet för e-post</p></li>
+        <li><h4>Tak för kostnader</h4><p>AI-tjänster och molntjänster tar betalt per anrop. Sätt ett utgiftstak och en gräns per dag, så kostar en bugg inte tusentals kronor.</p><p class="k-how">Kolla: inställningarna för betalning och gränser hos varje tjänst du använder</p></li>
+      </ul>
+    </div>
+  </div>
 
+  <div class="k-prompt">
+    <div class="k-prompt-bar">
+      <p class="k-prompt-k" id="k-prompt-k">Klistra in till din agent</p>
+      <button class="k-copybtn" type="button" data-copy="k-prompt-text">Kopiera</button>
+    </div>
+    <pre id="k-prompt-text" aria-labelledby="k-prompt-k" tabindex="0">Gå igenom min sida mot den här listan, punkt för punkt: krypterad anslutning, säkerhetshuvuden, vanliga attacker (OWASP Top 10), skydd mot spam och överbelastning, kända hål i paketen, hemligheter och personuppgifter i git-historiken, GitHub Actions, tester, tillgänglighet (WCAG 2.2 AA), mobil och flera webbläsare, fart (PageSpeed), felfri HTML och hela länkar, 404-sida, titel, beskrivning och sitemap, delningsbild, favicon, GDPR, kakor och liknande lagring (även localStorage) och samtycke, spårare från andra, licenser, säkerhetskopior, övervakning, felloggning, domänförnyelse, mejlinställningar och kostnadstak.
+
+Mät på den riktiga sidan i stället för att bara läsa koden. Ge varje punkt betyget klar, brister eller gäller inte, med en mening om varför. Rätta det du kan själv och visa att det fungerar efteråt. Det som kräver mitt beslut eller ett konto listar du sist, med en länk till var jag gör det.</pre>
+  </div>
+</section>
+
+<link rel="stylesheet" href="sections/benchmarks.css">
+<section id="benchmarks" class="sec" aria-labelledby="bm-title">
+  <h2 id="bm-title">Benchmarks</h2>
+  <p class="lede">Ett benchmark är ett prov för AI-modeller: samma uppgifter till alla, sedan jämförs poängen. Det gör det möjligt att säga att en modell är bättre än en annan, i alla fall på just de uppgifterna.</p>
+
+  <details class="bm-salt">
+    <summary>Ta dem med en nypa salt</summary>
+    <ul>
+      <li>Ett prov mäter bara det som det testar. En modell som är bäst på matte kan vara medelmåttig på att skriva.</li>
+      <li>Provfrågor läcker ut på nätet och kan hamna i träningsdatan, och då pluggar modellen in svaren i förväg.</li>
+      <li>Samma modell får olika poäng beroende på hur länge den får tänka. Därför har flera modeller en hel linje i diagrammet nedan.</li>
+      <li>Det som räknas i slutändan är hur bra den är på din uppgift. För en vanlig webbsida behöver du sällan den dyraste modellen: GPT-6.1 Sol, GPT-6.1 Terra, GPT-6 Astra, Claude Sonnet 5.5 och DeepSeek-V4.1-Flash når alla minst 45 poäng för under 1 USD per uppgift.</li>
+    </ul>
+  </details>
+
+  <h3>Bra, billig eller båda?</h3>
+  <p class="bm-how">Höjd: poäng i Artificial Analysis Intelligence Index, ett samlat betyg från tio olika prov (kod, forskning, kontorsuppgifter och kunskap). Sidled: vad det i genomsnitt kostar i USD när modellen löser en av provets uppgifter (en fråga eller ett uppdrag), billigare åt vänster. Linjerna binder ihop samma modell med olika lång betänketid, från snabbast och billigast till mest tankearbete. Streckad linje: från äldre till nyare version. Kimi visas med fyrkant och Grok med romb, eftersom deras färger liknar OpenAI:s. Gränserna för rutorna (45 poäng och 1 USD) har vi satt själva.</p>
+
+  <figure class="bm-fig">
+    <div id="bm-chart" class="bm-chart"><p class="bm-nojs">Diagrammet kräver JavaScript. Samma siffror finns i tabellen nedan.</p></div>
+    <figcaption>Källa: <a href="https://artificialanalysis.ai/leaderboards/models">Artificial Analysis, modelltopplistan</a>. Kontrollerad 27 oktober 2026.</figcaption>
+  </figure>
+
+  <div class="bm-table-wrap">
+    <table class="bm-table">
+      <caption>Modellerna i diagrammet, sorterade efter högsta poäng. Ett intervall betyder att modellen testats med olika lång betänketid.</caption>
+      <thead>
+        <tr><th scope="col">#</th><th scope="col">Modell</th><th scope="col">Företag</th><th scope="col"><span class="bm-long">Poäng (index)</span><span class="bm-short" aria-hidden="true">Poäng</span></th><th scope="col"><span class="bm-long">USD per uppgift</span><span class="bm-short" aria-hidden="true">USD</span></th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><th scope="row"><span class="bm-sw" style="--c:var(--bm-anthropic)"></span>Claude Opus 5.5</th><td>Anthropic</td><td>42–58</td><td>0,55–5,98</td></tr>
+        <tr><td>2</td><th scope="row"><span class="bm-sw" style="--c:var(--bm-anthropic)"></span>Claude Sonnet 5.5</th><td>Anthropic</td><td>36–56</td><td>0,35–5,46</td></tr>
+        <tr><td>3</td><th scope="row"><span class="bm-sw" style="--c:var(--bm-moonshot);border-radius:0"></span>Kimi K3.1 Pro</th><td>Moonshot AI</td><td>55</td><td>2,11</td></tr>
+        <tr><td>4</td><th scope="row"><span class="bm-sw" style="--c:var(--bm-anthropic)"></span>Claude Fable 5.1</th><td>Anthropic</td><td>47–53</td><td>2,37–7,63</td></tr>
+        <tr><td>5</td><th scope="row"><span class="bm-sw" style="--c:var(--bm-openai)"></span>GPT-6 Astra</th><td>OpenAI</td><td>46–53</td><td>0,82–3,26</td></tr>
+        <tr><td>6</td><th scope="row"><span class="bm-sw" style="--c:var(--bm-google)"></span>Gemini 4 Argon</th><td>Google</td><td>53</td><td>1,62</td></tr>
+        <tr><td>7</td><th scope="row"><span class="bm-sw" style="--c:var(--bm-openai)"></span>GPT-6.1 Sol</th><td>OpenAI</td><td>42–52</td><td>0,13–0,72</td></tr>
+        <tr><td>8</td><th scope="row"><span class="bm-sw" style="--c:var(--bm-meta)"></span>Muse Wonder</th><td>Meta</td><td>52</td><td>3,27</td></tr>
+        <tr><td>9</td><th scope="row"><span class="bm-sw" style="--c:var(--bm-openai)"></span>GPT-6.1 Terra</th><td>OpenAI</td><td>36–48</td><td>0,05–0,40</td></tr>
+        <tr><td>10</td><th scope="row"><span class="bm-sw" style="--c:var(--bm-xai);border-radius:0;transform:rotate(45deg) scale(0.85)"></span>Grok 4.7</th><td>xAI</td><td>42–46</td><td>1,03–3,24</td></tr>
+        <tr><td>11</td><th scope="row"><span class="bm-sw" style="--c:var(--bm-qwen)"></span>Qwen3.8-Max</th><td>Alibaba (Qwen)</td><td>45</td><td>5,41</td></tr>
+        <tr><td>12</td><th scope="row"><span class="bm-sw" style="--c:var(--bm-deepseek)"></span>DeepSeek-V4.1-Flash</th><td>DeepSeek</td><td>45</td><td>0,26</td></tr>
+        <tr><td>13</td><th scope="row"><span class="bm-sw" style="--c:var(--bm-anthropic)"></span>Claude Haiku 5.5</th><td>Anthropic</td><td>29–43</td><td>0,02–0,21</td></tr>
+        <tr><td>14</td><th scope="row"><span class="bm-sw" style="--c:var(--bm-google)"></span>Gemini 3.8 Flash</th><td>Google</td><td>40–41</td><td>2,59–3,49</td></tr>
+        <tr><td>15</td><th scope="row"><span class="bm-sw" style="--c:var(--bm-meta)"></span>Muse Spark Open</th><td>Meta</td><td>39</td><td>0,84</td></tr>
+        <tr><td>16</td><th scope="row"><span class="bm-sw" style="--c:var(--bm-mistral)"></span>Mistral Large 4 (förhandsversion)</th><td>Mistral AI</td><td>38</td><td>1,61</td></tr>
+        <tr><td>17</td><th scope="row"><span class="bm-sw" style="--c:var(--bm-openai)"></span>GPT-6 Luna</th><td>OpenAI</td><td>30–38</td><td>0,02–0,07</td></tr>
+        <tr><td>18</td><th scope="row"><span class="bm-sw" style="--c:var(--bm-qwen)"></span>Qwen3.8-27B</th><td>Alibaba (Qwen)</td><td>28–34</td><td>1,15–1,27</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="bm-note">Streckade linjer i diagrammet:
+ Gemini 3.1 Pro Preview (30 poäng, 1,44 USD) till Gemini 4 Argon, och DeepSeek-V4-Pro 0813 (36 poäng, 0,67 USD) till DeepSeek-V4.1-Flash. Muse Wonder Full ligger på 56 poäng men saknar kostnadsuppgift och är därför inte med.</p>
+
+  <h3>Här hittar du listorna</h3>
+  <ul class="bm-links">
+    <li><a href="https://artificialanalysis.ai/leaderboards/models">Artificial Analysis</a><span>Samlat index från tio prov, plus pris och hastighet för nästan alla modeller.</span></li>
+    <li><a href="https://arena.ai/leaderboard">Arena</a><span>Hette tidigare LMArena, och adressen lmarena.ai leder hit. Människor röstar blint på vilket av två svar som är bäst. Mäter vad folk föredrar.</span></li>
+    <li><a href="https://epoch.ai/benchmarks">Epoch AI Benchmarking Hub</a><span>Forskningsinstitut som kör egna och andras prov och följer utvecklingen över tid.</span></li>
+    <li><a href="https://www.swebench.com/">SWE-bench</a><span>Riktiga buggar från öppen källkod: kan modellen laga dem?</span></li>
+    <li><a href="https://livebench.ai/">LiveBench</a><span>Svåra, långa uppgifter som byggs så att modellerna inte kan ha sett svaren i förväg.</span></li>
+    <li><a href="https://lastexam.ai/">Humanity's Last Exam</a><span>2 500 mycket svåra frågor i över hundra ämnen, skrivna av experter.</span></li>
+    <li><a href="https://arcprize.org/leaderboard">ARC Prize</a><span>Logiska bildpussel som är lätta för människor men svåra för AI.</span></li>
+    <li><a href="https://metr.org/time-horizons/">METR</a><span>Hur svåra uppgifter en AI-agent klarar, mätt i hur lång tid en mänsklig expert behöver för dem.</span></li>
+  </ul>
+</section>
+<script src="sections/benchmarks.js" defer></script>
+
+<link rel="stylesheet" href="sections/lar.css">
+<section id="lar" class="sec" aria-labelledby="lar-h">
+  <h2 id="lar-h">Det som är värt din tid</h2>
+  <p class="lede">Två svenska grupper där du kan fråga folk, 18 forum på Reddit, 7 Youtubekanaler och 18 andra länkar, allt granskat i oktober 2026. Medlemsantalen är ungefärliga. Allt är gratis att läsa och titta på. Allt utom de svenska grupperna är på engelska. Verktygen själva (till exempel Claude Code) kräver oftast ett betalt abonnemang.</p>
+
+  <div class="groups">
+    <div class="group">
+      <h3>Börja här</h3>
+      <ol>
+        <li><a href="https://anthropic.skilljar.com/claude-101" target="_blank" rel="noopener">Claude 101</a><p>Anthropics startkurs i att använda Claude i vardagen: första samtalet, bättre svar, projekt och kopplingar till dina verktyg. 13 lektioner i fyra delar.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://anthropic.skilljar.com/ai-fluency-framework-foundations" target="_blank" rel="noopener">AI Fluency: framework &amp; foundations</a><p>När du ska lämna över till AI:n, hur du beskriver uppgiften och när du ska granska svaret. 14 lektioner, cirka 4 timmar, gjord tillsammans med två professorer.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://docs.lovable.dev/introduction/getting-started" target="_blank" rel="noopener">Lovable: kom igång</a><p>Bygg och publicera din första app på ungefär tio minuter, utan att installera något. Gratisnivån räcker för att prova.</p><span class="tags">På engelska, gratis att börja</span></li>
+        <li><a href="https://code.claude.com/docs/en/overview" target="_blank" rel="noopener">Claude Code: dokumentationen</a><p>Källan till allt om Claude Code. Installera härifrån och gå sedan vidare till Quickstart, där du gör din första riktiga uppgift.</p><span class="tags">På engelska</span></li>
+      </ol>
+    </div>
+
+    <div class="group">
+      <h3>Anthropics kurser</h3>
+      <ol>
+        <li><a href="https://academy.claude.com/courses/claude-code-101" target="_blank" rel="noopener">Claude Code 101</a><p>Den bästa starten om du vill koda: vad en agent är, installation, arbetsgången utforska, planera, koda, spara. 12 lektioner, cirka 1,5 timme.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://anthropic.skilljar.com/claude-code-in-action" target="_blank" rel="noopener">Claude Code in action</a><p>Nästa steg när du använt Claude Code några veckor: längre pass utan tillsyn, CLAUDE.md, hooks och hur du kontrollerar resultatet. 9 lektioner.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://anthropic.skilljar.com/introduction-to-agent-skills" target="_blank" rel="noopener">Introduction to agent skills</a><p>Lär agenten ditt sätt att jobba en gång, i stället för att förklara det i varje chatt. 6 korta lektioner, från första skill till felsökning.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://academy.claude.com/" target="_blank" rel="noopener">Claude Academy</a><p>Hela kurskatalogen. Nya kurser dyker upp här först.</p><span class="tags">På engelska</span></li>
+      </ol>
+    </div>
+
+    <div class="group">
+      <h3>Fråga folk, på svenska</h3>
+      <ol>
+        <li><a href="https://www.facebook.com/groups/vibecodingsverige/" target="_blank" rel="noopener">Vibe Coding Sverige</a><p>Facebookgruppen för dig som bygger med AI. Visa vad du gjort, fråga när det strular och se hur andra löser samma problem.</p><span class="tags">På svenska</span></li>
+        <li><a href="https://www.facebook.com/groups/594222752463207/" target="_blank" rel="noopener">AI Sverige</a><p>Bredare svensk grupp om AI: nyheter, verktyg och diskussion. Bra för att hänga med utan att läsa engelska källor.</p><span class="tags">På svenska</span></li>
+      </ol>
+    </div>
+
+    <div class="group">
+      <h3>Reddit: bygga med AI</h3>
+      <ol>
+        <li><a href="https://www.reddit.com/r/vibecoding/" target="_blank" rel="noopener">r/vibecoding</a><p>Närmast dig som nybörjare: folk som bygger med AI utan att vara programmerare visar upp, frågar och varnar för fällor. Ungefär 390 000 medlemmar.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.reddit.com/r/ClaudeAI/" target="_blank" rel="noopener">r/ClaudeAI</a><p>Största forumet om Claude: tips, nyheter och svar när något krånglar. Ungefär 1,2 miljoner medlemmar.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.reddit.com/r/ClaudeCode/" target="_blank" rel="noopener">r/ClaudeCode</a><p>Bara Claude Code: arbetssätt, CLAUDE.md-filer och hur andra lägger upp sina projekt. Ungefär 470 000 medlemmar.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.reddit.com/r/lovable/" target="_blank" rel="noopener">r/lovable</a><p>Användarnas eget forum om Lovable. Sök här först när din app beter sig konstigt. Ungefär 57 000 medlemmar.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.reddit.com/r/ChatGPTCoding/" target="_blank" rel="noopener">r/ChatGPTCoding</a><p>Trots namnet om alla kodverktyg med AI: jämförelser, arbetsflöden och vad som håller i praktiken. Ungefär 410 000 medlemmar.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.reddit.com/r/SideProject/" target="_blank" rel="noopener">r/SideProject</a><p>Folk visar sina sidoprojekt och får ärlig respons. Bra för att se vad andra bygger och få kommentarer på ditt eget. Ungefär 880 000 medlemmar.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.reddit.com/r/cursor/" target="_blank" rel="noopener">r/cursor</a><p>För dig som kodar i <a href="https://cursor.com" target="_blank" rel="noopener">Cursor</a>, kodredigeraren med inbyggd AI. Ungefär 160 000 medlemmar.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.reddit.com/r/AI_Agents/" target="_blank" rel="noopener">r/AI_Agents</a><p>Nästa steg: agenter som utför uppgifter på egen hand. Mer tekniskt, och en del inlägg är reklam för egna tjänster. Ungefär 470 000 medlemmar.</p><span class="tags">På engelska</span></li>
+      </ol>
+    </div>
+
+    <div class="group">
+      <h3>Reddit: modeller och nyheter</h3>
+      <ol>
+        <li><a href="https://www.reddit.com/r/OpenAI/" target="_blank" rel="noopener">r/OpenAI</a><p>Nyheter och diskussion om OpenAI och deras modeller. Ungefär 2,9 miljoner medlemmar.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.reddit.com/r/ChatGPT/" target="_blank" rel="noopener">r/ChatGPT</a><p>Det största AI-forumet av alla. Mycket skämt och skärmdumpar, men här märks nya funktioner först. Ungefär 11,7 miljoner medlemmar.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.reddit.com/r/GeminiAI/" target="_blank" rel="noopener">r/GeminiAI</a><p>Googles Gemini: nyheter, tips och jämförelser med andra modeller. Ungefär 400 000 medlemmar.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.reddit.com/r/artificial/" target="_blank" rel="noopener">r/artificial</a><p>Brett nyhetsflöde om AI med lugnare ton än de största forumen. Ungefär 1,4 miljoner medlemmar.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.reddit.com/r/LocalLLaMA/" target="_blank" rel="noopener">r/LocalLLaMA</a><p>Modeller som körs på din egen dator. Tekniskt, men den bästa källan om lokala och öppna modeller. Ungefär 860 000 medlemmar.</p><span class="tags">På engelska</span></li>
+      </ol>
+    </div>
+
+    <div class="group">
+      <h3>Reddit: bild, video och spel</h3>
+      <ol>
+        <li><a href="https://www.reddit.com/r/aivideo/" target="_blank" rel="noopener">r/aivideo</a><p>Filmer gjorda med AI, ofta med beskrivning av vilka verktyg som använts. Ungefär 410 000 medlemmar.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.reddit.com/r/StableDiffusion/" target="_blank" rel="noopener">r/StableDiffusion</a><p>Bilder och video med öppna modeller som du kan köra själv. Massor av guider. Ungefär 1 miljon medlemmar.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.reddit.com/r/generativeAI/" target="_blank" rel="noopener">r/generativeAI</a><p>Bild, video, ljud och text med AI blandat. Bra för att se vad som går att göra just nu. Ungefär 170 000 medlemmar.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.reddit.com/r/aigamedev/" target="_blank" rel="noopener">r/aigamedev</a><p>Spel byggda med hjälp av AI: kod, grafik och ljud. Ungefär 92 000 medlemmar.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.reddit.com/r/threejs/" target="_blank" rel="noopener">r/threejs</a><p>3D på webben med biblioteket three.js. Här ser du vad andra gör med det och får hjälp när något inte syns. Ungefär 59 000 medlemmar.</p><span class="tags">På engelska</span></li>
+      </ol>
+    </div>
+
+    <div class="group">
+      <h3>Bygga med agenter</h3>
+      <ol>
+        <li><a href="https://code.claude.com/docs/en/best-practices" target="_blank" rel="noopener">Så jobbar du bäst med Claude Code</a><p>Anthropics egen genomgång: berätta det agenten inte kan se, ge den något att kontrollera mot, sätt reglerna som aldrig får brytas. Cirka 30 minuters läsning.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener">Model Context Protocol</a><p>Vad MCP är, förklarat som en USB-C-port för AI. Första sidan tar fem minuter och räcker för att förstå kopplingarna; resten är för den som bygger egna.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development" target="_blank" rel="noopener">MDN: Learn web development</a><p>HTML, CSS och JavaScript från början, med övningar. Du behöver förstå vad AI:n skriver åt dig. Börja med modulerna under Getting started.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://github.com/skills/introduction-to-github" target="_blank" rel="noopener">GitHub: Introduction to GitHub</a><p>GitHubs egen övning: gren, commit, pull request och merge, gjort på riktigt i ditt eget konto. Under en timme.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://github.com/anthropics/skills" target="_blank" rel="noopener">anthropics/skills</a><p>Anthropics egna skills som exempel att läsa och låna från, plus en mall att börja din egen med.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://github.com/hesreallyhim/awesome-claude-code" target="_blank" rel="noopener">awesome-claude-code</a><p>Den stora handplockade listan över allt runt Claude Code. Börja i avsnittet Start Here. Det mesta är andras kod: läs innan du installerar.</p><span class="tags">På engelska</span></li>
+      </ol>
+    </div>
+
+    <div class="group">
+      <h3>Titta</h3>
+      <ol>
+        <li><a href="https://www.youtube.com/@claude" target="_blank" rel="noopener">Claude på YouTube</a><p>Anthropics kanal för produkten: korta kom igång-videor och en månadsvis sammanfattning av nyheterna, direkt från dem som bygger verktygen.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.youtube.com/watch?v=LPZh9BOjkQs" target="_blank" rel="noopener">3Blue1Brown: Large language models explained briefly</a><p>Hur en språkmodell fungerar inuti, med animationer och utan matte. 8 minuter.</p><span class="tags">På engelska</span></li>
+      </ol>
+    </div>
+
+    <div class="group">
+      <h3>Youtubekanaler att följa</h3>
+      <ol>
+        <li><a href="https://www.youtube.com/@Fireship" target="_blank" rel="noopener">Fireship</a><p>Kod och teknik på hundra sekunder, snabbt och roligt. Bäst för att förstå vad ett nytt verktyg är innan du lägger tid på det. Ungefär 4,3 miljoner prenumeranter.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.youtube.com/@matthew_berman" target="_blank" rel="noopener">Matthew Berman</a><p>Testar nya AI-modeller och verktyg i stort sett samma dag de släpps. Här hänger du med i vad som händer. Ungefär 640 000 prenumeranter.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.youtube.com/@mattpocockuk" target="_blank" rel="noopener">Matt Pocock</a><p>Mannen bakom ”grill me”. Tydliga genomgångar av hur man jobbar med kodagenter och TypeScript, ofta lite mer avancerat. Ungefär 420 000 prenumeranter.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.youtube.com/@AZisk" target="_blank" rel="noopener">Alex Ziskind</a><p>Kör AI-modeller lokalt på riktig hårdvara och mäter vad som fungerar: Mac, grafikkort och små datorer. Bra innan du köper något. Ungefär 580 000 prenumeranter.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.youtube.com/@KevinStratvert" target="_blank" rel="noopener">Kevin Stratvert</a><p>Lugna steg för steg-guider till vanliga program, ibland om AI-verktyg. Passar dig som är helt ny. Ungefär 4,5 miljoner prenumeranter.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.youtube.com/@RyanLPeterman" target="_blank" rel="noopener">Ryan Peterman</a><p>Intervjuer med erfarna utvecklare om hur AI förändrar jobbet och karriären. Mer utzoomat än handfast. Ungefär 110 000 prenumeranter.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.youtube.com/@shanselman" target="_blank" rel="noopener">Scott Hanselman</a><p>Microsoft-veteran som pratar kod, verktyg och AI med eftertanke. Bra för perspektiv. Ungefär 190 000 prenumeranter.</p><span class="tags">På engelska</span></li>
+      </ol>
+    </div>
+
+    <div class="group">
+      <h3>Hålla sig uppdaterad</h3>
+      <ol>
+        <li><a href="https://simonwillison.net/" target="_blank" rel="noopener">Simon Willison</a><p>Den bästa oberoende bloggen om AI-verktyg. Testar allt nytt och skriver ärligt om vad som håller. Flera inlägg om dagen, så skumma rubrikerna.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://code.claude.com/docs/en/whats-new" target="_blank" rel="noopener">Claude Code: what's new</a><p>En sammanfattning av nyheterna i Claude Code, uppdateras oregelbundet. Lättare att följa än den fullständiga ändringsloggen.</p><span class="tags">På engelska</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+<!--sections:end-->
+
+<footer class="site-foot">
+  <a href="https://buildapp.se/">Buildapp.se</a>
+  <span id="footer-email"></span>
+  <a href="integritet.html" data-i18n="privacy">Integritetspolicy</a>
+</footer>
 <script>
-// Språk: engelska är grund i HTML:en, svenska ligger i data-sv-attribut bredvid varje text.
-// Auto-val via webbläsarspråk första gången, sen minns vi valet. Byte = spara + ladda om.
-var LANG = localStorage.getItem('lang') || ((navigator.language || '').toLowerCase().indexOf('sv') === 0 ? 'sv' : 'en');
-var T = {
-  en: {
-    docTitle: 'Learn Claude Code – a curated resource list'
-  },
-  sv: {
-    docTitle: 'Lär dig Claude Code – en kurerad resurslista'
-  }
-};
-var TT = T[LANG];
-
-if (LANG === 'sv') {
-  document.documentElement.lang = 'sv';
-  document.title = TT.docTitle;
-  document.querySelectorAll('[data-sv]').forEach(function(el){ el.textContent = el.getAttribute('data-sv'); });
-  document.querySelectorAll('[data-sv-ph]').forEach(function(el){ el.placeholder = el.getAttribute('data-sv-ph'); });
-}
-function setLang(l){ localStorage.setItem('lang', l); location.reload(); }
-document.getElementById('langSv').addEventListener('click', function(){ setLang('sv'); });
-document.getElementById('langEn').addEventListener('click', function(){ setLang('en'); });
-document.getElementById(LANG === 'sv' ? 'langSv' : 'langEn').classList.add('active');
-
-// Kartan: en enda observatör driver hela signaturelementet. När en station kommer in i
-// vyn ritas dess linjesegment, pricken tänds, och sidans accentfärg blir fasens färg.
-// Utan JS syns allt ändå, bara den prickade linjen och grå prickar. Inget innehåll göms.
-(function(){
-  var mapEl = document.querySelector('.map');
-  var here = document.getElementById('mapHere');
-  if (!mapEl || !window.IntersectionObserver) return;
-  // Stationen räknas som nådd när den passerat 55 % ner i fönstret, alltså när man läser den.
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if (!e.isIntersecting) return;
-      e.target.classList.add('lit');
-      var phase = e.target.closest('.phase');
-      if (!phase) return;
-      mapEl.dataset.p = phase.dataset.p;
-      here.textContent = LANG === 'sv' ? phase.dataset.nameSv : phase.dataset.name;
-    });
-  }, { rootMargin: '0px 0px -55% 0px' });
-  document.querySelectorAll('.station').forEach(function(s){ io.observe(s); });
-}());
-
-function filterLinks(type, btn) {
-  document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
-  btn.classList.add('active');
-  document.querySelectorAll('.link-section').forEach(function(section) {
-    if (type === 'all' || section.dataset.type === type) {
-      section.classList.remove('hidden');
-    } else {
-      section.classList.add('hidden');
-    }
-  });
-}
-
-// Vy-toggle: kort eller kompakt lista, valet sparas per besökare
-function setView(v){
-  document.body.classList.toggle('view-list', v === 'list');
-  localStorage.setItem('view', v);
-  document.getElementById('viewCards').classList.toggle('active', v === 'cards');
-  document.getElementById('viewList').classList.toggle('active', v === 'list');
-}
-document.getElementById('viewCards').addEventListener('click', function(){ setView('cards'); });
-document.getElementById('viewList').addEventListener('click', function(){ setView('list'); });
-if (localStorage.getItem('view') === 'list') setView('list');
-
-// Beskrivningen som tooltip, sa listlaget inte tappar den.
-document.querySelectorAll('.link-card').forEach(function(card){
-  var sub = card.querySelector('.link-card-sub');
-  if (sub) card.title = sub.textContent;
-});
-
-var u='kontakt';var d='orgutveckling.se';
-var el=document.getElementById('footer-email');
-if(el){var a=document.createElement('a');a.href='mai'+'lto:'+u+'@'+d;a.textContent=u+'@'+d;a.style.color='inherit';el.appendChild(a);}
+// E-mail written by script, not in the HTML, so simple scrapers miss it (same as the old /ai).
+(function(){var u='kontakt',d='buildapp.se',el=document.getElementById('footer-email');if(!el)return;var a=document.createElement('a');a.href='mai'+'lto:'+u+'@'+d;a.textContent=u+'@'+d;el.appendChild(a);})();
 </script>
+
+<script src="app.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,10 @@
+#lar .groups { columns: 3 18rem; column-gap: var(--gutter); }
+#lar .group { break-inside: avoid; margin-bottom: 2.5rem; }
+#lar h3 { margin: 0 0 0.4rem; padding-bottom: 0.7rem; border-bottom: 1px solid var(--line); }
+#lar ol { list-style: none; margin: 0; padding: 0; }
+#lar li { padding: 0.4rem 0 0.9rem; border-bottom: 1px solid var(--line); }
+#lar li > a { display: inline-flex; align-items: center; min-height: 44px; color: var(--text); text-underline-offset: 0.2em; font-weight: 600; overflow-wrap: anywhere; }
+#lar li p { margin: 0 0 0.35rem; color: var(--muted); font-size: 0.95rem; }
+#lar li p a { color: var(--text); }
+#lar .tags { font-size: 0.875rem; color: var(--muted); }
+@media (hover: hover) { #lar li > a:hover { text-decoration-thickness: 2px; } }

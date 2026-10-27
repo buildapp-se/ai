@@ -17,3 +17,6 @@ AGENTS.md
 .vscode/
 _musik/
 .playwright-mcp/
+
+# Gate-skärmbilder (webbverkstad gates/check.mjs skriver dem här), committas inte.
+shots/

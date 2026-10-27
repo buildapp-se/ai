@@ -102,3 +102,4 @@ Read by the cockpit Audits tab. One `- Label: YYYY-MM-DD, result` per check; con
 - WCAG 2.2 AA (automated): 2026-10-06, blocked, 1 targets; 0 failed, 1 blocked; evidence C:/dev/aifabriken/.runs/audits/2026-10-06-batch-a2/ai.json
 - OG image: 2026-10-25, pass, 1200x630 PNG, https://buildapp.se/ai/og.png
 - Database: 2026-10-25, none, localStorage only (KV `VOTES` deleted 2026-09-16)
+- ZAP baseline: 2026-10-27, n/a, static site on GitHub Pages with no server, cookies or forms; headers, TLS and markup are covered by their own columns, so a passive ZAP scan would repeat them

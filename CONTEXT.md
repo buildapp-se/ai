@@ -11,9 +11,8 @@ saker byggs, inte vara en uttömmande katalog.
 - `index.html` innehåller hela sidan: HTML, CSS och JS i en fil, inget byggsteg.
   Serveras som GitHub Pages project site under `buildapp.se/ai/`.
 - **Sidan är helt statisk sedan 2026-08-27.** Ingen backend, inga nätverksanrop
-  utom Google Fonts. `localStorage` används bara till `lang`, `view`,
-  quizets `quiz-mastered` och `quiz-results` (senaste och bästa resultat per
-  quiz). En ny nyckel kräver att `integritet.html` uppdateras. Spelet `./terminal` sparar sina `term-*`-nycklar på samma ursprung men redovisar dem i sin egen `buildapp.se/terminal/integritet.html` (sedan version 2.8 här).
+  utom Google Fonts. `localStorage` används bara till `lang` och `view`
+  (quizets `quiz-mastered` och `quiz-results` föll med quizet 2026-10-27). En ny nyckel kräver att `integritet.html` uppdateras. Spelet `./terminal` sparar sina `term-*`-nycklar på samma ursprung men redovisar dem i sin egen `buildapp.se/terminal/integritet.html` (sedan version 2.8 här).
   Ikonerna (`logo.png`, `favicon.svg`) ligger i repot sedan 2026-09-16; fram
   till dess hotlinkades de från orgutveckling.se, vilket motsade policyn. Sedan
   2026-10-16 är de sidans egna: terminalprompt `>_` på violett `--p1`.
@@ -24,17 +23,10 @@ saker byggs, inte vara en uttömmande katalog.
   `VOTES` raderade i Cloudflare, `worker/` borttagen ur repot. KV innehöll 25
   röstsiffror per länk och ett testförslag, inga personuppgifter.
 
-- `quiz.html` (sedan 2026-10-16) är ett fristående quiz, också en enda fil utan
-  byggsteg, bara svenska. Allt innehåll ligger som data i `QUIZZES` i `quiz-data.js` (egen fil sedan 2026-10-17, eftersom spelet `buildapp.se/terminal/` läser samma frågor till sin bossfråga; ändra formatet bara tillsammans med spelet): flerval
-  (`q`), para ihop (`pairs`) och ordkort (`groups`, felsvar läggs sist i högen som
-  i Quizlet). Ordkorten ligger i grupper av närliggande ord och felalternativen
-  tas ur samma grupp, så att man inte kan utesluta sig fram; två betydelser i en
-  grupp får därför aldrig båda stämma. Svår nivå ligger i `hardGroups`, samma
-  grupper i samma ordning; reglaget i menyn väljer Lätt, Blandat eller Svår, och
-  felalternativen tas alltid ur ordets egen nivå. Nivån sparas inte (det skulle
-  kräva en ny `localStorage`-nyckel). 20 ord per runda, okända först; ord rätt på första
-  försöket sparas i `quiz-mastered`, ett felsvar tar bort ordet igen. Ännu inte
-  länkad från `index.html`, se `BACKLOG.md`.
+- Quizet `quiz.html` (2026-10-16) **togs bort 2026-10-27 på Patriks begäran**,
+  med länkarna i toppfält och sidfot. `quiz-data.js` (`QUIZZES`) ligger kvar bara
+  för att spelet `buildapp.se/terminal/` läser `/ai/quiz-data.js` till sin
+  bossfråga; ändra eller ta bort den bara tillsammans med spelet.
 
 - Spelet `./terminal` låg här som `terminal.html` och flyttade 2026-10-17 till eget repo,
   `buildapp-se/terminal` (lokalt `C:\dev\terminal`), med historiken kvar, live på `buildapp.se/terminal/`. Den gamla adressen togs bort i stället för att skicka vidare: spelet var aldrig länkat. Spelet har

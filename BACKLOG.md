@@ -13,22 +13,15 @@
 
 - [ ] Fler resurser i den kurerade listan.
 
-## Quiz (`quiz.html`)
+## Quiz
 
-- [ ] `resultText()` i `quiz.html`: rubrik och text på resultatsidan efter poäng (Patrik skriver).
-- [x] Länka quizet från `index.html`: toppfältet (dolt på mobil) och sidfoten. Gjort 2026-10-18.
-- [x] Pedagogisk förklaring per felval i flervalsfrågorna (`notes`). Gjort 2026-10-16.
-- [x] Terminalkommandonas namn (`cd` = change directory) visas efter varje omgång. Gjort 2026-10-16.
-- [ ] Programspråk och backend: para ihop-delarna saknar förklaring efter omgången. Förkortningar som HTML, CSS, SQL, API, CDN och VPS kan få samma namnlista som kommandona (tredje fältet i paret).
-- [ ] Dubbletter mellan quizen: Kontextfönster (Grunder steg 6 och Tekniska ord), Databas och API (Backend och Tekniska ord, nästan ordagrant), commit-texten i Tekniska ord upprepas i git-förklaringen. Skriv om Tekniska ord så att de kompletterar (granskning 2026-10-17).
-- [ ] Illustrationer till frågorna (till exempel hur en token delar upp ett ord, eller hur frontend, API och databas hänger ihop).
-- [ ] Engelsk version, som resten av sidan (`data-sv`-mönstret).
+Quizet borttaget 2026-10-27 på Patriks begäran; öppna punkter (resultattext, förklaringar, dubbletter, illustrationer, engelska) stängda med det. `quiz-data.js` kvar för spelets bossfråga.
 
 ## Spelet
 
 Flyttat till `buildapp-se/terminal` 2026-10-17, backloggen där. Kvar här:
 
-- [x] Länka spelet `buildapp.se/terminal/` från `index.html` (kort under station 03) och quizets toppfält. Gjort 2026-10-17.
+- [x] Länka spelet `buildapp.se/terminal/` från `index.html` (kort under station 03) och quizets toppfält. Gjort 2026-10-17 (quizet borttaget 2026-10-27).
 
 ## Granskning 2026-10-06
 

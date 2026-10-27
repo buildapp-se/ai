@@ -4,10 +4,12 @@ status: active
 currentGoal: Hålla AI-resurssidan aktuell
 nextAction: Ny kontaktadress och fler resurser enligt BACKLOG.md
 blockers: []
-reviewedAt: 2026-10-18
+reviewedAt: 2026-10-27
 ---
 
 # Handoff: AI-resurssidan
+
+**2026-10-27, quizet borttaget** på Patriks begäran: `quiz.html` raderad, länkarna i toppfält och sidfot borta, `integritet.html` version 2.9 (bara `lang` och `view` kvar, ändringsstycke om de gamla quiznycklarna). `quiz-data.js` ligger kvar eftersom spelet `buildapp.se/terminal/` läser den till bossfrågan.
 
 **2026-10-17, spelet `./terminal` flyttat** till eget repo `buildapp-se/terminal` (`C:\dev\terminal`, live på `buildapp.se/terminal/`) med historiken kvar; dess handoff och backlog ligger där. Den gamla adressen `terminal.html` är borttagen (ingen länkade till den).
 

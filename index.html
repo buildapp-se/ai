@@ -125,6 +125,7 @@ h1 { font: 700 clamp(1.7rem, 1rem + 2.6vw, 3.3rem)/1.05 var(--display); letter-s
 .cue:hover { color: var(--text); }
 .is-focused .cue { opacity: 0; pointer-events: none; }
 @keyframes cue-bob { 50% { transform: translateY(6px); } }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } } /* the cue and every #anchor glide instead of jumping */
 .zoom { position: absolute; z-index: 5; left: var(--edge); bottom: calc(var(--gutter) + 2.2rem); display: flex; gap: 0.4rem; }
 .zoom .btn { min-width: 44px; padding: 0.4rem; font: 700 1.2rem/1 var(--display); background: var(--sheet); }
 .is-narrow.is-focused .zoom { bottom: calc(56svh + 0.6rem); } /* phones: just above the sheet, clear of the heading */

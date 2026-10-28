@@ -5,6 +5,11 @@
 
 #benchmarks .bm-salt { border: 1px solid var(--line); border-radius: var(--radius); padding: 0 1rem; }
 #benchmarks .bm-salt summary { min-height: 44px; display: flex; align-items: center; font-weight: 600; cursor: pointer; }
+#benchmarks .bm-salt summary { list-style: none; justify-content: space-between; gap: 1rem; }
+#benchmarks .bm-salt summary::-webkit-details-marker { display: none; }
+#benchmarks .bm-salt summary::after { content: "Visa ▾"; font-weight: 600; font-size: 0.9rem; color: var(--muted); white-space: nowrap; }
+#benchmarks .bm-salt[open] summary::after { content: "Dölj ▴"; }
+@media (hover: hover) { #benchmarks .bm-salt summary:hover::after { color: var(--text); } }
 #benchmarks .bm-salt ul { margin: 0 0 1rem; padding-left: 1.2rem; }
 #benchmarks .bm-salt li { margin: 0.35rem 0; }
 

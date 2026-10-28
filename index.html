@@ -468,6 +468,279 @@ h1 { font: 700 clamp(1.7rem, 1rem + 2.6vw, 3.3rem)/1.05 var(--display); letter-s
   <p class="src">Stegen följer GitHubs egen guide: <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site">Configuring a publishing source</a>. Sidan blir alltid offentlig på internet.</p>
 </section>
 
+<link rel="stylesheet" href="sections/grilla.css">
+<section id="grilla" class="sec" aria-labelledby="grilla-h">
+  <div class="g-grid">
+    <div class="g-copy">
+      <p class="eyebrow">Arbetssätt</p>
+      <h2 id="grilla-h">Låt AI:n fråga ut dig</h2>
+      <p class="lede">Skriv en mening om vad du vill bygga. Be sedan agenten ställa ungefär <strong>20 frågor</strong> innan den skriver en enda rad kod. Du svarar med vanliga ord, ingen teknik krävs. Frågorna hittar luckorna du inte visste fanns, och resultatet blir oftast bättre än med en lång beskrivning.</p>
+
+      <div class="g-skill">
+        <p class="g-skill-k">Idén kommer från</p>
+        <p class="g-skill-t"><strong>grill me</strong>, en skill av <a href="https://www.youtube.com/@mattpocockuk" target="_blank" rel="noopener">Matt Pocock</a></p>
+        <p>En skill är en färdig instruktion till agenten, som den följer när du ber om det. Matt Pocock är TypeScript-lärare och delar sina skills öppet på GitHub. Skillen <em>grill me</em> startar en intervju som pågår tills alla val i planen är gjorda, ett i taget. Agenten ställer frågorna i omgångar, numrerar dem och föreslår ett eget svar på varje, så att du kan svara ”ja” eller ändra. Fakta letar den upp själv. Besluten lämnar den till dig.</p>
+        <a class="g-link" href="https://github.com/mattpocock/skills/tree/main/skills/productivity/grill-me">Se grill me på GitHub</a>
+      </div>
+
+      <div class="g-prompt">
+        <div class="g-prompt-bar">
+          <p class="g-prompt-k" id="g-prompt-k">Utan att installera något: klistra in i valfri chatt eller agent</p>
+          <button class="g-copybtn" type="button" data-copy="g-prompt-text">Kopiera</button>
+        </div>
+        <pre id="g-prompt-text" aria-labelledby="g-prompt-k" tabindex="0">Jag vill bygga: [beskriv i en mening].
+
+Innan du skriver någon kod, intervjua mig. Ställ ungefär 20 frågor, några i taget och numrerade. Ge ditt eget förslag på svar till varje fråga, så att jag kan svara ja eller ändra. Fråga om allt som påverkar resultatet: vem som ska använda det, vad som är viktigast och vad som ska hända när något går fel. Sådant du kan ta reda på själv letar du upp i stället för att fråga. Jag är inte tekniker, så skriv enkelt.
+
+När inga frågor återstår: sammanfatta planen i punktform och vänta på mitt ok innan du börjar.</pre>
+      </div>
+    </div>
+
+    <figure class="g-chat" aria-labelledby="g-chat-cap">
+      <div class="g-chat-top">
+        <span class="g-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <figcaption id="g-chat-cap">Exempel: en förälder i fotbollslaget</figcaption>
+        <button class="g-replay" type="button" hidden>Spela upp</button>
+      </div>
+      <div class="g-progress" aria-hidden="true"><span></span></div>
+      <ol class="g-log">
+        <li class="g-msg g-me"><span class="g-who">Du</span>Jag vill ha en sida där föräldrarna ser vem som kör till bortamatcherna.</li>
+        <li class="g-msg g-ai"><span class="g-who">Agent: fråga 1</span>Ska föräldrarna logga in, eller räcker en hemlig länk? <span class="g-sugg">Mitt förslag: en hemlig länk, då slipper ni lösenord.</span></li>
+        <li class="g-msg g-me">Länk räcker.</li>
+        <li class="g-msg g-ai"><span class="g-who">Agent: fråga 2</span>Vem lägger in matcherna? <span class="g-sugg">Förslag: tränaren, en gång per säsong.</span></li>
+        <li class="g-msg g-me">Ja, tränaren.</li>
+        <li class="g-msg g-ai"><span class="g-who">Agent: fråga 3</span>Hur många barn får plats i en bil? <span class="g-sugg">Förslag: fyra, så räcker en vanlig bil.</span></li>
+        <li class="g-msg g-me">Ja, fyra.</li>
+        <li class="g-msg g-ai"><span class="g-who">Agent: fråga 4</span>Vad ska hända om ingen har anmält sig tre dagar före en match? <span class="g-sugg">Förslag: ett mejl till alla föräldrar.</span></li>
+        <li class="g-msg g-me">Bra, gör så.</li>
+        <li class="g-skip">+ 16 frågor till om mobil, utseende och vem som får ändra</li>
+        <li class="g-plan">
+          <p class="g-plan-k">Planen agenten bygger efter</p>
+          <ul>
+            <li>Mobilsida bakom en hemlig länk, ingen inloggning</li>
+            <li>Tränaren lägger in säsongens matcher</li>
+            <li>Föräldrar skriver upp sig på en bil med fyra platser</li>
+            <li>Saknas förare tre dagar före går ett mejl ut</li>
+          </ul>
+          <p class="g-plan-foot"><span>20 beslut fattade</span></p>
+
+        </li>
+      </ol>
+    </figure>
+  </div>
+</section>
+<script src="sections/grilla.js" defer></script>
+
+<link rel="stylesheet" href="sections/verifiera.css">
+<section id="verifiera" class="sec" aria-labelledby="verifiera-h">
+  <div class="v-head">
+    <p class="eyebrow">Arbetssätt</p>
+    <h2 id="verifiera-h">Låt AI:n granska sitt eget arbete</h2>
+    <p class="lede">En agent som inte kan se resultatet gissar, och säger ”klart” ändå. Ge den ett sätt att kontrollera, så hittar och rättar den sina egna fel innan du ens ser dem. Det finns flera sätt, från blixtsnabba till nästan mänskliga. Bäst är att använda flera. Bygger du i Lovable eller Replit: be den testa i förhandsvisningen och visa en skärmbild av resultatet.</p>
+  </div>
+
+  <h3 class="v-sub">Stegen, från snabbast till mest verklig</h3>
+  <ol class="v-ladder">
+    <li style="--i:0">
+      <div class="v-step">
+        <p class="v-time">Under en sekund</p>
+        <h4>Typkontroll och kompilator</h4>
+        <p>Programmet läser koden innan den körs. Fångar felstavade namn, saknade fält och fel sorts värde.</p>
+        <p class="v-tools"><a href="https://www.typescriptlang.org" target="_blank" rel="noopener">TypeScript</a>, Rust, Swift, Kotlin, Go</p>
+      </div>
+      <div class="v-riser" aria-hidden="true"><span>1</span></div>
+    </li>
+    <li style="--i:1">
+      <div class="v-step">
+        <p class="v-time">Sekunder</p>
+        <h4>Linter</h4>
+        <p>Letar efter slarv och kända fallgropar: kod som aldrig används, kod som inte väntar på svar, riskabla mönster.</p>
+        <p class="v-tools"><a href="https://eslint.org" target="_blank" rel="noopener">ESLint</a>, <a href="https://biomejs.dev" target="_blank" rel="noopener">Biome</a>, <a href="https://docs.astral.sh/ruff/" target="_blank" rel="noopener">Ruff</a></p>
+      </div>
+      <div class="v-riser" aria-hidden="true"><span>2</span></div>
+    </li>
+    <li style="--i:2">
+      <div class="v-step">
+        <p class="v-time">Sekunder</p>
+        <h4>Tester</h4>
+        <p>Små program som kör din kod och jämför svaret med det rätta. Fångar logik som räknar fel och gammalt som går sönder.</p>
+        <p class="v-tools"><a href="https://vitest.dev" target="_blank" rel="noopener">Vitest</a>, <a href="https://jestjs.io" target="_blank" rel="noopener">Jest</a>, <a href="https://docs.pytest.org" target="_blank" rel="noopener">pytest</a></p>
+      </div>
+      <div class="v-riser" aria-hidden="true"><span>3</span></div>
+    </li>
+    <li style="--i:3">
+      <div class="v-step">
+        <p class="v-time">Tiotals sekunder</p>
+        <h4>Kör appen och ta skärmbilder</h4>
+        <p>Agenten öppnar sidan i mobil- och datorstorlek och tittar. Fångar trasig layout och felmeddelanden i konsolen (webbläsarens logg över fel).</p>
+        <p class="v-tools"><a href="https://playwright.dev" target="_blank" rel="noopener">Playwright</a>, <a href="https://github.com/ChromeDevTools/chrome-devtools-mcp" target="_blank" rel="noopener">Chrome DevTools MCP</a><a class="v-star" href="#v-mcp" aria-label="Vad är MCP?">*</a></p>
+      </div>
+      <div class="v-riser" aria-hidden="true"><span>4</span></div>
+    </li>
+    <li style="--i:4">
+      <div class="v-step">
+        <p class="v-time">Minuter</p>
+        <h4>Styr en riktig webbläsare</h4>
+        <p>Klickar, skriver och går igenom flödet som en människa. Fångar knappar som inte gör något och formulär som fastnar.</p>
+        <p class="v-tools"><a href="https://learn.chatgpt.com/docs/chrome-extension" target="_blank" rel="noopener">Codex</a>, <a href="https://claude.com/claude-in-chrome" target="_blank" rel="noopener">Claude i Chrome</a>, Playwright</p>
+      </div>
+      <div class="v-riser" aria-hidden="true"><span>5</span></div>
+    </li>
+  </ol>
+  <p class="v-axis" aria-hidden="true"><span>Snabbt och billigt</span><span>Närmast verkligheten</span></p>
+  <p class="v-mcp" id="v-mcp"><strong>* MCP</strong> står för <a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener">Model Context Protocol</a>, ett öppet standardsätt att koppla nya verktyg till en AI-agent. En MCP-server ger agenten en ny förmåga: styra webbläsaren, läsa ditt GitHub-repo, fråga en databas eller öppna en Figma-skiss. Det finns tusentals, och de flesta agenter (Claude Code, Codex, Cursor med flera) kan använda dem. Många agenter har dessutom egna plugins och skills, färdiga instruktioner och verktyg du lägger till. Lägg bara till sådana du litar på: agenten får göra allt verktyget kan göra.</p>
+
+  <div class="v-duo">
+    <div class="v-card v-ts">
+      <p class="v-card-k">Därför TypeScript</p>
+      <p>TypeScript passar agenter just för att det säger ifrån direkt. Skriver agenten fel ger typkontrollen ett felmeddelande med fil och rad, och agenten rättar innan något körs. Samma sak gäller allt som <strong>kompileras</strong> (översätts till ett körbart program innan det körs), som Rust, Swift och Kotlin: bygget går inte igenom, och agenten märker själv att något är fel.</p>
+      <pre class="v-term" aria-label="Exempel på ett fel från typkontrollen"><span class="v-dim">$ npx tsc</span>
+<span class="v-err">src/bil.ts:12:5</span> Property 'platser' is missing.
+<span class="v-dim">Agenten:</span> Jag rättar fältet och kör igen.
+<span class="v-ok">Inga fel.</span></pre>
+    </div>
+    <div class="v-card v-tests">
+      <p class="v-card-k">Därför ska agenten skriva tester</p>
+      <ul>
+        <li><strong>Ett test är ett löfte i kod.</strong> Det som fungerade i går måste fungera i dag, även när något nytt läggs till.</li>
+        <li><strong>Agenten glömmer, testerna minns.</strong> Nästa session vet ingenting om förra, men testerna finns kvar och säger till.</li>
+        <li><strong>Den tröttnar aldrig.</strong> Agenten kan köra hundra tester efter varje ändring. Det orkar ingen människa.</li>
+        <li><strong>Automatiskt vid varje ändring.</strong> Med CI (automatisk kontroll på GitHub), till exempel <a href="https://github.com/features/actions" target="_blank" rel="noopener">GitHub Actions</a>, körs testerna varje gång koden skickas upp.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="v-sub">Verktygen som låter agenten se webbläsaren</h3>
+  <div class="v-tablewrap">
+    <table class="v-matrix" data-sortable>
+      <caption class="v-sr">Vilka webbläsare varje verktyg kan styra</caption>
+      <thead>
+        <tr><th scope="col">Verktyg</th><th scope="col">Chrome</th><th scope="col">Edge</th><th scope="col">Firefox</th><th scope="col"><span class="v-th-long">Safari-motorn</span><span class="v-th-short" aria-hidden="true">Safari</span></th><th scope="col" class="v-note-h">Bra att veta</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Codex<small>tillägg i webbläsaren</small></th>
+          <td class="y"><span>Ja</span></td><td class="y"><span>Ja</span></td><td class="n"><span>Nej</span></td><td class="n"><span>Nej</span></td>
+          <td class="v-note">Fungerar även i Brave, Opera och Vivaldi. Appen har dessutom en inbyggd webbläsare som räcker för att testa din egen sida.</td>
+        </tr>
+        <tr>
+          <th scope="row">Claude i Chrome<small>tillägg i webbläsaren</small></th>
+          <td class="y"><span>Ja</span></td><td class="y"><span>Ja</span></td><td class="n"><span>Nej</span></td><td class="n"><span>Nej</span></td>
+          <td class="v-note">Kräver betald plan. Claude Code hittar tillägget även i Brave, Arc, Vivaldi och Opera.</td>
+        </tr>
+        <tr>
+          <th scope="row">Playwright<small>gratis, från Microsoft</small></th>
+          <td class="y"><span>Ja</span></td><td class="y"><span>Ja</span></td><td class="y"><span>Ja</span></td><td class="y"><span>Ja</span></td>
+          <td class="v-note">Bredast stöd. Kör osynligt i bakgrunden, perfekt för tester som agenten skriver och kör själv.</td>
+        </tr>
+        <tr>
+          <th scope="row">Chrome DevTools MCP<small>från Googles Chrome-team</small></th>
+          <td class="y"><span>Ja</span></td><td class="m"><span>Ej officiellt</span></td><td class="n"><span>Nej</span></td><td class="n"><span>Nej</span></td>
+          <td class="v-note">Ser konsolen, nätverket och hur snabb sidan är. Officiellt bara Chrome.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <div class="v-prompt">
+    <div class="v-prompt-bar">
+      <p class="v-prompt-k" id="v-prompt-k">Lägg till sist i varje uppdrag</p>
+      <button class="v-copybtn" type="button" data-copy="v-prompt-text">Kopiera</button>
+    </div>
+    <pre id="v-prompt-text" aria-labelledby="v-prompt-k" tabindex="0">Innan du säger att du är klar: bevisa att det fungerar. Kör typkontrollen och testerna, och skriv nya tester för det du har byggt. Öppna sidan i en riktig webbläsare, ta skärmbilder i mobil- och datorstorlek och titta på dem. Kontrollera att konsolen inte visar några fel. Rätta det du hittar och kör allt igen.</pre>
+  </div>
+</section>
+
+<link rel="stylesheet" href="sections/koll.css">
+<section id="koll" class="sec" aria-labelledby="koll-h">
+  <p class="eyebrow">Innan du publicerar</p>
+  <h2 id="koll-h">Det här ska din sida klara</h2>
+  <p class="lede">En checklista i sju delar, från säkerhet till drift. Allt går att kolla gratis, och det mesta kan agenten göra åt dig. Kolla allt du kan klicka på själv, och ge resten till agenten med texten längst ner.</p>
+
+  <div class="k-groups">
+    <div class="k-group">
+      <h3>Säkerhet</h3>
+      <ul>
+        <li><h4>Krypterad anslutning</h4><p>Sidan ska bara gå att nå via https, och http ska skicka vidare dit. Annars kan andra på samma wifi läsa och ändra trafiken.</p><p class="k-how">Kolla: <a href="https://www.ssllabs.com/ssltest/" target="_blank" rel="noopener">SSL Labs</a>, sikta på betyget A</p></li>
+        <li><h4>Säkerhetshuvuden</h4><p>Små instruktioner servern skickar med varje sida, som talar om för webbläsaren vad som är tillåtet. De försvårar flera vanliga attacker.</p><p class="k-how">Kolla: <a href="https://developer.mozilla.org/en-US/observatory" target="_blank" rel="noopener">Mozilla Observatory</a>, <a href="https://securityheaders.com/" target="_blank" rel="noopener">securityheaders.com</a></p></li>
+        <li><h4>Vanliga attacker</h4><p>De tio största riskkategorierna enligt OWASP, till exempel att se någon annans data genom att ändra ett nummer i adressen. Viktigast om sidan har inloggning.</p><p class="k-how">Kolla: <a href="https://owasp.org/Top10/" target="_blank" rel="noopener">OWASP Top 10</a> som lista till agenten, <a href="https://www.zaproxy.org/docs/docker/baseline-scan/" target="_blank" rel="noopener">ZAP:s passiva skanning (baseline)</a>, som bara tittar och inte attackerar</p></li>
+        <li><h4>Skydd mot spam och överbelastning</h4><p>Formulär och knappar som sparar något behöver ett tak, annars kan ett skript fylla din databas på en natt.</p><p class="k-how">Gratis: <a href="https://www.cloudflare.com/application-services/products/turnstile/" target="_blank" rel="noopener">Cloudflare Turnstile</a> mot robotar, plus en gräns per användare och dag</p></li>
+      </ul>
+    </div>
+
+    <div class="k-group">
+      <h3>Koden</h3>
+      <ul>
+        <li><h4>Kända hål i paketen</h4><p>Din sida bygger på kod andra skrivit. När ett hål hittas i den kod du lånat behöver du uppdatera.</p><p class="k-how">Kolla: <a href="https://docs.npmjs.com/cli/commands/npm-audit" target="_blank" rel="noopener">npm audit</a> före varje publicering</p></li>
+        <li><h4>Inga hemligheter i koden</h4><p>Lösenord och API-nycklar får aldrig ligga i koden, inte ens i en gammal version. Den som ser historiken ser nyckeln.</p><p class="k-how">Kolla: <a href="https://github.com/gitleaks/gitleaks" target="_blank" rel="noopener">gitleaks</a>, <a href="https://docs.github.com/en/code-security/secret-scanning/introduction/about-secret-scanning" target="_blank" rel="noopener">GitHubs hemlighetsskanning</a></p></li>
+        <li><h4>Inga personuppgifter i historiken</h4><p>Innan ett repo blir publikt: sök igenom alla gamla versioner efter namn och adresser. Det som raderats i dag finns kvar i historiken.</p><p class="k-how">Kolla: be agenten söka igenom hela git-historiken</p></li>
+        <li><h4>Säkra automatiska flöden</h4><p>Har du GitHub Actions (kod som körs automatiskt på GitHub) ska lånade steg vara låsta till en exakt commit (SHA) och ha så lite behörighet som möjligt.</p><p class="k-how">Kolla: <a href="https://github.com/zizmorcore/zizmor" target="_blank" rel="noopener">zizmor</a></p></li>
+        <li><h4>Tester som faktiskt säger ifrån</h4><p>Ett test som aldrig blir rött skyddar inget. Mutationstest ändrar koden med flit och ser om testerna märker det.</p><p class="k-how">Kolla: <a href="https://stryker-mutator.io" target="_blank" rel="noopener">Stryker</a></p></li>
+      </ul>
+    </div>
+
+    <div class="k-group">
+      <h3>Alla ska kunna använda den</h3>
+      <ul>
+        <li><h4>Tillgänglighet</h4><p>Sidan ska fungera med skärmläsare och tangentbord, och texten ska synas tydligt mot bakgrunden. För offentlig sektor är det lag.</p><p class="k-how">Kolla: <a href="https://wave.webaim.org" target="_blank" rel="noopener">WAVE</a>, och gå igenom sidan med bara Tab-tangenten. Måttstock: <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank" rel="noopener">WCAG 2.2 AA</a></p></li>
+        <li><h4>Lätt att använda</h4><p>Knappar stora nog för en tumme (minst 44 pixlar), svar direkt på varje klick och få val åt gången.</p><p class="k-how">Läs: <a href="https://lawsofux.com" target="_blank" rel="noopener">Laws of UX</a></p></li>
+        <li><h4>Mobil och flera webbläsare</h4><p>De flesta besökare kommer från mobilen, och Safari och Firefox visar ibland saker annorlunda än Chrome.</p><p class="k-how">Kolla: <a href="https://developer.chrome.com/docs/devtools/device-mode" target="_blank" rel="noopener">mobilläget i Chrome</a>, <a href="https://playwright.dev" target="_blank" rel="noopener">Playwright</a> för Firefox och Safari-motorn</p></li>
+      </ul>
+    </div>
+
+    <div class="k-group">
+      <h3>Fart</h3>
+      <ul>
+        <li><h4>Snabb på en vanlig mobil</h4><p>Sidan ska visa sitt viktigaste innehåll inom 2,5 sekunder och inte hoppa runt medan den laddar. Långsamma sidor lämnas och rankas lägre.</p><p class="k-how">Kolla: <a href="https://pagespeed.web.dev" target="_blank" rel="noopener">PageSpeed Insights</a>, sikta på 90 eller mer</p></li>
+      </ul>
+    </div>
+
+    <div class="k-group">
+      <h3>Synas på nätet</h3>
+      <ul>
+        <li><h4>Felfri kod och hela länkar</h4><p>Trasig HTML kan se rätt ut i en webbläsare och fel i en annan, och döda länkar får sidan att se övergiven ut.</p><p class="k-how">Kolla: <a href="https://validator.w3.org/nu/" target="_blank" rel="noopener">W3C-validatorn</a>, <a href="https://validator.w3.org/checklink" target="_blank" rel="noopener">W3C:s länkkontroll</a></p></li>
+        <li><h4>En riktig 404-sida</h4><p>En adress som inte finns ska ge en hjälpsam sida med väg tillbaka, och svara ”404” så att Google inte sparar den.</p><p class="k-how">Kolla: skriv en påhittad adress på din sida och se vad som händer</p></li>
+        <li><h4>Google hittar sidan</h4><p>Titel och beskrivning på varje sida, en sitemap (lista över alla sidor) och inget som av misstag säger åt Google att låta bli.</p><p class="k-how">Kolla: <a href="https://search.google.com/search-console/about" target="_blank" rel="noopener">Google Search Console</a></p></li>
+        <li><h4>Delningsbild</h4><p>När någon delar länken i Messenger eller på LinkedIn ska en bild och en rubrik synas, inte en grå ruta.</p><p class="k-how">Kolla: <a href="https://www.opengraph.xyz" target="_blank" rel="noopener">opengraph.xyz</a></p></li>
+        <li><h4>Ikon i fliken</h4><p>En favicon (den lilla ikonen i webbläsarfliken) gör sidan lätt att hitta bland tjugo öppna flikar och i bokmärken.</p><p class="k-how">Kolla: <a href="https://realfavicongenerator.net/favicon-checker" target="_blank" rel="noopener">Favicon checker</a></p></li>
+      </ul>
+    </div>
+
+    <div class="k-group">
+      <h3>Juridik och integritet</h3>
+      <ul>
+        <li><h4>Personuppgifter enligt GDPR</h4><p>Sparar sidan namn, mejl eller annat om människor ska du kunna säga varför, hur länge och hur man får det raderat.</p><p class="k-how">Läs: <a href="https://www.imy.se/verksamhet/dataskydd/det-har-galler-enligt-gdpr/" target="_blank" rel="noopener">IMY om GDPR</a></p></li>
+        <li><h4>Kakor och samtycke</h4><p>Kakor och liknande lagring (även localStorage) som inte behövs för att sidan ska fungera, till exempel för statistik och reklam, kräver ett ja från besökaren innan de sätts.</p><p class="k-how">Läs: <a href="https://www.pts.se/internet-och-telefoni/kakor-cookies/" target="_blank" rel="noopener">PTS om kakor</a></p></li>
+        <li><h4>Inga oväntade spårare</h4><p>Typsnitt, kartor och videoklipp från andra kan skicka dina besökares adresser vidare utan att du vet om det.</p><p class="k-how">Kolla: <a href="https://themarkup.org/blacklight" target="_blank" rel="noopener">Blacklight</a></p></li>
+        <li><h4>Rätt att använda bilder och typsnitt</h4><p>Allt du inte gjort själv har en licens. Kolla att den tillåter din användning, och skriv ut upphovspersonen där licensen kräver det.</p><p class="k-how">Kolla: licensen där du hämtade filen</p></li>
+      </ul>
+    </div>
+
+    <div class="k-group">
+      <h3>Drift</h3>
+      <ul>
+        <li><h4>Säkerhetskopior som går att återställa</h4><p>En kopia du aldrig provat att läsa tillbaka är en förhoppning. Återställ en gång till ett testställe, så vet du.</p><p class="k-how">Kolla: be agenten exportera databasen och läsa in den på nytt</p></li>
+        <li><h4>Du får veta när den ligger nere</h4><p>En tjänst som besöker sidan med jämna mellanrum och mejlar dig när den inte svarar.</p><p class="k-how">Gratis: <a href="https://uptimerobot.com" target="_blank" rel="noopener">UptimeRobot</a></p></li>
+        <li><h4>Du får veta när något går fel</h4><p>Fel som besökarna får ska hamna i en logg du ser, inte bara försvinna.</p><p class="k-how">Gratis att börja: <a href="https://sentry.io" target="_blank" rel="noopener">Sentry</a></p></li>
+        <li><h4>Domänen förnyas</h4><p>Glömmer du att betala tar någon annan adressen. Slå på automatisk förnyelse och skriv upp när den går ut.</p><p class="k-how">Läs: <a href="https://internetstiftelsen.se/domaner/" target="_blank" rel="noopener">Internetstiftelsen om domäner</a></p></li>
+        <li><h4>Mejl som kommer fram</h4><p>Skickar sidan mejl behöver domänen SPF, DKIM och DMARC, tre inställningar som visar att mejlet verkligen kommer från dig. Annars hamnar det i skräpposten.</p><p class="k-how">Kolla: <a href="https://internet.nl" target="_blank" rel="noopener">internet.nl</a>, testet för e-post</p></li>
+        <li><h4>Tak för kostnader</h4><p>AI-tjänster och molntjänster tar betalt per anrop. Sätt ett utgiftstak och en gräns per dag, så kostar en bugg inte tusentals kronor.</p><p class="k-how">Kolla: inställningarna för betalning och gränser hos varje tjänst du använder</p></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="k-prompt">
+    <div class="k-prompt-bar">
+      <p class="k-prompt-k" id="k-prompt-k">Klistra in till din agent</p>
+      <button class="k-copybtn" type="button" data-copy="k-prompt-text">Kopiera</button>
+    </div>
+    <pre id="k-prompt-text" aria-labelledby="k-prompt-k" tabindex="0">Gå igenom min sida mot den här listan, punkt för punkt: krypterad anslutning, säkerhetshuvuden, vanliga attacker (OWASP Top 10), skydd mot spam och överbelastning, kända hål i paketen, hemligheter och personuppgifter i git-historiken, GitHub Actions, tester, tillgänglighet (WCAG 2.2 AA), mobil och flera webbläsare, fart (PageSpeed), felfri HTML och hela länkar, 404-sida, titel, beskrivning och sitemap, delningsbild, favicon, GDPR, kakor och liknande lagring (även localStorage) och samtycke, spårare från andra, licenser, säkerhetskopior, övervakning, felloggning, domänförnyelse, mejlinställningar och kostnadstak.
+
+Mät på den riktiga sidan i stället för att bara läsa koden. Ge varje punkt betyget klar, brister eller gäller inte, med en mening om varför. Rätta det du kan själv och visa att det fungerar efteråt. Det som kräver mitt beslut eller ett konto listar du sist, med en länk till var jag gör det.</pre>
+  </div>
+</section>
+
 <link rel="stylesheet" href="sections/andra.css">
 <section id="andra" class="sec" aria-labelledby="andra-h">
   <h2 id="andra-h">Andra sorters AI</h2>
@@ -745,279 +1018,6 @@ h1 { font: 700 clamp(1.7rem, 1rem + 2.6vw, 3.3rem)/1.05 var(--display); letter-s
   <p class="d-note"><strong>Den här sidan är ren frontend.</strong> Servern skickar bara över filerna, sedan ritar din egen dator hela solsystemet med HTML, CSS, JavaScript och three.js.</p>
 </section>
 <script src="sections/datorn.js" defer></script>
-
-<link rel="stylesheet" href="sections/grilla.css">
-<section id="grilla" class="sec" aria-labelledby="grilla-h">
-  <div class="g-grid">
-    <div class="g-copy">
-      <p class="eyebrow">Arbetssätt</p>
-      <h2 id="grilla-h">Låt AI:n fråga ut dig</h2>
-      <p class="lede">Skriv en mening om vad du vill bygga. Be sedan agenten ställa ungefär <strong>20 frågor</strong> innan den skriver en enda rad kod. Du svarar med vanliga ord, ingen teknik krävs. Frågorna hittar luckorna du inte visste fanns, och resultatet blir oftast bättre än med en lång beskrivning.</p>
-
-      <div class="g-skill">
-        <p class="g-skill-k">Idén kommer från</p>
-        <p class="g-skill-t"><strong>grill me</strong>, en skill av <a href="https://www.youtube.com/@mattpocockuk" target="_blank" rel="noopener">Matt Pocock</a></p>
-        <p>En skill är en färdig instruktion till agenten, som den följer när du ber om det. Matt Pocock är TypeScript-lärare och delar sina skills öppet på GitHub. Skillen <em>grill me</em> startar en intervju som pågår tills alla val i planen är gjorda, ett i taget. Agenten ställer frågorna i omgångar, numrerar dem och föreslår ett eget svar på varje, så att du kan svara ”ja” eller ändra. Fakta letar den upp själv. Besluten lämnar den till dig.</p>
-        <a class="g-link" href="https://github.com/mattpocock/skills/tree/main/skills/productivity/grill-me">Se grill me på GitHub</a>
-      </div>
-
-      <div class="g-prompt">
-        <div class="g-prompt-bar">
-          <p class="g-prompt-k" id="g-prompt-k">Utan att installera något: klistra in i valfri chatt eller agent</p>
-          <button class="g-copybtn" type="button" data-copy="g-prompt-text">Kopiera</button>
-        </div>
-        <pre id="g-prompt-text" aria-labelledby="g-prompt-k" tabindex="0">Jag vill bygga: [beskriv i en mening].
-
-Innan du skriver någon kod, intervjua mig. Ställ ungefär 20 frågor, några i taget och numrerade. Ge ditt eget förslag på svar till varje fråga, så att jag kan svara ja eller ändra. Fråga om allt som påverkar resultatet: vem som ska använda det, vad som är viktigast och vad som ska hända när något går fel. Sådant du kan ta reda på själv letar du upp i stället för att fråga. Jag är inte tekniker, så skriv enkelt.
-
-När inga frågor återstår: sammanfatta planen i punktform och vänta på mitt ok innan du börjar.</pre>
-      </div>
-    </div>
-
-    <figure class="g-chat" aria-labelledby="g-chat-cap">
-      <div class="g-chat-top">
-        <span class="g-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-        <figcaption id="g-chat-cap">Exempel: en förälder i fotbollslaget</figcaption>
-        <button class="g-replay" type="button" hidden>Spela upp</button>
-      </div>
-      <div class="g-progress" aria-hidden="true"><span></span></div>
-      <ol class="g-log">
-        <li class="g-msg g-me"><span class="g-who">Du</span>Jag vill ha en sida där föräldrarna ser vem som kör till bortamatcherna.</li>
-        <li class="g-msg g-ai"><span class="g-who">Agent: fråga 1</span>Ska föräldrarna logga in, eller räcker en hemlig länk? <span class="g-sugg">Mitt förslag: en hemlig länk, då slipper ni lösenord.</span></li>
-        <li class="g-msg g-me">Länk räcker.</li>
-        <li class="g-msg g-ai"><span class="g-who">Agent: fråga 2</span>Vem lägger in matcherna? <span class="g-sugg">Förslag: tränaren, en gång per säsong.</span></li>
-        <li class="g-msg g-me">Ja, tränaren.</li>
-        <li class="g-msg g-ai"><span class="g-who">Agent: fråga 3</span>Hur många barn får plats i en bil? <span class="g-sugg">Förslag: fyra, så räcker en vanlig bil.</span></li>
-        <li class="g-msg g-me">Ja, fyra.</li>
-        <li class="g-msg g-ai"><span class="g-who">Agent: fråga 4</span>Vad ska hända om ingen har anmält sig tre dagar före en match? <span class="g-sugg">Förslag: ett mejl till alla föräldrar.</span></li>
-        <li class="g-msg g-me">Bra, gör så.</li>
-        <li class="g-skip">+ 16 frågor till om mobil, utseende och vem som får ändra</li>
-        <li class="g-plan">
-          <p class="g-plan-k">Planen agenten bygger efter</p>
-          <ul>
-            <li>Mobilsida bakom en hemlig länk, ingen inloggning</li>
-            <li>Tränaren lägger in säsongens matcher</li>
-            <li>Föräldrar skriver upp sig på en bil med fyra platser</li>
-            <li>Saknas förare tre dagar före går ett mejl ut</li>
-          </ul>
-          <p class="g-plan-foot"><span>20 beslut fattade</span></p>
-
-        </li>
-      </ol>
-    </figure>
-  </div>
-</section>
-<script src="sections/grilla.js" defer></script>
-
-<link rel="stylesheet" href="sections/verifiera.css">
-<section id="verifiera" class="sec" aria-labelledby="verifiera-h">
-  <div class="v-head">
-    <p class="eyebrow">Arbetssätt</p>
-    <h2 id="verifiera-h">Låt AI:n granska sitt eget arbete</h2>
-    <p class="lede">En agent som inte kan se resultatet gissar, och säger ”klart” ändå. Ge den ett sätt att kontrollera, så hittar och rättar den sina egna fel innan du ens ser dem. Det finns flera sätt, från blixtsnabba till nästan mänskliga. Bäst är att använda flera. Bygger du i Lovable eller Replit: be den testa i förhandsvisningen och visa en skärmbild av resultatet.</p>
-  </div>
-
-  <h3 class="v-sub">Stegen, från snabbast till mest verklig</h3>
-  <ol class="v-ladder">
-    <li style="--i:0">
-      <div class="v-step">
-        <p class="v-time">Under en sekund</p>
-        <h4>Typkontroll och kompilator</h4>
-        <p>Programmet läser koden innan den körs. Fångar felstavade namn, saknade fält och fel sorts värde.</p>
-        <p class="v-tools"><a href="https://www.typescriptlang.org" target="_blank" rel="noopener">TypeScript</a>, Rust, Swift, Kotlin, Go</p>
-      </div>
-      <div class="v-riser" aria-hidden="true"><span>1</span></div>
-    </li>
-    <li style="--i:1">
-      <div class="v-step">
-        <p class="v-time">Sekunder</p>
-        <h4>Linter</h4>
-        <p>Letar efter slarv och kända fallgropar: kod som aldrig används, kod som inte väntar på svar, riskabla mönster.</p>
-        <p class="v-tools"><a href="https://eslint.org" target="_blank" rel="noopener">ESLint</a>, <a href="https://biomejs.dev" target="_blank" rel="noopener">Biome</a>, <a href="https://docs.astral.sh/ruff/" target="_blank" rel="noopener">Ruff</a></p>
-      </div>
-      <div class="v-riser" aria-hidden="true"><span>2</span></div>
-    </li>
-    <li style="--i:2">
-      <div class="v-step">
-        <p class="v-time">Sekunder</p>
-        <h4>Tester</h4>
-        <p>Små program som kör din kod och jämför svaret med det rätta. Fångar logik som räknar fel och gammalt som går sönder.</p>
-        <p class="v-tools"><a href="https://vitest.dev" target="_blank" rel="noopener">Vitest</a>, <a href="https://jestjs.io" target="_blank" rel="noopener">Jest</a>, <a href="https://docs.pytest.org" target="_blank" rel="noopener">pytest</a></p>
-      </div>
-      <div class="v-riser" aria-hidden="true"><span>3</span></div>
-    </li>
-    <li style="--i:3">
-      <div class="v-step">
-        <p class="v-time">Tiotals sekunder</p>
-        <h4>Kör appen och ta skärmbilder</h4>
-        <p>Agenten öppnar sidan i mobil- och datorstorlek och tittar. Fångar trasig layout och felmeddelanden i konsolen (webbläsarens logg över fel).</p>
-        <p class="v-tools"><a href="https://playwright.dev" target="_blank" rel="noopener">Playwright</a>, <a href="https://github.com/ChromeDevTools/chrome-devtools-mcp" target="_blank" rel="noopener">Chrome DevTools MCP</a><a class="v-star" href="#v-mcp" aria-label="Vad är MCP?">*</a></p>
-      </div>
-      <div class="v-riser" aria-hidden="true"><span>4</span></div>
-    </li>
-    <li style="--i:4">
-      <div class="v-step">
-        <p class="v-time">Minuter</p>
-        <h4>Styr en riktig webbläsare</h4>
-        <p>Klickar, skriver och går igenom flödet som en människa. Fångar knappar som inte gör något och formulär som fastnar.</p>
-        <p class="v-tools"><a href="https://learn.chatgpt.com/docs/chrome-extension" target="_blank" rel="noopener">Codex</a>, <a href="https://claude.com/claude-in-chrome" target="_blank" rel="noopener">Claude i Chrome</a>, Playwright</p>
-      </div>
-      <div class="v-riser" aria-hidden="true"><span>5</span></div>
-    </li>
-  </ol>
-  <p class="v-axis" aria-hidden="true"><span>Snabbt och billigt</span><span>Närmast verkligheten</span></p>
-  <p class="v-mcp" id="v-mcp"><strong>* MCP</strong> står för <a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener">Model Context Protocol</a>, ett öppet standardsätt att koppla nya verktyg till en AI-agent. En MCP-server ger agenten en ny förmåga: styra webbläsaren, läsa ditt GitHub-repo, fråga en databas eller öppna en Figma-skiss. Det finns tusentals, och de flesta agenter (Claude Code, Codex, Cursor med flera) kan använda dem. Många agenter har dessutom egna plugins och skills, färdiga instruktioner och verktyg du lägger till. Lägg bara till sådana du litar på: agenten får göra allt verktyget kan göra.</p>
-
-  <div class="v-duo">
-    <div class="v-card v-ts">
-      <p class="v-card-k">Därför TypeScript</p>
-      <p>TypeScript passar agenter just för att det säger ifrån direkt. Skriver agenten fel ger typkontrollen ett felmeddelande med fil och rad, och agenten rättar innan något körs. Samma sak gäller allt som <strong>kompileras</strong> (översätts till ett körbart program innan det körs), som Rust, Swift och Kotlin: bygget går inte igenom, och agenten märker själv att något är fel.</p>
-      <pre class="v-term" aria-label="Exempel på ett fel från typkontrollen"><span class="v-dim">$ npx tsc</span>
-<span class="v-err">src/bil.ts:12:5</span> Property 'platser' is missing.
-<span class="v-dim">Agenten:</span> Jag rättar fältet och kör igen.
-<span class="v-ok">Inga fel.</span></pre>
-    </div>
-    <div class="v-card v-tests">
-      <p class="v-card-k">Därför ska agenten skriva tester</p>
-      <ul>
-        <li><strong>Ett test är ett löfte i kod.</strong> Det som fungerade i går måste fungera i dag, även när något nytt läggs till.</li>
-        <li><strong>Agenten glömmer, testerna minns.</strong> Nästa session vet ingenting om förra, men testerna finns kvar och säger till.</li>
-        <li><strong>Den tröttnar aldrig.</strong> Agenten kan köra hundra tester efter varje ändring. Det orkar ingen människa.</li>
-        <li><strong>Automatiskt vid varje ändring.</strong> Med CI (automatisk kontroll på GitHub), till exempel <a href="https://github.com/features/actions" target="_blank" rel="noopener">GitHub Actions</a>, körs testerna varje gång koden skickas upp.</li>
-      </ul>
-    </div>
-  </div>
-
-  <h3 class="v-sub">Verktygen som låter agenten se webbläsaren</h3>
-  <div class="v-tablewrap">
-    <table class="v-matrix" data-sortable>
-      <caption class="v-sr">Vilka webbläsare varje verktyg kan styra</caption>
-      <thead>
-        <tr><th scope="col">Verktyg</th><th scope="col">Chrome</th><th scope="col">Edge</th><th scope="col">Firefox</th><th scope="col"><span class="v-th-long">Safari-motorn</span><span class="v-th-short" aria-hidden="true">Safari</span></th><th scope="col" class="v-note-h">Bra att veta</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">Codex<small>tillägg i webbläsaren</small></th>
-          <td class="y"><span>Ja</span></td><td class="y"><span>Ja</span></td><td class="n"><span>Nej</span></td><td class="n"><span>Nej</span></td>
-          <td class="v-note">Fungerar även i Brave, Opera och Vivaldi. Appen har dessutom en inbyggd webbläsare som räcker för att testa din egen sida.</td>
-        </tr>
-        <tr>
-          <th scope="row">Claude i Chrome<small>tillägg i webbläsaren</small></th>
-          <td class="y"><span>Ja</span></td><td class="y"><span>Ja</span></td><td class="n"><span>Nej</span></td><td class="n"><span>Nej</span></td>
-          <td class="v-note">Kräver betald plan. Claude Code hittar tillägget även i Brave, Arc, Vivaldi och Opera.</td>
-        </tr>
-        <tr>
-          <th scope="row">Playwright<small>gratis, från Microsoft</small></th>
-          <td class="y"><span>Ja</span></td><td class="y"><span>Ja</span></td><td class="y"><span>Ja</span></td><td class="y"><span>Ja</span></td>
-          <td class="v-note">Bredast stöd. Kör osynligt i bakgrunden, perfekt för tester som agenten skriver och kör själv.</td>
-        </tr>
-        <tr>
-          <th scope="row">Chrome DevTools MCP<small>från Googles Chrome-team</small></th>
-          <td class="y"><span>Ja</span></td><td class="m"><span>Ej officiellt</span></td><td class="n"><span>Nej</span></td><td class="n"><span>Nej</span></td>
-          <td class="v-note">Ser konsolen, nätverket och hur snabb sidan är. Officiellt bara Chrome.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-
-  <div class="v-prompt">
-    <div class="v-prompt-bar">
-      <p class="v-prompt-k" id="v-prompt-k">Lägg till sist i varje uppdrag</p>
-      <button class="v-copybtn" type="button" data-copy="v-prompt-text">Kopiera</button>
-    </div>
-    <pre id="v-prompt-text" aria-labelledby="v-prompt-k" tabindex="0">Innan du säger att du är klar: bevisa att det fungerar. Kör typkontrollen och testerna, och skriv nya tester för det du har byggt. Öppna sidan i en riktig webbläsare, ta skärmbilder i mobil- och datorstorlek och titta på dem. Kontrollera att konsolen inte visar några fel. Rätta det du hittar och kör allt igen.</pre>
-  </div>
-</section>
-
-<link rel="stylesheet" href="sections/koll.css">
-<section id="koll" class="sec" aria-labelledby="koll-h">
-  <p class="eyebrow">Innan du publicerar</p>
-  <h2 id="koll-h">Det här ska din sida klara</h2>
-  <p class="lede">En checklista i sju delar, från säkerhet till drift. Allt går att kolla gratis, och det mesta kan agenten göra åt dig. Kolla allt du kan klicka på själv, och ge resten till agenten med texten längst ner.</p>
-
-  <div class="k-groups">
-    <div class="k-group">
-      <h3>Säkerhet</h3>
-      <ul>
-        <li><h4>Krypterad anslutning</h4><p>Sidan ska bara gå att nå via https, och http ska skicka vidare dit. Annars kan andra på samma wifi läsa och ändra trafiken.</p><p class="k-how">Kolla: <a href="https://www.ssllabs.com/ssltest/" target="_blank" rel="noopener">SSL Labs</a>, sikta på betyget A</p></li>
-        <li><h4>Säkerhetshuvuden</h4><p>Små instruktioner servern skickar med varje sida, som talar om för webbläsaren vad som är tillåtet. De försvårar flera vanliga attacker.</p><p class="k-how">Kolla: <a href="https://developer.mozilla.org/en-US/observatory" target="_blank" rel="noopener">Mozilla Observatory</a>, <a href="https://securityheaders.com/" target="_blank" rel="noopener">securityheaders.com</a></p></li>
-        <li><h4>Vanliga attacker</h4><p>De tio största riskkategorierna enligt OWASP, till exempel att se någon annans data genom att ändra ett nummer i adressen. Viktigast om sidan har inloggning.</p><p class="k-how">Kolla: <a href="https://owasp.org/Top10/" target="_blank" rel="noopener">OWASP Top 10</a> som lista till agenten, <a href="https://www.zaproxy.org/docs/docker/baseline-scan/" target="_blank" rel="noopener">ZAP:s passiva skanning (baseline)</a>, som bara tittar och inte attackerar</p></li>
-        <li><h4>Skydd mot spam och överbelastning</h4><p>Formulär och knappar som sparar något behöver ett tak, annars kan ett skript fylla din databas på en natt.</p><p class="k-how">Gratis: <a href="https://www.cloudflare.com/application-services/products/turnstile/" target="_blank" rel="noopener">Cloudflare Turnstile</a> mot robotar, plus en gräns per användare och dag</p></li>
-      </ul>
-    </div>
-
-    <div class="k-group">
-      <h3>Koden</h3>
-      <ul>
-        <li><h4>Kända hål i paketen</h4><p>Din sida bygger på kod andra skrivit. När ett hål hittas i den kod du lånat behöver du uppdatera.</p><p class="k-how">Kolla: <a href="https://docs.npmjs.com/cli/commands/npm-audit" target="_blank" rel="noopener">npm audit</a> före varje publicering</p></li>
-        <li><h4>Inga hemligheter i koden</h4><p>Lösenord och API-nycklar får aldrig ligga i koden, inte ens i en gammal version. Den som ser historiken ser nyckeln.</p><p class="k-how">Kolla: <a href="https://github.com/gitleaks/gitleaks" target="_blank" rel="noopener">gitleaks</a>, <a href="https://docs.github.com/en/code-security/secret-scanning/introduction/about-secret-scanning" target="_blank" rel="noopener">GitHubs hemlighetsskanning</a></p></li>
-        <li><h4>Inga personuppgifter i historiken</h4><p>Innan ett repo blir publikt: sök igenom alla gamla versioner efter namn och adresser. Det som raderats i dag finns kvar i historiken.</p><p class="k-how">Kolla: be agenten söka igenom hela git-historiken</p></li>
-        <li><h4>Säkra automatiska flöden</h4><p>Har du GitHub Actions (kod som körs automatiskt på GitHub) ska lånade steg vara låsta till en exakt commit (SHA) och ha så lite behörighet som möjligt.</p><p class="k-how">Kolla: <a href="https://github.com/zizmorcore/zizmor" target="_blank" rel="noopener">zizmor</a></p></li>
-        <li><h4>Tester som faktiskt säger ifrån</h4><p>Ett test som aldrig blir rött skyddar inget. Mutationstest ändrar koden med flit och ser om testerna märker det.</p><p class="k-how">Kolla: <a href="https://stryker-mutator.io" target="_blank" rel="noopener">Stryker</a></p></li>
-      </ul>
-    </div>
-
-    <div class="k-group">
-      <h3>Alla ska kunna använda den</h3>
-      <ul>
-        <li><h4>Tillgänglighet</h4><p>Sidan ska fungera med skärmläsare och tangentbord, och texten ska synas tydligt mot bakgrunden. För offentlig sektor är det lag.</p><p class="k-how">Kolla: <a href="https://wave.webaim.org" target="_blank" rel="noopener">WAVE</a>, och gå igenom sidan med bara Tab-tangenten. Måttstock: <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank" rel="noopener">WCAG 2.2 AA</a></p></li>
-        <li><h4>Lätt att använda</h4><p>Knappar stora nog för en tumme (minst 44 pixlar), svar direkt på varje klick och få val åt gången.</p><p class="k-how">Läs: <a href="https://lawsofux.com" target="_blank" rel="noopener">Laws of UX</a></p></li>
-        <li><h4>Mobil och flera webbläsare</h4><p>De flesta besökare kommer från mobilen, och Safari och Firefox visar ibland saker annorlunda än Chrome.</p><p class="k-how">Kolla: <a href="https://developer.chrome.com/docs/devtools/device-mode" target="_blank" rel="noopener">mobilläget i Chrome</a>, <a href="https://playwright.dev" target="_blank" rel="noopener">Playwright</a> för Firefox och Safari-motorn</p></li>
-      </ul>
-    </div>
-
-    <div class="k-group">
-      <h3>Fart</h3>
-      <ul>
-        <li><h4>Snabb på en vanlig mobil</h4><p>Sidan ska visa sitt viktigaste innehåll inom 2,5 sekunder och inte hoppa runt medan den laddar. Långsamma sidor lämnas och rankas lägre.</p><p class="k-how">Kolla: <a href="https://pagespeed.web.dev" target="_blank" rel="noopener">PageSpeed Insights</a>, sikta på 90 eller mer</p></li>
-      </ul>
-    </div>
-
-    <div class="k-group">
-      <h3>Synas på nätet</h3>
-      <ul>
-        <li><h4>Felfri kod och hela länkar</h4><p>Trasig HTML kan se rätt ut i en webbläsare och fel i en annan, och döda länkar får sidan att se övergiven ut.</p><p class="k-how">Kolla: <a href="https://validator.w3.org/nu/" target="_blank" rel="noopener">W3C-validatorn</a>, <a href="https://validator.w3.org/checklink" target="_blank" rel="noopener">W3C:s länkkontroll</a></p></li>
-        <li><h4>En riktig 404-sida</h4><p>En adress som inte finns ska ge en hjälpsam sida med väg tillbaka, och svara ”404” så att Google inte sparar den.</p><p class="k-how">Kolla: skriv en påhittad adress på din sida och se vad som händer</p></li>
-        <li><h4>Google hittar sidan</h4><p>Titel och beskrivning på varje sida, en sitemap (lista över alla sidor) och inget som av misstag säger åt Google att låta bli.</p><p class="k-how">Kolla: <a href="https://search.google.com/search-console/about" target="_blank" rel="noopener">Google Search Console</a></p></li>
-        <li><h4>Delningsbild</h4><p>När någon delar länken i Messenger eller på LinkedIn ska en bild och en rubrik synas, inte en grå ruta.</p><p class="k-how">Kolla: <a href="https://www.opengraph.xyz" target="_blank" rel="noopener">opengraph.xyz</a></p></li>
-        <li><h4>Ikon i fliken</h4><p>En favicon (den lilla ikonen i webbläsarfliken) gör sidan lätt att hitta bland tjugo öppna flikar och i bokmärken.</p><p class="k-how">Kolla: <a href="https://realfavicongenerator.net/favicon-checker" target="_blank" rel="noopener">Favicon checker</a></p></li>
-      </ul>
-    </div>
-
-    <div class="k-group">
-      <h3>Juridik och integritet</h3>
-      <ul>
-        <li><h4>Personuppgifter enligt GDPR</h4><p>Sparar sidan namn, mejl eller annat om människor ska du kunna säga varför, hur länge och hur man får det raderat.</p><p class="k-how">Läs: <a href="https://www.imy.se/verksamhet/dataskydd/det-har-galler-enligt-gdpr/" target="_blank" rel="noopener">IMY om GDPR</a></p></li>
-        <li><h4>Kakor och samtycke</h4><p>Kakor och liknande lagring (även localStorage) som inte behövs för att sidan ska fungera, till exempel för statistik och reklam, kräver ett ja från besökaren innan de sätts.</p><p class="k-how">Läs: <a href="https://www.pts.se/internet-och-telefoni/kakor-cookies/" target="_blank" rel="noopener">PTS om kakor</a></p></li>
-        <li><h4>Inga oväntade spårare</h4><p>Typsnitt, kartor och videoklipp från andra kan skicka dina besökares adresser vidare utan att du vet om det.</p><p class="k-how">Kolla: <a href="https://themarkup.org/blacklight" target="_blank" rel="noopener">Blacklight</a></p></li>
-        <li><h4>Rätt att använda bilder och typsnitt</h4><p>Allt du inte gjort själv har en licens. Kolla att den tillåter din användning, och skriv ut upphovspersonen där licensen kräver det.</p><p class="k-how">Kolla: licensen där du hämtade filen</p></li>
-      </ul>
-    </div>
-
-    <div class="k-group">
-      <h3>Drift</h3>
-      <ul>
-        <li><h4>Säkerhetskopior som går att återställa</h4><p>En kopia du aldrig provat att läsa tillbaka är en förhoppning. Återställ en gång till ett testställe, så vet du.</p><p class="k-how">Kolla: be agenten exportera databasen och läsa in den på nytt</p></li>
-        <li><h4>Du får veta när den ligger nere</h4><p>En tjänst som besöker sidan med jämna mellanrum och mejlar dig när den inte svarar.</p><p class="k-how">Gratis: <a href="https://uptimerobot.com" target="_blank" rel="noopener">UptimeRobot</a></p></li>
-        <li><h4>Du får veta när något går fel</h4><p>Fel som besökarna får ska hamna i en logg du ser, inte bara försvinna.</p><p class="k-how">Gratis att börja: <a href="https://sentry.io" target="_blank" rel="noopener">Sentry</a></p></li>
-        <li><h4>Domänen förnyas</h4><p>Glömmer du att betala tar någon annan adressen. Slå på automatisk förnyelse och skriv upp när den går ut.</p><p class="k-how">Läs: <a href="https://internetstiftelsen.se/domaner/" target="_blank" rel="noopener">Internetstiftelsen om domäner</a></p></li>
-        <li><h4>Mejl som kommer fram</h4><p>Skickar sidan mejl behöver domänen SPF, DKIM och DMARC, tre inställningar som visar att mejlet verkligen kommer från dig. Annars hamnar det i skräpposten.</p><p class="k-how">Kolla: <a href="https://internet.nl" target="_blank" rel="noopener">internet.nl</a>, testet för e-post</p></li>
-        <li><h4>Tak för kostnader</h4><p>AI-tjänster och molntjänster tar betalt per anrop. Sätt ett utgiftstak och en gräns per dag, så kostar en bugg inte tusentals kronor.</p><p class="k-how">Kolla: inställningarna för betalning och gränser hos varje tjänst du använder</p></li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="k-prompt">
-    <div class="k-prompt-bar">
-      <p class="k-prompt-k" id="k-prompt-k">Klistra in till din agent</p>
-      <button class="k-copybtn" type="button" data-copy="k-prompt-text">Kopiera</button>
-    </div>
-    <pre id="k-prompt-text" aria-labelledby="k-prompt-k" tabindex="0">Gå igenom min sida mot den här listan, punkt för punkt: krypterad anslutning, säkerhetshuvuden, vanliga attacker (OWASP Top 10), skydd mot spam och överbelastning, kända hål i paketen, hemligheter och personuppgifter i git-historiken, GitHub Actions, tester, tillgänglighet (WCAG 2.2 AA), mobil och flera webbläsare, fart (PageSpeed), felfri HTML och hela länkar, 404-sida, titel, beskrivning och sitemap, delningsbild, favicon, GDPR, kakor och liknande lagring (även localStorage) och samtycke, spårare från andra, licenser, säkerhetskopior, övervakning, felloggning, domänförnyelse, mejlinställningar och kostnadstak.
-
-Mät på den riktiga sidan i stället för att bara läsa koden. Ge varje punkt betyget klar, brister eller gäller inte, med en mening om varför. Rätta det du kan själv och visa att det fungerar efteråt. Det som kräver mitt beslut eller ett konto listar du sist, med en länk till var jag gör det.</pre>
-  </div>
-</section>
 
 <link rel="stylesheet" href="sections/benchmarks.css">
 <section id="benchmarks" class="sec" aria-labelledby="bm-title">

@@ -42,8 +42,10 @@ document.addEventListener('click', async (e) => {
     replay.hidden = false;
   }
 
-  // ponytail: the whole dialogue stays visible until the reader presses play, so it never sits as an empty box.
+  // The whole dialogue stays visible until it plays, so it never sits as an empty box; it plays once when the chat scrolls into view.
   replay.hidden = false;
   replay.addEventListener('click', play);
+  const seen = new IntersectionObserver(([e]) => { if (e.isIntersecting) { seen.disconnect(); play(); } }, { threshold: 0.35 });
+  seen.observe(log);
 })();
 

@@ -120,6 +120,11 @@ h1 { font: 700 clamp(1.7rem, 1rem + 2.6vw, 3.3rem)/1.05 var(--display); letter-s
 .foot > span:first-child { white-space: nowrap; } /* the hint stays one line under the zoom buttons; the date wraps instead */
 .foot > span:last-child { text-align: right; }
 .is-focused .foot { opacity: 0; }
+/* scroll cue: a quiet chevron under the map, bobs three times then rests */
+.cue { position: absolute; z-index: 3; left: 50%; bottom: calc(var(--gutter) + 2.2rem); translate: -50% 0; display: grid; place-items: center; width: 44px; height: 44px; border-radius: var(--radius); color: var(--muted); animation: cue-bob 2.4s var(--ease) 1.5s 3; }
+.cue:hover { color: var(--text); }
+.is-focused .cue { opacity: 0; pointer-events: none; }
+@keyframes cue-bob { 50% { transform: translateY(6px); } }
 .zoom { position: absolute; z-index: 5; left: var(--edge); bottom: calc(var(--gutter) + 2.2rem); display: flex; gap: 0.4rem; }
 .zoom .btn { min-width: 44px; padding: 0.4rem; font: 700 1.2rem/1 var(--display); background: var(--sheet); }
 .is-narrow.is-focused .zoom { bottom: calc(56svh + 0.6rem); } /* phones: just above the sheet, clear of the heading */
@@ -174,6 +179,7 @@ h1 { font: 700 clamp(1.7rem, 1rem + 2.6vw, 3.3rem)/1.05 var(--display); letter-s
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; }
+  .cue { animation: none; }
 }
 </style>
 <script src="three.js" defer></script>
@@ -200,6 +206,7 @@ h1 { font: 700 clamp(1.7rem, 1rem + 2.6vw, 3.3rem)/1.05 var(--display); letter-s
   </aside>
   <div class="zoom"><button class="btn" id="zoom-in" type="button" aria-label="Zooma in">+</button><button class="btn" id="zoom-out" type="button" aria-label="Zooma ut">&minus;</button></div>
   <div class="foot"><span data-i18n="hint">Dra för att vrida, klicka på en planet</span><span><span data-i18n="checked">Uppgifterna kontrollerade</span> <span id="checked-date">27 oktober 2026</span></span></div>
+  <a class="cue" href="#start" aria-label="Scrolla ner till innehållet"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
 </section>
 
 <section id="list" class="list" aria-label="Lista">

@@ -4,10 +4,12 @@ status: active
 currentGoal: Hålla solsystemssidan på buildapp.se/ai aktuell
 nextAction: Ändringar görs i webbverkstad runs/ai-solsystem och kopieras hit enligt CONTEXT.md
 blockers: []
-reviewedAt: 2026-10-27
+reviewedAt: 2026-10-28
 ---
 
 # Handoff: AI-resurssidan
+
+**2026-10-28, Microsoft tionde planeten** (Patrik: "Microsoft saknas, med Copilot etc."). Webbverkstad 078370a; kopierat `index.html` och `app.js`. Modeller MAI-Thinking-1, MAI-Code-1.1-Flash, MAI-Image-2.6, MAI-Voice-2.1, Phi-4 (inte rangordnade: ingen Microsoftmodell i Artificial Analysis Intelligence Index, därför ingen benchmarkrad). Månar Copilot, Microsoft 365 Copilot, GitHub Copilot, VS Code, Microsoft Foundry. Gate PASS, `contrast.test.js` OK, lokalt alla anrop 200 och 0 konsolfel.
 
 **2026-10-27, ny sida live: "Från idé till publicerad sida".** Den gamla byggordningssidan ersatt av solsystemssidan från webbverkstad `runs/ai-solsystem` (riktning `a`). Kopierat: `index.html`, `app.js`, `three.js`, ikoner, `og.png`, `og.source.html`, `integritet.html` (version 3.0, ingen lagring), `fonts/`, och de avsnittsfiler `index.html` refererar under `sections/`. `logo.png` borttagen (inget refererade den, inte heller buildapp-se.github.io eller terminal). `quiz-data.js` kvar för spelet. `contrast.test.js` omskriven: läser `:root` ur `index.html` och testar den mörka paletten i stället för den gamla ljusa. Lokalt verifierat: alla anrop 200, 0 konsolfel, kartan och Datorn-scenen ritas, integritet öppnas och länkar tillbaka, sidfotens mejl `kontakt@buildapp.se`. Gate `check.mjs` PASS. Avsnitten nedan om kartan med elva stationer, röstning och kontaktadress gäller den gamla sidan.
 

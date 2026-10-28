@@ -426,7 +426,7 @@ h1 { font: 700 clamp(1.7rem, 1rem + 2.6vw, 3.3rem)/1.05 var(--display); letter-s
           <span class="m-hot m-btn m-green">Create repository</span>
         </div>
       </div>
-      <p><b>Namn och synlighet.</b> Välj <b>Public</b> (krävs på gratiskontot) och klicka på <b>Create repository</b>.</p>
+      <p><b>Namn och synlighet.</b> Välj <b>Public</b> (krävs på gratiskontot) och klicka på <b>Create repository</b>. Allt i ett publikt repo syns för alla, även gamla versioner, så lägg aldrig in nycklar eller personuppgifter.</p>
     </li>
     <li>
       <div class="mock" aria-hidden="true">
@@ -681,7 +681,7 @@ När inga frågor återstår: sammanfatta planen i punktform och vänta på mitt
       <h3>Koden</h3>
       <ul>
         <li><h4>Kända hål i paketen</h4><p>Din sida bygger på kod andra skrivit. När ett hål hittas i den kod du lånat behöver du uppdatera.</p><p class="k-how">Kolla: <a href="https://docs.npmjs.com/cli/commands/npm-audit" target="_blank" rel="noopener">npm audit</a> före varje publicering</p></li>
-        <li><h4>Inga hemligheter i koden</h4><p>Lösenord och API-nycklar får aldrig ligga i koden, inte ens i en gammal version. Den som ser historiken ser nyckeln.</p><p class="k-how">Kolla: <a href="https://github.com/gitleaks/gitleaks" target="_blank" rel="noopener">gitleaks</a>, <a href="https://docs.github.com/en/code-security/secret-scanning/introduction/about-secret-scanning" target="_blank" rel="noopener">GitHubs hemlighetsskanning</a></p></li>
+        <li><h4>Inga hemligheter i koden</h4><p>Lösenord och API-nycklar får aldrig ligga i koden, inte ens i en gammal version. Den som ser historiken ser nyckeln. Lägg dem i en <code>.env</code>-fil och skriv in den i <code>.gitignore</code>, så tar git aldrig med den.</p><p class="k-how">Kolla: <a href="https://github.com/gitleaks/gitleaks" target="_blank" rel="noopener">gitleaks</a>, <a href="https://docs.github.com/en/code-security/secret-scanning/introduction/about-secret-scanning" target="_blank" rel="noopener">GitHubs hemlighetsskanning</a></p></li>
         <li><h4>Inga personuppgifter i historiken</h4><p>Innan ett repo blir publikt: sök igenom alla gamla versioner efter namn och adresser. Det som raderats i dag finns kvar i historiken.</p><p class="k-how">Kolla: be agenten söka igenom hela git-historiken</p></li>
         <li><h4>Säkra automatiska flöden</h4><p>Har du GitHub Actions (kod som körs automatiskt på GitHub) ska lånade steg vara låsta till en exakt commit (SHA) och ha så lite behörighet som möjligt.</p><p class="k-how">Kolla: <a href="https://github.com/zizmorcore/zizmor" target="_blank" rel="noopener">zizmor</a></p></li>
         <li><h4>Tester som faktiskt säger ifrån</h4><p>Ett test som aldrig blir rött skyddar inget. Mutationstest ändrar koden med flit och ser om testerna märker det.</p><p class="k-how">Kolla: <a href="https://stryker-mutator.io" target="_blank" rel="noopener">Stryker</a></p></li>

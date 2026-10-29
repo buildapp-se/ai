@@ -1,13 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" width="52" height="52">
-  <!-- Solsystemet utan sol: en bana med tre planeter och tomt i mitten. Bara ink och wall ur buildapp.se CONTEXT.md. -->
-  <style>
-    .bg{fill:#211F1A} .fg{fill:#EDEAE2} .orbit{fill:none;stroke:#EDEAE2}
-    @media (prefers-color-scheme: dark){ .bg{fill:#EDEAE2} .fg{fill:#211F1A} .orbit{stroke:#211F1A} }
-  </style>
-  <rect x="1" y="1" width="50" height="50" rx="10" class="bg"/>
-  <g transform="rotate(-24 26 26)">
-    <ellipse cx="26" cy="26" rx="18" ry="10" class="orbit" stroke-width="3.5"/>
-    <circle cx="9" cy="22.6" r="7" class="fg"/>
-    <circle cx="38.5" cy="33.3" r="5" class="fg"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="t"><title id="t">Två banor</title><rect width="256" height="256" rx="56" fill="#0B1020"/><g transform="translate(40.96 40.96) scale(0.68)"><path fill="#E9EDF5" d="M227.86 95.55 A105 105 0 1 1 149.83 25.29 L146.09 42.9 A87 87 0 1 0 210.74 101.12 Z M70.29 140.27 A59 59 0 1 1 109.77 184.11 L115.33 166.99 A41 41 0 1 0 87.9 136.52 Z"/><path fill="#F2C46D" d="M158.43 50.33 A26 26 0 1 1 210.43 50.33 A26 26 0 1 1 158.43 50.33 Z"/><path fill="#8AB8FF" d="M74.84 161.46 A16 16 0 1 1 106.84 161.46 A16 16 0 1 1 74.84 161.46 Z"/></g></svg>

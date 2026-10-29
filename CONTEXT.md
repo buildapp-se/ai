@@ -87,3 +87,4 @@ Read by the cockpit Audits tab. One `- Label: YYYY-MM-DD, result` per check; con
 - OG image: 2026-10-27, pass, 1200x630 PNG, https://buildapp.se/ai/og.png (new page)
 - Database: 2026-10-27, none, no storage (no cookies, no localStorage since the new page)
 - ZAP baseline: 2026-10-27, n/a, static site on GitHub Pages with no server, cookies or forms; headers, TLS and markup are covered by their own columns, so a passive ZAP scan would repeat them
+- Dependabot: 2026-10-29, pass, 0 open alerts

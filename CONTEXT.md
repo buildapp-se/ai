@@ -67,7 +67,7 @@ Ingen backend finns att driftsätta.
 ## Audits
 Read by the cockpit Audits tab. One `- Label: YYYY-MM-DD, result` per check; conventions in elwyn-dash `docs/security.md`.
 
-- OWASP Top 10: 2026-07-25, open /vote write primitive fixed with allowlist
+- OWASP Top 10: 2026-10-30, warn, code review (Mistral Large, reviewed by Claude), live CSP measured; 0 high, 1 medium open: no script-src on buildapp.se, BACKLOG P2
 - Headers: 2026-09-16, pass, 6 of 6 on buildapp.se via a host-scoped Transform Rule on the zone, measured after the change
 - Search Console: 2026-09-16, warn, in the buildapp.se sitemap (9 URLs accepted, 0 errors), per-URL indexing not read
 - TLS: 2026-09-16, pass, SSL Labs A+ on buildapp.se, TLS 1.2 minimum and HSTS since today

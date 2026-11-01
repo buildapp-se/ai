@@ -1,0 +1,20 @@
+/* Verktyg: skills, plugins och MCP. Same list shape as lar.css, two columns so the commands fit. Scoped under #verktyg. */
+#verktyg .groups { columns: 2 26rem; column-gap: calc(var(--gutter) * 1.5); }
+#verktyg .group { margin-bottom: 2.5rem; }
+#verktyg h3 { margin: 0 0 0.4rem; padding-bottom: 0.7rem; border-bottom: 1px solid var(--line); break-after: avoid; }
+#verktyg ol { list-style: none; margin: 0; padding: 0; }
+#verktyg li { padding: 0.4rem 0 0.9rem; border-bottom: 1px solid var(--line); break-inside: avoid; }
+#verktyg li > a { display: inline-flex; align-items: center; min-height: 44px; color: var(--text); text-underline-offset: 0.2em; font-weight: 600; overflow-wrap: anywhere; }
+#verktyg .group p { margin: 0 0 0.5rem; color: var(--muted); font-size: 0.95rem; }
+#verktyg .group p a { color: var(--text); }
+#verktyg em { font-style: normal; color: var(--text); font-weight: 600; }
+#verktyg .group .intro { margin: 0.7rem 0 0.4rem; }
+#verktyg .group .after { margin: 0.5rem 0 0; }
+#verktyg .tags { font-size: 0.875rem; color: var(--muted); }
+#verktyg code { font: 400 0.875rem/1.5 ui-monospace, Consolas, monospace; color: var(--text); overflow-wrap: anywhere; }
+/* native click-to-select instead of a copy button on every command (ponytail: 20 buttons, 20 ids) */
+#verktyg .cmd { margin: 0.6rem 0 0; }
+#verktyg .cmd dt { margin-top: 0.5rem; font-size: 0.875rem; font-weight: 600; color: var(--muted); }
+#verktyg .cmd dd { margin: 0.2rem 0 0; }
+#verktyg .cmd code { display: block; padding: 0.4rem 0.6rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--sheet); user-select: all; }
+@media (hover: hover) { #verktyg li > a:hover { text-decoration-thickness: 2px; } }

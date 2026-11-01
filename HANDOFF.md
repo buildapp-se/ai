@@ -4,10 +4,12 @@ status: active
 currentGoal: Hålla solsystemssidan på buildapp.se/ai aktuell
 nextAction: Ändringar görs i webbverkstad runs/ai-solsystem och kopieras hit enligt CONTEXT.md
 blockers: []
-reviewedAt: 2026-10-28
+reviewedAt: 2026-11-01
 ---
 
 # Handoff: AI-resurssidan
+
+**2026-11-01, Hosting och Verktyg** (Patrik). Två nya avsnitt från webbverkstad: `hosting` efter `datorn` (Cloudflare, Vercel, GitHub Pages, MCP-tipset och Ctrl+A-tipset) och `verktyg` före `lar` (skills, plugins och MCP). Kopierat `index.html`, `sections/hosting.css`, `sections/verktyg.css`. Inga nya anrop eller lagring, så `integritet.html` är oförändrad. Installationssiffrorna är från 2026-10-16 och priserna från 2026-11-01. Källor: webbverkstad `sections/hosting-verktyg.sources.md`.
 
 **2026-10-28, småändringar efter Patriks genomläsning** (webbverkstad 8a2e06b till 2055fc4; kopierat `index.html`, `app.js`, `sections/grilla.js`, `sections/verifiera.css`, `sections/benchmarks.css`). Grilla-chatten spelas upp en gång när den scrollas in. Ny ordning: start, github, grilla, verifiera, koll, andra, datorn, benchmarks, lar. MCP-fotnot i verifiera. "Visa/Dölj" på nypa salt-rutan. Scrollpil under kartan, mjuk scroll för ankarlänkar. Grill me-länken till repots startsida. Varning vid "Public" i GitHub-guiden, `.env`/`.gitignore` i hemlighetspunkten. Varje steg: gate PASS, `contrast.test.js` OK, live verifierat med curl.
 

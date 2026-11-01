@@ -4,8 +4,9 @@
 
 "Från idé till publicerad sida": en karta över AI-bolagen och deras modeller som
 ett solsystem utan sol, och under den avsnitt som tar läsaren från första idé
-till en sida på nätet (kom igång, GitHub, andra verktyg, datorns delar, grilla
-AI:n, verifiera, koll före publicering, benchmarks, lär dig mer).
+till en sida på nätet (kom igång, GitHub, grilla AI:n, verifiera, koll före
+publicering, andra sorters AI, datorns delar, hosting, benchmarks, skills och
+MCP, lär dig mer).
 
 ## Architecture
 
@@ -17,7 +18,7 @@ AI:n, verifiera, koll före publicering, benchmarks, lär dig mer).
   `index.html`, `app.js`, `three.js`, `favicon.svg`, `icon-32.png`,
   `apple-touch-icon.png`, `og.png`, `og.source.html`, `integritet.html`,
   `fonts/*.woff2`, och ur `sections/` bara det `index.html` refererar:
-  `{andra,benchmarks,datorn,github,grilla,koll,lar,start,verifiera}.css` och
+  `{andra,benchmarks,datorn,github,grilla,hosting,koll,lar,start,verifiera,verktyg}.css` och
   `{benchmarks,datorn,grilla,start}.js`. Inga avsnittskällor (`*.html`,
   `*.src.js`), tester, förhandsvisningar eller skärmbilder.
   Kontrollera listan mot `grep -oE '(src|href)="[^"#:]+"' index.html integritet.html`

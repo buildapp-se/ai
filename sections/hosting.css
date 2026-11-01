@@ -1,0 +1,40 @@
+/* Hosting: tre tjänster och två tips. Scoped under #hosting. Copy buttons use grilla.js. */
+/* subgrid: the same row lines up across the cards */
+#hosting .h-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 var(--gutter); }
+#hosting .h-card { display: grid; grid-row: span 6; grid-template-rows: subgrid; padding: 1.3rem 1.4rem 0.4rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--sheet); }
+#hosting .h-card h3 { margin: 0 0 0.8rem; }
+#hosting .h-card dl { display: grid; grid-row: span 5; grid-template-rows: subgrid; margin: 0; }
+#hosting .h-card dl > div { padding: 0.8rem 0; border-top: 1px solid var(--line); }
+#hosting dt { font-size: 0.875rem; font-weight: 600; color: var(--muted); }
+#hosting dd { margin: 0.15rem 0 0; font-size: 0.98rem; }
+#hosting a { color: var(--text); text-underline-offset: 0.2em; }
+#hosting .h-rule { max-width: 44rem; margin: 2rem 0 0.6rem; font-size: 1.08rem; }
+#hosting .h-note { max-width: 44rem; margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+#hosting .h-tips { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gutter); align-items: start; margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+#hosting .h-tip { padding: 1.4rem 1.5rem 0.6rem; border: 1px solid var(--line); border-left-width: 3px; border-radius: var(--radius); background: var(--sheet); }
+#hosting .h-tip-mcp { border-left-color: var(--cool); }
+#hosting .h-tip-pro { border-left-color: var(--text); }
+#hosting .h-tip h3 { margin: 0 0 0.8rem; }
+#hosting .h-tip p { margin: 0 0 1rem; color: var(--muted); }
+#hosting .h-tip strong { color: var(--text); font-weight: 600; }
+#hosting code { font: 400 0.875rem/1.5 ui-monospace, Consolas, monospace; color: var(--text); overflow-wrap: anywhere; }
+
+#hosting .h-cmd { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+#hosting .h-cmd-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.3rem 0.4rem 0.3rem 0.9rem; border-bottom: 1px solid var(--line); }
+#hosting .h-cmd-bar p { margin: 0; font-size: 0.875rem; font-weight: 600; }
+#hosting .h-cmd > code { display: block; padding: 0.7rem 0.9rem; }
+#hosting .h-after { margin: 0.45rem 0 1.1rem; font-size: 0.95rem; }
+#hosting .h-copy { flex: none; min-height: 44px; min-width: 6.5rem; padding: 0.4rem 1rem; border: 1px solid var(--line); border-radius: var(--radius); background: transparent; color: var(--text); font: 600 0.9rem/1 var(--body); cursor: pointer; }
+#hosting .h-copy.is-done { border-color: var(--text); }
+@media (hover: hover) { #hosting .h-copy:hover { border-color: var(--text); } }
+
+#hosting .h-tip ol { margin: 0 0 1rem; padding: 0; list-style: none; display: grid; gap: 0.6rem; }
+#hosting kbd { display: inline-block; min-width: 2.2em; padding: 0.1rem 0.45rem; border: 1px solid var(--muted); border-radius: var(--radius); font: 600 0.9rem/1.4 var(--body); color: var(--text); text-align: center; }
+#hosting .h-nb { white-space: nowrap; }
+#hosting .h-say { padding-left: 0.9rem; border-left: 2px solid var(--line); color: var(--text); }
+
+@media (max-width: 900px) {
+  #hosting .h-cards, #hosting .h-tips { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  #hosting .h-card, #hosting .h-card dl { display: block; }
+}

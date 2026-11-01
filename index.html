@@ -1030,7 +1030,7 @@ Mät på den riktiga sidan i stället för att bara läsa koden. Ge varje punkt 
 <link rel="stylesheet" href="sections/hosting.css">
 <section id="hosting" class="sec" aria-labelledby="hosting-h">
   <h2 id="hosting-h">Hosting: här bor din sida</h2>
-  <p class="lede">Hosting är att hyra plats i molnet, så att sidan är uppe dygnet runt utan att din egen dator är på. Du kopplar ditt GitHub-repo till tjänsten, och varje gång koden skickas upp publiceras den nya versionen. Två av de vanligaste valen är <strong>Cloudflare</strong> och <strong>Vercel</strong>. GitHub Pages står med som jämförelse.</p>
+  <p class="lede">Hosting är att hyra plats i molnet, så att sidan är uppe dygnet runt utan att din egen dator är på. Du kopplar ditt GitHub-repo till tjänsten, och varje gång koden skickas upp publiceras den nya versionen. Två av de vanligaste valen är <strong>Cloudflare</strong> och <strong>Vercel</strong>. <strong>Supabase</strong> sköter databasen och inloggningen bakom sidan, och GitHub Pages står med som jämförelse.</p>
 
   <div class="h-cards">
     <article class="h-card">
@@ -1039,7 +1039,6 @@ Mät på den riktiga sidan i stället för att bara läsa koden. Ge varje punkt 
         <div><dt>Passar för</dt><dd>Sidor och appar med egen backend och databas.</dd></div>
         <div><dt>Gratis</dt><dd>Besök till vanliga filer kostar inget och har inget tak. Din egen kod får 100 000 anrop per dygn.</dd></div>
         <div><dt>Databas</dt><dd>D1 ingår, med 5 GB gratis.</dd></div>
-        <div><dt>Tjäna pengar</dt><dd>Gratisnivån är inte begränsad till privat bruk, men kortuppgifter får inte samlas in på sidan. Skicka köparen till en betaltjänst.</dd></div>
         <div><dt>Betalt</dt><dd>Från 5 dollar ≈ 50 kr.</dd></div>
       </dl>
     </article>
@@ -1049,8 +1048,16 @@ Mät på den riktiga sidan i stället för att bara läsa koden. Ge varje punkt 
         <div><dt>Passar för</dt><dd>Appar i Next.js, som Vercel själva står bakom.</dd></div>
         <div><dt>Gratis</dt><dd>100 GB trafik och 1 miljon funktionsanrop i månaden. Tar kvoten slut får du oftast vänta tills 30 dagar har gått.</dd></div>
         <div><dt>Databas</dt><dd>Via tillägg, till exempel Neon eller Supabase.</dd></div>
-        <div><dt>Tjäna pengar</dt><dd>Inte på gratisnivån, som bara gäller privat bruk. Allt som ger någon pengar kräver Pro.</dd></div>
         <div><dt>Betalt</dt><dd>Pro, 20 dollar ≈ 200 kr per person.</dd></div>
+      </dl>
+    </article>
+    <article class="h-card">
+      <h3>Supabase</h3>
+      <dl>
+        <div><dt>Passar för</dt><dd>Databas, inloggning och filer till en sida som ligger någon annanstans, till exempel på Vercel.</dd></div>
+        <div><dt>Gratis</dt><dd>2 projekt och 50 000 användare i månaden. <a href="https://supabase.com/docs/guides/platform/project-pausing" target="_blank" rel="noopener">Gratisprojekt pausas</a> efter ungefär en vecka med för lite aktivitet. Du får mejl innan och kan starta dem igen.</dd></div>
+        <div><dt>Databas</dt><dd>PostgreSQL ingår, med 500 MB gratis.</dd></div>
+        <div><dt>Betalt</dt><dd>Pro, från 25 dollar ≈ 250 kr. Pausas inte.</dd></div>
       </dl>
     </article>
     <article class="h-card">
@@ -1059,37 +1066,30 @@ Mät på den riktiga sidan i stället för att bara läsa koden. Ge varje punkt 
         <div><dt>Passar för</dt><dd>Sidor som bara är frontend. <a href="#github">Guiden står längre upp</a>, och den här sidan ligger där.</dd></div>
         <div><dt>Gratis</dt><dd>100 GB trafik i månaden (mjuk gräns). Sidan får vara högst 1 GB.</dd></div>
         <div><dt>Databas</dt><dd>Nej, det finns ingen backend.</dd></div>
-        <div><dt>Tjäna pengar</dt><dd>Nej, tjänsten är inte till för att driva en verksamhet.</dd></div>
         <div><dt>Betalt</dt><dd>Gratis i publika repon. Privata repon kräver betald plan.</dd></div>
       </dl>
     </article>
   </div>
-  <p class="h-rule"><strong>Tumregel:</strong> bara en sida att läsa, då räcker GitHub Pages. Inloggning eller databas: Cloudflare eller Vercel. Tjänar du pengar på sidan: Cloudflare eller Vercel Pro.</p>
-  <p class="h-note">Priser per månad, omräknade med 10 kr per dollar och kontrollerade 1 november 2026. Läs villkoren själv innan du börjar sälja något: <a href="https://www.cloudflare.com/terms/" target="_blank" rel="noopener">Cloudflare</a>, <a href="https://vercel.com/docs/limits/fair-use-guidelines" target="_blank" rel="noopener">Vercel</a>, <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits" target="_blank" rel="noopener">GitHub Pages</a>.</p>
+  <p class="h-rule"><strong>Tumregel:</strong> bara en sida att läsa, då räcker GitHub Pages. Inloggning eller databas: Cloudflare, eller Vercel ihop med Supabase.</p>
+  <p class="h-note">Priser per månad, omräknade med 10 kr per dollar och kontrollerade 1 november 2026.</p>
 
   <div class="h-tips">
     <div class="h-tip h-tip-mcp">
       <h3>Tips: låt agenten prata direkt med Cloudflare</h3>
-      <p>Du behöver inte leta i Cloudflares menyer. Med en <a href="https://developers.cloudflare.com/agents/model-context-protocol/mcp-servers-for-cloudflare/" target="_blank" rel="noopener">MCP-koppling</a> kan Claude eller Codex läsa och ändra ditt konto direkt: be den peka din domän rätt eller skapa en databas. När du kopplar den öppnas en sida från Cloudflare som ber om en lång rad behörigheter. Det är så det ska se ut: det är du som väljer vad agenten får göra, och ingenting händer förrän du godkänner.</p>
+      <p>Du behöver inte leta i Cloudflares menyer. Med en MCP-koppling kan Claude eller Codex läsa och ändra ditt konto direkt: be den peka din domän rätt eller skapa en databas. När du kopplar den öppnas en sida från Cloudflare som ber om en lång rad behörigheter. Det är så det ska se ut: det är du som väljer vad agenten får göra, och ingenting händer förrän du godkänner.</p>
 
-      <div class="h-cmd">
-        <div class="h-cmd-bar"><p id="h-claude-k">Claude Code</p><button class="h-copy" type="button" data-copy="h-claude" aria-describedby="h-claude-k">Kopiera</button></div>
-        <code id="h-claude">claude mcp add --transport http --scope user cloudflare https://mcp.cloudflare.com/mcp</code>
-      </div>
-      <p class="h-after">Skriv sedan <code>/mcp</code> i Claude Code och logga in.</p>
-
-      <div class="h-cmd">
-        <div class="h-cmd-bar"><p id="h-codex-k">Codex</p><button class="h-copy" type="button" data-copy="h-codex" aria-describedby="h-codex-k">Kopiera</button></div>
-        <code id="h-codex">codex mcp add cloudflare --url https://mcp.cloudflare.com/mcp</code>
-      </div>
-      <p class="h-after">Webbläsaren öppnar direkt Cloudflares inloggning.</p>
-
-      <p><a href="https://vercel.com/docs/agent-resources/vercel-mcp" target="_blank" rel="noopener">Vercel fungerar likadant</a>: byt <code>cloudflare</code> mot <code>vercel</code> och adressen mot <code>https://mcp.vercel.com</code>.</p>
+      <p>Så här kopplar du, steg för steg:</p>
+      <ul class="h-guides">
+        <li><a href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener">Claude Code: Anthropics guide</a></li>
+        <li><a href="https://learn.chatgpt.com/docs/extend/mcp?surface=cli" target="_blank" rel="noopener">Codex: OpenAIs guide</a></li>
+        <li><a href="https://github.com/cloudflare/mcp#get-started" target="_blank" rel="noopener">Cloudflare: adressen du ska koppla till</a></li>
+        <li><a href="https://vercel.com/docs/agent-resources/vercel-mcp" target="_blank" rel="noopener">Vercel: fungerar likadant, med egen guide</a></li>
+      </ul>
       <p><strong>Agenten kan ändra på riktigt.</strong> Ge den bara de behörigheter som behövs, och läs vad den tänker göra innan du godkänner, särskilt när något ska raderas.</p>
     </div>
 
     <div class="h-tip h-tip-pro">
-      <h3>Proffstips: markera allt och klistra in</h3>
+      <h3>Tips från coachen: markera allt och klistra in</h3>
       <p>Går det inte att koppla, eller vill du inte ge agenten tillgång? Då räcker tre tangenttryck, på vilken sida som helst.</p>
       <ol>
         <li><kbd>Ctrl</kbd> + <kbd>A</kbd> markerar allt på sidan du tittar på.</li>
@@ -1175,35 +1175,24 @@ Mät på den riktiga sidan i stället för att bara läsa koden. Ge varje punkt 
 <link rel="stylesheet" href="sections/verktyg.css">
 <section id="verktyg" class="sec" aria-labelledby="verktyg-h">
   <h2 id="verktyg-h">Skills, plugins och MCP vi kör själva</h2>
-  <p class="lede">Rätt tillägg gör agenten mycket bättre. En <strong>skill</strong> är en färdig instruktion. Ett <strong>plugin</strong> är ett paket med skills och kopplingar som installeras med ett kommando. En <strong>MCP</strong> kopplar agenten till en annan tjänst.</p>
-  <p class="lede">Kommandona körs i terminalen, eller så klistrar du in dem i agenten och ber den köra dem. Starta om agenten efteråt. Allt här är andras kod som körs med dina behörigheter och tar plats i agentens minne, så läs beskrivningen först och installera bara det du behöver.</p>
+  <p class="lede">Rätt tillägg gör agenten mycket bättre. En <strong>skill</strong> är en färdig instruktion. Ett <strong>plugin</strong> är ett paket med skills och kopplingar. En <strong>MCP</strong> kopplar agenten till en annan tjänst.</p>
+  <p class="lede">Hur du installerar står i varje länk. Du kan också klistra in länken i agenten och be den ordna det. Allt här är andras kod som körs med dina behörigheter och tar plats i agentens minne, så läs beskrivningen först och installera bara det du behöver.</p>
 
   <div class="groups">
     <div class="group">
       <h3>Skills och plugins</h3>
       <ol>
         <li><a href="https://github.com/mattpocock/skills" target="_blank" rel="noopener">Matt Pococks skills</a>
-          <p>Vår favorit. <em>grill-me</em> intervjuar dig innan agenten börjar, <em>tdd</em> låter den skriva testet först och <em>diagnosing-bugs</em> ger den en metod när något krånglar. Kör <code>/setup-matt-pocock-skills</code> en gång per repo.</p>
-          <dl class="cmd">
-            <dt>Claude Code</dt><dd><code>claude plugin install mattpocock-skills@claude-plugins-official</code></dd>
-            <dt>Codex</dt><dd><code>codex plugin marketplace add mattpocock/skills</code></dd><dd><code>codex plugin add mattpocock-skills@mattpocock</code></dd>
-          </dl>
+          <p>Vår favorit. <em>grill-me</em> intervjuar dig innan agenten börjar, <em>tdd</em> låter den skriva testet först och <em>diagnosing-bugs</em> ger den en metod när något krånglar.</p>
         </li>
         <li><a href="https://github.com/DietrichGebert/ponytail" target="_blank" rel="noopener">Ponytail</a>
           <p>Tvingar agenten att välja den enklaste lösningen som fungerar, i stället för att bygga mer än du bad om. Enligt skaparens egna tester blir det 53 % mindre kod.</p>
-          <dl class="cmd">
-            <dt>Claude Code</dt><dd><code>claude plugin marketplace add DietrichGebert/ponytail</code></dd><dd><code>claude plugin install ponytail@ponytail</code></dd>
-            <dt>Codex</dt><dd><code>codex plugin marketplace add DietrichGebert/ponytail</code></dd><dd><code>codex plugin add ponytail@ponytail</code></dd>
-          </dl>
-          <p class="after">I Codex: öppna <code>/hooks</code> och godkänn de två krokarna.</p>
         </li>
         <li><a href="https://claude.com/plugins/frontend-design" target="_blank" rel="noopener">frontend-design</a>
           <p>Får agenten att välja en egen visuell riktning i stället för den vanliga AI-looken. Från Anthropic, och det mest installerade pluginet i deras katalog.</p>
-          <dl class="cmd"><dt>Claude Code</dt><dd><code>claude plugin install frontend-design@claude-plugins-official</code></dd></dl>
         </li>
         <li><a href="https://claude.com/plugins/security-guidance" target="_blank" rel="noopener">security-guidance</a>
           <p>Varnar när agenten skriver riskabel kod och granskar ändringen när den är klar, till exempel hemligheter i koden. Från Anthropic. Kräver Python, och granskningen använder din kvot.</p>
-          <dl class="cmd"><dt>Claude Code</dt><dd><code>claude plugin install security-guidance@claude-plugins-official</code></dd></dl>
         </li>
       </ol>
     </div>
@@ -1213,31 +1202,21 @@ Mät på den riktiga sidan i stället för att bara läsa koden. Ge varje punkt 
       <ol>
         <li><a href="https://github.com/cloudflare/skills" target="_blank" rel="noopener">Cloudflare</a>
           <p>Samma koppling som i <a href="#hosting">tipset under Hosting</a>, plus Cloudflares egna skills för den som bygger där.</p>
-          <dl class="cmd">
-            <dt>Claude Code</dt><dd><code>claude plugin install cloudflare@claude-plugins-official</code></dd>
-            <dt>Codex</dt><dd><code>codex plugin marketplace add cloudflare/skills</code></dd><dd><code>codex plugin add cloudflare@cloudflare</code></dd>
-          </dl>
         </li>
         <li><a href="https://github.com/microsoft/playwright-mcp" target="_blank" rel="noopener">Playwright</a>
           <p>Låter agenten klicka runt på din sida i en riktig webbläsare. <a href="#verifiera">Jämförelsen står under Låt AI:n granska sitt eget arbete</a>.</p>
-          <dl class="cmd">
-            <dt>Claude Code</dt><dd><code>claude mcp add --scope user playwright -- npx @playwright/mcp@latest</code></dd>
-            <dt>Codex</dt><dd><code>codex mcp add playwright npx "@playwright/mcp@latest"</code></dd>
-          </dl>
         </li>
         <li><a href="https://github.com/ChromeDevTools/chrome-devtools-mcp" target="_blank" rel="noopener">Chrome DevTools MCP</a>
           <p>Ser konsolen, nätverket och hur snabb sidan är. Bra när något är fel men inte syns.</p>
-          <dl class="cmd"><dt>Claude Code</dt><dd><code>claude plugin install chrome-devtools-mcp@claude-plugins-official</code></dd></dl>
         </li>
-        <li><a href="https://consensus.app/" target="_blank" rel="noopener">Consensus</a>
+        <li><a href="https://claude.com/plugins/context7" target="_blank" rel="noopener">Context7</a>
+          <p>Hämtar aktuell dokumentation, så att agenten inte kodar mot gamla versioner.</p>
+        </li>
+        <li><a href="https://consensus.app/home/mcp/" target="_blank" rel="noopener">Consensus</a>
           <p>Söker i över 400 miljoner forskningsartiklar, så att agenten kan hänvisa till riktiga källor.</p>
-          <dl class="cmd">
-            <dt>Claude Code</dt><dd><code>claude mcp add --transport http --scope user consensus https://mcp.consensus.app/mcp</code></dd>
-            <dt>Codex</dt><dd><code>codex mcp add consensus --url https://mcp.consensus.app/mcp</code></dd>
-          </dl>
         </li>
         <li><a href="https://github.com/repowise-dev/repowise" target="_blank" rel="noopener">Repowise</a>
-          <p>Indexerar hela kodbasen på din dator, så att agenten frågar indexet i stället för att öppna fil efter fil. Fungerar med både Claude Code och Codex. Installationen står i länken.</p>
+          <p>Indexerar hela kodbasen på din dator, så att agenten frågar indexet i stället för att öppna fil efter fil. Fungerar med både Claude Code och Codex.</p>
         </li>
       </ol>
     </div>
@@ -1246,30 +1225,15 @@ Mät på den riktiga sidan i stället för att bara läsa koden. Ge varje punkt 
       <h3>Skydd och sådant som redan finns</h3>
       <ol>
         <li><a href="https://github.com/Dicklesworthstone/destructive_command_guard" target="_blank" rel="noopener">dcg</a>
-          <p>Inte en skill utan ett skydd. Stoppar kommandon som förstör arbete, till exempel <code>git reset --hard</code> och <code>rm -rf</code>, innan de körs. Fungerar med både Claude Code och Codex. Installationen står i länken.</p>
+          <p>Inte en skill utan ett skydd. Stoppar kommandon som förstör arbete, till exempel sådana som raderar filer eller skriver över ändringar, innan de körs. Fungerar med både Claude Code och Codex.</p>
         </li>
         <li><a href="https://cli.github.com/" target="_blank" rel="noopener">GitHub CLI</a>
-          <p>För GitHub behövs ingen MCP. Agenten kör kommandot <code>gh</code> direkt, och du loggar in en gång med <code>gh auth login</code>.</p>
+          <p>För GitHub behövs ingen MCP. Agenten använder GitHubs eget kommandoverktyg direkt, och du loggar in en gång.</p>
         </li>
         <li><a href="https://code.claude.com/docs/en/commands" target="_blank" rel="noopener">Inbyggt i Claude Code</a>
           <p>Inget att installera. <code>/code-review</code> letar fel i din ändring, <code>/security-review</code> letar säkerhetshål och <code>/simplify</code> städar koden.</p>
         </li>
       </ol>
-    </div>
-
-    <div class="group">
-      <h3>Annat som många kör</h3>
-      <p class="intro">Vi använder dem inte dagligen, men de hör till de mest installerade i Anthropics katalog (oktober 2026). Installera med <code>claude plugin install namn@claude-plugins-official</code>, där namnet står under varje rad.</p>
-      <ol>
-        <li><a href="https://claude.com/plugins/superpowers" target="_blank" rel="noopener">Superpowers</a><p>Ett helt arbetssätt med planering, tester, felsökning och granskning. Stort, och bäst om du redan kan utveckling.</p><span class="tags"><code>superpowers</code>, ungefär 1,1 miljoner installationer</span></li>
-        <li><a href="https://claude.com/plugins/context7" target="_blank" rel="noopener">Context7</a><p>Hämtar aktuell dokumentation, så att agenten inte kodar mot gamla versioner.</p><span class="tags"><code>context7</code>, ungefär 440 000 installationer</span></li>
-        <li><a href="https://claude.com/plugins/skill-creator" target="_blank" rel="noopener">skill-creator</a><p>Hjälper dig skriva och testa egna skills. Från Anthropic.</p><span class="tags"><code>skill-creator</code>, ungefär 430 000 installationer</span></li>
-        <li><a href="https://claude.com/plugins/vercel" target="_blank" rel="noopener">Vercel</a><p>Publicering, byggstatus och loggar från Vercel, direkt i agenten.</p><span class="tags"><code>vercel</code>, ungefär 290 000 installationer</span></li>
-        <li><a href="https://claude.com/plugins/figma" target="_blank" rel="noopener">Figma</a><p>Läser dina skisser, så att agenten kan bygga efter dem.</p><span class="tags"><code>figma</code>, ungefär 180 000 installationer</span></li>
-        <li><a href="https://claude.com/plugins/supabase" target="_blank" rel="noopener">Supabase</a><p>Agenten sköter databas, inloggning och fillagring i ditt Supabase-projekt.</p><span class="tags"><code>supabase</code>, ungefär 130 000 installationer</span></li>
-        <li><a href="https://claude.com/plugins/stripe" target="_blank" rel="noopener">Stripe</a><p>Hjälper agenten bygga betalningar med Stripe.</p><span class="tags"><code>stripe</code>, ungefär 87 000 installationer</span></li>
-      </ol>
-      <p class="after">Hittas inte pluginet? Kör först <code>claude plugin marketplace add anthropics/claude-plugins-official</code>.</p>
     </div>
   </div>
 </section>
@@ -1277,7 +1241,7 @@ Mät på den riktiga sidan i stället för att bara läsa koden. Ge varje punkt 
 <link rel="stylesheet" href="sections/lar.css">
 <section id="lar" class="sec" aria-labelledby="lar-h">
   <h2 id="lar-h">Det som är värt din tid</h2>
-  <p class="lede">Två svenska grupper där du kan fråga folk, 18 forum på Reddit, 7 Youtubekanaler och 18 andra länkar, allt granskat i oktober 2026. Medlemsantalen är ungefärliga. Allt är gratis att läsa och titta på. Allt utom de svenska grupperna är på engelska. Verktygen själva (till exempel Claude Code) kräver oftast ett betalt abonnemang.</p>
+  <p class="lede">Två svenska grupper där du kan fråga folk, 18 forum på Reddit, 7 Youtubekanaler och 20 andra länkar, granskade i oktober och november 2026. Medlemsantalen är ungefärliga. Allt är gratis att läsa, lyssna på och titta på. Det mesta är på engelska, och det svenska är märkt. Verktygen själva (till exempel Claude Code) kräver oftast ett betalt abonnemang.</p>
 
   <div class="groups">
     <div class="group">
@@ -1382,6 +1346,8 @@ Mät på den riktiga sidan i stället för att bara läsa koden. Ge varje punkt 
       <ol>
         <li><a href="https://simonwillison.net/" target="_blank" rel="noopener">Simon Willison</a><p>Den bästa oberoende bloggen om AI-verktyg. Testar allt nytt och skriver ärligt om vad som håller. Flera inlägg om dagen, så skumma rubrikerna.</p><span class="tags">På engelska</span></li>
         <li><a href="https://code.claude.com/docs/en/whats-new" target="_blank" rel="noopener">Claude Code: what's new</a><p>En sammanfattning av nyheterna i Claude Code, uppdateras oregelbundet. Lättare att följa än den fullständiga ändringsloggen.</p><span class="tags">På engelska</span></li>
+        <li><a href="https://www.linkedin.com/in/andersbjarby/" target="_blank" rel="noopener">Anders Bjarby</a><p>Bygger mycket med AI-agenter och skriver om det han lär sig. Driver också podden Generativet.</p><span class="tags">På LinkedIn</span></li>
+        <li><a href="https://veckans.ai" target="_blank" rel="noopener">Veckans AI</a><p>Fredrik Hanefalk och Magnus Paues går igenom veckans AI-nyheter och testar två AI-tjänster i varje avsnitt. Kommer ungefär en gång i veckan.</p><span class="tags">På svenska</span></li>
       </ol>
     </div>
   </div>

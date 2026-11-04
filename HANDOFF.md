@@ -2,7 +2,7 @@
 schemaVersion: 1
 status: active
 currentGoal: Hålla solsystemssidan på buildapp.se/ai aktuell
-nextAction: Ändringar görs i webbverkstad runs/ai-solsystem och kopieras hit enligt CONTEXT.md
+nextAction: För över PR #1 och #2 (CSP-hashar, a11y, contrast.js) till webbverkstad runs/ai-solsystem före nästa kopiering
 blockers: []
 reviewedAt: 2026-11-04
 ---

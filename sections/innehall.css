@@ -1,0 +1,9 @@
+/* Innehåll: the eleven sections in page order, right under the map. The cue arrow points here. */
+.toc { max-width: var(--wrap); margin: 0 auto; padding: var(--sec-pad) var(--gutter) 0; }
+.toc h2 { font: 700 clamp(1.05rem, 0.95rem + 0.5vw, 1.35rem)/1.2 var(--display); letter-spacing: -0.02em; margin: 0 0 1rem; }
+.toc-list { list-style: none; margin: 0; padding: 0; counter-reset: toc; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); gap: 0 var(--gutter); }
+.toc-list li { counter-increment: toc; border-top: 1px solid var(--line); }
+.toc-list a { display: flex; align-items: center; gap: 0.8rem; min-height: 44px; padding: 0.35rem 0; color: var(--text); text-decoration: none; }
+.toc-list a::before { content: counter(toc, decimal-leading-zero); content: counter(toc, decimal-leading-zero) / ""; font: 700 0.8rem/1 var(--display); color: var(--muted); min-width: 1.6rem; }
+.toc-list a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+.toc-list a:hover::before { color: var(--star); }

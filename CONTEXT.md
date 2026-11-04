@@ -18,8 +18,8 @@ MCP, lär dig mer).
   `index.html`, `app.js`, `three.js`, `favicon.svg`, `icon-32.png`,
   `apple-touch-icon.png`, `og.png`, `og.source.html`, `integritet.html`,
   `fonts/*.woff2`, och ur `sections/` bara det `index.html` refererar:
-  `{andra,benchmarks,datorn,github,grilla,hosting,koll,lar,start,verifiera,verktyg}.css` och
-  `{benchmarks,datorn,grilla,start}.js`. Inga avsnittskällor (`*.html`,
+  `{andra,benchmarks,datorn,github,grilla,hosting,innehall,koll,lar,start,vag,verifiera,verktyg}.css` och
+  `{benchmarks,datorn,grilla,start,vag}.js`. Inga avsnittskällor (`*.html`,
   `*.src.js`), tester, förhandsvisningar eller skärmbilder.
   Kontrollera listan mot `grep -oE '(src|href)="[^"#:]+"' index.html integritet.html`
   och `url(` i CSS innan kopiering.

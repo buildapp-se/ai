@@ -20,3 +20,8 @@ _musik/
 
 # Gate-skärmbilder (webbverkstad gates/check.mjs skriver dem här), committas inte.
 shots/
+
+# Stryker (mutationstest, `npm i --no-save @stryker-mutator/core && npx stryker run`): rapporter, temp och paket committas inte.
+reports/
+.stryker-tmp/
+node_modules/

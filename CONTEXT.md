@@ -53,6 +53,9 @@ MCP, lär dig mer).
   botten. `node contrast.test.js` läser tokens ur `index.html` och kräver 4,5:1
   för text- och signalfärger och 3:1 för benchmarkfärgerna, mot `--space` och
   `--sheet`.
+  Själva formlerna ligger i `contrast.js` och har egna tester med WCAG:s
+  referensvärden: `node --test contrast-math.test.js`. Mutationstest:
+  `npm i --no-save @stryker-mutator/core && npx stryker run` (`stryker.config.json`).
 - Båda sidorna har en `<meta http-equiv="Content-Security-Policy">` där
   inline-skript bara tillåts via sha256-hash. Ändras ett inline-skript (eller
   läggs ett till) måste hashen i samma sidas meta-CSP bytas, annars blockeras
@@ -95,3 +98,4 @@ Read by the cockpit Audits tab. One `- Label: YYYY-MM-DD, result` per check; con
 - Database: 2026-10-27, none, no storage (no cookies, no localStorage since the new page)
 - ZAP baseline: 2026-10-27, n/a, static site on GitHub Pages with no server, cookies or forms; headers, TLS and markup are covered by their own columns, so a passive ZAP scan would repeat them
 - Dependabot: 2026-10-29, pass, 0 open alerts
+- Mutation: 2026-11-04, pass, Stryker 97,50 % on contrast.js (78 of 80, before 64,47 %), 2 survivors reviewed as equivalent; page scripts are DOM and three.js UI built in webbverkstad, not mutation tested

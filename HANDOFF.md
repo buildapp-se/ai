@@ -4,10 +4,12 @@ status: active
 currentGoal: Hålla solsystemssidan på buildapp.se/ai aktuell
 nextAction: Ändringar görs i webbverkstad runs/ai-solsystem och kopieras hit enligt CONTEXT.md
 blockers: []
-reviewedAt: 2026-11-01
+reviewedAt: 2026-11-04
 ---
 
 # Handoff: AI-resurssidan
+
+**2026-11-04, mutationstest (Claude, PR #2, grenen `claude/mutation-2026-11-04`, inte mergad).** Audit-kolumnen Mutation med Stryker 10.1.1. Kontrastformlerna flyttade oförändrade ur `contrast.test.js` till `contrast.js`, nya `contrast-math.test.js` (8 tester med WCAG:s referensvärden), `parse` kräver nu att hela färgvärdet matchar. Poäng 64,47 % före, 97,50 % efter; de två överlevande är ekvivalenta. Sidans skript är UI och testades inte. **Ska porteras till webbverkstad** (Codex äger den). Krockar i `HANDOFF.md` och `CONTEXT.md` med PR #1, som också lägger till poster överst.
 
 **2026-11-01, Hosting och Verktyg** (Patrik). Två nya avsnitt från webbverkstad: `hosting` efter `datorn` (Cloudflare, Vercel, GitHub Pages, MCP-tipset och Ctrl+A-tipset) och `verktyg` före `lar` (skills, plugins och MCP). Samma dag: raden "Tjäna pengar" borttagen på Patriks begäran, Supabase tillagt som fjärde kort. Pausen vid inaktivitet gäller Supabase, inte Vercel. Alla installationskommandon borttagna till förmån för länkar, gruppen "Annat som många kör" borttagen (Context7 flyttad till MCP eftersom den används), Anders Bjarby och Veckans AI under `lar`, `og.png` med nya ikonen. Delningstjänster kan visa gamla bilden tills deras cache går ut. Kopierat `index.html`, `og.png`, `og.source.html`, `sections/hosting.css`, `sections/verktyg.css`. Inga nya anrop eller lagring, så `integritet.html` är oförändrad. Installationssiffrorna är från 2026-10-16 och priserna från 2026-11-01. Källor: webbverkstad `sections/hosting-verktyg.sources.md`.
 

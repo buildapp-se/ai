@@ -92,3 +92,4 @@ Read by the cockpit Audits tab. One `- Label: YYYY-MM-DD, result` per check; con
 - Database: 2026-10-27, none, no storage (no cookies, no localStorage since the new page)
 - ZAP baseline: 2026-10-27, n/a, static site on GitHub Pages with no server, cookies or forms; headers, TLS and markup are covered by their own columns, so a passive ZAP scan would repeat them
 - Dependabot: 2026-10-29, pass, 0 open alerts
+- Mutation: 2026-11-04, pass, Stryker 97,50 % on contrast.js (78 of 80, before 64,47 %), 2 survivors reviewed as equivalent; page scripts are DOM and three.js UI built in webbverkstad, not mutation tested

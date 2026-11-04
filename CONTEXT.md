@@ -53,6 +53,9 @@ MCP, lär dig mer).
   botten. `node contrast.test.js` läser tokens ur `index.html` och kräver 4,5:1
   för text- och signalfärger och 3:1 för benchmarkfärgerna, mot `--space` och
   `--sheet`.
+  Själva formlerna ligger i `contrast.js` och har egna tester med WCAG:s
+  referensvärden: `node --test contrast-math.test.js`. Mutationstest:
+  `npm i --no-save @stryker-mutator/core && npx stryker run` (`stryker.config.json`).
 
 ## Design
 

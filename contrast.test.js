@@ -10,24 +10,8 @@ const root = html.match(/:root\s*\{([\s\S]*?)\}/)[1];
 const tok = {};
 for (const [, k, v] of root.matchAll(/--([\w-]+):\s*([^;]+);/g)) tok[k] = v.trim();
 
-// "#rrggbb", "rgb(r g b)" eller "rgb(r g b / a)" -> [r,g,b,a]
-const parse = s => {
-  if (s.startsWith('#')) return [1, 3, 5].map(i => parseInt(s.slice(i, i + 2), 16)).concat(1);
-  const m = s.match(/rgb\(\s*(\d+)\s+(\d+)\s+(\d+)\s*(?:\/\s*([\d.]+))?\s*\)/);
-  assert.ok(m, `okänt färgformat: ${s}`);
-  return [+m[1], +m[2], +m[3], m[4] === undefined ? 1 : +m[4]];
-};
-const over = (fg, bg) => fg.slice(0, 3).map((c, i) => c * fg[3] + bg[i] * (1 - fg[3]));
-const lum = rgb => {
-  const c = rgb.map(v => v / 255).map(v => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
-  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
-};
-const ratio = (fgName, bgName) => {
-  const bg = parse(tok[bgName]);
-  const fg = over(parse(tok[fgName]), bg);
-  const [hi, lo] = [lum(fg), lum(bg.slice(0, 3))].sort((x, y) => y - x);
-  return (hi + 0.05) / (lo + 0.05);
-};
+const { ratio: contrast } = require('./contrast');
+const ratio = (fgName, bgName) => contrast(tok[fgName], tok[bgName]);
 
 // Brödtext, sekundär text och signalfärger som också bär text: 4.5:1.
 const text = ['text', 'muted', 'star', 'cool', 'ok', 'fail'];

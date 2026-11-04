@@ -1,0 +1,9 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "mutate": ["contrast.js"],
+  "testRunner": "command",
+  "commandRunner": { "command": "node contrast.test.js && node --test contrast-math.test.js" },
+  "reporters": ["clear-text", "html", "json"],
+  "coverageAnalysis": "off",
+  "tempDirName": ".stryker-tmp"
+}

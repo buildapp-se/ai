@@ -365,6 +365,55 @@ h1 { font: 700 clamp(1.7rem, 1rem + 2.6vw, 3.3rem)/1.05 var(--display); letter-s
   </ol>
 </nav>
 
+<link rel="stylesheet" href="sections/vag.css">
+<section id="din-vag" class="vag" aria-labelledby="vag-h" hidden>
+  <h2 id="vag-h">Tre frågor, din egen väg</h2>
+  <p class="vag-lede">Svara på det du vet. Varje svar ger ett kort råd och plockar ut de avsnitt du har mest nytta av, i sidans ordning. Ingenting sparas.</p>
+  <form id="vag-form" class="vag-form">
+    <div class="vag-q">
+      <fieldset class="vag-set">
+        <legend>1. Hur vill du bygga?</legend>
+        <label><input type="radio" name="verktyg" id="v-chatt" value="chatt" data-vag="start grilla andra"> Jag vill bara fråga och skriva</label>
+        <label><input type="radio" name="verktyg" id="v-webb" value="webb" data-vag="start github grilla verifiera"> I webbläsaren, utan att installera något</label>
+        <label><input type="radio" name="verktyg" id="v-agent" value="agent" data-vag="start github grilla verifiera verktyg"> Med en kodagent i mina egna filer</label>
+        <div class="vag-svar" aria-live="polite">
+          <p data-svar="v-chatt" hidden>Då räcker chatten: Claude, ChatGPT eller Gemini, gratis att börja med. Du behöver varken kodverktyg eller GitHub.</p>
+          <p data-svar="v-webb" hidden>Lovable eller Replit: du beskriver sidan i en chatt och ser den växa fram. Koppla projektet till GitHub när det blir på riktigt.</p>
+          <p data-svar="v-agent" hidden>Claude Code eller Codex arbetar i dina filer och ditt repo. Skills och MCP lägger du till när du vet vad du saknar.</p>
+        </div>
+      </fieldset>
+      <fieldset class="vag-set">
+        <legend>2. Vad ska sidan göra?</legend>
+        <label><input type="radio" name="hosting" id="h-visa" value="visa" data-vag="github hosting koll"> Bara visa text och bilder</label>
+        <label><input type="radio" name="hosting" id="h-data" value="data" data-vag="datorn hosting koll"> Spara data eller ha inloggning</label>
+        <label><input type="radio" name="hosting" id="h-vet" value="vet" data-vag="datorn hosting koll"> Vet inte än</label>
+        <div class="vag-svar" aria-live="polite">
+          <p data-svar="h-visa" hidden>GitHub Pages räcker, gratis i publika repon. Den här sidan ligger där.</p>
+          <p data-svar="h-data" hidden>Då behövs en backend: Cloudflare med databasen D1, eller Vercel ihop med Supabase.</p>
+          <p data-svar="h-vet" hidden>Börja med en sida som bara visar något. Datorns delar förklarar skillnaden mellan frontend och backend när du behöver den.</p>
+        </div>
+      </fieldset>
+      <fieldset class="vag-set">
+        <legend>3. Vad får det kosta?</legend>
+        <label><input type="radio" name="kostnad" id="k-noll" value="noll" data-vag="start hosting"> Ingenting</label>
+        <label><input type="radio" name="kostnad" id="k-par" value="par" data-vag="start hosting"> Ett par hundra kronor i månaden</label>
+        <label><input type="radio" name="kostnad" id="k-mer" value="mer" data-vag="start hosting koll"> Mer, om sidan behöver det</label>
+        <div class="vag-svar" aria-live="polite">
+          <p data-svar="k-noll" hidden>Gratisnivåerna räcker för att prova men tar slut fort när du bygger. GitHub Pages är gratis i publika repon, och Cloudflare ger din kod 100&nbsp;000 anrop per dygn utan kostnad.</p>
+          <p data-svar="k-par" hidden>Räkna med ungefär 200 till 250&nbsp;kr för verktyget, till exempel Claude Pro eller ChatGPT Plus. Hostingen kan ofta fortfarande vara gratis.</p>
+          <p data-svar="k-mer" hidden>Lägg till betald hosting: Cloudflare från ungefär 50&nbsp;kr, Vercel Pro ungefär 200&nbsp;kr och Supabase Pro ungefär 250&nbsp;kr. Sätt ett kostnadstak innan du publicerar.</p>
+        </div>
+      </fieldset>
+    </div>
+    <div class="vag-ut" id="vag-ut" hidden>
+      <h3 id="vag-lista-h">Din väg genom sidan</h3>
+      <ol class="vag-lista" id="vag-lista" aria-labelledby="vag-lista-h"></ol>
+      <button class="btn" type="reset">Börja om</button>
+    </div>
+  </form>
+</section>
+<script src="sections/vag.js" defer></script>
+
 <!--sections:start-->
 <link rel="stylesheet" href="sections/start.css">
 <section id="start" class="sec" aria-labelledby="start-h">

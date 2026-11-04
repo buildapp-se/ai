@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Q4IqP/NZKxuzJTOVzwxce0uEGqX5ld3VDTQSCjpF3WE=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com; object-src 'none'; base-uri 'self'; form-action 'none'">
 <title>Från idé till publicerad sida | AI-bolagen på en karta</title>
 <meta name="description" content="Först en karta över AI-bolagen, deras modeller och verktyg. Sedan vägen från idé till en publicerad sida: verktyg, GitHub, kontroller och var du lär dig mer.">
 <link rel="canonical" href="https://buildapp.se/ai/">
@@ -496,7 +497,7 @@ h1 { font: 700 clamp(1.7rem, 1rem + 2.6vw, 3.3rem)/1.05 var(--display); letter-s
           <p class="g-prompt-k" id="g-prompt-k">Utan att installera något: klistra in i valfri chatt eller agent</p>
           <button class="g-copybtn" type="button" data-copy="g-prompt-text">Kopiera</button>
         </div>
-        <pre id="g-prompt-text" aria-labelledby="g-prompt-k" tabindex="0">Jag vill bygga: [beskriv i en mening].
+        <pre id="g-prompt-text" role="region" aria-labelledby="g-prompt-k" tabindex="0">Jag vill bygga: [beskriv i en mening].
 
 Innan du skriver någon kod, intervjua mig. Ställ ungefär 20 frågor, några i taget och numrerade. Ge ditt eget förslag på svar till varje fråga, så att jag kan svara ja eller ändra. Fråga om allt som påverkar resultatet: vem som ska använda det, vad som är viktigast och vad som ska hända när något går fel. Sådant du kan ta reda på själv letar du upp i stället för att fråga. Jag är inte tekniker, så skriv enkelt.
 
@@ -656,7 +657,7 @@ När inga frågor återstår: sammanfatta planen i punktform och vänta på mitt
       <p class="v-prompt-k" id="v-prompt-k">Lägg till sist i varje uppdrag</p>
       <button class="v-copybtn" type="button" data-copy="v-prompt-text">Kopiera</button>
     </div>
-    <pre id="v-prompt-text" aria-labelledby="v-prompt-k" tabindex="0">Innan du säger att du är klar: bevisa att det fungerar. Kör typkontrollen och testerna, och skriv nya tester för det du har byggt. Öppna sidan i en riktig webbläsare, ta skärmbilder i mobil- och datorstorlek och titta på dem. Kontrollera att konsolen inte visar några fel. Rätta det du hittar och kör allt igen.</pre>
+    <pre id="v-prompt-text" role="region" aria-labelledby="v-prompt-k" tabindex="0">Innan du säger att du är klar: bevisa att det fungerar. Kör typkontrollen och testerna, och skriv nya tester för det du har byggt. Öppna sidan i en riktig webbläsare, ta skärmbilder i mobil- och datorstorlek och titta på dem. Kontrollera att konsolen inte visar några fel. Rätta det du hittar och kör allt igen.</pre>
   </div>
 </section>
 
@@ -743,7 +744,7 @@ När inga frågor återstår: sammanfatta planen i punktform och vänta på mitt
       <p class="k-prompt-k" id="k-prompt-k">Klistra in till din agent</p>
       <button class="k-copybtn" type="button" data-copy="k-prompt-text">Kopiera</button>
     </div>
-    <pre id="k-prompt-text" aria-labelledby="k-prompt-k" tabindex="0">Gå igenom min sida mot den här listan, punkt för punkt: krypterad anslutning, säkerhetshuvuden, vanliga attacker (OWASP Top 10), skydd mot spam och överbelastning, kända hål i paketen, hemligheter och personuppgifter i git-historiken, GitHub Actions, tester, tillgänglighet (WCAG 2.2 AA), mobil och flera webbläsare, fart (PageSpeed), felfri HTML och hela länkar, 404-sida, titel, beskrivning och sitemap, delningsbild, favicon, GDPR, kakor och liknande lagring (även localStorage) och samtycke, spårare från andra, licenser, säkerhetskopior, övervakning, felloggning, domänförnyelse, mejlinställningar och kostnadstak.
+    <pre id="k-prompt-text" role="region" aria-labelledby="k-prompt-k" tabindex="0">Gå igenom min sida mot den här listan, punkt för punkt: krypterad anslutning, säkerhetshuvuden, vanliga attacker (OWASP Top 10), skydd mot spam och överbelastning, kända hål i paketen, hemligheter och personuppgifter i git-historiken, GitHub Actions, tester, tillgänglighet (WCAG 2.2 AA), mobil och flera webbläsare, fart (PageSpeed), felfri HTML och hela länkar, 404-sida, titel, beskrivning och sitemap, delningsbild, favicon, GDPR, kakor och liknande lagring (även localStorage) och samtycke, spårare från andra, licenser, säkerhetskopior, övervakning, felloggning, domänförnyelse, mejlinställningar och kostnadstak.
 
 Mät på den riktiga sidan i stället för att bara läsa koden. Ge varje punkt betyget klar, brister eller gäller inte, med en mening om varför. Rätta det du kan själv och visa att det fungerar efteråt. Det som kräver mitt beslut eller ett konto listar du sist, med en länk till var jag gör det.</pre>
   </div>

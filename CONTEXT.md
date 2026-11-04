@@ -53,6 +53,12 @@ MCP, lär dig mer).
   botten. `node contrast.test.js` läser tokens ur `index.html` och kräver 4,5:1
   för text- och signalfärger och 3:1 för benchmarkfärgerna, mot `--space` och
   `--sheet`.
+- Båda sidorna har en `<meta http-equiv="Content-Security-Policy">` där
+  inline-skript bara tillåts via sha256-hash. Ändras ett inline-skript (eller
+  läggs ett till) måste hashen i samma sidas meta-CSP bytas, annars blockeras
+  skriptet. `node csp.test.js` kontrollerar det och skriver ut rätt hash. Inga
+  `on…=`-attribut. Ny extern källa (skript, typsnitt, bild, anrop) kräver att
+  policyn utökas.
 
 ## Design
 
@@ -77,7 +83,7 @@ Read by the cockpit Audits tab. One `- Label: YYYY-MM-DD, result` per check; con
 - npm audit: 2026-09-24, n/a, no package.json
 - Secrets: 2026-09-24, pass, gitleaks 0 findings in 37 commits
 - Actions: 2026-09-24, n/a, no GitHub Actions workflows
-- WCAG 2.2 AA: 2026-09-24, warn, axe 4.13.0 0 violations on buildapp.se/ai (mobile, one page, after load animations); manual keyboard pass not done
+- WCAG 2.2 AA: 2026-11-04, warn, axe 4.10.3 0 violations on index.html and integritet.html (390 and 1280 px, after load animations, local, PR #1) after fixing 2 (target-size, region); keyboard Tab pass with visible focus; screen reader not tested
 - UX: 2026-09-24, warn, 5 of 6 script checks pass on buildapp.se/ai (no --interact), live after the tap-target fix 85818af; left: two spaced footer links at 15 px (pass WCAG); screenshot review not done
 - Headers (automated): 2026-10-27, pass, 6 of 6 on buildapp.se/ai, Observatory B+ on buildapp.se
 - npm audit (automated): 2026-10-06, n/a, No package.json in repository; evidence C:/dev/aifabriken/.runs/audits/2026-10-06-batch-a/ai.json

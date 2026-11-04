@@ -4,10 +4,12 @@ status: active
 currentGoal: Hålla solsystemssidan på buildapp.se/ai aktuell
 nextAction: Ändringar görs i webbverkstad runs/ai-solsystem och kopieras hit enligt CONTEXT.md
 blockers: []
-reviewedAt: 2026-11-01
+reviewedAt: 2026-11-04
 ---
 
 # Handoff: AI-resurssidan
+
+**2026-11-04, förbättringsrunda (Claude, PR #1, grenen `claude/forbattringar-2026-11-04`, inte mergad).** Ändrat direkt i den byggda sidan eftersom webbverkstad inte fanns i sessionen: **måste föras över till webbverkstad `runs/ai-solsystem`** före nästa kopiering, annars skrivs det över. (1) axe: MCP-asterisken `.v-star` i `sections/verifiera.css` minst 28 x 44 px (var 18 px bred), Tillbaka-länken i `integritet.html` i en `nav`, `role="region"` på de tre fokuserbara promptrutorna `#g/v/k-prompt-text`. axe 0 fel på båda sidorna i 390 och 1280 px (före 1 + 1). (2) Meta-CSP med `script-src` och sha256-hash för inline-skriptet på båda sidorna, ny `csp.test.js`; verifierat i Chromium utan CSP-överträdelser eller konsolfel, med simulerad Cloudflare-beacon. `og.png` kontrollerad: redan aktuell (sidans rubrik, samma fil som live). Ej gjort: JSON-LD `dateModified` står kvar på 2026-10-28 trots avsnitten 2026-11-01 (ändras i webbverkstad).
 
 **2026-11-01, Hosting och Verktyg** (Patrik). Två nya avsnitt från webbverkstad: `hosting` efter `datorn` (Cloudflare, Vercel, GitHub Pages, MCP-tipset och Ctrl+A-tipset) och `verktyg` före `lar` (skills, plugins och MCP). Samma dag: raden "Tjäna pengar" borttagen på Patriks begäran, Supabase tillagt som fjärde kort. Pausen vid inaktivitet gäller Supabase, inte Vercel. Alla installationskommandon borttagna till förmån för länkar, gruppen "Annat som många kör" borttagen (Context7 flyttad till MCP eftersom den används), Anders Bjarby och Veckans AI under `lar`, `og.png` med nya ikonen. Delningstjänster kan visa gamla bilden tills deras cache går ut. Kopierat `index.html`, `og.png`, `og.source.html`, `sections/hosting.css`, `sections/verktyg.css`. Inga nya anrop eller lagring, så `integritet.html` är oförändrad. Installationssiffrorna är från 2026-10-16 och priserna från 2026-11-01. Källor: webbverkstad `sections/hosting-verktyg.sources.md`.
 

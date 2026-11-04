@@ -35,6 +35,44 @@ MCP, lär dig mer).
   läser `/ai/quiz-data.js` till sin bossfråga. Den är inte del av sidan; ändra
   eller ta bort den bara tillsammans med spelet.
 
+```mermaid
+graph LR
+  subgraph WV["webbverkstad, lokalt"]
+    SRC[runs/ai-solsystem]
+    BUILD[build.mjs riktning a]
+  end
+
+  REPO[Det här repot, bara byggda filer]
+  PAGES[GitHub Pages buildapp.se/ai]
+  USER[Webbläsare]
+  TERM[Spelet buildapp.se/terminal]
+
+  subgraph PAGE["Sidan"]
+    HTML[index.html och app.js]
+    THREE[three.js WebGL]
+    SECT[sections/ css och js]
+    FONTS[fonts/ självhostade]
+  end
+
+  SRC --> BUILD
+  BUILD -->|kopiera runtime-filer| REPO
+  REPO -->|git push till main| PAGES
+  USER --> PAGES
+  PAGES --> HTML
+  HTML --> THREE
+  HTML --> SECT
+  HTML --> FONTS
+  TERM -->|läser quiz-data.js| PAGES
+```
+
+## Stack
+
+- Frontend: statisk HTML, CSS och vanilla JS med three.js (WebGL), inget ramverk
+- Kod: JavaScript; källan och bygget ligger i webbverkstad, inte här
+- Data: ingen backend, inga kakor, ingen localStorage
+- Tester: `node contrast.test.js` (WCAG-kontrast för färgtokens)
+- Hosting: GitHub Pages, buildapp.se/ai
+
 ## Historik
 
 - Den förra sidan (en fil `index.html` med byggordningskarta i elva stationer och

@@ -1,0 +1,16 @@
+/* Tre frågor, din egen väg: verktyg, hosting och kostnad. Hidden until sections/vag.js runs (it does nothing without JS). */
+.vag { max-width: var(--wrap); margin: 0 auto; padding: 2.5rem var(--gutter) 0; }
+.vag h2 { font: 700 clamp(1.05rem, 0.95rem + 0.5vw, 1.35rem)/1.2 var(--display); letter-spacing: -0.02em; margin: 0 0 0.6rem; }
+.vag-lede { color: var(--muted); max-width: 42rem; margin: 0 0 1.5rem; }
+.vag-q { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 1rem; }
+.vag-set { border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.2rem 1.2rem; margin: 0; min-width: 0; }
+.vag-set legend { font: 700 1rem/1.2 var(--display); padding: 0 0.4rem; margin-left: -0.4rem; }
+.vag-set label { display: flex; align-items: center; gap: 0.7rem; min-height: 44px; cursor: pointer; }
+.vag-set input { width: 1.15rem; height: 1.15rem; margin: 0; flex: none; accent-color: var(--star); }
+.vag-set label:has(:checked) { font-weight: 600; }
+.vag-svar p { margin: 0.8rem 0 0; padding-top: 0.8rem; border-top: 1px solid var(--line); color: var(--muted); }
+.vag-ut { margin-top: 1.5rem; }
+.vag-ut h3 { font: 700 1rem/1.2 var(--display); margin: 0 0 0.6rem; }
+.vag-lista { margin: 0 0 1rem; padding-left: 1.4rem; display: flex; flex-wrap: wrap; column-gap: 2rem; }
+.vag-lista li { padding-left: 0.2rem; }
+.vag-lista a { display: inline-flex; align-items: center; min-height: 44px; }

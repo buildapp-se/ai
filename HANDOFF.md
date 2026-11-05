@@ -113,6 +113,8 @@ Policyn 2.2 säger båda sakerna i ändringsstycket.
 
 Ny sida live 2026-10-27. Nästa ändring görs i webbverkstad och kopieras hit.
 
+**2026-11-04, tre förslag från cockpiten (Claude, PR #3, grenen `claude/forslag-2026-11-04`, inte mergad).** Patrik svarade ja på: innehållsmeny under kartan (`nav#innehall`, elva länkar, scrollpilen pekar dit, `toc.test.js`), direktlänk per planet (`#anthropic` öppnar planeten med fokus på panelens rubrik, bakåt/framåt i webbläsaren stänger och öppnar, utan WebGL får listans artikel fokus; ändrat i `app.js`) och tre frågor om verktyg, hosting och kostnad (`#din-vag`, `sections/vag.css` och `sections/vag.js`). Ändrat direkt i den byggda sidan: **måste föras över till webbverkstad `runs/ai-solsystem`**, listan står i PR #3. Verifierat i Chromium 375 och 1280 px, axe 0 fel ihop med PR #1:s CSP.
+
 ## Granskning 2026-09-16
 
 Cross-project audit run from elwyn-dash (session 5 in the daily note). Results written to `## Audits` in CONTEXT.md, findings appended to BACKLOG.md under `## Granskning 2026-09-16`. Headers on buildapp.se and the TLS grade are zone-level and are fixed once in Cloudflare, not here.

@@ -2,12 +2,14 @@
 schemaVersion: 1
 status: active
 currentGoal: Hålla solsystemssidan på buildapp.se/ai aktuell
-nextAction: För över PR #1 och #2 (CSP-hashar, a11y, contrast.js) till webbverkstad runs/ai-solsystem före nästa kopiering
+nextAction: Ändra sidan i webbverkstad runs/ai-solsystem, bygg, kör contrast.test.js och csp.test.js, kopiera hit
 blockers: []
-reviewedAt: 2026-11-04
+reviewedAt: 2026-11-05
 ---
 
 # Handoff: AI-resurssidan
+
+**2026-11-05, PR #1 överförd till webbverkstad** (webbverkstad 4a51ec7). CSP-hasharna, `nav`, `role="region"` och `.v-star` finns nu i källan `runs/ai-solsystem`; ett nytt bygge ger samma filer som main här (index.html, integritet.html och verifiera.css är identiska git-blobbar). PR #2 rörde bara testerna här och behövde ingen överföring. `csp.test.js` räknar hashen på filen som den ligger på disk: i en Windows-checkout med `core.autocrlf=true` får filen CRLF och testet fäller, fast den serverade sidan (LF) är rätt.
 
 **2026-11-04, förbättringsrunda (Claude, PR #1, grenen `claude/forbattringar-2026-11-04`, inte mergad).** Ändrat direkt i den byggda sidan eftersom webbverkstad inte fanns i sessionen: **måste föras över till webbverkstad `runs/ai-solsystem`** före nästa kopiering, annars skrivs det över. (1) axe: MCP-asterisken `.v-star` i `sections/verifiera.css` minst 28 x 44 px (var 18 px bred), Tillbaka-länken i `integritet.html` i en `nav`, `role="region"` på de tre fokuserbara promptrutorna `#g/v/k-prompt-text`. axe 0 fel på båda sidorna i 390 och 1280 px (före 1 + 1). (2) Meta-CSP med `script-src` och sha256-hash för inline-skriptet på båda sidorna, ny `csp.test.js`; verifierat i Chromium utan CSP-överträdelser eller konsolfel, med simulerad Cloudflare-beacon. `og.png` kontrollerad: redan aktuell (sidans rubrik, samma fil som live). Ej gjort: JSON-LD `dateModified` står kvar på 2026-10-28 trots avsnitten 2026-11-01 (ändras i webbverkstad).
 **2026-11-04, mutationstest (Claude, PR #2, grenen `claude/mutation-2026-11-04`, inte mergad).** Audit-kolumnen Mutation med Stryker 10.1.1. Kontrastformlerna flyttade oförändrade ur `contrast.test.js` till `contrast.js`, nya `contrast-math.test.js` (8 tester med WCAG:s referensvärden), `parse` kräver nu att hela färgvärdet matchar. Poäng 64,47 % före, 97,50 % efter; de två överlevande är ekvivalenta. Sidans skript är UI och testades inte. **Ska porteras till webbverkstad** (Codex äger den). Krockar i `HANDOFF.md` och `CONTEXT.md` med PR #1, som också lägger till poster överst.

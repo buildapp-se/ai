@@ -70,7 +70,7 @@ graph LR
 - Frontend: statisk HTML, CSS och vanilla JS med three.js (WebGL), inget ramverk
 - Kod: JavaScript; källan och bygget ligger i webbverkstad, inte här
 - Data: ingen backend, inga kakor, ingen localStorage
-- Tester: `node contrast.test.js` (WCAG-kontrast för färgtokens)
+- Tester: `node contrast.test.js` (WCAG-kontrast för färgtokens), `node --test contrast-math.test.js` (formlerna), `node csp.test.js` (CSP-hashar)
 - Hosting: GitHub Pages, buildapp.se/ai
 
 ## Historik
@@ -115,7 +115,7 @@ Ingen backend finns att driftsätta.
 ## Audits
 Read by the cockpit Audits tab. One `- Label: YYYY-MM-DD, result` per check; conventions in elwyn-dash `docs/security.md`.
 
-- OWASP Top 10: 2026-10-30, warn, code review (Mistral Large, reviewed by Claude), live CSP measured; 0 high, 1 medium open: no script-src on buildapp.se, BACKLOG P2
+- OWASP Top 10: 2026-10-30, warn, code review (Mistral Large, reviewed by Claude), live CSP measured; 0 high, 1 medium open: no script-src on buildapp.se, BACKLOG P2; the medium was fixed 2026-11-04 by a per-page meta-CSP with script-src hashes, confirmed live on both pages 2026-11-24 (row not re-run)
 - Headers: 2026-09-16, pass, 6 of 6 on buildapp.se via a host-scoped Transform Rule on the zone, measured after the change
 - Search Console: 2026-09-16, warn, in the buildapp.se sitemap (9 URLs accepted, 0 errors), per-URL indexing not read
 - TLS: 2026-09-16, pass, SSL Labs A+ on buildapp.se, TLS 1.2 minimum and HSTS since today
@@ -125,7 +125,7 @@ Read by the cockpit Audits tab. One `- Label: YYYY-MM-DD, result` per check; con
 - Secrets: 2026-09-24, pass, gitleaks 0 findings in 37 commits
 - Actions: 2026-09-24, n/a, no GitHub Actions workflows
 - WCAG 2.2 AA: 2026-11-04, warn, axe 4.10.3 0 violations on index.html and integritet.html (390 and 1280 px, after load animations, local, PR #1) after fixing 2 (target-size, region); keyboard Tab pass with visible focus; screen reader not tested
-- UX: 2026-09-24, warn, 5 of 6 script checks pass on buildapp.se/ai (no --interact), live after the tap-target fix 85818af; left: two spaced footer links at 15 px (pass WCAG); screenshot review not done
+- UX: 2026-11-24, warn, 6 of 7 script checks pass (Zeigarnik skipped: no text fields) on a local copy of buildapp.se/ai, index and integritet, --interact; Fitts warn left after fixing 11 narrow targets (7 sort buttons and list links under 44 px wide, 4 hosting guide links just under 44 px high): MCP asterisk 28 px wide (deliberate, WCAG pass) and inline text links (WCAG inline exception); screenshot review 390 and 1440 px ok (before: 2026-09-24, warn, 5 of 6)
 - Headers (automated): 2026-10-27, pass, 6 of 6 on buildapp.se/ai, Observatory B+ on buildapp.se
 - npm audit (automated): 2026-10-06, n/a, No package.json in repository; evidence C:/dev/aifabriken/.runs/audits/2026-10-06-batch-a/ai.json
 - Secrets (automated): 2026-10-06, pass, 2 targets; 0 failed, 0 blocked; evidence C:/dev/aifabriken/.runs/audits/2026-10-06-batch-a/ai.json

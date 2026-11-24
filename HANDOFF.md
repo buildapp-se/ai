@@ -4,10 +4,12 @@ status: active
 currentGoal: Hålla solsystemssidan på buildapp.se/ai aktuell
 nextAction: Ändra sidan i webbverkstad runs/ai-solsystem, bygg, kör contrast.test.js och csp.test.js, kopiera hit
 blockers: []
-reviewedAt: 2026-11-05
+reviewedAt: 2026-11-24
 ---
 
 # Handoff: AI-resurssidan
+
+**2026-11-24, djuppass (Claude, batch 3, grenen `deep/2026-11-24`, klart).** BACKLOG hade inga öppna punkter. Mutationstest hoppat över: enda testbara källfilen `contrast.js` står redan på 97,50 % med två ekvivalenta överlevande, sidans skript byggs i webbverkstad. UX-audit (ux-checks `--interact` mot lokal kopia, index och integritet, 390 px): 6 av 7 pass (Zeigarnik utan textfält), Fitts warn. Rättat i källan webbverkstad `runs/ai-solsystem` (f6adce4) och kopierat hit: `min-width: 44px` på `.t-sort`, `#benchmarks .bm-links a`, `#verktyg li > a`, `min-height: 44px` på `#hosting .h-guides a`. Kvar medvetet: `.v-star` 28 px bred och löptextlänkar (BACKLOG). Granskning per lag, skärmbilder 390 och 1440 px: Jakob ok (rubrik, lista/English överst, ankarlänkar med mjuk scroll), Serial Position ok (start först, lär dig mer sist), Goal-Gradient ok (numrerade steg i start och verifiera), Peak-End ok (koll före publicering avslutar flödet), Active User ok (kartan säger "Tryck på en planet"), Tesler ok, Doherty ok (inga långa åtgärder), Proximity/Similarity ok (samma kort och tabellstil i alla avsnitt), Cognitive Load ok, Miller ok. Ingen horisontell scroll i 390 eller 1440. Tester gröna (contrast, contrast-math 8/8, csp). Gaten `check.mjs` når timeout i `waitForMotionEnd`, även på oförändrad sida (BACKLOG). OWASP-raden i CONTEXT kompletterad: meta-CSP:n finns live på båda sidorna.
 
 **2026-11-05, PR #1 överförd till webbverkstad** (webbverkstad 4a51ec7). CSP-hasharna, `nav`, `role="region"` och `.v-star` finns nu i källan `runs/ai-solsystem`; ett nytt bygge ger samma filer som main här (index.html, integritet.html och verifiera.css är identiska git-blobbar). PR #2 rörde bara testerna här och behövde ingen överföring. `csp.test.js` räknar hashen på filen som den ligger på disk: i en Windows-checkout med `core.autocrlf=true` får filen CRLF och testet fäller, fast den serverade sidan (LF) är rätt.
 
@@ -107,7 +109,9 @@ Policyn 2.2 säger båda sakerna i ändringsstycket.
 - `node contrast.test.js` läser färgtokens ur `:root` i `index.html` och kräver
   4,5:1 för text- och signalfärger, 3:1 för benchmarkfärgerna, mot `--space`
   och `--sheet`. Kör den efter varje ny kopiering från webbverkstad.
-- `node C:/dev/webbverkstad/gates/check.mjs C:/dev/ai/index.html` ska ge PASS.
+- `node C:/dev/webbverkstad/gates/check.mjs C:/dev/ai/index.html` ska ge PASS
+  (2026-11-24: når timeout i `waitForMotionEnd`, se BACKLOG).
+- `node csp.test.js` och `node --test contrast-math.test.js`.
 
 ## Resume here
 

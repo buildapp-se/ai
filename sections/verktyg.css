@@ -4,7 +4,7 @@
 #verktyg h3 { margin: 0 0 0.4rem; padding-bottom: 0.7rem; border-bottom: 1px solid var(--line); break-after: avoid; }
 #verktyg ol { list-style: none; margin: 0; padding: 0; }
 #verktyg li { padding: 0.4rem 0 0.9rem; border-bottom: 1px solid var(--line); break-inside: avoid; }
-#verktyg li > a { display: inline-flex; align-items: center; min-height: 44px; color: var(--text); text-underline-offset: 0.2em; font-weight: 600; overflow-wrap: anywhere; }
+#verktyg li > a { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; color: var(--text); text-underline-offset: 0.2em; font-weight: 600; overflow-wrap: anywhere; }
 #verktyg .group p { margin: 0 0 0.5rem; color: var(--muted); font-size: 0.95rem; }
 #verktyg .group p a { color: var(--text); }
 #verktyg em { font-style: normal; color: var(--text); font-weight: 600; }

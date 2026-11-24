@@ -44,7 +44,7 @@
 /* links */
 #benchmarks .bm-links { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr)); gap: 0.4rem var(--gutter); }
 #benchmarks .bm-links li { padding: 0.1rem 0 0.6rem; border-top: 1px solid var(--line); }
-#benchmarks .bm-links a { font-weight: 600; text-decoration-thickness: 2px; display: inline-flex; align-items: center; min-height: 44px; }
+#benchmarks .bm-links a { font-weight: 600; text-decoration-thickness: 2px; display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }
 #benchmarks .bm-links span { display: block; color: var(--muted); font-size: 0.92rem; }
 
 /* highlighting: quadrant buttons, clickable quadrants, pickable rows. --star marks what is selected. */

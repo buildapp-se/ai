@@ -7,6 +7,9 @@
 <title>Integritetspolicy | Från idé till publicerad sida</title>
 <meta name="description" content="Hur buildapp.se/ai behandlar personuppgifter. Kort svar: sidan sätter inga kakor, sparar ingenting i din webbläsare och hämtar allt från buildapp.se utom Cloudflares statistikskript.">
 <link rel="canonical" href="https://buildapp.se/ai/integritet.html">
+<link rel="preload" href="fonts/unbounded-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/familjen-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/familjen-grotesk-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -41,7 +44,7 @@
 }
 * { box-sizing: border-box; }
 html, body { background: var(--space); }
-body { margin: 0; color: var(--text); font: 400 1.05rem/1.6 var(--body); }
+body { margin: 0; color: var(--text); font: 400 1.05rem/1.6 var(--body); overflow-wrap: break-word; }
 a { color: inherit; text-decoration-color: var(--muted); text-underline-offset: 0.2em; }
 a:hover { text-decoration-color: var(--text); }
 :focus-visible { outline: 2px solid var(--star); outline-offset: 3px; border-radius: var(--radius); }
@@ -50,7 +53,7 @@ a:hover { text-decoration-color: var(--text); }
 .top a, .site-foot a { display: inline-flex; align-items: center; min-height: 44px; }
 .top a { font-weight: 600; }
 main { padding: clamp(2rem, 6vw, 4rem) 0; }
-h1 { font: 700 clamp(1.8rem, 5vw, 2.6rem)/1.1 var(--display); letter-spacing: -0.02em; margin: 0; }
+h1 { font: 700 clamp(min(1.8rem, 8.6vw), 5vw, 2.6rem)/1.1 var(--display); letter-spacing: -0.02em; margin: 0; }
 .meta { color: var(--muted); margin: 0.8rem 0 0; }
 .lede { font-size: 1.15rem; margin: 1.5rem 0 0; }
 h2 { font: 700 1.15rem/1.25 var(--display); letter-spacing: -0.01em; margin: 2.75rem 0 0; padding-top: 1.25rem; border-top: 1px solid var(--line); }

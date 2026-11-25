@@ -22,7 +22,11 @@ MCP, lär dig mer).
   `{benchmarks,datorn,grilla,start}.js`. Inga avsnittskällor (`*.html`,
   `*.src.js`), tester, förhandsvisningar eller skärmbilder.
   Kontrollera listan mot `grep -oE '(src|href)="[^"#:]+"' index.html integritet.html`
-  och `url(` i CSS innan kopiering.
+  och `url(` i CSS innan kopiering (bortse från `?v=`).
+- Bygget sätter `?v=<innehållshash>` på varje lokal `.js` och `.css` i `index.html`
+  (webbverkstad `build.mjs`, 2026-11-25). GitHub Pages skickar HTML med `max-age=600` men
+  skript och stilar med 14400, och Cloudflares kant håller dem lika länge; utan hashen körde
+  ny HTML med upp till 4 timmar gamla filer efter en driftsättning.
 - Serveras som GitHub Pages project site under `buildapp.se/ai/`. Statisk, ingen
   backend. Typsnitten ligger i `fonts/` (inga anrop till Google Fonts).
   Kartan och Datorn-scenen ritas med three.js (WebGL).

@@ -31,7 +31,9 @@
 #benchmarks .bm-key { margin-bottom: 0; }
 
 /* table: cells centre vertically so the model button (44 px tap height) lines up with its row */
-#benchmarks .bm-table-wrap { margin-top: 2rem; overflow-x: auto; }
+#benchmarks .bm-table-wrap { margin-top: 2rem; overflow-x: auto; position: relative; } /* relative: the hidden .bm-long spans stay inside the scroll box */
+/* the chart is at least 300 px wide: narrower screens (200 % zoom on a phone) scroll it, not the page */
+@media (max-width: 315px) { #benchmarks .bm-chart { overflow-x: auto; } }
 #benchmarks .bm-table { border-collapse: collapse; width: 100%; max-width: 48rem; font-size: 0.92rem; font-variant-numeric: tabular-nums; }
 #benchmarks caption { text-align: left; font-size: 0.875rem; padding-bottom: 0.6rem; }
 #benchmarks .bm-table th, #benchmarks .bm-table td { text-align: left; padding: 0.45rem 0.6rem 0.45rem 0; border-bottom: 1px solid var(--line); vertical-align: middle; }

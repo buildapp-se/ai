@@ -92,3 +92,12 @@
   #verifiera .v-th-short { display: inline; }
   #verifiera .v-prompt-bar { flex-wrap: wrap; }
 }
+/* 200 % zoom on a phone: the four 44 px columns no longer fit beside the name. The name takes its own row
+   above the dots, the sort buttons may shrink to the column (still over WCAG's 24 px), and anything left scrolls in the table, not the page. */
+@media (max-width: 315px) {
+  #verifiera .v-matrix { overflow-x: auto; position: relative; }
+  #verifiera .v-matrix tr { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  #verifiera .v-matrix th:first-child { grid-column: 1 / -1; }
+  #verifiera .v-matrix .t-sort { min-width: 0; }
+  #verifiera .v-matrix thead th { font-size: 0.7rem; }
+}

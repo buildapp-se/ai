@@ -24,7 +24,7 @@
 
 /* the chat demo: same surface */
 #grilla .g-chat { position: sticky; top: 1.5rem; margin: 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--sheet); overflow: hidden; }
-#grilla .g-chat-top { display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 0.8rem 0.7rem 1.1rem; min-height: 44px; }
+#grilla .g-chat-top { display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem; padding: 0.7rem 0.8rem 0.7rem 1.1rem; min-height: 44px; }
 #grilla .g-dots { display: flex; gap: 6px; }
 #grilla .g-dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
 #grilla figcaption { flex: 1; font-size: 0.875rem; color: var(--muted); }

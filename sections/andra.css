@@ -65,7 +65,7 @@
 @media (max-width: 760px) {
   #andra .an-ladder ol { background: none; grid-template-columns: 1fr; gap: 1.6rem; }
   #andra .an-ladder li { grid-template-rows: auto auto; gap: 0.8rem; }
-  #andra .an-pillar { height: 4.2rem; width: calc(38% + var(--gb) * 0.62%); padding: 0.6rem 0.8rem; flex-direction: row; align-items: flex-end; gap: 0.5rem; justify-content: flex-start; border-radius: 0 var(--radius) var(--radius) 0; border-bottom-color: var(--line); border-left-color: var(--text); }
+  #andra .an-pillar { height: 4.2rem; width: calc(38% + var(--gb) * 0.62%); padding: 0.6rem 0.8rem; flex-direction: row; align-items: flex-end; gap: 0.5rem; justify-content: flex-start; border-radius: 0 var(--radius) var(--radius) 0; border-bottom-color: var(--line); border-left-color: var(--text); overflow: visible; height: auto; min-height: 4.2rem; }
   #andra .an-os { inset: 0 0 0 auto; height: auto; width: 38%; border-bottom: 0; border-left: 1px dashed color-mix(in srgb, var(--text) 35%, transparent); }
 }
 @media (prefers-reduced-motion: reduce) {

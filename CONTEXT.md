@@ -124,7 +124,7 @@ Read by the cockpit Audits tab. One `- Label: YYYY-MM-DD, result` per check; con
 - npm audit: 2026-09-24, n/a, no package.json
 - Secrets: 2026-09-24, pass, gitleaks 0 findings in 37 commits
 - Actions: 2026-09-24, n/a, no GitHub Actions workflows
-- WCAG 2.2 AA: 2026-11-04, warn, axe 4.10.3 0 violations on index.html and integritet.html (390 and 1280 px, after load animations, local, PR #1) after fixing 2 (target-size, region); keyboard Tab pass with visible focus; screen reader not tested
+- WCAG 2.2 AA: 2026-11-25, warn, axe 4.14.0 0 violations on index.html and integritet.html live (390 px with 4x CPU and Slow 4G, 1440 px, after scrolling and 8 s of animations); integritet reflow fixed at 320 and 188 px (99ab412); keyboard pass 2026-11-24, screen reader not tested (before: 2026-11-04, warn, axe 4.10.3 0 violations, local)
 - UX: 2026-11-24, warn, 6 of 7 script checks pass (Zeigarnik skipped: no text fields) on a local copy of buildapp.se/ai, index and integritet, --interact; Fitts warn left after fixing 11 narrow targets (7 sort buttons and list links under 44 px wide, 4 hosting guide links just under 44 px high): MCP asterisk 28 px wide (deliberate, WCAG pass) and inline text links (WCAG inline exception); screenshot review 390 and 1440 px ok (before: 2026-09-24, warn, 5 of 6)
 - Headers (automated): 2026-10-27, pass, 6 of 6 on buildapp.se/ai, Observatory B+ on buildapp.se
 - npm audit (automated): 2026-10-06, n/a, No package.json in repository; evidence C:/dev/aifabriken/.runs/audits/2026-10-06-batch-a/ai.json

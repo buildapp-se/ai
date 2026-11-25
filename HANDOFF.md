@@ -4,10 +4,12 @@ status: active
 currentGoal: Hålla solsystemssidan på buildapp.se/ai aktuell
 nextAction: Ändra sidan i webbverkstad runs/ai-solsystem, bygg, kör contrast.test.js och csp.test.js, kopiera hit
 blockers: []
-reviewedAt: 2026-11-24
+reviewedAt: 2026-11-25
 ---
 
 # Handoff: AI-resurssidan
+
+**2026-11-25, fart, tillgänglighet och metadata (Claude, grenen `speed/2026-11-25`, webbverkstad `speed-ai/2026-11-25`, klart).** Båda sidorna mätta live vid 390 px (4x CPU, Slow 4G) och 1440 px, före och efter. index: LCP 1,0 s (`.lede`) vid 390 och 0,22 s (h1) vid 1440, 318 KB överfört i 33 anrop (`three.js` 155 KB gzip störst), 0 renderblockerande, oförändrat. integritet: CLS 0,24 till 0 vid 390 px med preload av typsnitten (LCP 0,78 till 1,13 s), rubrik och lång länk flödar om vid 320 och 188 px. axe 4.14.0: 0 fel på båda sidorna i båda bredderna (ett kontrastfel i grilla-chatten var mitt i inladdningsanimationen och försvann efter 8 s). Metadata komplett på båda: unik title och description, `lang=sv`, canonical, `og:image` 1200x630, favicon; ingen PWA, alltså inget manifest. Kvar: grinden X3 på `file://` och listans hopp på index (BACKLOG).
 
 **2026-11-24, buggjakt 2 (Claude, grenen `hunt2/2026-11-24`, klart).** Gått igenom det första jakten inte rörde: `integritet.html`, alla 241 externa länkar (inga döda på sidan), 404, text och siffror, blockerade skript och typsnitt. Rättat i webbverkstad och kopierat hit (`index.html`, `integritet.html`, `app.js`, `three.js`, `sections/datorn.js`): blockerad `three.js` faller nu tillbaka till listan utan skriptfel, integritet säger 2.9, `dateModified` 2026-11-24. `contrast.test.js` och `csp.test.js` OK.
 
@@ -114,7 +116,7 @@ Policyn 2.2 säger båda sakerna i ändringsstycket.
   4,5:1 för text- och signalfärger, 3:1 för benchmarkfärgerna, mot `--space`
   och `--sheet`. Kör den efter varje ny kopiering från webbverkstad.
 - `node C:/dev/webbverkstad/gates/check.mjs C:/dev/ai/index.html` ska ge PASS
-  (2026-11-24: når timeout i `waitForMotionEnd`, se BACKLOG).
+  (2026-11-24: når timeout i `waitForMotionEnd`, se BACKLOG). På `integritet.html` ger den sedan 2026-11-25 bara X3 för font-preload över `file://`, väntat (BACKLOG).
 - `node csp.test.js` och `node --test contrast-math.test.js`.
 
 ## Resume here
